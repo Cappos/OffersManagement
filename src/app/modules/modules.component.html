@@ -1,3 +1,38 @@
-<p>
-  modules works!
-</p>
+<md-card class="example-card">
+  <md-card-header>
+    <md-card-title>
+      <h2>{{title}}</h2>
+    </md-card-title>
+    <md-card-subtitle>Select moduel</md-card-subtitle>
+  </md-card-header>
+  <md-card-content>
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+  </span>
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here" (searchDebounce)="search($event)" flex>
+      </td-search-box>
+    </div>
+    <md-divider></md-divider>
+    <td-data-table
+            #dataTable
+            [data]="filteredData"
+            [columns]="columns"
+            [sortable]="true"
+            [sortBy]="sortBy"
+            [sortOrder]="sortOrder"
+            (sortChange)="sort($event)">
+    </td-data-table>
+    <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+      <h3>No results to display.</h3>
+    </div>
+    <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+      <span hide-xs>Rows per page:</span>
+      <md-select [style.width.px]="50" [(ngModel)]="pageSize">
+        <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
+          {{size}}
+        </md-option>
+      </md-select>
+      {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+    </td-paging-bar>
+  </md-card-content>
+</md-card>

@@ -4,8 +4,9 @@ import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
 import {
+    CovalentDataTableModule,
     CovalentExpansionPanelModule, CovalentLayoutModule, CovalentMediaModule, CovalentMenuModule,
-    CovalentNotificationsModule
+    CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule
 } from '@covalent/core';
 import {CovalentHttpModule} from '@covalent/http';
 import {CovalentHighlightModule} from '@covalent/highlight';
@@ -13,8 +14,9 @@ import {CovalentMarkdownModule} from '@covalent/markdown';
 import {CovalentDynamicFormsModule} from '@covalent/dynamic-forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-    MdButtonModule, MdCardModule, MdGridListModule, MdIconModule, MdListModule, MdMenuModule, MdTabsModule,
-    MdToolbarModule, MdTooltipModule
+    MdButtonModule, MdCardModule, MdGridListModule, MdIconModule, MdListModule, MdMenuModule, MdOptionModule,
+    MdTabsModule,
+    MdToolbarModule, MdTooltipModule, MatSelectModule
 } from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
@@ -37,6 +39,7 @@ import { SharedService } from './shared/shared.service';
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
+        FormsModule,
         BrowserModule,
         AppRoutingModule,
         /** Material Modules */
@@ -49,6 +52,8 @@ import { SharedService } from './shared/shared.service';
         MdToolbarModule,
         MdGridListModule,
         MdTooltipModule,
+        MdOptionModule,
+        MatSelectModule,
         /** Covalent Modules */
         CovalentLayoutModule,
         CovalentExpansionPanelModule,
@@ -58,7 +63,10 @@ import { SharedService } from './shared/shared.service';
         CovalentHttpModule.forRoot(),
         CovalentHighlightModule,
         CovalentMarkdownModule,
-        CovalentDynamicFormsModule
+        CovalentDynamicFormsModule,
+        CovalentSearchModule,
+        CovalentDataTableModule,
+        CovalentPagingModule
     ],
     providers: [SharedService],
     bootstrap: [AppComponent]

@@ -1,6 +1,15 @@
 import * as ModulesActions from './modules.actions'
+import {Module} from "../modules.model";
 
-const initialState = {
+export interface FeatureState {
+    modulesList: State
+}
+
+export interface State {
+    modules: Module[];
+}
+
+const initialState: State = {
     modules: [
         {
             "uid": 1,
@@ -207,10 +216,35 @@ const initialState = {
 
 export function modulesReducer(state = initialState, action: ModulesActions.ModulesActions) {
     switch (action.type) {
-        case ModulesActions.ADD_MODULE:
+        case (ModulesActions.SET_MODULES):
+            return {
+                ...state,
+                modules: [...action.payload]
+            };
+        case (ModulesActions.ADD_MODULE):
             return {
                 ...state,
                 modules: [...state.modules, action.payload]
+            };
+        case (ModulesActions.UPDATE_MODULE):
+            const module = state.modules[action.payload.index];
+            const updateModue = {
+                ...module,
+                ...action.payload.updatedModule
+            };
+            const modules =  [...state.modules];
+            modules[action.payload.index] = updateModue;
+            return {
+                ...state,
+                modules: modules
+            };
+
+        case (ModulesActions.DELETE_MODULE):
+            const oldModules = [...state.modules];
+            oldModules.splice(action.payload, 1);
+            return {
+                ...state,
+                modules: oldModules
             };
         default:
             return state;

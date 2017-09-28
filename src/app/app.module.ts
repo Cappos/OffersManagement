@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {StoreModule} from "@ngrx/store/store";
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
 import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
@@ -31,6 +32,8 @@ import { SharedService } from './shared/shared.service';
 import {Ng2FilterPipeModule} from 'ng2-filter-pipe';
 import { ModuleComponent } from './modules/module/module.component';
 import {modulesReducer} from "./modules/store/modules.reducers";
+import {ModulesEffects} from "./modules/store/modules.effects";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -51,6 +54,8 @@ import {modulesReducer} from "./modules/store/modules.reducers";
         AppRoutingModule,
         Ng2FilterPipeModule,
         StoreModule.forRoot({modulesList: modulesReducer}),
+        EffectsModule.forRoot([ModulesEffects]),
+        HttpClientModule,
         /** Material Modules */
         MdButtonModule,
         MdCheckboxModule,

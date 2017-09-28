@@ -1,15 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
+import {Store} from "@ngrx/store";
+import 'rxjs';
+import 'rxjs/add/operator/take';
+
 import {
     IPageChangeEvent,
     ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService,
     TdDataTableSortingOrder
 } from '@covalent/core';
-import {Module} from "./modules.model";
 import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 
+import * as fromModules from '../modules/store/modules.reducers';
+import * as ModulesActions from "./store/modules.actions";
 
 @Component({
     selector: 'app-modules',
@@ -31,10 +35,11 @@ export class ModulesComponent implements OnInit {
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
 
-    modulesState: Observable<{modules: Module[]}>;
+    modulesState: Observable<fromModules.State>;
+
     data: any[];
     filteredData;
-    filteredTotal: number = 50;
+    filteredTotal: number;
     searchTerm = '';
     fromRow = 1;
     currentPage = 1;
@@ -42,16 +47,20 @@ export class ModulesComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<{ modulesList: { modules: Module[]}}>) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromModules.FeatureState>) {
+        //get data from backend
+        // this.store.dispatch(new ModulesActions.GetModules());
+
+        this.store.select('modulesList').take(1).subscribe((fromModules: fromModules.State) => {
+            this.data = fromModules.modules;
+            this.filteredData = this.data;
+            this.filteredTotal = this.data.length;
+            this.filter();
+        });
         this.sharedService.changeTitle(this.pageTitle);
-        this.filteredData = this.data;
-        this.filteredTotal = this.data.length;
-        this.filter();
     }
 
     ngOnInit(): void {
-        this.modulesState = this.store.select('modulesList');
-        console.log(this.modulesState);
         this.filter();
     }
 

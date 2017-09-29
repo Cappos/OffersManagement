@@ -12,18 +12,34 @@ export class ModulesEffects {
     modulesFetch = this.actions$
         .ofType(ModulesActions.GET_MODULES)
         .switchMap((action: ModulesActions.GetModules) => {
-            return this.httpClient.get<Module[]>('url', {
+            return this.httpClient.get<Module[]>('http://wrenchweb.com/http/modulesData', {
                 observe: 'body',
                 responseType: 'json'
             })
         })
         .map((modules) => {
-            console.log(modules);
             return {
                 type: ModulesActions.SET_MODULES,
                 payload: modules
             }
         });
+
+    @Effect()
+    moduleFetch = this.actions$
+        .ofType(ModulesActions.GET_MODULE)
+        .switchMap((action: ModulesActions.GetModule) => {
+            console.log(action);
+            return this.httpClient.get<Module>('http://wrenchweb.com/http/modulesData');
+        })
+        .map((module) => {
+            console.log(module);
+
+            return {
+                type: ModulesActions.SET_MODULE,
+                payload: module
+            }
+        });
+
 
     constructor(private actions$: Actions, private httpClient: HttpClient) {
     }

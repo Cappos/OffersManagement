@@ -32,7 +32,7 @@
                     {{row.uid}}
                 </td>
                 <td td-data-table-cell>
-                    <button md-menu-item [routerLink]="[row.uid]">{{row.name}}</button>
+                    <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.name}}</button>
                 </td>
                 <td td-data-table-cell>
                     {{row.bodytext}}

@@ -9,7 +9,7 @@
         <md-nav-list td-sidenav-content>
             <md-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><md-icon mdListIcon>dashboard</md-icon><a mdLine [routerLink]="'/'">Dashboard</a></md-list-item>
             <md-divider md-inset></md-divider>
-            <md-list-item routerLinkActive="active"><md-icon mdListIcon>view_module</md-icon><a mdLine routerLink="modules">Modules</a></md-list-item>
+            <md-list-item routerLinkActive="active"><md-icon mdListIcon>view_module</md-icon><a mdLine routerLink="modules" (click)="onClick('modules')">Modules</a></md-list-item>
             <md-divider md-inset></md-divider>
             <md-list-item routerLinkActive="active"><md-icon mdListIcon>subtitles</md-icon><a mdLine routerLink="offers">Offers</a></md-list-item>
             <md-divider md-inset></md-divider>

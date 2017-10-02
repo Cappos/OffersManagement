@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+md-select {
+    max-width: 200px;
+    width: 100%;
+}
+.mat-select-trigger {
+    height: 23px !important;
+    display: block;
+
+}
+
+.mat-select-placeholder {
+    margin-top: -5px;
+}

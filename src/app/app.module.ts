@@ -17,10 +17,11 @@ import {CovalentMarkdownModule} from '@covalent/markdown';
 import {CovalentDynamicFormsModule} from '@covalent/dynamic-forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-MdButtonModule, MdCardModule, MdGridListModule, MdIconModule, MdListModule, MdMenuModule, MdOptionModule,
-MdTabsModule,
-MdToolbarModule, MdTooltipModule, MatSelectModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
-MdAutocompleteModule, MdSelectModule, MdDialogModule, MdSnackBarModule, MdNativeDateModule, MdDatepickerModule
+    MdButtonModule, MdCardModule, MdGridListModule, MdIconModule, MdListModule, MdMenuModule, MdOptionModule,
+    MdTabsModule,
+    MdToolbarModule, MdTooltipModule, MatSelectModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
+    MdAutocompleteModule, MdSelectModule, MdDialogModule, MdSnackBarModule, MdNativeDateModule, MdDatepickerModule,
+    MdInputModule
 } from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
@@ -34,6 +35,9 @@ import { ModuleComponent } from './modules/module/module.component';
 import {modulesReducer} from "./modules/store/modules.reducers";
 import {ModulesEffects} from "./modules/store/modules.effects";
 import {HttpClientModule} from "@angular/common/http";
+import {RteComponent} from "./modules/module/rte/rte.component";
+import {CurrencyPipe} from "./pipes/currency.pipe";
+import { NewModuleComponent } from './modules/new-module/new-module.component';
 
 
 @NgModule({
@@ -43,7 +47,9 @@ import {HttpClientModule} from "@angular/common/http";
         ModulesComponent,
         OffersComponent,
         ClientsComponent,
-        ModuleComponent
+        ModuleComponent,
+        RteComponent,
+        NewModuleComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -62,6 +68,7 @@ import {HttpClientModule} from "@angular/common/http";
         MdMenuModule,
         MdSidenavModule,
         MdIconModule,
+        MdInputModule,
         MdListModule,
         MdCardModule,
         MdTabsModule,
@@ -96,7 +103,7 @@ import {HttpClientModule} from "@angular/common/http";
         CovalentMenuModule,
         CovalentNotificationsModule
     ],
-    providers: [SharedService],
+    providers: [SharedService, CurrencyPipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {

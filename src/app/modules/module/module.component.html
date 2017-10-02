@@ -1,3 +1,57 @@
-<p>
-  module works!
-</p>
+<ng-template [ngIf]="item">
+
+    <md-card>
+        <md-card-title>
+            <div layout="row" layout-wrap>
+                <div flex="90" layout="column" layout-align="center start">{{[item.name]}}</div>
+                <div flex="10" layout="column" layout-align="center end">
+                    <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                        <md-icon>mode_edit</md-icon>
+                    </button>
+                    <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                        <md-icon>done</md-icon>
+                    </button>
+                </div>
+            </div>
+        </md-card-title>
+        <md-card-subtitle>id: {{item.uid}}</md-card-subtitle>
+        <md-divider></md-divider>
+        <md-card-content>
+            <form #f="ngForm">
+                <div layout="row" layout-wrap>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Name" [ngModel]="item.name" name="name" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Price" [ngModel]="item.price | number:'3.2'" name="price" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
+                            <md-option *ngFor="let group of groups" [value]="group.value">
+                                {{group.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="item.bodytext"
+                                         (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+                    </div>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+</ng-template>

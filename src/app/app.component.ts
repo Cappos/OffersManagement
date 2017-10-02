@@ -18,19 +18,19 @@ export class AppComponent {
         this.sharedService.titleChanged.subscribe(title => this.pageTitle = title);
     }
 
-    onClick(link: string) {
-
-        switch (link) {
-            case('modules'):
-                return this.store.dispatch(new ModulesActions.GetModules());
-
-            case ('offers'):
-                return console.log('offers');
-            case ('clients'):
-                return console.log('Clients');
-            default:
-                return null
-        }
-
-    }
+    // onClick(link: string) {
+    //
+    //     switch (link) {
+    //         case('modules'):
+    //             // return this.store.dispatch(new ModulesActions.GetModules());
+    //
+    //         case ('offers'):
+    //             return console.log('offers');
+    //         case ('clients'):
+    //             return console.log('Clients');
+    //         default:
+    //             return null
+    //     }
+    //
+    // }
 }

@@ -24,22 +24,6 @@ export class ModulesEffects {
             }
         });
 
-    @Effect()
-    moduleFetch = this.actions$
-        .ofType(ModulesActions.GET_MODULE)
-        .switchMap((action: ModulesActions.GetModule) => {
-            console.log(action);
-            return this.httpClient.get<Module>('http://wrenchweb.com/http/modulesData');
-        })
-        .map((module) => {
-            console.log(module);
-
-            return {
-                type: ModulesActions.SET_MODULE,
-                payload: module
-            }
-        });
-
 
     constructor(private actions$: Actions, private httpClient: HttpClient) {
     }

@@ -49,20 +49,18 @@ export class ModulesComponent implements OnInit {
 
     constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromModules.FeatureState>) {
         //get data from backend
-        // this.store.dispatch(new ModulesActions.GetModules());
+        this.store.dispatch(new ModulesActions.GetModules());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.modulesState = this.store.select('modulesList');
         this.modulesState.take(2).subscribe((fromModules: fromModules.State) => {
-            console.log('take');
             this.data = fromModules.modules;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
         });
-        this.filter();
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -102,11 +100,11 @@ export class ModulesComponent implements OnInit {
     onEdit(row: any) {
         let id = +row['uid'];
         this.router.navigate(['/modules/' + id + '/edit']);
+
     }
 
     onSelect(uid){
-        console.log('select');
-        // this.store.dispatch(new ModulesActions.GetModule(uid));
+        this.router.navigate(['/modules/' + uid ]);
     }
 
 }

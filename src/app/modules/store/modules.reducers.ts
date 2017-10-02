@@ -20,13 +20,6 @@ export function modulesReducer(state = initialState, action: ModulesActions.Modu
                 ...state,
                 modules: [...action.payload]
             };
-        case (ModulesActions.GET_MODULE):
-            const uid = action.payload;
-            const selectModule = state.modules.find(data => data.uid === uid);
-            return {
-                ...state,
-                modules: selectModule
-            };
         case (ModulesActions.ADD_MODULE):
             return {
                 ...state,
@@ -38,7 +31,7 @@ export function modulesReducer(state = initialState, action: ModulesActions.Modu
                 ...module,
                 ...action.payload.updatedModule
             };
-            const modules =  [...state.modules];
+            const modules = [...state.modules];
             modules[action.payload.index] = updateModue;
             return {
                 ...state,

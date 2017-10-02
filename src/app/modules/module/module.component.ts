@@ -5,10 +5,12 @@ import 'rxjs/add/operator/take';
 
 import * as ModulesActions from '../store/modules.actions'
 import {NgForm} from "@angular/forms";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 
 import * as fromModules from '../../modules/store/modules.reducers';
+import {HttpClient} from "@angular/common/http";
+import {SharedService} from "../../shared/shared.service";
 
 @Component({
     selector: 'app-module',
@@ -16,33 +18,58 @@ import * as fromModules from '../../modules/store/modules.reducers';
     styleUrls: ['./module.component.css']
 })
 export class ModuleComponent implements OnInit {
+    pageTitle = 'Modules';
     id: number;
     item;
-    moduleState: Observable<fromModules.State>;
+    moduleState: Observable<any>;
     @Output() editMode = false;
+    rteData;
+    groups: any[] = [
+        {name: 'Technical', value: 1},
+        {name: 'Design', value: 2},
+        {name: 'Optimization', value: 3},
+        {name: 'SEO', value: 4}
 
-    constructor(private route: ActivatedRoute, private router: Router, private store: Store<fromModules.FeatureState>) {
+    ];
+    selectedGroup = this.groups[0].value;
 
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private store: Store<fromModules.FeatureState>, private httpClient: HttpClient) {
+        this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
         this.route.params.subscribe(
             (params: Params) => {
+                console.log('modules');
                 this.id = +params['id'];
                 this.editMode = !!params['edit'];
-                this.store.dispatch(new ModulesActions.GetModule(this.id));
-                this.moduleState = this.store.select('modulesList');
+                this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
+                    observe: 'body',
+                    responseType: 'json'
+                });
                 this.moduleState.take(1).subscribe((res) => {
-                    console.log(res);
+                    this.item = res;
+                    this.rteData = this.item.bodytext;
                 })
             }
         );
     }
 
-    onSubmit(form: NgForm) {
+    onSave(form: NgForm) {
         const value = form.value;
-        const newModule = new Module(value.uid, value.name, value.bodytext, value.price, value.tstamp, value.cruserId, value.crdate, value.modify, value.groupUid);
-        this.store.dispatch(new ModulesActions.AddModule(newModule));
+        const updateModule = new Module(this.item.uid, value.name, this.rteData, value.price, value.tstamp, this.item.cruserId, this.item.crdate, this.item.modify, value.groupUid);
+        // this.store.dispatch(new ModulesActions.AddModule(updateModule));
+        console.log(updateModule);
+        this.editMode = false;
+    }
+
+    keyupHandler(ev) {
+        this.rteData = ev;
+    }
+
+    onEdit() {
+        console.log('edit');
+        this.editMode = true
     }
 
 }

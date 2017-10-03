@@ -1,0 +1,107 @@
+<ng-template [ngIf]="item">
+
+    <md-card>
+        <md-card-title>
+            <div layout="row" layout-wrap>
+                <div flex="90" layout="column" layout-align="center start">{{[item.companyName]}}</div>
+                <div flex="10" layout="column" layout-align="center end">
+                    <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                        <md-icon>mode_edit</md-icon>
+                    </button>
+                    <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                        <md-icon>done</md-icon>
+                    </button>
+                </div>
+            </div>
+        </md-card-title>
+        <md-card-subtitle>id: {{item.uid}}</md-card-subtitle>
+        <md-divider></md-divider>
+        <md-card-content>
+            <form #f="ngForm">
+                <div layout="row" layout-wrap>
+                    <div flex="100" layout-padding>
+                        <h3 style="margin: 0;">Info data</h3>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Company name" [ngModel]="item.companyName" name="companyName"
+                                   required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Address" [ngModel]="item.address" name="address" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Contact person" [ngModel]="item.contactPerson"
+                                   name="contactPerson" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Contact phone" [ngModel]="item.contactPhone" name="contactPhone"
+                                   required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Mobile phone" [ngModel]="item.mobile" name="mobile" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Web site" [ngModel]="item.webSite" name="webSite" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="E-mail" [ngModel]="item.mail" name="mail" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Pib" [ngModel]="item.pib" name="pib" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <div flex="100" layout-padding>
+                        <md-divider></md-divider>
+                        <h3 style="margin-bottom: 0;">Offers</h3>
+                    </div>
+                    <div flex="100" layout-padding>
+                        <md-list>
+                            <md-list-item *ngFor="let offer of item.offers">
+                                    <md-icon md-list-icon>insert_drive_file</md-icon>
+                                    <h4 md-line><a (click)="selectOffer(offer.uid)" style="cursor: pointer">{{offer.offerNumber}}</a></h4>
+                                    <p md-line> {{offer.tstamp}} </p>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="25" layout-padding>
+                        <button md-raised-button (click)="addOffer(item.uid)">Create new offer</button>
+                    </div>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+</ng-template>

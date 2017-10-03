@@ -13,6 +13,6 @@ export class Client {
                 public tstamp: string,
                 public cruserId: number,
                 public crdate: string,
-                public modules: Offer[]) {
+                public offers: Offer[]) {
     }
 }

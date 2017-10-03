@@ -1,4 +1,5 @@
 import {Group} from "./groups.model";
+import {OfferDescription} from "./offersDescription.model";
 
 export class Offer {
     constructor(public uid: number,
@@ -6,8 +7,10 @@ export class Offer {
                 public bodytext: string,
                 public totalPrice: number,
                 public tstamp: string,
-                public cruserId: number,
                 public crdate: string,
+                public clientName :string,
+                public clientUid: number,
+                public offerDescription: OfferDescription,
                 public groups: Group[]) {
     }
 }

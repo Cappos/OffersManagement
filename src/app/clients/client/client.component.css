@@ -30,3 +30,7 @@ md-select {
 .mat-select-value {
     font-size: 16px !important;
 }
+
+.mat-list .mat-list-item {
+    display: inline-block;
+}

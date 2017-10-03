@@ -7,6 +7,7 @@ export class Module {
                 public cruserId: number,
                 public crdate: string,
                 public modify: boolean,
-                public groupUid: number) {
+                public groupUid: number,
+                public groupName: string) {
     }
 }

@@ -6,14 +6,26 @@ import {OffersComponent} from './offers/offers.component';
 import {ClientsComponent} from './clients/clients.component';
 import {ModuleComponent} from "./modules/module/module.component";
 import {NewModuleComponent} from "./modules/new-module/new-module.component";
+import {ClientComponent} from "./clients/client/client.component";
+import {NewClientComponent} from "./clients/new-client/new-client.component";
+import {NewOfferComponent} from "./offers/new-offer/new-offer.component";
+import {OfferComponent} from "./offers/offer/offer.component";
 
 const appRoutes: Routes = [
     { path: '', component: DashboardComponent},
     { path: 'modules', component: ModulesComponent},
     { path: 'modules/:id', component: ModuleComponent},
-    { path: 'new', component: NewModuleComponent},
+    { path: 'modules/:id/:edit', component: ModuleComponent},
+    { path: 'newModule', component: NewModuleComponent},
     { path: 'offers', component: OffersComponent},
-    { path: 'clients', component: ClientsComponent}
+    { path: 'offers/:id', component: OfferComponent},
+    { path: 'offers/:id/:edit', component: OfferComponent},
+    { path: 'newOffer', component: NewOfferComponent},
+    { path: 'newOffer/:clientId', component: NewOfferComponent},
+    { path: 'clients', component: ClientsComponent},
+    { path: 'clients/:id', component: ClientComponent},
+    { path: 'clients/:id/:edit', component: ClientComponent},
+    { path: 'newClient', component: NewClientComponent}
 ];
 
 @NgModule({

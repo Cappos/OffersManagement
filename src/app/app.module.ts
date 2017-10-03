@@ -21,7 +21,8 @@ import {
     MdTabsModule,
     MdToolbarModule, MdTooltipModule, MatSelectModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
     MdAutocompleteModule, MdSelectModule, MdDialogModule, MdSnackBarModule, MdNativeDateModule, MdDatepickerModule,
-    MdInputModule
+    MdInputModule,
+    MatExpansionModule,
 } from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
@@ -38,6 +39,14 @@ import {HttpClientModule} from "@angular/common/http";
 import {RteComponent} from "./modules/module/rte/rte.component";
 import {CurrencyPipe} from "./pipes/currency.pipe";
 import { NewModuleComponent } from './modules/new-module/new-module.component';
+import {clientsReducer} from "./clients/store/clients.reducers";
+import {ClientsEffects} from "./clients/store/clients.effects";
+import { ClientComponent } from './clients/client/client.component';
+import { NewClientComponent } from './clients/new-client/new-client.component';
+import { NewOfferComponent } from './offers/new-offer/new-offer.component';
+import {offersReducer} from "./offers/store/offers.reducers";
+import {OffersEffects} from "./offers/store/offers.effects";
+import { OfferComponent } from './offers/offer/offer.component';
 
 
 @NgModule({
@@ -49,7 +58,11 @@ import { NewModuleComponent } from './modules/new-module/new-module.component';
         ClientsComponent,
         ModuleComponent,
         RteComponent,
-        NewModuleComponent
+        NewModuleComponent,
+        ClientComponent,
+        NewClientComponent,
+        NewOfferComponent,
+        OfferComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -59,8 +72,8 @@ import { NewModuleComponent } from './modules/new-module/new-module.component';
         BrowserModule,
         AppRoutingModule,
         Ng2FilterPipeModule,
-        StoreModule.forRoot({modulesList: modulesReducer}),
-        EffectsModule.forRoot([ModulesEffects]),
+        StoreModule.forRoot({modulesList: modulesReducer, clientsList: clientsReducer, offersList: offersReducer}),
+        EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects]),
         HttpClientModule,
         /** Material Modules */
         MdButtonModule,
@@ -85,6 +98,7 @@ import { NewModuleComponent } from './modules/new-module/new-module.component';
         MatSelectModule,
         MdDatepickerModule,
         MdNativeDateModule,
+        MatExpansionModule,
         /** Covalent Modules */
         CovalentLoadingModule,
         CovalentLayoutModule,

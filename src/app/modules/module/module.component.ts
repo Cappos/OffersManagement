@@ -40,7 +40,6 @@ export class ModuleComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(
             (params: Params) => {
-                console.log('modules');
                 this.id = +params['id'];
                 this.editMode = !!params['edit'];
                 this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
@@ -57,9 +56,8 @@ export class ModuleComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        const updateModule = new Module(this.item.uid, value.name, this.rteData, value.price, value.tstamp, this.item.cruserId, this.item.crdate, this.item.modify, value.groupUid);
+        // const updateModule = new Module(this.item.uid, value.name, this.rteData, value.price, value.tstamp, this.item.cruserId, this.item.crdate, this.item.modify, value.groupUid);
         // this.store.dispatch(new ModulesActions.AddModule(updateModule));
-        console.log(updateModule);
         this.editMode = false;
     }
 

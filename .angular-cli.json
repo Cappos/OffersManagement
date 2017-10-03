@@ -19,9 +19,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
         "../node_modules/@covalent/core/common/platform.scss",
-        "covalent.scss"
+        "covalent.scss",
+        "styles.css"
       ],
       "scripts": [
         "../node_modules/tinymce/tinymce.js",

@@ -47,6 +47,7 @@ import { NewOfferComponent } from './offers/new-offer/new-offer.component';
 import {offersReducer} from "./offers/store/offers.reducers";
 import {OffersEffects} from "./offers/store/offers.effects";
 import { OfferComponent } from './offers/offer/offer.component';
+import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-module-dialog.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { OfferComponent } from './offers/offer/offer.component';
         ClientComponent,
         NewClientComponent,
         NewOfferComponent,
-        OfferComponent
+        OfferComponent,
+        EditModuleDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -118,6 +120,7 @@ import { OfferComponent } from './offers/offer/offer.component';
         CovalentNotificationsModule
     ],
     providers: [SharedService, CurrencyPipe],
+    entryComponents: [EditModuleDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

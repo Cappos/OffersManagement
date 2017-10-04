@@ -59,10 +59,11 @@
                         <h3 style="margin-bottom: 0;">Chapters</h3>
                     </div>
                     <div style="margin-top:20px;" flex="100" layout-padding>
-
-                        <md-expansion-panel *ngFor="let group of item.groups">
+                        <md-accordion>
+                        <md-expansion-panel *ngFor="let group of offersModules" hideToggle="true">
                             <md-expansion-panel-header>
                                 <md-panel-title><h4>{{group.name}}</h4></md-panel-title>
+                                <md-icon>arrow_drop_down</md-icon>
                             </md-expansion-panel-header>
                             <div flex="100" layout-padding>
                                 <h3 style="margin-top: 0;">Modules</h3>
@@ -76,13 +77,13 @@
                                         </md-input-container>
                                     </div>
                                     <div flex="10" layout="column" layout-align="center end">
-                                        <button md-mini-fab color="primary" (click)="onModuleEdit(module.uid)">
+                                        <button md-mini-fab color="primary" (click)="onModuleEdit(module.uid, group.uid)">
                                             <md-icon>mode_edit</md-icon>
                                         </button>
                                     </div>
                                     <div flex="20" layout-padding>
                                         <md-input-container>
-                                            <input mdInput placeholder="Price" [ngModel]="module.price | number:'3.2'" name="price" readonly>
+                                            <input mdInput placeholder="Price" [ngModel]="module.price" name="price" readonly>
                                         </md-input-container>
                                     </div>
 
@@ -98,6 +99,7 @@
                                     </div>
                                     <div style="margin-top:20px;" flex="100" layout-padding>
                                         <h3 style="margin-top: 0;">Description</h3>
+
                                         <div [innerHTML]="module.bodytext"></div>
                                     </div>
                                 </div>
@@ -110,7 +112,7 @@
                                 <button md-raised-button (click)="addModule(group.uid)" color="primary">Add module</button>
                             </div>
                         </md-expansion-panel>
-
+                        </md-accordion>
                     </div>
                 </div>
             </form>

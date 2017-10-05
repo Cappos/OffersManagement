@@ -1,0 +1,106 @@
+<ng-template [ngIf]="item">
+    <md-card>
+        <md-card-title>
+            <div layout="row" layout-wrap>
+                <div flex="90" layout="column" layout-align="center start">{{[item.name]}}</div>
+                <div flex="10" layout="column" layout-align="center end">
+                    <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                        <md-icon>mode_edit</md-icon>
+                    </button>
+                    <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                        <md-icon>done</md-icon>
+                    </button>
+                </div>
+            </div>
+        </md-card-title>
+        <md-card-subtitle>id: {{item.uid}}</md-card-subtitle>
+        <md-divider></md-divider>
+        <md-card-content>
+            <form #f="ngForm">
+                <div layout="row" layout-wrap>
+                    <div flex="100" layout-padding>
+                        <h3 style="margin: 0;">Info data</h3>
+                    </div>
+                    <div style="margin-top:20px;" flex="30" layout-padding>
+                        <md-input-container style="max-width: 800px; width: 100%;">
+                            <input mdInput placeholder="Title" [ngModel]="item.name" name="name" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="10" layout-padding>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Price" [ngModel]="chapterPrice" name="subTotal" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding>
+                        <md-input-container>
+                            <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
+                                   [readonly]="!editMode">
+                        </md-input-container>
+                    </div>
+
+                    <!-- MODULES START -->
+
+                    <div flex="100" layout-padding>
+                        <md-divider></md-divider>
+                        <h3>Modules</h3>
+                    </div>
+                    <md-card *ngFor="let module of item.modules" flex="100">
+                        <md-card-content>
+                            <form #group.uid="ngForm">
+                                <div layout="row" layout-wrap>
+                                    <div style="margin-top:20px;" flex="90" layout-padding>
+                                        <md-input-container style="max-width: 800px; width: 100%;">
+                                            <input mdInput placeholder="Name" [ngModel]="module.name"
+                                                   name="name" readonly>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="5" layout="column" layout-align="center end">
+                                        <button md-mini-fab color="primary"
+                                                (click)="onModuleEdit(module.uid, item.uid)">
+                                            <md-icon>mode_edit</md-icon>
+                                        </button>
+                                    </div>
+                                    <div flex="5" layout="column" layout-align="center center">
+                                        <button md-mini-fab color="warn"
+                                                (click)="onModuleRemove(module.uid, item.uid)">
+                                            <md-icon>remove</md-icon>
+                                        </button>
+                                    </div>
+                                    <div flex="20" layout-padding>
+                                        <md-input-container>
+                                            <input mdInput placeholder="Price" [ngModel]="module.price"
+                                                   name="price" readonly>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="25" layout-padding>
+                                        <md-input-container>
+                                            <input mdInput placeholder="Created date"
+                                                   [ngModel]="module.tstamp" name="tstamp" readonly>
+                                        </md-input-container>
+                                    </div>
+                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                        <h3 style="margin-top: 0;">Description</h3>
+
+                                        <div [innerHTML]="module.bodytext"></div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:20px;" flex="100" layout-padding>
+                                </div>
+                            </form>
+                        </md-card-content>
+                    </md-card>
+                    <div flex="25" layout-padding style="margin:20px 0;">
+                        <button md-raised-button (click)="addModule(item.uid)" color="primary">Add
+                            module
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+</ng-template>

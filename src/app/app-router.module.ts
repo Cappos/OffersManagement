@@ -10,9 +10,14 @@ import {ClientComponent} from "./clients/client/client.component";
 import {NewClientComponent} from "./clients/new-client/new-client.component";
 import {NewOfferComponent} from "./offers/new-offer/new-offer.component";
 import {OfferComponent} from "./offers/offer/offer.component";
+import {ChaptersComponent} from "./chapters/chapters.component";
+import {ChapterComponent} from "./chapters/chapter/chapter.component";
 
 const appRoutes: Routes = [
     { path: '', component: DashboardComponent},
+    { path: 'chapters', component: ChaptersComponent},
+    { path: 'chapters/:id', component: ChapterComponent},
+    { path: 'chapters/:id/:edit', component: ChapterComponent},
     { path: 'modules', component: ModulesComponent},
     { path: 'modules/:id', component: ModuleComponent},
     { path: 'modules/:id/:edit', component: ModuleComponent},

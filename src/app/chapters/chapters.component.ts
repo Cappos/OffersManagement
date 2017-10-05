@@ -1,38 +1,43 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {SharedService} from "../shared/shared.service";
+import {SharedService} from '../shared/shared.service';
+import {Store} from "@ngrx/store";
+import 'rxjs';
+import 'rxjs/add/operator/take';
+
 import {
     IPageChangeEvent,
     ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService,
     TdDataTableSortingOrder, TdDialogService
-} from "@covalent/core";
-import {Observable} from "rxjs/Observable";
+} from '@covalent/core';
 import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import * as fromClients from './store/clients.reducers';
-import * as ClientsActions from "./store/clients.actions";
+import {Observable} from "rxjs/Observable";
+
+import * as fromChapters from './store/chapters.reducers';
+import * as ChaptersActions from "./store/chapters.actions";
 import {MdDialog} from "@angular/material";
 
-
 @Component({
-    selector: 'app-clients',
-    templateUrl: './clients.component.html',
-    styleUrls: ['./clients.component.css']
+    selector: 'app-chapters',
+    templateUrl: './chapters.component.html',
+    styleUrls: ['./chapters.component.css']
 })
-export class ClientsComponent implements OnInit {
-    pageTitle = 'Clients';
-    title = 'List of all clients';
+
+export class ChaptersComponent implements OnInit {
+    pageTitle = 'Chapters';
+    title = 'List of all chapters';
+    color = 'grey';
+    disabled = false;
+    selectable = false;
+
     columns: ITdDataTableColumn[] = [
         {name: 'uid', label: 'No.', tooltip: 'No.'},
-        {name: 'companyName', label: 'Name', tooltip: 'Name'},
-        {name: 'address', label: 'Address', tooltip: 'Address'},
-        {name: 'contactPerson', label: 'Contact person', tooltip: 'Contact person'},
-        {name: 'contactPhone', label: 'Phone', tooltip: 'Phone'},
-        {name: 'mail', label: 'Mail', tooltip: 'Mail'},
+        {name: 'name', label: 'Name', tooltip: 'Name'},
+        {name: 'price', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date'},
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
 
-    clientsState: Observable<fromClients.State>;
+    modulesState: Observable<fromChapters.State>;
 
     data: any[];
     filteredData;
@@ -40,20 +45,20 @@ export class ClientsComponent implements OnInit {
     searchTerm = '';
     fromRow = 1;
     currentPage = 1;
-    pageSize = 10;
+    pageSize = 5;
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromClients.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
         //get data from backend
-        this.store.dispatch(new ClientsActions.GetClients());
+        this.store.dispatch(new ChaptersActions.GetChapters());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.clientsState = this.store.select('clientsList');
-        this.clientsState.take(2).subscribe((fromClients: fromClients.State) => {
-            this.data = fromClients.clients;
+        this.modulesState = this.store.select('chaptersList');
+        this.modulesState.take(2).subscribe((fromChapters: fromChapters.State) => {
+            this.data = fromChapters.chapters;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
@@ -96,23 +101,23 @@ export class ClientsComponent implements OnInit {
 
     onEdit(row: any) {
         let id = +row['uid'];
-        this.router.navigate(['/clients/' + id + '/edit']);
+        this.router.navigate(['/chapters/' + id + '/edit']);
 
     }
 
     onDelete(row: any) {
         let id = +row['uid'];
         this._dialogService.openConfirm({
-            message: 'Are you sure you want to remove this client?',
+            message: 'Are you sure you want to remove this Chapter?',
             viewContainerRef: this._viewContainerRef,
             title: 'Confirm remove',
             cancelButton: 'Cancel',
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let client = this.data.filter(client => client.uid === id)[0];
-                let clientIndex = this.data.indexOf(client);
-                this.data.splice(clientIndex, 1);
+                let chapter = this.data.filter(chapter => chapter.uid === id)[0];
+                let chapterIndex = this.data.indexOf(chapter);
+                this.data.splice(chapterIndex, 1);
                 this.filteredData = this.data;
                 this.filter();
             }
@@ -121,8 +126,8 @@ export class ClientsComponent implements OnInit {
     }
 
     onSelect(uid) {
-        this.router.navigate(['/clients/' + uid]);
+        this.router.navigate(['/chapters/' + uid]);
     }
 
-
 }
+

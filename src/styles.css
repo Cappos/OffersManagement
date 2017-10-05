@@ -2,3 +2,7 @@
 .mat-expansion-panel-header .mat-content {
     align-items: center;
 }
+
+.mat-dialog-container {
+    max-height: 95vh !important;
+}

@@ -15,12 +15,12 @@ const initialState: State = {
 
 export function modulesReducer(state = initialState, action: ModulesActions.ModulesActions) {
     switch (action.type) {
-        case (ModulesActions.SET_MODULES):
+        case (ModulesActions.SET_CHAPTERS):
             return {
                 ...state,
                 modules: [...action.payload]
             };
-        case (ModulesActions.ADD_MODULE):
+        case (ModulesActions.ADD_CHAPTER):
             return {
                 ...state,
                 modules: [...state.modules, action.payload]

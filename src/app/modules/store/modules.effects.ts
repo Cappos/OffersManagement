@@ -19,7 +19,7 @@ export class ModulesEffects {
         })
         .map((modules) => {
             return {
-                type: ModulesActions.SET_MODULES,
+                type: ModulesActions.SET_CHAPTERS,
                 payload: modules
             }
         });

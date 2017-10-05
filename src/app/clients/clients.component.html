@@ -1,6 +1,6 @@
 <md-card>
-  <md-card-content>
-    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <md-card-content>
+        <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
   <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
       <button md-icon-button [mdMenuTriggerFor]="menu">
                   <md-icon>more_vert</md-icon>
@@ -13,62 +13,64 @@
                 </md-menu>
     <span class="md-title">{{title}}</span>
   </span>
-      <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+            <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
      </span>
-      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here"
-                     (searchDebounce)="search($event)" flex>
-      </td-search-box>
-    </div>
-    <md-divider></md-divider>
-    <table td-data-table #dataTable>
+            <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here"
+                           (searchDebounce)="search($event)" flex>
+            </td-search-box>
+        </div>
+        <md-divider></md-divider>
+        <table td-data-table #dataTable>
 
-      <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
-          (sortChange)="sort($event, column.name)">
-        {{column.label}}
-      </th>
-      <tbody>
-      <tr td-data-table-row *ngFor="let row of filteredData;">
-        <td td-data-table-cell>
-          {{row.uid}}
-        </td>
-        <td td-data-table-cell>
-          <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.companyName}}</button>
-        </td>
-        <td td-data-table-cell>
-          {{row.address}}
-        </td>
-        <td td-data-table-cell>
-          {{row.contactPerson}}
-        </td>
-        <td td-data-table-cell>
-          {{row.contactPhone}}
-        </td>
-        <td td-data-table-cell>
-          {{row.mail}}
-        </td>
-        <td td-data-table-cell>
-          {{row.tstamp}}
-        </td>
-        <td td-data-table-cell colspan="2">
-          <div layout="row">
-            <span layout-margin><a (click)="onEdit(row)"><md-icon>mode_edit</md-icon></a></span>
-          </div>
-        </td>
+            <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
+                (sortChange)="sort($event, column.name)">
+                {{column.label}}
+            </th>
+            <tbody>
+            <tr td-data-table-row *ngFor="let row of filteredData;">
+                <td td-data-table-cell>
+                    {{row.uid}}
+                </td>
+                <td td-data-table-cell>
+                    <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.companyName}}
+                    </button>
+                </td>
+                <td td-data-table-cell>
+                    {{row.address}}
+                </td>
+                <td td-data-table-cell>
+                    {{row.contactPerson}}
+                </td>
+                <td td-data-table-cell>
+                    {{row.contactPhone}}
+                </td>
+                <td td-data-table-cell>
+                    {{row.mail}}
+                </td>
+                <td td-data-table-cell>
+                    {{row.tstamp}}
+                </td>
+                <td td-data-table-cell colspan="2">
+                    <div layout="row">
+                        <span layout-margin><a (click)="onEdit(row)"><md-icon>mode_edit</md-icon></a></span>
+                        <span layout-margin><a (click)="onDelete(row)"><md-icon>delete</md-icon></a></span>
+                    </div>
+                </td>
 
-      </tr>
-      </tbody>
-    </table>
-    <div class="md-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
-      <h3>No results to display.</h3>
-    </div>
-    <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
-      <span hide-xs>Rows per page:</span>
-      <md-select [style.width.px]="50" [(ngModel)]="pageSize">
-        <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
-          {{size}}
-        </md-option>
-      </md-select>
-      {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-    </td-paging-bar>
-  </md-card-content>
+            </tr>
+            </tbody>
+        </table>
+        <div class="md-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
+            <h3>No results to display.</h3>
+        </div>
+        <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+            <span hide-xs>Rows per page:</span>
+            <md-select [style.width.px]="50" [(ngModel)]="pageSize">
+                <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
+                    {{size}}
+                </md-option>
+            </md-select>
+            {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+        </td-paging-bar>
+    </md-card-content>
 </md-card>

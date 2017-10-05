@@ -18,9 +18,9 @@ import {TdDialogService} from "@covalent/core";
 export class EditModuleDialogComponent implements OnInit {
     pageTitle = 'Modules';
     id: number;
-    item;
+    item: Module;
     moduleState: Observable<any>;
-    rteData;
+    rteData = '';
     groups: any[] = [
         {name: 'Technical', value: 1},
         {name: 'Design', value: 2},
@@ -28,9 +28,10 @@ export class EditModuleDialogComponent implements OnInit {
         {name: 'SEO', value: 4}
 
     ];
-    selectedGroup = this.groups[0].value;
+
     savedModuleData;
     itemSaved = false;
+    selectedGroup;
 
     constructor(private route: ActivatedRoute,
                 private sharedService: SharedService,
@@ -43,16 +44,24 @@ export class EditModuleDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.id = this.data.moduleUid;
-        this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
-            observe: 'body',
-            responseType: 'json'
-        });
-        this.moduleState.take(1).subscribe((res) => {
-            this.item = res;
-            this.rteData = this.item.bodytext;
-        })
+            if(this.data.edit){
+                this.id = this.data.moduleUid;
+                this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
+                    observe: 'body',
+                    responseType: 'json'
+                });
+                this.moduleState.take(1).subscribe((res) => {
+                    this.item = res;
+                    console.log(res);
+                    this.rteData = this.item.bodytext;
+                    this.selectedGroup = this.item.groupUid;
+                    console.log(this.selectedGroup,'if');
+                })
+            }
+            else  {
+                this.selectedGroup = this.data.groupUid;
+                console.log(this.selectedGroup, 'else');
+            }
     }
 
     onSave(form: NgForm) {

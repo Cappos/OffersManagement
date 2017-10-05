@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
 import {Store} from "@ngrx/store";
 import 'rxjs';
@@ -7,13 +7,14 @@ import 'rxjs/add/operator/take';
 import {
     IPageChangeEvent,
     ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService,
-    TdDataTableSortingOrder
+    TdDataTableSortingOrder, TdDialogService
 } from '@covalent/core';
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 
 import * as fromModules from '../modules/store/modules.reducers';
 import * as ModulesActions from "./store/modules.actions";
+import {MdDialog} from "@angular/material";
 
 @Component({
     selector: 'app-modules',
@@ -47,7 +48,7 @@ export class ModulesComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromModules.FeatureState>) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromModules.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
         //get data from backend
         this.store.dispatch(new ModulesActions.GetModules());
         this.sharedService.changeTitle(this.pageTitle);
@@ -100,6 +101,26 @@ export class ModulesComponent implements OnInit {
     onEdit(row: any) {
         let id = +row['uid'];
         this.router.navigate(['/modules/' + id + '/edit']);
+
+    }
+
+    onDelete(row: any) {
+        let id = +row['uid'];
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this module?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let module = this.data.filter(module => module.uid === id)[0];
+                let moduleIndex = this.data.indexOf(module);
+                this.data.splice(moduleIndex, 1);
+                this.filteredData = this.data;
+                this.filter();
+            }
+        });
 
     }
 

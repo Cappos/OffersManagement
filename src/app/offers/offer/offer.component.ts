@@ -1,6 +1,6 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output, ViewContainerRef} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
@@ -10,6 +10,8 @@ import 'rxjs/Observable';
 import {Offer} from "../offers.model";
 import {Group} from "../groups.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
+import {TdDialogService} from "@covalent/core";
+import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
 
 @Component({
     selector: 'app-offer',
@@ -26,7 +28,7 @@ export class OfferComponent implements OnInit {
     offersModules: Group[];
     editModuleGroup: number;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router) {
         this.sharedService.changeTitle(this.pageTitle);
     }
 
@@ -63,7 +65,8 @@ export class OfferComponent implements OnInit {
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 moduleUid: moduleUid,
-                groupUid: groupUid
+                groupUid: groupUid,
+                edit: true
             }
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -72,9 +75,12 @@ export class OfferComponent implements OnInit {
                 let groupIndex = this.offersModules.indexOf(group);
                 let module = this.offersModules[groupIndex].modules.filter(module => module.name === result.name)[0];
                 let moduleIndex = this.offersModules[groupIndex].modules.indexOf(module);
+                let modulePrices: any[] = [];
+                let sum: number = 0;
 
                 if (result.groupUid === this.editModuleGroup) {
                     this.offersModules[groupIndex].modules[moduleIndex] = result;
+
                 }
                 else {
                     let groupOld = this.offersModules.filter(group => group.uid === this.editModuleGroup)[0];
@@ -86,13 +92,128 @@ export class OfferComponent implements OnInit {
                     this.offersModules[groupIndex].modules.push(result);
                 }
 
+                for (let m in this.offersModules[groupIndex].modules) {
+                    modulePrices.push(this.offersModules[groupIndex].modules[m].price);
+                }
+
+                sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.offersModules[groupIndex].subTotal = sum;
+
+
             }
         });
 
     }
 
+    onModuleRemove(moduleUid: number, groupUid: number) {
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this module?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let group = this.offersModules.filter(group => group.uid === groupUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
+                let module = this.offersModules[groupIndex].modules.filter(module => module.uid === moduleUid)[0];
+                let moduleIndex = this.offersModules[groupIndex].modules.indexOf(module);
+                let modulePrices: any[] = [];
+                let sum: number = 0;
+
+                this.offersModules[groupIndex].modules.splice(moduleIndex, 1);
+
+                for (let m in this.offersModules[groupIndex].modules) {
+                    modulePrices.push(this.offersModules[groupIndex].modules[m].price);
+                }
+                if (modulePrices.length) {
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
+                else {
+                    sum = 0;
+                }
+
+                console.log(sum);
+                this.offersModules[groupIndex].subTotal = sum;
+            }
+        });
+    }
+
     addModule(groupUid: number) {
         console.log(groupUid, 'module add');
+        this.editModuleGroup = groupUid;
+        let dialogRef = this.dialog.open(EditModuleDialogComponent, {
+            data: {
+                groupUid: groupUid,
+                edit: false
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
+                let modulePrices: any[] = [];
+                let sum: number = 0;
+
+                this.offersModules[groupIndex].modules.push(result);
+
+                for (let m in this.offersModules[groupIndex].modules) {
+                    modulePrices.push(this.offersModules[groupIndex].modules[m].price);
+                }
+
+                sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.offersModules[groupIndex].subTotal = sum;
+                console.log(sum);
+
+            }
+        });
+    }
+
+    addChapter(offerUid: number) {
+        console.log(offerUid, 'module add');
+        let dialogRef = this.dialog.open(ChapterDialogComponent, {
+            data: {
+                offerUid: offerUid,
+                edit: false
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+        });
+    }
+
+    onChapterEdit(groupUid: number) {
+        console.log('Edit Chapter');
+        let dialogRef = this.dialog.open(ChapterDialogComponent, {
+            data: {
+                groupUid: groupUid,
+                edit: true
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+        });
+    }
+
+    onChapterRemove(groupUid: number) {
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this Chapter? If you continue all modules in this chapter will be removed too!!!',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let group = this.offersModules.filter(group => group.uid === groupUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
+
+                this.offersModules.splice(groupIndex, 1);
+            }
+        });
     }
 
 }

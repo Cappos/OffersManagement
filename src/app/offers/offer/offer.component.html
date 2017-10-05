@@ -60,59 +60,96 @@
                     </div>
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <md-accordion>
-                        <md-expansion-panel *ngFor="let group of offersModules" hideToggle="true">
-                            <md-expansion-panel-header>
-                                <md-panel-title><h4>{{group.name}}</h4></md-panel-title>
-                                <md-icon>arrow_drop_down</md-icon>
-                            </md-expansion-panel-header>
-                            <div flex="100" layout-padding>
-                                <h3 style="margin-top: 0;">Modules</h3>
-                                <md-divider></md-divider>
-                            </div>
-                            <form #group.uid="ngForm" *ngFor="let module of group.modules">
-                                <div layout="row" layout-wrap>
-                                    <div style="margin-top:20px;" flex="90" layout-padding>
-                                        <md-input-container style="max-width: 800px; width: 100%;">
-                                            <input mdInput placeholder="Name" [ngModel]="module.name" name="name" readonly>
-                                        </md-input-container>
+                            <div *ngFor="let group of offersModules" layout="row">
+                                <md-expansion-panel hideToggle="true" flex="90" layout="column" layout-align="center start">
+                                    <md-expansion-panel-header>
+                                        <md-panel-title>
+                                            <h4>{{group.name}}</h4>
+                                        </md-panel-title>
+                                        <md-panel-description>
+                                            <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                        </md-panel-description>
+                                        <md-icon>arrow_drop_down</md-icon>
+                                    </md-expansion-panel-header>
+                                    <div flex="100" layout-padding layout="row">
+                                         <h3 style="margin-top: 0;">Modules</h3>
                                     </div>
-                                    <div flex="10" layout="column" layout-align="center end">
-                                        <button md-mini-fab color="primary" (click)="onModuleEdit(module.uid, group.uid)">
-                                            <md-icon>mode_edit</md-icon>
+                                    <md-card *ngFor="let module of group.modules">
+                                        <md-card-content>
+                                            <form #group.uid="ngForm">
+                                                <div layout="row" layout-wrap>
+                                                    <div style="margin-top:20px;" flex="90" layout-padding>
+                                                        <md-input-container style="max-width: 800px; width: 100%;">
+                                                            <input mdInput placeholder="Name" [ngModel]="module.name"
+                                                                   name="name" readonly>
+                                                        </md-input-container>
+                                                    </div>
+                                                    <div flex="5" layout="column" layout-align="center end">
+                                                        <button md-mini-fab color="primary"
+                                                                (click)="onModuleEdit(module.uid, group.uid)">
+                                                            <md-icon>mode_edit</md-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div flex="5" layout="column" layout-align="center center">
+                                                        <button md-mini-fab color="warn"
+                                                                (click)="onModuleRemove(module.uid, group.uid)">
+                                                            <md-icon>remove</md-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div flex="20" layout-padding>
+                                                        <md-input-container>
+                                                            <input mdInput placeholder="Price" [ngModel]="module.price"
+                                                                   name="price" readonly>
+                                                        </md-input-container>
+                                                    </div>
+
+                                                    <div flex="25" layout-padding>
+                                                        <md-input-container style="width: 80%;">
+                                                            <input mdInput placeholder="Group" [ngModel]="group.name"
+                                                                   name="groupUid" readonly>
+                                                        </md-input-container>
+                                                    </div>
+                                                    <div flex="25" layout-padding>
+                                                        <md-input-container>
+                                                            <input mdInput placeholder="Created date"
+                                                                   [ngModel]="module.tstamp" name="tstamp" readonly>
+                                                        </md-input-container>
+                                                    </div>
+                                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                                        <h3 style="margin-top: 0;">Description</h3>
+
+                                                        <div [innerHTML]="module.bodytext"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div style="margin-top:20px;" flex="100" layout-padding>
+                                                </div>
+                                            </form>
+                                        </md-card-content>
+                                    </md-card>
+                                    <div flex="25" layout-padding style="margin:20px 0;">
+                                        <button md-raised-button (click)="addModule(group.uid)" color="primary">Add
+                                            module
                                         </button>
                                     </div>
-                                    <div flex="20" layout-padding>
-                                        <md-input-container>
-                                            <input mdInput placeholder="Price" [ngModel]="module.price" name="price" readonly>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div flex="25" layout-padding>
-                                        <md-input-container style="width: 80%;">
-                                            <input mdInput placeholder="Group" [ngModel]="group.name" name="groupUid" readonly >
-                                        </md-input-container>
-                                    </div>
-                                    <div flex="25" layout-padding>
-                                        <md-input-container>
-                                            <input mdInput placeholder="Created date" [ngModel]="module.tstamp" name="tstamp" readonly>
-                                        </md-input-container>
-                                    </div>
-                                    <div style="margin-top:20px;" flex="100" layout-padding>
-                                        <h3 style="margin-top: 0;">Description</h3>
-
-                                        <div [innerHTML]="module.bodytext"></div>
+                                </md-expansion-panel>
+                                <div flex="10" layout-align="start end" layout="column">
+                                    <div layout="row">
+                                        <span layout-margin>
+                                            <a (click)="onChapterEdit(group.uid)"><md-icon>mode_edit</md-icon></a>
+                                        </span>
+                                        <span layout-margin>
+                                            <a (click)="onChapterRemove(group.uid)"><md-icon>delete</md-icon></a>
+                                       </span>
+                                        <span layout-margin><md-icon class="handle">drag_handler</md-icon></span>
                                     </div>
                                 </div>
-
-                                <div style="margin-top:20px;" flex="100" layout-padding>
-                                    <md-divider></md-divider>
-                                </div>
-                            </form>
-                            <div flex="25" layout-padding style="margin:20px 0;">
-                                <button md-raised-button (click)="addModule(group.uid)" color="primary">Add module</button>
                             </div>
-                        </md-expansion-panel>
                         </md-accordion>
+                        <div flex="25" layout-padding style="margin:20px 0;">
+                            <button md-raised-button (click)="addChapter()" color="primary">Add Chapter
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>

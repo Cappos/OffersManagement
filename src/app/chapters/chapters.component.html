@@ -6,7 +6,7 @@
                   <md-icon>more_vert</md-icon>
               </button>
                 <md-menu #menu="mdMenu">
-                  <button md-menu-item routerLink="/newOffer">
+                  <button md-menu-item routerLink="/newChapter">
                     <md-icon>add</md-icon>
                     <span>Add new</span>
                   </button>
@@ -32,13 +32,10 @@
           {{row.uid}}
         </td>
         <td td-data-table-cell>
-          <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.offerNumber}}</button>
+          <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.name}}</button>
         </td>
         <td td-data-table-cell>
-          {{row.clientName}}
-        </td>
-        <td td-data-table-cell>
-          {{row.totalPrice | number:'3.2'}}
+          {{row.subTotal | number:'3.2'}}
         </td>
         <td td-data-table-cell>
           {{row.tstamp}}

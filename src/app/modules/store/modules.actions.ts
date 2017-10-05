@@ -1,8 +1,8 @@
 import {Action} from '@ngrx/store';
 import {Module} from "../modules.model";
 
-export const SET_MODULES = 'SET_MODULES';
-export const ADD_MODULE = 'ADD_MODULE';
+export const SET_CHAPTERS = 'SET_MODULES';
+export const ADD_CHAPTER = 'ADD_MODULE';
 export const UPDATE_MODULE = 'UPDATE_MODULE';
 export const DELETE_MODULE = 'DELETE_MODULE';
 export const GET_MODULES = 'GET_MODULES';
@@ -10,14 +10,14 @@ export const STORE_MODULE = 'STORE_MODULE';
 
 
 export class SetModules implements Action {
-    readonly type = SET_MODULES;
+    readonly type = SET_CHAPTERS;
 
     constructor(public payload: Module[]) {
     }
 }
 
 export class AddModule implements Action {
-    readonly type = ADD_MODULE;
+    readonly type = ADD_CHAPTER;
 
     constructor(public payload: Module) {
     }

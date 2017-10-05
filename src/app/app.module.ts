@@ -48,6 +48,13 @@ import {offersReducer} from "./offers/store/offers.reducers";
 import {OffersEffects} from "./offers/store/offers.effects";
 import { OfferComponent } from './offers/offer/offer.component';
 import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-module-dialog.component';
+import { ChaptersComponent } from './chapters/chapters.component';
+import {chaptersReducer} from "./chapters/store/chapters.reducers";
+import {ChaptersEffects} from "./chapters/store/chapters.effects";
+import { ChapterComponent } from './chapters/chapter/chapter.component';
+import { NewChapterComponent } from './chapters/new-chapter/new-chapter.component';
+import { ChapterDialogComponent } from './chapters/chapter-dialog/chapter-dialog.component';
+
 
 
 @NgModule({
@@ -64,7 +71,11 @@ import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-mod
         NewClientComponent,
         NewOfferComponent,
         OfferComponent,
-        EditModuleDialogComponent
+        EditModuleDialogComponent,
+        ChaptersComponent,
+        ChapterComponent,
+        NewChapterComponent,
+        ChapterDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -74,8 +85,8 @@ import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-mod
         BrowserModule,
         AppRoutingModule,
         Ng2FilterPipeModule,
-        StoreModule.forRoot({modulesList: modulesReducer, clientsList: clientsReducer, offersList: offersReducer}),
-        EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects]),
+        StoreModule.forRoot({modulesList: modulesReducer, clientsList: clientsReducer, offersList: offersReducer, chaptersList: chaptersReducer}),
+        EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects, ChaptersEffects]),
         HttpClientModule,
         /** Material Modules */
         MdButtonModule,
@@ -120,7 +131,7 @@ import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-mod
         CovalentNotificationsModule
     ],
     providers: [SharedService, CurrencyPipe],
-    entryComponents: [EditModuleDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

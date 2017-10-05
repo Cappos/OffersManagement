@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from "../shared/shared.service";
-import {IPageChangeEvent, ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService, TdDataTableSortingOrder} from "@covalent/core";
+import {
+    IPageChangeEvent, ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService, TdDataTableSortingOrder,
+    TdDialogService
+} from "@covalent/core";
 import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
@@ -8,6 +11,7 @@ import {Store} from "@ngrx/store";
 import * as fromOffers from './store/offers.reducers';
 import * as OffersActions from "./store/offers.actions";
 import {Offer} from "./offers.model";
+import {MdDialog} from "@angular/material";
 
 @Component({
     selector: 'app-offers',
@@ -42,7 +46,7 @@ export class OffersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
         this.store.dispatch(new OffersActions.GetOffers());
         this.sharedService.changeTitle(this.pageTitle);
     }
@@ -94,6 +98,25 @@ export class OffersComponent implements OnInit {
     onEdit(row: any) {
         let id = +row['uid'];
         this.router.navigate(['/offers/' + id + '/edit']);
+
+    }
+    onDelete(row: any) {
+        let id = +row['uid'];
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this offer?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let offer = this.data.filter(offer => offer.uid === id)[0];
+                let offerIndex = this.data.indexOf(offer);
+                this.data.splice(offerIndex, 1);
+                this.filteredData = this.data;
+                this.filter();
+            }
+        });
 
     }
 

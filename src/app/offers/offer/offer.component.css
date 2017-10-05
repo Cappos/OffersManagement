@@ -31,3 +31,13 @@ md-select {
     font-size: 16px !important;
 }
 
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+

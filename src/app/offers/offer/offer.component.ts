@@ -27,6 +27,7 @@ export class OfferComponent implements OnInit {
     selectedSaler;
     offersModules: Group[];
     editModuleGroup: number;
+    totalPrice;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router) {
         this.sharedService.changeTitle(this.pageTitle);
@@ -45,6 +46,15 @@ export class OfferComponent implements OnInit {
                     this.item = res;
                     this.selectedSaler = this.item.offerDescription.saler[1].value;
                     this.offersModules = this.item.groups;
+                    let modulesPrices: any[] = [];
+
+                    // calculate offer total price
+                    for (let g in this.offersModules) {
+                        for (let m in this.offersModules) {
+                            modulesPrices.push(this.offersModules[g].modules[m].price);
+                        }
+                    }
+                    this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 })
             }
         );
@@ -61,6 +71,7 @@ export class OfferComponent implements OnInit {
     }
 
     onModuleEdit(moduleUid: number, groupUid: number) {
+        console.log('edit');
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -78,10 +89,11 @@ export class OfferComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // update module after edit if parent group not change
                 if (result.groupUid === this.editModuleGroup) {
                     this.offersModules[groupIndex].modules[moduleIndex] = result;
-
                 }
+                // update module after edit if parent group change
                 else {
                     let groupOld = this.offersModules.filter(group => group.uid === this.editModuleGroup)[0];
                     let groupOldIndex = this.offersModules.indexOf(groupOld);
@@ -91,15 +103,21 @@ export class OfferComponent implements OnInit {
                     this.offersModules[groupOldIndex].modules.splice(moduleOldIndex, 1);
                     this.offersModules[groupIndex].modules.push(result);
                 }
-
+                // update chapter price
                 for (let m in this.offersModules[groupIndex].modules) {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
                 }
-
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.offersModules[groupIndex].subTotal = sum;
 
-
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
 
@@ -121,8 +139,10 @@ export class OfferComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // remove module after delete
                 this.offersModules[groupIndex].modules.splice(moduleIndex, 1);
 
+                // update chapter price
                 for (let m in this.offersModules[groupIndex].modules) {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
                 }
@@ -132,9 +152,16 @@ export class OfferComponent implements OnInit {
                 else {
                     sum = 0;
                 }
-
-                console.log(sum);
                 this.offersModules[groupIndex].subTotal = sum;
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -155,16 +182,24 @@ export class OfferComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // update modules list after adding new
                 this.offersModules[groupIndex].modules.push(result);
 
+                // update chapter price
                 for (let m in this.offersModules[groupIndex].modules) {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
                 }
-
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.offersModules[groupIndex].subTotal = sum;
-                console.log(sum);
 
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -179,7 +214,17 @@ export class OfferComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                // update chapters after adding new
+                this.offersModules.push(result);
 
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -193,8 +238,22 @@ export class OfferComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
+            console.log(result, 'edit chapter');
             if (result) {
+                let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
 
+                // update chapter after edit
+                this.offersModules[groupIndex] = result;
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -211,7 +270,17 @@ export class OfferComponent implements OnInit {
                 let group = this.offersModules.filter(group => group.uid === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
+                // remove chapter after delete
                 this.offersModules.splice(groupIndex, 1);
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    for (let m in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }

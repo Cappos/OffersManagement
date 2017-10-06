@@ -1,16 +1,33 @@
-<ng-template [ngIf]="item">
+
+  <div layout="row" layout-wrap layout-align="start center">
+    <div flex="60">
+      <h1 md-dialog-title>Chapter edit</h1>
+    </div>
+    <div flex="40" layout="column" layout-align="center end">
+      <div class="button-row"
+           style="display: flex; align-items: center; justify-content: space-around; width: 230px;">
+        <button md-raised-button (click)="onSave(f)">
+          <md-icon md-list-icon>done</md-icon>
+          <span> Save</span>
+        </button>
+        <button md-raised-button (click)="closeDialog()" *ngIf="!itemSaved">
+          <md-icon md-list-icon>close</md-icon>
+          <span> Cancel</span>
+        </button>
+        <button md-raised-button [md-dialog-close]="savedChapterData" *ngIf="itemSaved">
+          <md-icon md-list-icon>close</md-icon>
+          <span> Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
   <md-card>
     <md-card-title>
       <div layout="row" layout-wrap>
-        <div flex="90" layout="column" layout-align="center start">{{[item.name]}}</div>
-        <div flex="10" layout="column" layout-align="center end">
-          <button md-mini-fab (click)="onSave(f)" color="primary">
-            <md-icon>done</md-icon>
-          </button>
-        </div>
+        <div flex="90" layout="column" layout-align="center start">{{[item?.name]}}</div>
       </div>
     </md-card-title>
-    <md-card-subtitle>id: {{item.uid}}</md-card-subtitle>
+    <md-card-subtitle>id: {{item?.uid}}</md-card-subtitle>
     <md-divider></md-divider>
     <md-card-content>
       <form #f="ngForm">
@@ -20,7 +37,7 @@
           </div>
           <div style="margin-top:20px;" flex="30" layout-padding>
             <md-input-container style="max-width: 800px; width: 100%;">
-              <input mdInput placeholder="Title" [ngModel]="item.name" name="name" required>
+              <input mdInput placeholder="Title" [ngModel]="item?.name" name="name" required>
             </md-input-container>
           </div>
           <div style="margin-top:20px;" flex="10" layout-padding>
@@ -32,7 +49,7 @@
           </div>
           <div style="margin-top:20px;" flex="25" layout-padding>
             <md-input-container>
-              <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required>
+              <input mdInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required>
             </md-input-container>
           </div>
 
@@ -42,7 +59,7 @@
             <md-divider></md-divider>
             <h3>Modules</h3>
           </div>
-          <md-card *ngFor="let module of item.modules" flex="100">
+          <md-card *ngFor="let module of chaptersModules" flex="100">
             <md-card-content>
               <form #group.uid="ngForm">
                 <div layout="row" layout-wrap>
@@ -54,13 +71,13 @@
                   </div>
                   <div flex="5" layout="column" layout-align="center end">
                     <button md-mini-fab color="primary"
-                            (click)="onModuleEdit(module.uid, item.uid)">
+                            (click)="onModuleEdit(module.uid, item?.uid)">
                       <md-icon>mode_edit</md-icon>
                     </button>
                   </div>
                   <div flex="5" layout="column" layout-align="center center">
                     <button md-mini-fab color="warn"
-                            (click)="onModuleRemove(module.uid, item.uid)">
+                            (click)="onModuleRemove(module.uid, item?.uid)">
                       <md-icon>remove</md-icon>
                     </button>
                   </div>
@@ -89,7 +106,7 @@
             </md-card-content>
           </md-card>
           <div flex="25" layout-padding style="margin:20px 0;">
-            <button md-raised-button (click)="addModule(item.uid)" color="primary">Add
+            <button md-raised-button (click)="addModule(item?.uid)" color="primary">Add
               module
             </button>
           </div>
@@ -97,4 +114,3 @@
       </form>
     </md-card-content>
   </md-card>
-</ng-template>

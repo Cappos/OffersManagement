@@ -75,7 +75,4 @@ export class EditModuleDialogComponent implements OnInit {
         this.rteData = ev;
     }
 
-    closeDialog() {
-        this._dialogService.closeAll();
-    }
 }

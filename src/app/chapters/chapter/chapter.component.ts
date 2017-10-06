@@ -45,7 +45,6 @@ export class ChapterComponent implements OnInit {
                     this.item = res;
                     this.chaptersModules = this.item.modules;
                     this.chapterPrice = this.item.subTotal;
-                    console.log(this.chapterPrice);
                 })
             }
         );
@@ -77,23 +76,22 @@ export class ChapterComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // update module after edit if parent group not change
                 if (result.groupUid === this.editModuleGroup) {
                     this.chaptersModules[moduleIndex] = result;
-                    for (let m in this.chaptersModules) {
-                        modulePrices.push(this.chaptersModules[m].price);
-                    }
                 }
+                // update module after edit if parent group change
                 else {
                     let moduleOld = this.chaptersModules.filter(module => module.name === result.name)[0];
                     let moduleOldIndex = this.chaptersModules.indexOf(moduleOld);
 
                     this.chaptersModules.splice(moduleOldIndex, 1);
-
-                    for (let m in this.chaptersModules) {
-                        modulePrices.push(this.chaptersModules[m].price);
-                    }
                 }
 
+                // update chapter price
+                for (let m in this.chaptersModules) {
+                    modulePrices.push(this.chaptersModules[m].price);
+                }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
             }
@@ -114,8 +112,10 @@ export class ChapterComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // update modules lis after module delete
                 this.chaptersModules.splice(moduleIndex, 1);
 
+                // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
                 }
@@ -131,7 +131,6 @@ export class ChapterComponent implements OnInit {
     }
 
     addModule(groupUid: number) {
-        console.log(groupUid, 'module add');
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -141,20 +140,18 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                // update modules lis after adding module
                 this.chaptersModules.push(result);
 
+                // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
                 }
-
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
-
-
             }
         });
     }

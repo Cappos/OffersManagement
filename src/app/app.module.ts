@@ -54,6 +54,8 @@ import {ChaptersEffects} from "./chapters/store/chapters.effects";
 import { ChapterComponent } from './chapters/chapter/chapter.component';
 import { NewChapterComponent } from './chapters/new-chapter/new-chapter.component';
 import { ChapterDialogComponent } from './chapters/chapter-dialog/chapter-dialog.component';
+import { AdditionalDataComponent } from './additional-data/additional-data.component';
+import { PageComponent } from './additional-data/page/page.component';
 
 
 
@@ -75,7 +77,9 @@ import { ChapterDialogComponent } from './chapters/chapter-dialog/chapter-dialog
         ChaptersComponent,
         ChapterComponent,
         NewChapterComponent,
-        ChapterDialogComponent
+        ChapterDialogComponent,
+        AdditionalDataComponent,
+        PageComponent
     ],
     imports: [
         BrowserAnimationsModule,

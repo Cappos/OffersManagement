@@ -44,7 +44,7 @@ export class ModulesComponent implements OnInit {
     searchTerm = '';
     fromRow = 1;
     currentPage = 1;
-    pageSize = 5;
+    pageSize = 15;
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 

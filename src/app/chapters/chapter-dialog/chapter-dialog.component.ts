@@ -27,6 +27,8 @@ export class ChapterDialogComponent implements OnInit {
     chaptersModules: Module[];
     editModuleGroup: number;
     chapterPrice: number;
+    savedChapterData;
+    itemSaved = false;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any) {
         this.sharedService.changeTitle(this.pageTitle);
@@ -35,6 +37,7 @@ export class ChapterDialogComponent implements OnInit {
     ngOnInit() {
         if (this.data.edit) {
             this.id = this.data.groupUid;
+            console.log(this.id);
             this.chapterState = this.httpClient.get<Group>('http://wrenchweb.com/http/chapterData', {
                 observe: 'body',
                 responseType: 'json'
@@ -46,12 +49,16 @@ export class ChapterDialogComponent implements OnInit {
             })
         }
         else {
+            this.chaptersModules = [];
         }
     }
 
     onSave(form: NgForm) {
         const value = form.value;
-        this.editMode = false;
+        this.savedChapterData = form.value;
+        this.savedChapterData.modules = this.chaptersModules;
+        this.savedChapterData.groupUid = this.id || 100;
+        this.itemSaved = true;
     }
 
     onModuleEdit(moduleUid: number, groupUid: number) {
@@ -59,7 +66,8 @@ export class ChapterDialogComponent implements OnInit {
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 moduleUid: moduleUid,
-                groupUid: groupUid
+                groupUid: groupUid,
+                edit: true
             }
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -110,7 +118,6 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     addModule(groupUid: number) {
-        console.log(groupUid, 'module add');
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -120,7 +127,6 @@ export class ChapterDialogComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
@@ -132,10 +138,12 @@ export class ChapterDialogComponent implements OnInit {
 
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
-
-
             }
         });
+    }
+
+    closeDialog() {
+        this._dialogService.closeAll();
     }
 
 }

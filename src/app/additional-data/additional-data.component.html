@@ -1,0 +1,59 @@
+<md-card>
+    <md-card-title>
+        <div layout="row" layout-wrap>
+            <div flex="100" layout="column" layout-align="center start">{{title}}</div>
+        </div>
+    </md-card-title>
+    <md-divider></md-divider>
+    <md-card-content>
+        <md-tab-group dynamicHeight="true" #tabGroup (selectChange)="onSelectChange($event)"
+                      [selectedIndex]="activeTab">
+            <md-tab label="Pages">
+                <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm" layout-padding>
+                                  <span class="push-left-sm">
+                                      <button md-icon-button [mdMenuTriggerFor]="menu">
+                                                  <md-icon>more_vert</md-icon>
+                                              </button>
+                                                <md-menu #menu="mdMenu">
+                                                  <button md-menu-item routerLink="newPage">
+                                                    <md-icon>add</md-icon>
+                                                    <span>Add new</span>
+                                                  </button>
+                                                </md-menu>
+                                    <span class="md-title">{{title}}</span>
+                                  </span>
+                </div>
+                <md-divider></md-divider>
+                <table td-data-table #dataTable>
+                    <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
+                        (sortChange)="sort($event, column.name)">
+                        {{column.label}}
+                    </th>
+                    <tbody>
+                    <tr td-data-table-row *ngFor="let row of data;">
+                        <td td-data-table-cell>
+                            {{row.uid}}
+                        </td>
+                        <td td-data-table-cell>
+                            <button md-menu-item [routerLink]="['page/' + row.uid]" (click)="onSelect(row.uid)">{{row.title}}</button>
+                        </td>
+                        <td td-data-table-cell>
+                            {{row.tstamp}}
+                        </td>
+                        <td td-data-table-cell colspan="2">
+                            <div layout="row">
+                                <span layout-margin><a (click)="onEdit(row)"><md-icon>mode_edit</md-icon></a></span>
+                                <span layout-margin><a (click)="onDelete(row)"><md-icon>delete</md-icon></a></span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-tab>
+            <md-tab label="Graphics">
+
+            </md-tab>
+        </md-tab-group>
+    </md-card-content>
+</md-card>
+<router-outlet></router-outlet>

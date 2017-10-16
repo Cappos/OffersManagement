@@ -1,10 +1,12 @@
 import {Component, OnInit, Output} from '@angular/core';
+import { Location } from '@angular/common';
 import {Observable} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {Client} from "../client.model";
 import {NgForm} from "@angular/forms";
+import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 
 @Component({
     selector: 'app-client',
@@ -18,7 +20,14 @@ export class ClientComponent implements OnInit {
     clientState: Observable<any>;
     @Output() editMode = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private router: Router) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private router: Router, private loadingService: TdLoadingService, private location: Location) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
@@ -33,7 +42,8 @@ export class ClientComponent implements OnInit {
                 });
                 this.clientState.take(1).subscribe((res) => {
                     this.item = res;
-                })
+                });
+                this.loadingService.resolveAll('modulesLoader');
             }
         );
     }
@@ -51,11 +61,16 @@ export class ClientComponent implements OnInit {
 
     selectOffer(offerId: number) {
         console.log(offerId, 'offer selected');
+        this.router.navigate(['/offers/' + offerId]);
     }
 
     addOffer(clientId: number) {
         console.log(clientId);
         this.router.navigate(['/newOffer/' + clientId]);
+    }
+
+    goBack(){
+        this.location.back();
     }
 
 

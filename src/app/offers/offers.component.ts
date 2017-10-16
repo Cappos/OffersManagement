@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from "../shared/shared.service";
 import {
-    IPageChangeEvent, ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService, TdDataTableSortingOrder,
-    TdDialogService
+    IPageChangeEvent, ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
+    TdDataTableSortingOrder,
+    TdDialogService, TdLoadingService
 } from "@covalent/core";
 import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
@@ -12,13 +13,19 @@ import * as fromOffers from './store/offers.reducers';
 import * as OffersActions from "./store/offers.actions";
 import {Offer} from "./offers.model";
 import {MdDialog} from "@angular/material";
+import {slideInDownAnimation} from "../_animations/app.animations";
 
 @Component({
     selector: 'app-offers',
     templateUrl: './offers.component.html',
-    styleUrls: ['./offers.component.css']
+    styleUrls: ['./offers.component.css'],
+    animations: [slideInDownAnimation]
 })
 export class OffersComponent implements OnInit {
+
+    @HostBinding('@routeAnimation') routeAnimation: boolean = true;
+    @HostBinding('class.td-route-animation') classAnimation: boolean = true;
+
     pageTitle = 'Offers';
 
     title = 'List of all offers';
@@ -46,7 +53,14 @@ export class OffersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.store.dispatch(new OffersActions.GetOffers());
         this.sharedService.changeTitle(this.pageTitle);
     }
@@ -58,6 +72,7 @@ export class OffersComponent implements OnInit {
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
+            this.loadingService.resolveAll('modulesLoader');
         });
     }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
 import {Store} from "@ngrx/store";
 import 'rxjs';
@@ -6,8 +6,8 @@ import 'rxjs/add/operator/take';
 
 import {
     IPageChangeEvent,
-    ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService,
-    TdDataTableSortingOrder, TdDialogService
+    ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
+    TdDataTableSortingOrder, TdDialogService, TdLoadingService
 } from '@covalent/core';
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
@@ -15,14 +15,20 @@ import {Observable} from "rxjs/Observable";
 import * as fromChapters from './store/chapters.reducers';
 import * as ChaptersActions from "./store/chapters.actions";
 import {MdDialog} from "@angular/material";
+import {slideInDownAnimation} from "../_animations/app.animations";
 
 @Component({
     selector: 'app-chapters',
     templateUrl: './chapters.component.html',
-    styleUrls: ['./chapters.component.css']
+    styleUrls: ['./chapters.component.css'],
+    animations: [slideInDownAnimation]
 })
 
 export class ChaptersComponent implements OnInit {
+    @HostBinding('@routeAnimation') routeAnimation: boolean = true;
+    @HostBinding('class.td-route-animation') classAnimation: boolean = true;
+
+
     pageTitle = 'Chapters';
     title = 'List of all chapters';
     color = 'grey';
@@ -49,7 +55,14 @@ export class ChaptersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         //get data from backend
         this.store.dispatch(new ChaptersActions.GetChapters());
         this.sharedService.changeTitle(this.pageTitle);
@@ -62,7 +75,9 @@ export class ChaptersComponent implements OnInit {
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
+            this.loadingService.resolveAll('modulesLoader');
         });
+
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {

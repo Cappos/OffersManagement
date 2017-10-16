@@ -44,7 +44,7 @@
           </div>
           <div style="margin-top:20px;" flex="25" layout-padding>
             <md-input-container>
-              <input mdInput placeholder="Price" [ngModel]="chapterPrice" name="subTotal" required>
+              <input mdInput placeholder="Price" [ngModel]="chapterPrice | number:'2.2-2'" name="subTotal" readonly>
             </md-input-container>
           </div>
           <div style="margin-top:20px;" flex="25" layout-padding>

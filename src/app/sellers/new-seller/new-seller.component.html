@@ -1,0 +1,41 @@
+<div layout="row" layout-wrap layout-align="start center">
+    <div flex="60">
+        <h1 md-dialog-title>New Seller</h1>
+    </div>
+    <div flex="40" layout="column" layout-align="center end">
+        <div class="button-row" style="display: flex; align-items: flex-end; justify-content: flex-end; width: 230px;">
+            <button md-raised-button (click)="onSave(f)">
+                <md-icon md-list-icon>done</md-icon>
+                <span> Save</span>
+            </button>
+        </div>
+    </div>
+</div>
+<md-dialog-content>
+    <form #f="ngForm">
+        <div layout="row" layout-wrap>
+            <div style="margin-top:20px;" flex="100" layout-padding>
+                <md-input-container style="max-width: 800px; width: 100%;">
+                    <input mdInput placeholder="Name" [ngModel] name="name" required>
+                </md-input-container>
+            </div>
+            <div style="margin-top:20px;" flex="25" layout-padding>
+                <md-input-container>
+                    <input mdInput placeholder="E-mail" [ngModel] name="email" required>
+                </md-input-container>
+            </div>
+
+            <div style="margin-top:20px;" flex="25" layout-padding>
+                <md-input-container>
+                    <input mdInput placeholder="Phone" [ngModel] name="phone" required>
+                </md-input-container>
+            </div>
+
+            <div style="margin-top:20px;" flex="25" layout-padding>
+                <md-input-container>
+                    <input mdInput placeholder="Mobile" [ngModel] name="mobile" re quired>
+                </md-input-container>
+            </div>
+        </div>
+    </form>
+</md-dialog-content>

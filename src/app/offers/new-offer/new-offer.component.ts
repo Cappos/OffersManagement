@@ -10,7 +10,7 @@ import 'rxjs/Observable';
 import {Offer} from "../offers.model";
 import {Group} from "../groups.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
-import {TdDialogService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
 
 @Component({
@@ -30,11 +30,19 @@ export class NewOfferComponent implements OnInit {
     editModuleGroup: number;
     totalPrice: number;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
+        this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {

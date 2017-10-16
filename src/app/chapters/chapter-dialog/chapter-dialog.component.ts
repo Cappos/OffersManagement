@@ -8,7 +8,7 @@ import {MD_DIALOG_DATA, MdDialog} from "@angular/material";
 import 'rxjs/Observable';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
-import {TdDialogService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
 
@@ -26,18 +26,24 @@ export class ChapterDialogComponent implements OnInit {
     @Output() editMode = false;
     chaptersModules: Module[];
     editModuleGroup: number;
-    chapterPrice: number;
+    chapterPrice: number = 0;
     savedChapterData;
     itemSaved = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
         if (this.data.edit) {
             this.id = this.data.groupUid;
-            console.log(this.id);
             this.chapterState = this.httpClient.get<Group>('http://wrenchweb.com/http/chapterData', {
                 observe: 'body',
                 responseType: 'json'
@@ -51,17 +57,19 @@ export class ChapterDialogComponent implements OnInit {
         else {
             this.chaptersModules = [];
         }
+        this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {
         const value = form.value;
         this.savedChapterData = form.value;
         this.savedChapterData.modules = this.chaptersModules;
-        this.savedChapterData.groupUid = this.id || 100;
+        this.savedChapterData.uid = this.id || 100;
         this.itemSaved = true;
     }
 
     onModuleEdit(moduleUid: number, groupUid: number) {
+        console.log(moduleUid, groupUid);
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {

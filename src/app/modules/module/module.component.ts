@@ -1,4 +1,5 @@
 import {Component, OnInit, Output} from '@angular/core';
+import { Location } from '@angular/common';
 import {Store} from "@ngrx/store";
 import {Module} from "../modules.model";
 import 'rxjs/add/operator/take';
@@ -11,6 +12,7 @@ import {Observable} from "rxjs/Observable";
 import * as fromModules from '../../modules/store/modules.reducers';
 import {HttpClient} from "@angular/common/http";
 import {SharedService} from "../../shared/shared.service";
+import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 
 @Component({
     selector: 'app-module',
@@ -33,7 +35,14 @@ export class ModuleComponent implements OnInit {
     ];
     selectedGroup = this.groups[0].value;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private store: Store<fromModules.FeatureState>, private httpClient: HttpClient) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private store: Store<fromModules.FeatureState>, private httpClient: HttpClient, private loadingService: TdLoadingService, private location: Location) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
@@ -49,6 +58,7 @@ export class ModuleComponent implements OnInit {
                 this.moduleState.take(1).subscribe((res) => {
                     this.item = res;
                     this.rteData = this.item.bodytext;
+                    this.loadingService.resolveAll('modulesLoader');
                 })
             }
         );
@@ -68,6 +78,10 @@ export class ModuleComponent implements OnInit {
     onEdit() {
         console.log('edit');
         this.editMode = true
+    }
+
+    goBack(){
+        this.location.back();
     }
 
 }

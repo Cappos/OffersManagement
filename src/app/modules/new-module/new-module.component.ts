@@ -1,16 +1,17 @@
-import {Component, Output} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {Module} from "../modules.model";
 import {NgForm} from "@angular/forms";
+import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 
 @Component({
     selector: 'app-new-module',
     templateUrl: './new-module.component.html',
     styleUrls: ['./new-module.component.css']
 })
-export class NewModuleComponent {
+export class NewModuleComponent implements OnInit {
     pageTitle = 'Modules';
     @Output() editMode = false;
     rteData = '';
@@ -23,8 +24,19 @@ export class NewModuleComponent {
     ];
     selectedGroup;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
+    }
+
+    ngOnInit(){
+        this.loadingService.resolveAll('modulesLoader');
     }
 
     keyupHandler(ev) {

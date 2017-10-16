@@ -6,9 +6,8 @@ import {HttpClient} from "@angular/common/http";
 import {Module} from "../modules.model";
 import {NgForm} from "@angular/forms";
 
-import {MdDialogRef} from "@angular/material/dialog";
-import {MD_DIALOG_DATA, MdDialog} from "@angular/material";
-import {TdDialogService} from "@covalent/core";
+import {MD_DIALOG_DATA, MdDialog, MdDialogRef} from "@angular/material";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 
 @Component({
     selector: 'app-edit-module-dialog',
@@ -33,35 +32,36 @@ export class EditModuleDialogComponent implements OnInit {
     itemSaved = false;
     selectedGroup;
 
-    constructor(private route: ActivatedRoute,
-                private sharedService: SharedService,
-                private httpClient: HttpClient,
-                public dialog: MdDialog,
-                private _dialogService: TdDialogService,
-                public dialogRef: MdDialogRef<EditModuleDialogComponent>,
-                @Inject(MD_DIALOG_DATA) private data: any) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, public dialog: MdDialog, private _dialogService: TdDialogService, public dialogRef: MdDialogRef<EditModuleDialogComponent>, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-            if(this.data.edit){
-                this.id = this.data.moduleUid;
-                this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
-                    observe: 'body',
-                    responseType: 'json'
-                });
-                this.moduleState.take(1).subscribe((res) => {
-                    this.item = res;
-                    console.log(res);
-                    this.rteData = this.item.bodytext;
-                    this.selectedGroup = this.item.groupUid;
-                    console.log(this.selectedGroup,'if');
-                })
-            }
-            else  {
-                this.selectedGroup = this.data.groupUid;
-                console.log(this.selectedGroup, 'else');
-            }
+        if (this.data.edit) {
+            this.id = this.data.moduleUid;
+            this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
+                observe: 'body',
+                responseType: 'json'
+            });
+            this.moduleState.take(1).subscribe((res) => {
+                this.item = res;
+                this.rteData = this.item.bodytext;
+                this.selectedGroup = this.item.groupUid;
+            })
+        }
+        else {
+            this.selectedGroup = this.data.groupUid;
+            console.log(this.selectedGroup, 'else');
+        }
+        this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {

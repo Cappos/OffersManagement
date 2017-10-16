@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from "../shared/shared.service";
 import {
     IPageChangeEvent,
-    ITdDataTableColumn, ITdDataTableSortChangeEvent, TdDataTableService,
-    TdDataTableSortingOrder, TdDialogService
+    ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
+    TdDataTableSortingOrder, TdDialogService, TdLoadingService
 } from "@covalent/core";
 import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
@@ -11,14 +11,19 @@ import {Store} from "@ngrx/store";
 import * as fromClients from './store/clients.reducers';
 import * as ClientsActions from "./store/clients.actions";
 import {MdDialog} from "@angular/material";
+import {slideInDownAnimation} from "../_animations/app.animations";
 
 
 @Component({
     selector: 'app-clients',
     templateUrl: './clients.component.html',
-    styleUrls: ['./clients.component.css']
+    styleUrls: ['./clients.component.css'],
+    animations: [slideInDownAnimation]
 })
 export class ClientsComponent implements OnInit {
+    @HostBinding('@routeAnimation') routeAnimation: boolean = true;
+    @HostBinding('class.td-route-animation') classAnimation: boolean = true;
+
     pageTitle = 'Clients';
     title = 'List of all clients';
     columns: ITdDataTableColumn[] = [
@@ -44,7 +49,14 @@ export class ClientsComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromClients.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromClients.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         //get data from backend
         this.store.dispatch(new ClientsActions.GetClients());
         this.sharedService.changeTitle(this.pageTitle);
@@ -57,6 +69,7 @@ export class ClientsComponent implements OnInit {
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
+            this.loadingService.resolveAll('modulesLoader');
         });
     }
 

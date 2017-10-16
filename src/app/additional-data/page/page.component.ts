@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
+import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 
 @Component({
     selector: 'app-page',
@@ -19,7 +20,14 @@ export class PageComponent implements OnInit {
     @Output() editMode = false;
     rteData;
 
-    constructor(private httpClient: HttpClient, private route: ActivatedRoute) {
+    constructor(private httpClient: HttpClient, private route: ActivatedRoute, private loadingService: TdLoadingService) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
     }
 
     ngOnInit() {
@@ -43,6 +51,8 @@ export class PageComponent implements OnInit {
                     this.rteData = '';
                     this.editMode = true;
                 }
+
+                this.loadingService.resolveAll('modulesLoader');
 
             }
         );

@@ -2,7 +2,12 @@
     <md-card>
         <md-card-title>
             <div layout="row" layout-wrap>
-                <div flex="90" layout="column" layout-align="center start">{{[item.name]}}</div>
+                <div flex="5">
+                    <button md-icon-button (click)="goBack()" color="accent">
+                        <md-icon >keyboard_backspace</md-icon>
+                    </button>
+                </div>
+                <div flex="85" layout="column" layout-align="center start">{{[item.name]}}</div>
                 <div flex="10" layout="column" layout-align="center end">
                     <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
                         <md-icon>mode_edit</md-icon>
@@ -27,18 +32,21 @@
                                    [readonly]="!editMode">
                         </md-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="10" layout-padding>
+                    <div style="margin-top:20px;" flex="5" layout-padding>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+                    <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
                             <input mdInput placeholder="Price" [ngModel]="chapterPrice | number:'2.2-2'" name="subTotal" required readonly>
                         </md-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+                    <div style="margin-top:20px;" flex="15" layout-padding>
                         <md-input-container>
                             <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
-                                   [readonly]="!editMode">
+                                   >
                         </md-input-container>
+                    </div>
+                    <div flex="15" layout-padding layout-align="center end" layout="column">
+                        <md-checkbox [ngModel]="item.default" name="default" [disabled]="!editMode">Default chapter</md-checkbox>
                     </div>
 
                     <!-- MODULES START -->

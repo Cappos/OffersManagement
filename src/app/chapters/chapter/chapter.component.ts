@@ -1,4 +1,5 @@
-import {Component, OnInit, Output, ViewContainerRef} from '@angular/core';
+import {Component, HostBinding, OnInit, Output, ViewContainerRef} from '@angular/core';
+import { Location } from '@angular/common';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
@@ -8,18 +9,24 @@ import {MdDialog} from "@angular/material";
 import 'rxjs/Observable';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
-import {TdDialogService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
+import {slideInDownAnimation} from "../../_animations/app.animations";
 
 @Component({
     selector: 'app-chapter',
     templateUrl: './chapter.component.html',
-    styleUrls: ['./chapter.component.css']
+    styleUrls: ['./chapter.component.css'],
+    animations: [slideInDownAnimation]
 })
 
 export class ChapterComponent implements OnInit {
-    pageTitle = 'Offers';
+
+    @HostBinding('@routeAnimation') routeAnimation: boolean = true;
+    @HostBinding('class.td-route-animation') classAnimation: boolean = true;
+
+    pageTitle = 'Chapters';
     id: number;
     item;
     chapterState: Observable<any>;
@@ -28,7 +35,14 @@ export class ChapterComponent implements OnInit {
     editModuleGroup: number;
     chapterPrice: number;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location) {
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
@@ -45,7 +59,8 @@ export class ChapterComponent implements OnInit {
                     this.item = res;
                     this.chaptersModules = this.item.modules;
                     this.chapterPrice = this.item.subTotal;
-                })
+                });
+                this.loadingService.resolveAll('modulesLoader');
             }
         );
     }
@@ -154,6 +169,10 @@ export class ChapterComponent implements OnInit {
                 this.chapterPrice = sum;
             }
         });
+    }
+
+    goBack(){
+        this.location.back();
     }
 
 }

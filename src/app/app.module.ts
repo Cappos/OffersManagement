@@ -6,10 +6,11 @@ import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
 import {
-CovalentDataTableModule, CovalentDialogsModule,
-CovalentExpansionPanelModule, CovalentFileModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule,
-CovalentMenuModule,
-CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, CovalentStepsModule
+    CovalentCommonModule,
+    CovalentDataTableModule, CovalentDialogsModule,
+    CovalentExpansionPanelModule, CovalentFileModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule,
+    CovalentMenuModule,
+    CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, CovalentStepsModule, TdLoadingService
 } from '@covalent/core';
 import {CovalentHttpModule} from '@covalent/http';
 import {CovalentHighlightModule} from '@covalent/highlight';
@@ -19,10 +20,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MdButtonModule, MdCardModule, MdGridListModule, MdIconModule, MdListModule, MdMenuModule, MdOptionModule,
     MdTabsModule,
-    MdToolbarModule, MdTooltipModule, MatSelectModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
+    MdToolbarModule, MdTooltipModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
     MdAutocompleteModule, MdSelectModule, MdDialogModule, MdSnackBarModule, MdNativeDateModule, MdDatepickerModule,
-    MdInputModule,
-    MatExpansionModule,
+    MdInputModule, MdExpansionModule
 } from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
@@ -56,6 +56,9 @@ import { NewChapterComponent } from './chapters/new-chapter/new-chapter.componen
 import { ChapterDialogComponent } from './chapters/chapter-dialog/chapter-dialog.component';
 import { AdditionalDataComponent } from './additional-data/additional-data.component';
 import { PageComponent } from './additional-data/page/page.component';
+import { SellersComponent } from './sellers/sellers.component';
+import { NewSellerComponent } from './sellers/new-seller/new-seller.component';
+import { ModuleListDialogComponent } from './modules/module-list-dialog/module-list-dialog.component';
 
 
 
@@ -79,7 +82,10 @@ import { PageComponent } from './additional-data/page/page.component';
         NewChapterComponent,
         ChapterDialogComponent,
         AdditionalDataComponent,
-        PageComponent
+        PageComponent,
+        SellersComponent,
+        NewSellerComponent,
+        ModuleListDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -112,10 +118,10 @@ import { PageComponent } from './additional-data/page/page.component';
         MdOptionModule,
         MdToolbarModule,
         MdTooltipModule,
-        MatSelectModule,
+        MdSelectModule,
         MdDatepickerModule,
         MdNativeDateModule,
-        MatExpansionModule,
+        MdExpansionModule,
         /** Covalent Modules */
         CovalentLoadingModule,
         CovalentLayoutModule,
@@ -132,10 +138,11 @@ import { PageComponent } from './additional-data/page/page.component';
         CovalentExpansionPanelModule,
         CovalentMediaModule,
         CovalentMenuModule,
-        CovalentNotificationsModule
+        CovalentNotificationsModule,
+        CovalentCommonModule
     ],
-    providers: [SharedService, CurrencyPipe],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent],
+    providers: [SharedService, CurrencyPipe, TdLoadingService],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

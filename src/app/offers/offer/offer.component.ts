@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
+import {Location} from '@angular/common';
 import {NgForm} from "@angular/forms";
 import {MdDialog} from "@angular/material";
 import 'rxjs/Observable';
@@ -10,8 +11,9 @@ import 'rxjs/Observable';
 import {Offer} from "../offers.model";
 import {Group} from "../groups.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
-import {TdDialogService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
+import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 
 @Component({
     selector: 'app-offer',
@@ -29,7 +31,15 @@ export class OfferComponent implements OnInit {
     editModuleGroup: number;
     totalPrice;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location) {
+
+        this.loadingService.create({
+            name: 'modulesLoader',
+            type: LoadingType.Circular,
+            mode: LoadingMode.Indeterminate,
+            color: 'accent',
+        });
+        this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
 
@@ -46,15 +56,15 @@ export class OfferComponent implements OnInit {
                     this.item = res;
                     this.selectedSaler = this.item.offerDescription.saler[1].value;
                     this.offersModules = this.item.groups;
+                    this.item.files = [];
                     let modulesPrices: any[] = [];
 
                     // calculate offer total price
                     for (let g in this.offersModules) {
-                        for (let m in this.offersModules) {
-                            modulesPrices.push(this.offersModules[g].modules[m].price);
-                        }
+                        modulesPrices.push(this.offersModules[g].subTotal);
                     }
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.loadingService.resolveAll('modulesLoader');
                 })
             }
         );
@@ -63,6 +73,7 @@ export class OfferComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         this.editMode = false;
+        this.sharedService.sneckBarNotifications('Offer saved!!!');
     }
 
     onEdit() {
@@ -113,9 +124,7 @@ export class OfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -157,9 +166,7 @@ export class OfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -177,11 +184,13 @@ export class OfferComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                console.log(result, 'chapter moduel');
                 let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                console.log(group, 'grupa');
                 // update modules list after adding new
                 this.offersModules[groupIndex].modules.push(result);
 
@@ -195,9 +204,7 @@ export class OfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -205,7 +212,7 @@ export class OfferComponent implements OnInit {
     }
 
     addChapter(offerUid: number) {
-        console.log(offerUid, 'module add');
+        console.log(offerUid, 'Chapter add');
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 offerUid: offerUid,
@@ -221,7 +228,9 @@ export class OfferComponent implements OnInit {
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
                     for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
+                        if (this.offersModules[g].modules[m]) {
+                            modulesPrices.push(this.offersModules[g].modules[m].price);
+                        }
                     }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
@@ -238,7 +247,6 @@ export class OfferComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result, 'edit chapter');
             if (result) {
                 let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
@@ -249,9 +257,7 @@ export class OfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -276,13 +282,47 @@ export class OfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
+    }
+
+    addFromModuleList(groupUid: number) {
+        console.log(groupUid);
+        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
+            data: {
+                groupUid: groupUid
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+           console.log(result);
+        });
+    }
+
+    selectEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
+    uploadEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
+    cancelEvent(): void {
+        console.log('cancel');
+    }
+
+    goBack() {
+        this.location.back();
     }
 
 }

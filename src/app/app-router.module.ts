@@ -15,6 +15,8 @@ import {ChapterComponent} from "./chapters/chapter/chapter.component";
 import {NewChapterComponent} from "./chapters/new-chapter/new-chapter.component";
 import {AdditionalDataComponent} from "./additional-data/additional-data.component";
 import {PageComponent} from "./additional-data/page/page.component";
+import {SellersComponent} from "./sellers/sellers.component";
+import {NewSellerComponent} from "./sellers/new-seller/new-seller.component";
 
 const appRoutes: Routes = [
     {path: '', component: DashboardComponent},
@@ -41,7 +43,8 @@ const appRoutes: Routes = [
         {path: 'page/:id?/:edit', component: PageComponent},
         {path: 'newPage', component: PageComponent}
     ]
-    }
+    },
+    {path: 'sellers', component: SellersComponent}
 ];
 
 @NgModule({

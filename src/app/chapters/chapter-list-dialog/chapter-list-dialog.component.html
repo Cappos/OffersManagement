@@ -2,11 +2,11 @@
   <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
     <span class="md-title">{{title}}</span>
   </span>
-    <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+  <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
      </span>
-    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here"
-                   (searchDebounce)="search($event)" flex>
-    </td-search-box>
+  <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here"
+                 (searchDebounce)="search($event)" flex>
+  </td-search-box>
 </div>
 <md-divider></md-divider>
 <td-data-table
@@ -24,17 +24,17 @@
         layout="row" flex="100">
 </td-data-table>
 <div class="md-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
-    <h3>No results to display.</h3>
+  <h3>No results to display.</h3>
 </div>
 <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
-    <span hide-xs>Rows per page:</span>
-    <md-select [style.width.px]="50" [(ngModel)]="pageSize">
-        <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
-            {{size}}
-        </md-option>
-    </md-select>
-    {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+  <span hide-xs>Rows per page:</span>
+  <md-select [style.width.px]="50" [(ngModel)]="pageSize">
+    <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
+      {{size}}
+    </md-option>
+  </md-select>
+  {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
 </td-paging-bar>
 <div flex="100" style="margin-top: 20px;" layout="column" layout-align="center end">
-    <button md-raised-button (click)="addModule(f)" color="primary">Add</button>
+  <button md-raised-button (click)="addChapter()" color="primary">Add</button>
 </div>

@@ -1,39 +1,39 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
-import 'rxjs';
-import 'rxjs/add/operator/take';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {
     IPageChangeEvent,
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
-    TdDataTableSortingOrder, TdLoadingService
-} from '@covalent/core';
+    TdDataTableSortingOrder, TdDialogService,
+    TdLoadingService
+} from "@covalent/core";
 import {Observable} from "rxjs/Observable";
-
-import * as fromModules from '../store/modules.reducers';
-import * as ModulesActions from "../store/modules.actions";
-import {MdDialog, MdDialogRef} from "@angular/material";
 import {SharedService} from "../../shared/shared.service";
-import {NgForm} from "@angular/forms";
+import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {MdDialog, MdDialogRef} from "@angular/material";
+import * as fromChapters from '../store/chapters.reducers';
+import * as ChaptersActions from "../store/chapters.actions";
 
 @Component({
-    selector: 'app-module-list-dialog',
-    templateUrl: './module-list-dialog.component.html',
-    styleUrls: ['./module-list-dialog.component.css']
+    selector: 'app-chapter-list-dialog',
+    templateUrl: './chapter-list-dialog.component.html',
+    styleUrls: ['./chapter-list-dialog.component.css']
 })
+export class ChapterListDialogComponent implements OnInit {
 
-export class ModuleListDialogComponent implements OnInit {
-    pageTitle = 'Modules';
-    title = 'List of all modules';
+    pageTitle = 'Chapters';
+    title = 'List of all chapters';
     color = 'grey';
+    disabled = false;
+    selectable = false;
+
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.', width: 70},
-        {name: 'name', label: 'Name', tooltip: 'Name'},
-        {name: 'bodytext', label: 'Description', tooltip: 'Description', width: 400},
-        {name: 'price', label: 'Price', tooltip: 'Price'},
+        {name: 'uid', label: 'No.', tooltip: 'No.'},
+        {name: 'name', label: 'Name', tooltip: 'Name', width: 350},
+        {name: 'subTotal', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date', width: 150}
     ];
 
-    modulesState: Observable<fromModules.State>;
+    modulesState: Observable<fromChapters.State>;
 
     data: any[];
     filteredData;
@@ -47,8 +47,7 @@ export class ModuleListDialogComponent implements OnInit {
     selectedModule;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromModules.FeatureState>, public dialog: MdDialog, public dialogRef: MdDialogRef<ModuleListDialogComponent>, private loadingService: TdLoadingService) {
-
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private loadingService: TdLoadingService, public dialogRef: MdDialogRef<ChapterListDialogComponent>) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -56,22 +55,22 @@ export class ModuleListDialogComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-
         //get data from backend
-        this.store.dispatch(new ModulesActions.GetModules());
+        this.store.dispatch(new ChaptersActions.GetChapters());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.modulesState = this.store.select('modulesList');
-        this.modulesState.take(2).subscribe((fromModules: fromModules.State) => {
-            this.data = fromModules.modules;
+        this.modulesState = this.store.select('chaptersList');
+        this.modulesState.take(2).subscribe((fromChapters: fromChapters.State) => {
+            this.data = fromChapters.chapters;
+            console.log(this.data);
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
-            console.log(this.filteredData);
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });
+
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -108,14 +107,7 @@ export class ModuleListDialogComponent implements OnInit {
         this.filteredData = newData;
     }
 
-
-    onSelect(uid) {
-        this.selectedModule = uid;
-    }
-
-    addModule(){
-        console.log(this.selectedRows);
+    addChapter(){
         this.dialogRef.close(this.selectedRows);
     }
-
 }

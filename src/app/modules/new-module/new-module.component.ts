@@ -13,7 +13,7 @@ import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 })
 export class NewModuleComponent implements OnInit {
     pageTitle = 'Modules';
-    @Output() editMode = false;
+    @Output() editMode = true;
     rteData = '';
     groups: any[] = [
         {name: 'Technical', value: 1},

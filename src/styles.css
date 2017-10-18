@@ -14,3 +14,13 @@
     bottom: 0;
     left: 0;
 }
+
+.handle {
+    cursor: pointer;
+}
+
+.gu-transit .mat-expansion-panel-header:not([aria-disabled='true']).cdk-keyboard-focused,
+.gu-transit .mat-expansion-panel-header:not([aria-disabled='true']).cdk-program-focused,
+.gu-transit .mat-expansion-panel-header:not([aria-disabled='true']) {
+    background: rgba(0, 0, 0, 0.04);
+}

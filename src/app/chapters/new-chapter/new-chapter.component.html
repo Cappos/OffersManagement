@@ -51,6 +51,12 @@
                                                name="name" readonly>
                                     </md-input-container>
                                 </div>
+                                <div flex="5" layout="column" layout-align="center end">
+                                    <button md-mini-fab color="primary"
+                                            (click)="onModuleEdit(module.uid, item?.uid)">
+                                        <md-icon>mode_edit</md-icon>
+                                    </button>
+                                </div>
                                 <div flex="5" layout="column" layout-align="center center">
                                     <button md-mini-fab color="warn"
                                             (click)="onModuleRemove(module.uid, null)">
@@ -82,7 +88,19 @@
                     </md-card-content>
                 </md-card>
                 <div flex="25" layout-padding style="margin:20px 0;">
-                    <button md-raised-button (click)="addModule()" color="primary">Add module</button>
+                    <button md-raised-button  color="primary" [mdMenuTriggerFor]="moduleMenu">Add
+                        module
+                    </button>
+                    <md-menu #moduleMenu="mdMenu">
+                        <button md-menu-item (click)="addFromModuleList()">
+                            <md-icon>playlist_add</md-icon>
+                            <span >Select from list</span>
+                        </button>
+                        <button md-menu-item (click)="addModule()">
+                            <md-icon>add</md-icon>
+                            <span >Add new</span>
+                        </button>
+                    </md-menu>
                 </div>
             </div>
         </form>

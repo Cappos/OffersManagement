@@ -11,6 +11,7 @@ import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-m
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
+import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 
 @Component({
     selector: 'app-chapter-dialog',
@@ -121,15 +122,30 @@ export class ChapterDialogComponent implements OnInit {
                 let moduleIndex = this.chaptersModules.indexOf(module);
 
                 this.chaptersModules.splice(moduleIndex, 1);
+
+                let modulePrices: any[] = [];
+                let sum: number = 0;
+
+                for (let m in this.chaptersModules) {
+                    modulePrices.push(this.chaptersModules[m].price);
+                }
+
+                if(modulePrices.length){
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
+                else {
+                    sum = 0;
+                }
+
+                this.chapterPrice = sum;
             }
         });
     }
 
-    addModule(groupUid: number) {
-        this.editModuleGroup = groupUid;
+    addModule() {
+        // this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
-                groupUid: groupUid,
                 edit: false
             }
         });
@@ -146,6 +162,28 @@ export class ChapterDialogComponent implements OnInit {
 
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
+            }
+        });
+    }
+
+    addFromModuleList() {
+              let dialogRef = this.dialog.open(ModuleListDialogComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result){
+                for(let e in result) {
+                    // update modules list after adding new
+                    this.chaptersModules.push(result[e]);
+                    let modulePrices: any[] = [];
+                    let sum: number = 0;
+
+                    // update chapter price
+                    for (let m in this.chaptersModules) {
+                        modulePrices.push(this.chaptersModules[m].price);
+                    }
+
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.chapterPrice = sum;
+                }
             }
         });
     }

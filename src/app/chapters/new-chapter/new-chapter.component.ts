@@ -11,6 +11,7 @@ import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-m
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
+import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 
 @Component({
     selector: 'app-new-chapter',
@@ -22,9 +23,13 @@ export class NewChapterComponent implements OnInit {
     pageTitle = 'Chapters';
     title = 'New chapter';
     item: Group;
+    id: number;
     @Output() editMode = true;
     chaptersModules: Module[] = [];
     chapterPrice: number = 0;
+    editModuleGroup: number;
+    savedChapterData;
+    itemSaved = false;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
         this.loadingService.create({
@@ -43,10 +48,53 @@ export class NewChapterComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        console.log(value);
+        this.savedChapterData = form.value;
+        this.savedChapterData.modules = this.chaptersModules;
+        this.savedChapterData.uid = this.id || 100;
+        this.itemSaved = true;
     }
 
-    onModuleRemove(moduleUid: number) {
+    onModuleEdit(moduleUid: number, groupUid: number) {
+        console.log(moduleUid, groupUid);
+        this.editModuleGroup = groupUid;
+        let dialogRef = this.dialog.open(EditModuleDialogComponent, {
+            data: {
+                moduleUid: moduleUid,
+                groupUid: groupUid,
+                edit: true
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                let module = this.chaptersModules.filter(module => module.name === result.name)[0];
+                let moduleIndex = this.chaptersModules.indexOf(module);
+                let modulePrices: any[] = [];
+                let sum: number = 0;
+
+                if (result.groupUid === this.editModuleGroup) {
+                    this.chaptersModules[moduleIndex] = result;
+                    for (let m in this.chaptersModules) {
+                        modulePrices.push(this.chaptersModules[m].price);
+                    }
+                }
+                else {
+                    let moduleOld = this.chaptersModules.filter(module => module.name === result.name)[0];
+                    let moduleOldIndex = this.chaptersModules.indexOf(moduleOld);
+
+                    this.chaptersModules.splice(moduleOldIndex, 1);
+
+                    for (let m in this.chaptersModules) {
+                        modulePrices.push(this.chaptersModules[m].price);
+                    }
+                }
+
+                sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.chapterPrice = sum;
+            }
+        });
+    }
+
+    onModuleRemove(moduleUid: number, groupUid: number) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this module?',
             viewContainerRef: this._viewContainerRef,
@@ -59,11 +107,28 @@ export class NewChapterComponent implements OnInit {
                 let moduleIndex = this.chaptersModules.indexOf(module);
 
                 this.chaptersModules.splice(moduleIndex, 1);
+
+                let modulePrices: any[] = [];
+                let sum: number = 0;
+
+                for (let m in this.chaptersModules) {
+                    modulePrices.push(this.chaptersModules[m].price);
+                }
+
+                if(modulePrices.length){
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
+                else {
+                    sum = 0;
+                }
+
+                this.chapterPrice = sum;
             }
         });
     }
 
     addModule() {
+        // this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 edit: false
@@ -82,8 +147,28 @@ export class NewChapterComponent implements OnInit {
 
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
+            }
+        });
+    }
 
+    addFromModuleList() {
+        let dialogRef = this.dialog.open(ModuleListDialogComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if(result){
+                for(let e in result) {
+                    // update modules list after adding new
+                    this.chaptersModules.push(result[e]);
+                    let modulePrices: any[] = [];
+                    let sum: number = 0;
 
+                    // update chapter price
+                    for (let m in this.chaptersModules) {
+                        modulePrices.push(this.chaptersModules[m].price);
+                    }
+
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.chapterPrice = sum;
+                }
             }
         });
     }

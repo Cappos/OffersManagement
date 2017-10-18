@@ -6,12 +6,14 @@ import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {MdDialog} from "@angular/material";
 import 'rxjs/Observable';
-
+import {Location} from '@angular/common';
 import {Offer} from "../offers.model";
 import {Group} from "../groups.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
+import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
+import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/chapter-list-dialog.component";
 
 @Component({
     selector: 'app-new-offer',
@@ -24,13 +26,14 @@ export class NewOfferComponent implements OnInit {
     title = 'New offer';
     id: number;
     item: Offer;
+    files: any[] =[];
     @Output() editMode = true;
     selectedSaler: any[] =[];
     offersModules: Group[] =[];
     editModuleGroup: number;
-    totalPrice: number;
+    totalPrice;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -43,6 +46,7 @@ export class NewOfferComponent implements OnInit {
 
     ngOnInit() {
         this.loadingService.resolveAll('modulesLoader');
+        this.totalPrice = 0;
     }
 
     onSave(form: NgForm) {
@@ -98,9 +102,7 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -142,9 +144,7 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -162,11 +162,13 @@ export class NewOfferComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                console.log(result, 'chapter moduel');
                 let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
+                console.log(group, 'grupa');
                 // update modules list after adding new
                 this.offersModules[groupIndex].modules.push(result);
 
@@ -180,9 +182,7 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -190,7 +190,7 @@ export class NewOfferComponent implements OnInit {
     }
 
     addChapter(offerUid: number) {
-        console.log(offerUid, 'module add');
+        console.log(offerUid, 'Chapter add');
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 offerUid: offerUid,
@@ -198,6 +198,7 @@ export class NewOfferComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
+            console.log(this.offersModules);
             if (result) {
                 // update chapters after adding new
                 this.offersModules.push(result);
@@ -205,11 +206,40 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+            }
+        });
+    }
+
+    addFromChapterList(offerUid: number) {
+        console.log(offerUid);
+        let dialogRef = this.dialog.open(ChapterListDialogComponent, {
+            data: {
+                edit: false
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for(let c in result) {
+                    let group = this.offersModules.filter(group => group.uid === result[c].uid)[0];
+                    let groupIndex = this.offersModules.indexOf(group);
+
+                    if(groupIndex > -1) {
+                        this.sharedService.sneckBarNotifications('This chapter is already part of this offer!!!');
+                    }
+                    else {
+                        this.offersModules.push(result[c]);
+                    }
+
+                    // update total price
+                    let modulesPrices: any[] = [];
+                    for (let g in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                    this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
             }
         });
     }
@@ -223,7 +253,6 @@ export class NewOfferComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result, 'edit chapter');
             if (result) {
                 let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
@@ -234,9 +263,7 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -261,13 +288,78 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    for (let m in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].modules[m].price);
-                    }
+                    modulesPrices.push(this.offersModules[g].subTotal);
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
+    }
+
+    addFromModuleList(groupUid: number) {
+        console.log(groupUid);
+        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
+            data: {
+                groupUid: groupUid
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if(result){
+                for(let e in result) {
+                    let group = this.offersModules.filter(group => group.uid === result[e].groupUid)[0];
+                    let groupIndex;
+                    if(group){
+                        groupIndex = this.offersModules.indexOf(group);
+                    }
+                    else {
+                        let group = this.offersModules.filter(group => group.uid === groupUid)[0];
+                        groupIndex = this.offersModules.indexOf(group);
+                    }
+
+                    // update modules list after adding new
+                    this.offersModules[groupIndex].modules.push(result[e]);
+                    let modulePrices: any[] = [];
+                    let sum: number = 0;
+
+                    // update chapter price
+                    for (let m in this.offersModules[groupIndex].modules) {
+                        modulePrices.push(this.offersModules[groupIndex].modules[m].price);
+                    }
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.offersModules[groupIndex].subTotal = sum;
+                }
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    modulesPrices.push(this.offersModules[g].subTotal);
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+            }
+        });
+    }
+
+    selectEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
+    uploadEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
+    cancelEvent(): void {
+        console.log('cancel');
+    }
+
+    goBack() {
+        this.location.back();
     }
 
 }

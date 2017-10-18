@@ -59,6 +59,8 @@ import { PageComponent } from './additional-data/page/page.component';
 import { SellersComponent } from './sellers/sellers.component';
 import { NewSellerComponent } from './sellers/new-seller/new-seller.component';
 import { ModuleListDialogComponent } from './modules/module-list-dialog/module-list-dialog.component';
+import { ChapterListDialogComponent } from './chapters/chapter-list-dialog/chapter-list-dialog.component';
+import {DragulaModule} from "ng2-dragula";
 
 
 
@@ -85,7 +87,8 @@ import { ModuleListDialogComponent } from './modules/module-list-dialog/module-l
         PageComponent,
         SellersComponent,
         NewSellerComponent,
-        ModuleListDialogComponent
+        ModuleListDialogComponent,
+        ChapterListDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -98,6 +101,7 @@ import { ModuleListDialogComponent } from './modules/module-list-dialog/module-l
         StoreModule.forRoot({modulesList: modulesReducer, clientsList: clientsReducer, offersList: offersReducer, chaptersList: chaptersReducer}),
         EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects, ChaptersEffects]),
         HttpClientModule,
+        DragulaModule,
         /** Material Modules */
         MdButtonModule,
         MdCheckboxModule,
@@ -142,7 +146,7 @@ import { ModuleListDialogComponent } from './modules/module-list-dialog/module-l
         CovalentCommonModule
     ],
     providers: [SharedService, CurrencyPipe, TdLoadingService],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -6,7 +6,7 @@
           <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
             <md-icon>mode_edit</md-icon>
           </button>
-          <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+          <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary" [disabled]="!f.valid">
             <md-icon>done</md-icon>
           </button>
         </div>
@@ -62,15 +62,15 @@
             <md-accordion>
               <div *ngFor="let group of offersModules" layout="row">
                 <md-expansion-panel hideToggle="true" flex="90" layout="column" layout-align="center start">
-                  <md-expansion-panel-header>
-                    <md-panel-title>
-                      <h4>{{group.name}}</h4>
-                    </md-panel-title>
-                    <md-panel-description>
-                      <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
-                    </md-panel-description>
-                    <md-icon>arrow_drop_down</md-icon>
-                  </md-expansion-panel-header>
+                    <md-expansion-panel-header  layout="row">
+                        <md-panel-title flex="80">
+                            <h4>{{group.name}}</h4>
+                        </md-panel-title>
+                        <md-panel-description flex="20" >
+                            <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                        </md-panel-description>
+                        <md-icon>arrow_drop_down</md-icon>
+                    </md-expansion-panel-header>
                   <div flex="100" layout-padding layout="row">
                     <h3 style="margin-top: 0;">Modules</h3>
                   </div>
@@ -127,11 +127,21 @@
                       </form>
                     </md-card-content>
                   </md-card>
-                  <div flex="25" layout-padding style="margin:20px 0;">
-                    <button md-raised-button (click)="addModule(group.uid)" color="primary">Add
-                      module
-                    </button>
-                  </div>
+                    <div flex="25" layout-padding style="margin:20px 0;">
+                        <button md-raised-button  color="primary" [mdMenuTriggerFor]="moduleMenu">Add
+                            module
+                        </button>
+                        <md-menu #moduleMenu="mdMenu">
+                            <button md-menu-item (click)="addFromModuleList(group.uid)">
+                                <md-icon>playlist_add</md-icon>
+                                <span >Select from list</span>
+                            </button>
+                            <button md-menu-item (click)="addModule(group.uid)">
+                                <md-icon>add</md-icon>
+                                <span >Add new</span>
+                            </button>
+                        </md-menu>
+                    </div>
                 </md-expansion-panel>
                 <div flex="10" layout-align="start end" layout="column">
                   <div layout="row">
@@ -146,10 +156,44 @@
                 </div>
               </div>
             </md-accordion>
-            <div flex="25" layout-padding style="margin:20px 0;">
-              <button md-raised-button (click)="addChapter()" color="primary">Add Chapter
-              </button>
-            </div>
+              <div flex="25" layout-padding style="margin:20px 0;">
+                  <button md-raised-button  color="primary" [mdMenuTriggerFor]="chapterMenu" color="primary">Add Chapter
+                  </button>
+                  <md-menu #chapterMenu="mdMenu">
+                      <button md-menu-item (click)="addFromChapterList()">
+                          <md-icon>playlist_add</md-icon>
+                          <span >Select from list</span>
+                      </button>
+                      <button md-menu-item (click)="addChapter()">
+                          <md-icon>add</md-icon>
+                          <span >Create new</span>
+                      </button>
+                  </md-menu>
+              </div>
+          </div>
+
+          <!-- FILES START -->
+          <div flex="100" layout-padding>
+            <md-divider></md-divider>
+            <h3 style="margin-bottom: 0;">Related files</h3>
+          </div>
+          <div style="margin-top:20px;" flex="100" layout-padding>
+            <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary" (select)="selectEvent($event)"
+                            (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled" multiple>
+              <md-icon>file_upload</md-icon><span>{{ fileUpload.files?.name }}</span>
+              <ng-template td-file-input-label>
+                <md-icon>attach_file</md-icon><span>Choose a file...</span>
+              </ng-template>
+            </td-file-upload>
+          </div>
+          <div flex="100" layout-padding>
+            <md-list>
+              <md-list-item *ngFor="let file of files">
+                <md-icon md-list-icon>insert_drive_file</md-icon>
+                <h4 md-line><a  href="{{file.link}}" style="cursor: pointer">{{file.name}}</a></h4>
+                <p md-line> {{file.tstamp}} </p>
+              </md-list-item>
+            </md-list>
           </div>
         </div>
       </form>

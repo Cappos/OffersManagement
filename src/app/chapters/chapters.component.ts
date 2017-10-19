@@ -14,7 +14,6 @@ import {Observable} from "rxjs/Observable";
 
 import * as fromChapters from './store/chapters.reducers';
 import * as ChaptersActions from "./store/chapters.actions";
-import {MdDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
 
 @Component({
@@ -55,7 +54,7 @@ export class ChaptersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

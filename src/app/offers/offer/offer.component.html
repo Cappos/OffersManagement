@@ -32,41 +32,55 @@
                     <div flex="100" layout-padding>
                         <h3 style="margin: 0;">Info data</h3>
                     </div>
-                    <div style="margin-top:20px;" flex="100" layout-padding>
+                    <div style="margin-top:20px;" flex="90" layout-padding>
                         <md-input-container style="max-width: 800px; width: 100%;">
                             <input mdInput placeholder="Title" [ngModel]="item.offerDescription.offerTitle"
                                    name="offerTitle" required
                                    [readonly]="!editMode">
                         </md-input-container>
                     </div>
-
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+                    <div style="margin-top:20px;" flex="10" layout="column" layout-padding layout-align="center start">
+                        <md-checkbox [ngModel]="item.signed" name="signed" [disabled]="!editMode">Signed</md-checkbox>
+                    </div>
+                    <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
                             <input mdInput placeholder="Client" [ngModel]="item.clientName" name="clientName" required
                                    [readonly]="!editMode">
                         </md-input-container>
                     </div>
 
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <md-select placeholder="Saler" floatPlaceholder="auto" [(ngModel)]="selectedSaler"
+                    <div style="margin-top:20px;" flex="20" layout-padding>
+                        <md-select placeholder="Saler" floatPlaceholder="auto" [(ngModel)]="selectedSaller"
                                    name="salerUid">
                             <md-option *ngFor="let saler of item.offerDescription.saler" [value]="saler.value">
                                 {{saler.name}}
                             </md-option>
                         </md-select>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+                    <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
-                            <input mdInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
+                            <input mdInput [mdDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate" name="tstamp" required
                                    [readonly]="!editMode">
+                            <md-datepicker-toggle mdSuffix [for]="pickerNew" [disabled]="!editMode"></md-datepicker-toggle>
+                            <md-datepicker #pickerNew></md-datepicker>
+                        </md-input-container>
+                   </div>
+                    <div style="margin-top:20px;" flex="20" layout-padding>
+                        <md-input-container>
+                            <input mdInput [mdDatepicker]="picker" placeholder="Expire date" [(ngModel)]="exDate" name="exDate" required
+                                   [readonly]="!editMode">
+                            <md-datepicker-toggle mdSuffix [for]="picker" [disabled]="!editMode"></md-datepicker-toggle>
+                            <md-datepicker #picker></md-datepicker>
                         </md-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+
+                    <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
                             <input mdInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2'"
                                    name="totalPrice" required readonly>
                         </md-input-container>
                     </div>
+
 
                     <!-- MODULES START -->
 

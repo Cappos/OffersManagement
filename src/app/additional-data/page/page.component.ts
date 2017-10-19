@@ -1,9 +1,9 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {DataService} from "../../shared/data.service";
 
 @Component({
     selector: 'app-page',
@@ -11,8 +11,6 @@ import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
     styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-
-    pageTitle = 'Modules';
     title;
     id: number;
     item;
@@ -20,7 +18,7 @@ export class PageComponent implements OnInit {
     @Output() editMode = false;
     rteData;
 
-    constructor(private httpClient: HttpClient, private route: ActivatedRoute, private loadingService: TdLoadingService) {
+    constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private dataService: DataService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -36,10 +34,8 @@ export class PageComponent implements OnInit {
                 if(params['id']){
                     this.id = +params['id'];
                     this.editMode = !!params['edit'];
-                    this.pageState = this.httpClient.get<any>('http://wrenchweb.com/http/pageData', {
-                        observe: 'body',
-                        responseType: 'json'
-                    });
+                    this.pageState = this.dataService.getPageData();
+
                     this.pageState.take(1).subscribe((res) => {
                         this.item = res;
                         this.title = this.item.title;

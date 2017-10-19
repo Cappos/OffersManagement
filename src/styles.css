@@ -21,6 +21,22 @@
 
 .gu-transit .mat-expansion-panel-header:not([aria-disabled='true']).cdk-keyboard-focused,
 .gu-transit .mat-expansion-panel-header:not([aria-disabled='true']).cdk-program-focused,
-.gu-transit .mat-expansion-panel-header:not([aria-disabled='true']) {
+.gu-transit .mat-expansion-panel-header:not([aria-disabled='true']),
+tr.gu-transit{
     background: rgba(0, 0, 0, 0.04);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.mat-nav-list .mat-list-item .mat-list-text {
+    height: 100% !important;
+}
+.mat-nav-list .mat-list-item .mat-list-text > * {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }

@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit, Output, ViewContainerRef} from '@angular/core';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
@@ -13,6 +13,7 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
 import {slideInDownAnimation} from "../../_animations/app.animations";
+import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 
 @Component({
     selector: 'app-chapter',
@@ -171,7 +172,35 @@ export class ChapterComponent implements OnInit {
         });
     }
 
-    goBack(){
+    addFromModuleList(groupUid: number) {
+        console.log(groupUid);
+        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
+            data: {
+                groupUid: groupUid
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for (let e in result) {
+                    // update modules list after adding new
+                    this.chaptersModules.push(result[e]);
+                    let modulePrices: any[] = [];
+                    let sum: number = 0;
+
+                    // update chapter price
+                    for (let m in this.chaptersModules) {
+                        modulePrices.push(this.chaptersModules[m].price);
+                    }
+
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.chapterPrice = sum;
+                }
+                this.sharedService.sneckBarNotifications('Modules added!!!');
+            }
+        });
+    }
+
+    goBack() {
         this.location.back();
     }
 

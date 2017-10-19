@@ -1,13 +1,18 @@
-import {Component, HostBinding, OnInit, Output} from '@angular/core';
+import {
+    Component, HostBinding, OnInit, Output, ElementRef, QueryList, ViewChildren, OnDestroy
+} from '@angular/core';
 import {SharedService} from "../shared/shared.service";
 import {
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableSortingOrder,
-    TdLoadingService
+    TdLoadingService,
 } from "@covalent/core";
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {slideInDownAnimation} from "../_animations/app.animations";
+import {DragulaService} from "ng2-dragula";
+import {MediaBrowserComponent} from "../media-browser/media-browser.component";
+import {MdDialog} from "@angular/material";
+import {DataService} from "../shared/data.service";
 
 @Component({
     selector: 'app-additional-data',
@@ -15,14 +20,14 @@ import {slideInDownAnimation} from "../_animations/app.animations";
     styleUrls: ['./additional-data.component.css'],
     animations: [slideInDownAnimation]
 })
-export class AdditionalDataComponent implements OnInit {
+export class AdditionalDataComponent implements OnInit, OnDestroy {
     @HostBinding('@routeAnimation') routeAnimation: boolean = true;
     @HostBinding('class.td-route-animation') classAnimation: boolean = true;
 
     pageTitle = 'Default text data';
     title = 'Select option';
     @Output() activeTab = 0;
-
+    @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
     columns: ITdDataTableColumn[] = [
         {name: 'uid', label: 'No.', tooltip: 'No.'},
         {name: 'title', label: 'Page title', tooltip: 'Page title'},
@@ -34,28 +39,51 @@ export class AdditionalDataComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
     pageState: Observable<any>;
+    pagesOrder: any[] = [];
+    dragContainer = 'pages-bag';
+    media: any[] = [];
+    dropSubscription;
 
-    constructor(private sharedService: SharedService, private httpClient: HttpClient, private router: Router, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private dragulaService: DragulaService, public dialog: MdDialog, private dataService: DataService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
             mode: LoadingMode.Indeterminate,
             color: 'accent',
         });
-        this.loadingService.register('modulesLoader');
+
         this.sharedService.changeTitle(this.pageTitle);
+
+        // Enable drag and drop
+        this.dragulaService.setOptions(this.dragContainer, {
+            moves: function (el, container, handle) {
+                return handle.className === 'handle mat-icon material-icons';
+            }
+        });
+
+        this.loadingService.register('modulesLoader');
     }
 
     ngOnInit() {
-        this.pageState = this.httpClient.get<any>('http://wrenchweb.com/http/pagesData', {
-            observe: 'body',
-            responseType: 'json'
-        });
+        this.pageState = this.dataService.getPagesData();
+
         this.pageState.take(1).subscribe((res) => {
             this.data = res;
+
+            // Enable ordering chapters
+            this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
+                this.accordionModule.changes.take(1).subscribe(children => {
+                    this.pagesOrder = [];
+                    children.forEach(child => {
+                        let index = +child.nativeElement.getAttribute('index') + 1;
+                        let element = {uid: child.nativeElement.getAttribute('uid'), order: index};
+                        this.pagesOrder.push(element);
+                    });
+                    console.log(this.pagesOrder, 'new order');
+                });
+            });
             this.loadingService.resolveAll('modulesLoader');
         })
-
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -81,4 +109,22 @@ export class AdditionalDataComponent implements OnInit {
         console.log(uid);
     }
 
+    addGraph() {
+        let dialogRef = this.dialog.open(MediaBrowserComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(result);
+                this.media.push(result);
+            }
+        });
+    }
+
+    onImgRemove(id: number) {
+        this.media.splice(this.media.findIndex(el => el.id === id), 1);
+    }
+
+    ngOnDestroy() {
+        this.dragulaService.destroy(this.dragContainer);
+        this.dropSubscription.unsubscribe();
+    }
 }

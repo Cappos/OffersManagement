@@ -61,6 +61,8 @@ import { NewSellerComponent } from './sellers/new-seller/new-seller.component';
 import { ModuleListDialogComponent } from './modules/module-list-dialog/module-list-dialog.component';
 import { ChapterListDialogComponent } from './chapters/chapter-list-dialog/chapter-list-dialog.component';
 import {DragulaModule} from "ng2-dragula";
+import {MediaBrowserComponent} from "./media-browser/media-browser.component";
+import {DataService} from "./shared/data.service";
 
 
 
@@ -88,7 +90,8 @@ import {DragulaModule} from "ng2-dragula";
         SellersComponent,
         NewSellerComponent,
         ModuleListDialogComponent,
-        ChapterListDialogComponent
+        ChapterListDialogComponent,
+        MediaBrowserComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -145,8 +148,8 @@ import {DragulaModule} from "ng2-dragula";
         CovalentNotificationsModule,
         CovalentCommonModule
     ],
-    providers: [SharedService, CurrencyPipe, TdLoadingService],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent],
+    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -24,13 +24,13 @@
                                   </span>
                 </div>
                 <md-divider></md-divider>
-                <table td-data-table #dataTable>
+                <table td-data-table #dataTable >
                     <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
                         (sortChange)="sort($event, column.name)">
                         {{column.label}}
                     </th>
-                    <tbody>
-                    <tr td-data-table-row *ngFor="let row of data;">
+                    <tbody [dragula]='dragContainer' [dragulaModel]='data'>
+                    <tr #accordionModule td-data-table-row *ngFor="let row of data; let i = index" [attr.uid]="row.uid" [attr.index]="i">
                         <td td-data-table-cell>
                             {{row.uid}}
                         </td>
@@ -44,6 +44,7 @@
                             <div layout="row">
                                 <span layout-margin><a (click)="onEdit(row)"><md-icon color="accent">mode_edit</md-icon></a></span>
                                 <span layout-margin><a (click)="onDelete(row)"><md-icon color="warn">delete</md-icon></a></span>
+                                <span layout-margin><md-icon class="handle">drag_handler</md-icon></span>
                             </div>
                         </td>
                     </tr>
@@ -51,7 +52,22 @@
                 </table>
             </md-tab>
             <md-tab label="Graphics">
-
+                <div layout="row" layout-wrap>
+                    <div flex="25" layout-padding style="margin:20px 0;">
+                        <button md-raised-button color="primary" (click)="addGraph()">Add Graphic</button>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" *ngIf="media.length > 0">
+                        <div layout="row" layout-wrap>
+                            <div *ngFor="let img of media" flex="15" layout-padding>
+                                    <span class="mat-button-wrapper">
+                                        <md-icon  color="warn" (click)="onImgRemove(img.id)">cancel</md-icon>
+                                    </span>
+                                <img [src]="img.src">
+                                <h4>{{img.name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </md-tab>
         </md-tab-group>
     </md-card-content>

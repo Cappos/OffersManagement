@@ -1,7 +1,7 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {slideInDownAnimation} from "../_animations/app.animations";
-import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../shared/shared.service";
 import {NewSellerComponent} from "./new-seller/new-seller.component";
 import {MdDialog} from "@angular/material";
@@ -51,7 +51,7 @@ export class SellersComponent implements OnInit {
         }
     ];
 
-    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MdDialog,){
+    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,){
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -86,6 +86,24 @@ export class SellersComponent implements OnInit {
                 this.data.push(result);
             }
         })
+    }
+
+    onDelete(uid: number) {
+        let id = uid;
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this module?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let seller = this.data.filter(seller => seller.uid === id)[0];
+                let sellerIndex = this.data.indexOf(seller);
+                this.data.splice(sellerIndex, 1);
+            }
+        });
+
     }
 
 

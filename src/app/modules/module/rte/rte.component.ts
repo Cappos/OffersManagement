@@ -37,7 +37,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             plugins: [
                 'advlist lists link anchor table paste code help contextmenu'
             ],
-            skin_url: '../assets/skins/lightgray',
+            skin_url: '/assets/skins/lightgray',
             height: 300,
             branding: false,
             menubar: false,

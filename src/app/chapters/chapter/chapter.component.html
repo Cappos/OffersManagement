@@ -102,9 +102,19 @@
                         </md-card-content>
                     </md-card>
                     <div flex="25" layout-padding style="margin:20px 0;">
-                        <button md-raised-button (click)="addModule(item.uid)" color="primary">Add
+                        <button md-raised-button  color="primary" [mdMenuTriggerFor]="moduleMenu">Add
                             module
                         </button>
+                        <md-menu #moduleMenu="mdMenu">
+                            <button md-menu-item (click)="addFromModuleList(item.uid)">
+                                <md-icon>playlist_add</md-icon>
+                                <span >Select from list</span>
+                            </button>
+                            <button md-menu-item (click)="addModule(item.uid)">
+                                <md-icon>add</md-icon>
+                                <span >Add new</span>
+                            </button>
+                        </md-menu>
                     </div>
                 </div>
             </form>

@@ -2,16 +2,14 @@ import {
     Component, ElementRef, OnDestroy, OnInit, Output, ViewContainerRef, ViewChildren, QueryList
 } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
 import {Location} from '@angular/common';
 import {NgForm} from "@angular/forms";
-import {MdDialog} from "@angular/material";
+import {MdDialog, DateAdapter} from "@angular/material";
 import 'rxjs/Observable';
 import 'rxjs/operator/take';
 
-import {Offer} from "../offers.model";
 import {Group} from "../groups.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
@@ -19,6 +17,7 @@ import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dial
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/chapter-list-dialog.component";
 import {DragulaService} from "ng2-dragula";
+import {DataService} from "../../shared/data.service";
 
 @Component({
     selector: 'app-offer',
@@ -31,15 +30,18 @@ export class OfferComponent implements OnInit, OnDestroy {
     item;
     offerState: Observable<any>;
     @Output() editMode = false;
-    selectedSaler;
+    selectedSaller;
     offersModules: Group[];
     editModuleGroup: number;
     dragContainer = 'draggable-bag';
     totalPrice;
     @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
     chaptersOrder: any[] = [];
+    dropSubscription;
+    newDate;
+    exDate;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter:DateAdapter<Date>) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -49,6 +51,7 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
+        this.dateAdapter.setLocale('de');
     }
 
     ngOnInit() {
@@ -56,15 +59,19 @@ export class OfferComponent implements OnInit, OnDestroy {
             (params: Params) => {
                 this.id = +params['id'];
                 this.editMode = !!params['edit'];
-                this.offerState = this.httpClient.get<Offer>('http://wrenchweb.com/http/offerData', {
-                    observe: 'body',
-                    responseType: 'json'
-                });
+                this.offerState = this.dataService.getOfferData();
+
                 this.offerState.take(1).subscribe((res) => {
                     this.item = res; // Get data form server
-                    this.selectedSaler = this.item.offerDescription.saler[1].value; // Set client data
+                    this.selectedSaller = this.item.offerDescription.saler[1].value; // Set client data
                     this.offersModules = this.item.groups; // Set offer chapters
                     this.item.files = []; // Set related files
+                    this.item.signed = false;
+
+                    // format date for datePicker
+                    this.newDate = new Date(this.item.tstamp);
+                    this.exDate = new Date(this.item.exDate);
+
                     let modulesPrices: any[] = []; // Initial price array
 
                     // calculate offer total price
@@ -81,7 +88,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     });
 
                     // Enable ordering chapters
-                    this.dragulaService.drop.subscribe((value) => {
+                    this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
                         this.accordionModule.changes.take(1).subscribe(children => {
                             this.chaptersOrder = [];
                             children.forEach(child => {
@@ -424,7 +431,6 @@ export class OfferComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.dragulaService.destroy(this.dragContainer);
+        this.dropSubscription.unsubscribe();
     }
-
-
 }

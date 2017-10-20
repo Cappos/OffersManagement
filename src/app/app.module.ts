@@ -22,7 +22,7 @@ import {
     MdTabsModule,
     MdToolbarModule, MdTooltipModule, MdCheckboxModule, MdSidenavModule, MdSlideToggleModule,
     MdAutocompleteModule, MdSelectModule, MdDialogModule, MdSnackBarModule, MdNativeDateModule, MdDatepickerModule,
-    MdInputModule, MdExpansionModule
+    MdInputModule, MdExpansionModule, MdChipsModule
 } from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
@@ -63,6 +63,8 @@ import { ChapterListDialogComponent } from './chapters/chapter-list-dialog/chapt
 import {DragulaModule} from "ng2-dragula";
 import {MediaBrowserComponent} from "./media-browser/media-browser.component";
 import {DataService} from "./shared/data.service";
+import { PageListDialogComponent } from './additional-data/page-list-dialog/page-list-dialog.component';
+import { PageEditDialogComponent } from './additional-data/page-edit-dialog/page-edit-dialog.component';
 
 
 
@@ -91,7 +93,9 @@ import {DataService} from "./shared/data.service";
         NewSellerComponent,
         ModuleListDialogComponent,
         ChapterListDialogComponent,
-        MediaBrowserComponent
+        MediaBrowserComponent,
+        PageListDialogComponent,
+        PageEditDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -129,6 +133,7 @@ import {DataService} from "./shared/data.service";
         MdDatepickerModule,
         MdNativeDateModule,
         MdExpansionModule,
+        MdChipsModule,
         /** Covalent Modules */
         CovalentLoadingModule,
         CovalentLayoutModule,
@@ -149,7 +154,7 @@ import {DataService} from "./shared/data.service";
         CovalentCommonModule
     ],
     providers: [SharedService, CurrencyPipe, TdLoadingService, DataService],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

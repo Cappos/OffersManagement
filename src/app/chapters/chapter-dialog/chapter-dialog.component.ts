@@ -31,7 +31,7 @@ export class ChapterDialogComponent implements OnInit {
     savedChapterData;
     itemSaved = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, ) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -65,7 +65,9 @@ export class ChapterDialogComponent implements OnInit {
         const value = form.value;
         this.savedChapterData = form.value;
         this.savedChapterData.modules = this.chaptersModules;
+        this.savedChapterData.subTotal = 0;
         this.savedChapterData.uid = this.id || 100;
+        this.savedChapterData.type = 1;
         this.itemSaved = true;
     }
 

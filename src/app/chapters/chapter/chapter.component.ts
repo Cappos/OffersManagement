@@ -14,6 +14,7 @@ import {Group} from "../../offers/groups.model";
 import {Module} from "../../modules/modules.model";
 import {slideInDownAnimation} from "../../_animations/app.animations";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
+import {DataService} from "../../shared/data.service";
 
 @Component({
     selector: 'app-chapter',
@@ -36,7 +37,7 @@ export class ChapterComponent implements OnInit {
     editModuleGroup: number;
     chapterPrice: number;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dataService: DataService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -52,10 +53,8 @@ export class ChapterComponent implements OnInit {
             (params: Params) => {
                 this.id = +params['id'];
                 this.editMode = !!params['edit'];
-                this.chapterState = this.httpClient.get<Group>('http://wrenchweb.com/http/chapterData', {
-                    observe: 'body',
-                    responseType: 'json'
-                });
+                this.chapterState = this.dataService.getChapterData();
+
                 this.chapterState.take(1).subscribe((res) => {
                     this.item = res;
                     this.chaptersModules = this.item.modules;

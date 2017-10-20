@@ -1,0 +1,42 @@
+<div layout="row" layout-wrap layout-align="start center">
+  <div flex="60">
+    <h1 md-dialog-title>Edit page</h1>
+  </div>
+  <div flex="40" layout="column" layout-align="center end">
+    <div class="button-row"
+         style="display: flex; align-items: center; justify-content: space-around; width: 230px;">
+      <button md-raised-button (click)="onSave(f)">
+        <md-icon md-list-icon>done</md-icon>
+        <span> Save</span>
+      </button>
+      <button md-raised-button [md-dialog-close]="savedPageData">
+        <md-icon md-list-icon>close</md-icon>
+        <span *ngIf="itemSaved"> Close</span>
+        <span *ngIf="!itemSaved"> Cancel</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<md-dialog-content>
+  <form #f="ngForm">
+    <div layout="row" layout-wrap>
+      <div style="margin-top:20px;" flex="100" layout-padding>
+        <md-input-container style="max-width: 800px; width: 100%;">
+          <input mdInput placeholder="Title" [ngModel]="item?.title"
+                 name="title" [readonly]="!editMode">
+        </md-input-container>
+      </div>
+      <div style="margin-top:20px;" flex="100" layout-padding>
+        <md-input-container style="max-width: 800px; width: 100%;">
+          <input mdInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle" required
+                 [readonly]="!editMode">
+        </md-input-container>
+      </div>
+      <div style="margin-top:20px;" flex="100" layout-padding>
+        <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
+                         (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+      </div>
+    </div>
+  </form>
+</md-dialog-content>

@@ -59,15 +59,18 @@
                     </div>
                     <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
-                            <input mdInput [mdDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate" name="tstamp" required
+                            <input mdInput [mdDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate"
+                                   name="tstamp" required
                                    [readonly]="!editMode">
-                            <md-datepicker-toggle mdSuffix [for]="pickerNew" [disabled]="!editMode"></md-datepicker-toggle>
+                            <md-datepicker-toggle mdSuffix [for]="pickerNew"
+                                                  [disabled]="!editMode"></md-datepicker-toggle>
                             <md-datepicker #pickerNew></md-datepicker>
                         </md-input-container>
-                   </div>
+                    </div>
                     <div style="margin-top:20px;" flex="20" layout-padding>
                         <md-input-container>
-                            <input mdInput [mdDatepicker]="picker" placeholder="Expire date" [(ngModel)]="exDate" name="exDate" required
+                            <input mdInput [mdDatepicker]="picker" placeholder="Expire date" [(ngModel)]="exDate"
+                                   name="exDate" required
                                    [readonly]="!editMode">
                             <md-datepicker-toggle mdSuffix [for]="picker" [disabled]="!editMode"></md-datepicker-toggle>
                             <md-datepicker #picker></md-datepicker>
@@ -82,129 +85,205 @@
                     </div>
 
 
-                    <!-- MODULES START -->
+                    <!-- PAGES AND CHAPTERS START -->
 
                     <div flex="100" layout-padding>
                         <md-divider></md-divider>
-                        <h3 style="margin-bottom: 0;">Chapters</h3>
+                        <h3 style="margin-bottom: 0;">Pages & Chapters</h3>
                     </div>
+
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <md-accordion [dragula]='dragContainer' [dragulaModel]='offersModules'>
-                            <div *ngFor="let group of offersModules; let i = index" layout="row">
-                                <md-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
-                                                    layout-align="center start" [attr.uid]="group.uid" [attr.index]="i">
-                                    <md-expansion-panel-header layout="row">
-                                        <md-panel-title flex="80">
-                                            <h4>{{group.name}}</h4>
-                                        </md-panel-title>
-                                        <md-panel-description flex="20">
-                                            <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
-                                        </md-panel-description>
-                                        <md-icon>arrow_drop_down</md-icon>
-                                    </md-expansion-panel-header>
-                                    <div flex="100" layout-padding layout="row">
-                                        <h3 style="margin-top: 0;">Modules</h3>
-                                    </div>
-                                    <md-card *ngFor="let module of group.modules">
-                                        <md-card-content>
-                                            <form #group.uid="ngForm">
-                                                <div layout="row" layout-wrap>
-                                                    <div style="margin-top:20px;" flex="90" layout-padding>
-                                                        <md-input-container style="max-width: 800px; width: 100%;">
-                                                            <input mdInput placeholder="Name" [ngModel]="module.name"
-                                                                   name="name" readonly>
-                                                        </md-input-container>
-                                                    </div>
-                                                    <div flex="5" layout="column" layout-align="center end">
-                                                        <button md-mini-fab color="primary"
-                                                                (click)="onModuleEdit(module.uid, group.uid)">
-                                                            <md-icon>mode_edit</md-icon>
-                                                        </button>
-                                                    </div>
-                                                    <div flex="5" layout="column" layout-align="center center">
-                                                        <button md-mini-fab color="warn"
-                                                                (click)="onModuleRemove(module.uid, group.uid)">
-                                                            <md-icon>remove</md-icon>
-                                                        </button>
-                                                    </div>
-                                                    <div flex="20" layout-padding>
-                                                        <md-input-container>
-                                                            <input mdInput placeholder="Price"
-                                                                   [ngModel]="module.price | number:'2.2-2'"
-                                                                   name="price" readonly>
-                                                        </md-input-container>
-                                                    </div>
+                            <ng-container *ngFor="let group of offersModules; let i = index" ngSwitch="{{group.type}}">
 
-                                                    <div flex="25" layout-padding>
-                                                        <md-input-container style="width: 80%;">
-                                                            <input mdInput placeholder="Group" [ngModel]="group.name"
-                                                                   name="groupUid" readonly>
-                                                        </md-input-container>
-                                                    </div>
-                                                    <div flex="25" layout-padding>
-                                                        <md-input-container>
-                                                            <input mdInput placeholder="Created date"
-                                                                   [ngModel]="module.tstamp" name="tstamp" readonly>
-                                                        </md-input-container>
-                                                    </div>
-                                                    <div style="margin-top:20px;" flex="100" layout-padding>
-                                                        <h3 style="margin-top: 0;">Description</h3>
-
-                                                        <div [innerHTML]="module.bodytext"></div>
-                                                    </div>
-                                                </div>
-
+                                <!-- PAGES -->
+                                <div *ngSwitchCase="'2'" layout="row">
+                                    <md-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
+                                                        layout-align="center start" [attr.uid]="group.uid"
+                                                        [attr.index]="i">
+                                        <md-expansion-panel-header layout="row">
+                                            <md-panel-title flex="100">
+                                                <span layout="column" flex="5" layout-align="center start">
+                                                    <md-icon class="grey">description</md-icon>
+                                                </span>
+                                                <h4 layout="column" flex="95" layout-align="center start">
+                                                    {{group.title}}</h4>
+                                            </md-panel-title>
+                                            <md-icon>arrow_drop_down</md-icon>
+                                        </md-expansion-panel-header>
+                                        <form #group.uid="ngForm">
+                                            <div layout="row" layout-wrap>
                                                 <div style="margin-top:20px;" flex="100" layout-padding>
+                                                    <md-input-container style="width: 100%;">
+                                                        <input mdInput placeholder="Title" [ngModel]="group.title"
+                                                               name="group.title" readonly>
+                                                    </md-input-container>
                                                 </div>
-                                            </form>
-                                        </md-card-content>
-                                    </md-card>
-                                    <div flex="25" layout-padding style="margin:20px 0;">
-                                        <button md-raised-button color="primary" [mdMenuTriggerFor]="moduleMenu">Add
-                                            module
-                                        </button>
-                                        <md-menu #moduleMenu="mdMenu">
-                                            <button md-menu-item (click)="addFromModuleList(group.uid)">
-                                                <md-icon>playlist_add</md-icon>
-                                                <span>Select from list</span>
-                                            </button>
-                                            <button md-menu-item (click)="addModule(group.uid)">
-                                                <md-icon>add</md-icon>
-                                                <span>Add new</span>
-                                            </button>
-                                        </md-menu>
-                                    </div>
-                                </md-expansion-panel>
-                                <div flex="10" layout-align="start end" layout="column">
-                                    <div layout="row">
+                                                <div style="margin-top:20px;" flex="100" layout-padding>
+                                                    <md-input-container style="width: 100%;">
+                                                        <input mdInput placeholder="Subtitle" [ngModel]="group.subtitle"
+                                                               name="group.subtitle" readonly>
+                                                    </md-input-container>
+                                                </div>
+                                                <div flex="100" layout-padding>
+                                                    <h3 style="margin-top: 0;">Content</h3>
+                                                    <div [innerHTML]="group.bodytext"></div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </md-expansion-panel>
+                                    <div flex="10" layout-align="start end" layout="column">
+                                        <div layout="row">
                                         <span layout-margin>
-                                            <a (click)="onChapterEdit(group.uid)"><md-icon color="accent">mode_edit</md-icon></a>
+                                            <a (click)="onPageEdit(group.uid, item.uid)"><md-icon
+                                                    color="accent">mode_edit</md-icon></a>
                                         </span>
-                                        <span layout-margin>
-                                            <a (click)="onChapterRemove(group.uid)"><md-icon color="warn">delete</md-icon></a>
+                                            <span layout-margin>
+                                            <a (click)="onPageRemove(group.uid, item.uid)"><md-icon
+                                                    color="warn">delete</md-icon></a>
                                        </span>
-                                        <span layout-margin><md-icon class="handle">drag_handler</md-icon></span>
+                                            <span layout-margin><md-icon class="handle">drag_handler</md-icon></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <!-- CHAPTERS -->
+                                <div *ngSwitchCase="'1'" layout="row">
+                                    <md-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
+                                                        layout-align="center start" [attr.uid]="group.uid"
+                                                        [attr.index]="i">
+                                        <md-expansion-panel-header layout="row">
+                                            <md-panel-title flex="80">
+                                                 <span layout="column" flex="5" layout-align="center start">
+                                                    <md-icon class="grey">storage</md-icon>
+                                                </span>
+                                                <h4 layout="column" flex="95" layout-align="center start">
+                                                    {{group.name}}</h4>
+                                            </md-panel-title>
+                                            <md-panel-description flex="20">
+                                                <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                            </md-panel-description>
+                                            <md-icon>arrow_drop_down</md-icon>
+                                        </md-expansion-panel-header>
+                                        <div flex="100" layout-padding layout="row">
+                                            <h3 style="margin-top: 0;">Modules</h3>
+                                        </div>
+                                        <md-card *ngFor="let module of group.modules">
+                                            <md-card-content>
+                                                <form #group.uid="ngForm">
+                                                    <div layout="row" layout-wrap>
+                                                        <div style="margin-top:20px;" flex="90" layout-padding>
+                                                            <md-input-container style="max-width: 800px; width: 100%;">
+                                                                <input mdInput placeholder="Name"
+                                                                       [ngModel]="module.name"
+                                                                       name="name" readonly>
+                                                            </md-input-container>
+                                                        </div>
+                                                        <div flex="5" layout="column" layout-align="center end">
+                                                            <button md-mini-fab color="primary"
+                                                                    (click)="onModuleEdit(module.uid, group.uid)">
+                                                                <md-icon>mode_edit</md-icon>
+                                                            </button>
+                                                        </div>
+                                                        <div flex="5" layout="column" layout-align="center center">
+                                                            <button md-mini-fab color="warn"
+                                                                    (click)="onModuleRemove(module.uid, group.uid)">
+                                                                <md-icon>remove</md-icon>
+                                                            </button>
+                                                        </div>
+                                                        <div flex="20" layout-padding>
+                                                            <md-input-container>
+                                                                <input mdInput placeholder="Price"
+                                                                       [ngModel]="module.price | number:'2.2-2'"
+                                                                       name="price" readonly>
+                                                            </md-input-container>
+                                                        </div>
+
+                                                        <div flex="25" layout-padding>
+                                                            <md-input-container style="width: 80%;">
+                                                                <input mdInput placeholder="Group"
+                                                                       [ngModel]="group.name"
+                                                                       name="groupUid" readonly>
+                                                            </md-input-container>
+                                                        </div>
+                                                        <div flex="25" layout-padding>
+                                                            <md-input-container>
+                                                                <input mdInput placeholder="Created date"
+                                                                       [ngModel]="module.tstamp" name="tstamp" readonly>
+                                                            </md-input-container>
+                                                        </div>
+                                                        <div style="margin-top:20px;" flex="100" layout-padding>
+                                                            <h3 style="margin-top: 0;">Description</h3>
+
+                                                            <div [innerHTML]="module.bodytext"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                                    </div>
+                                                </form>
+                                            </md-card-content>
+                                        </md-card>
+                                        <div flex="25" layout-padding style="margin:20px 0;">
+                                            <button md-raised-button color="primary" [mdMenuTriggerFor]="moduleMenu">Add
+                                                module
+                                            </button>
+                                            <md-menu #moduleMenu="mdMenu">
+                                                <button md-menu-item (click)="addFromModuleList(group.uid)">
+                                                    <md-icon>playlist_add</md-icon>
+                                                    <span>Select from list</span>
+                                                </button>
+                                                <button md-menu-item (click)="addModule(group.uid)">
+                                                    <md-icon>add</md-icon>
+                                                    <span>Add new</span>
+                                                </button>
+                                            </md-menu>
+                                        </div>
+                                    </md-expansion-panel>
+                                    <div flex="10" layout-align="start end" layout="column">
+                                        <div layout="row">
+                                        <span layout-margin>
+                                            <a (click)="onChapterEdit(group.uid)"><md-icon
+                                                    color="accent">mode_edit</md-icon></a>
+                                        </span>
+                                            <span layout-margin>
+                                            <a (click)="onChapterRemove(group.uid)"><md-icon
+                                                    color="warn">delete</md-icon></a>
+                                       </span>
+                                            <span layout-margin><md-icon class="handle">drag_handler</md-icon></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- PAGES CHAPTERS END -->
+
+                            </ng-container>
                         </md-accordion>
+
                         <div flex="25" layout-padding style="margin:20px 0;">
                             <button md-raised-button color="primary" [mdMenuTriggerFor]="chapterMenu" color="primary">
-                                Add Chapter
+                                Add
                             </button>
                             <md-menu #chapterMenu="mdMenu">
+                                <button md-menu-item (click)="addFromPagesList(item.uid)">
+                                    <md-icon>playlist_add</md-icon>
+                                    <span>Select page from list</span>
+                                </button>
+                                <button md-menu-item (click)="addPage(item.uid)">
+                                    <md-icon>add</md-icon>
+                                    <span>Create new page</span>
+                                </button>
                                 <button md-menu-item (click)="addFromChapterList(item.uid)">
                                     <md-icon>playlist_add</md-icon>
-                                    <span>Select from list</span>
+                                    <span>Select chapter from list</span>
                                 </button>
                                 <button md-menu-item (click)="addChapter(item.uid)">
                                     <md-icon>add</md-icon>
-                                    <span>Create new</span>
+                                    <span>Create new chapter</span>
                                 </button>
                             </md-menu>
                         </div>
                     </div>
-                    <!-- MODULES ENDS -->
+                    <!-- PAGES AND CHAPTERS END -->
 
                     <!-- FILES START -->
                     <div flex="100" layout-padding>

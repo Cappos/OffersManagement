@@ -4,8 +4,9 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
-import {MD_DIALOG_DATA, MdDialog} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material";
 import 'rxjs/Observable';
+import 'rxjs/operators';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
@@ -31,7 +32,7 @@ export class ChapterDialogComponent implements OnInit {
     savedChapterData;
     itemSaved = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, ) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, ) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

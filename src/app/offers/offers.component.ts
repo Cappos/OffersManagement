@@ -12,7 +12,7 @@ import {Store} from "@ngrx/store";
 import * as fromOffers from './store/offers.reducers';
 import * as OffersActions from "./store/offers.actions";
 import {Offer} from "./offers.model";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
 
 @Component({
@@ -53,7 +53,7 @@ export class OffersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

@@ -1,15 +1,15 @@
 <div layout="row" layout-wrap layout-align="start center">
     <div flex="60">
-        <h1 md-dialog-title>Choose file</h1>
+        <h1 mat-dialog-title>Choose file</h1>
     </div>
     <div flex="40" layout="column" layout-align="center end">
         <div class="button-row" style="display: flex; align-items: center; justify-content: space-around; width: 230px;">
-            <button md-raised-button [md-dialog-close]="clickedButton">
-                <md-icon md-list-icon>done</md-icon>
+            <button mat-raised-button [mat-dialog-close]="clickedButton">
+                <mat-icon mat-list-icon>done</mat-icon>
                 <span> Open</span>
             </button>
-            <button md-raised-button (click)="closeDialog()">
-                <md-icon md-list-icon>close</md-icon>
+            <button mat-raised-button (click)="closeDialog()">
+                <mat-icon mat-list-icon>close</mat-icon>
                 <span> Cancel</span>
             </button>
         </div>
@@ -17,93 +17,93 @@
 
 </div>
 
-<md-dialog-content>
+<mat-dialog-content>
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
         <td-file-upload #fileMultipleUpload accept=".jpg, .jpeg, .png, .pdf" (select)="selectMultipleEvent($event)"
                         (upload)="uploadMultipleEvent($event) " activeColor="warn" cancelColor="primary" multiple>
-            <md-icon>file_upload</md-icon>
+            <mat-icon>file_upload</mat-icon>
             <span>{{ fileMultipleUpload.files?.name || fileMultipleUpload.files?.length }}
                       <span *ngIf="fileMultipleUpload.files?.length">files selected</span>
                   </span>
             <ng-template td-file-input-label>
-                <md-icon>attach_file</md-icon>
+                <mat-icon>attach_file</mat-icon>
                 <span>Choose files...</span>
             </ng-template>
         </td-file-upload>
-        <button md-icon-button [mdMenuTriggerFor]="menu">
-            <md-icon>more_vert</md-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
         </button>
-        <md-menu #menu="mdMenu">
-            <button md-menu-item (click)="createFolder()">
-                <md-icon>create_new_folder</md-icon>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="createFolder()">
+                <mat-icon>create_new_folder</mat-icon>
                 <span>Create folder</span>
             </button>
-            <button md-menu-item [disabled]="!pasteEnable" (click)="onPasteItem()">
-                <md-icon>content_paste</md-icon>
+            <button mat-menu-item [disabled]="!pasteEnable" (click)="onPasteItem()">
+                <mat-icon>content_paste</mat-icon>
                 <span>Paste</span>
             </button>
-        </md-menu>
-        <span class="md-title">Media</span>
+        </mat-menu>
+        <span class="mat-title">Media</span>
         <ng-template let-path let-first="first" ngFor [ngForOf]="breadcrumbs">
             <span *ngIf="!first">/</span>
-            <button md-button (click)="onStepBack(path.id)">{{path.parentName}}</button>
+            <button mat-button (click)="onStepBack(path.id)">{{path.parentName}}</button>
         </ng-template>
     </div>
-    <md-divider></md-divider>
-    <md-list>
-        <md-list-item>
-            <span hide-xs flex="90" class=" md-body-1 tc-grey-500">Name</span>
+    <mat-divider></mat-divider>
+    <mat-list>
+        <mat-list-item>
+            <span hide-xs flex="90" class=" mat-body-1 tc-grey-500">Name</span>
             <span flex></span>
-            <span hide-xs flex="40" class=" md-body-1 tc-grey-500">Owner</span>
-            <span hide-xs class="md-sort-header" flex="30" layout="row" layout-align="center center"
-                  class="pad-left md-body-1 tc-grey-500"></span>
-            <a hide-xs class="md-sort-header" (click)="sortBy(sortKey)">
+            <span hide-xs flex="40" class=" mat-body-1 tc-grey-500">Owner</span>
+            <span hide-xs class="mat-sort-header" flex="30" layout="row" layout-align="center center"
+                  class="pad-left mat-body-1 tc-grey-500"></span>
+            <a hide-xs class="mat-sort-header" (click)="sortBy(sortKey)">
               <span layout="row" layout-align="start center" flex>
-                <md-icon class="md-sort-icon">{{isASC(sortKey)? 'arrow_upward' : 'arrow_downward'}}</md-icon>
+                <mat-icon class="mat-sort-icon">{{isASC(sortKey)? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
               </span>
             </a>
-        </md-list-item>
-        <md-divider></md-divider>
+        </mat-list-item>
+        <mat-divider></mat-divider>
         <ng-template let-item let-i="index" let-last="last" ngFor [ngForOf]="data | filterBy: userFilter">
-            <md-list-item>
-                <button md-button md-line [class.clicked]="clickedButton?.id == item.id" style="text-align: left"
+            <mat-list-item>
+                <button mat-button mat-line [class.clicked]="clickedButton?.id == item.id" style="text-align: left"
                         (dblclick)="selectItem(item.id)" (contextmenu)="onRightClick($event, item.id)"
                         (click)="selectedItem(item)">
-                    <span [mdMenuTriggerFor]="editMenu" #actionMenu></span>
-                    <md-icon md-list-icon>{{item.icon}}</md-icon>
+                    <span [matMenuTriggerFor]="editMenu" #actionMenu></span>
+                    <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
                     <span> {{item.name}}</span>
                 </button>
                 <span flex></span>
                 <span hide-xs flex="30" class="pad-left">
                 {{item.owner}}
               </span>
-                <span hide-xs flex="60" class="text-right md-body-1 tc-grey-500 pad-right">
+                <span hide-xs flex="60" class="text-right mat-body-1 tc-grey-500 pad-right">
                 {{item.created_at}}
               </span>
 
-            </md-list-item>
-            <md-divider *ngIf="!last"></md-divider>
+            </mat-list-item>
+            <mat-divider *ngIf="!last"></mat-divider>
         </ng-template>
-    </md-list>
+    </mat-list>
     <ng-template [ngIf]="!data">
-        <div class="md-padding" layout="row" layout-align="center center">
+        <div class="mat-padding" layout="row" layout-align="center center">
             <h3>No data to display.</h3>
         </div>
     </ng-template>
-    <md-divider></md-divider>
+    <mat-divider></mat-divider>
 
-    <md-menu #editMenu>
-        <button md-menu-item (click)="onCutFile()">
-            <md-icon>content_copy</md-icon>
+    <mat-menu #editMenu>
+        <button mat-menu-item (click)="onCutFile()">
+            <mat-icon>content_copy</mat-icon>
             <span>Cut</span>
         </button>
-        <button md-menu-item (click)="onRenameFile()">
-            <md-icon>mode_edit</md-icon>
+        <button mat-menu-item (click)="onRenameFile()">
+            <mat-icon>mode_edit</mat-icon>
             <span>Rename</span>
         </button>
-        <button md-menu-item (click)="onDeleteFile()">
-            <md-icon>delete</md-icon>
+        <button mat-menu-item (click)="onDeleteFile()">
+            <mat-icon>delete</mat-icon>
             <span>Delete</span>
         </button>
-    </md-menu>
-</md-dialog-content>
+    </mat-menu>
+</mat-dialog-content>

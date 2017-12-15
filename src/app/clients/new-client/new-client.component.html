@@ -1,65 +1,65 @@
-<md-card>
-    <md-card-title>
+<mat-card>
+    <mat-card-title>
         <div layout="row" layout-wrap>
             <div flex="90" layout="column" layout-align="center start">New Client</div>
             <div flex="10" layout="column" layout-align="center end">
-                <button md-mini-fab (click)="onSave(f)" [disabled]= "!f.valid" color="primary">
-                    <md-icon>done</md-icon>
+                <button mat-mini-fab (click)="onSave(f)" [disabled]= "!f.valid" color="primary">
+                    <mat-icon>done</mat-icon>
                 </button>
             </div>
         </div>
-    </md-card-title>
-    <md-divider></md-divider>
-    <md-card-content>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
         <form #f="ngForm">
             <div layout="row" layout-wrap>
                 <div flex="100" layout-padding>
                     <h3 style="margin: 0;">Info data</h3>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Company name" ngModel name="companyName" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Company name" ngModel name="companyName" required>
+                    </mat-input-container>
                 </div>
 
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Address" ngModel name="address" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Address" ngModel name="address" required>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Contact person" ngModel name="contactPerson" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Contact person" ngModel name="contactPerson" required>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Contact phone" ngModel name="contactPhone" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Contact phone" ngModel name="contactPhone" required>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Mobile phone" ngModel name="mobile" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Mobile phone" ngModel name="mobile" required>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Web site" ngModel name="webSite" required>
-                    </md-input-container>
-                </div>
-
-                <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="E-mail" ngModel name="mail" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Web site" ngModel name="webSite" required>
+                    </mat-input-container>
                 </div>
 
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Pib" ngModel name="pib" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="E-mail" ngModel name="mail" required>
+                    </mat-input-container>
+                </div>
+
+                <div style="margin-top:20px;" flex="25" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Pib" ngModel name="pib" required>
+                    </mat-input-container>
                 </div>
             </div>
         </form>
-    </md-card-content>
-</md-card>
+    </mat-card-content>
+</mat-card>

@@ -1,11 +1,11 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {MdSnackBar} from "@angular/material";
+import {MatSnackBar} from "@angular/material";
 
 @Injectable()
 export class SharedService {
     titleChanged = new EventEmitter();
 
-    constructor(public snackBar: MdSnackBar){
+    constructor(public snackBar: MatSnackBar){
 
     }
 

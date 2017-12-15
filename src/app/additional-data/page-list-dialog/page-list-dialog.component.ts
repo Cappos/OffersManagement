@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {MdDialog, MdDialogRef} from "@angular/material";
+import {MatDialog, MatDialogRef} from "@angular/material";
 import {Observable} from "rxjs/Observable";
 import {
     IPageChangeEvent,
@@ -40,7 +40,7 @@ export class PageListDialogComponent implements OnInit {
     selectedPage;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private loadingService: TdLoadingService, public dialog: MdDialog, private dataService: DataService, private _dataTableService: TdDataTableService, public dialogRef: MdDialogRef<PageListDialogComponent>) {
+    constructor(private sharedService: SharedService, private loadingService: TdLoadingService, public dialog: MatDialog, private dataService: DataService, private _dataTableService: TdDataTableService, public dialogRef: MatDialogRef<PageListDialogComponent>) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

@@ -4,7 +4,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import 'rxjs/Observable';
 import {Location} from '@angular/common';
 import {Offer} from "../offers.model";
@@ -33,7 +33,7 @@ export class NewOfferComponent implements OnInit {
     editModuleGroup: number;
     totalPrice;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

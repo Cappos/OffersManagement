@@ -8,6 +8,6 @@ th {
     text-align: right;
 }
 
-.mat-button-wrapper md-icon {
+.mat-button-wrapper mat-icon {
     cursor: pointer;
 }

@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {NgForm} from "@angular/forms";
 
-import {MD_DIALOG_DATA, MdDialog, MdDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {DataService} from "../../shared/data.service";
 
@@ -22,7 +22,7 @@ export class PageEditDialogComponent implements OnInit {
     itemSaved = false;
     editMode = true;
 
-    constructor(private dataService: DataService, public dialog: MdDialog, private _dialogService: TdDialogService, public dialogRef: MdDialogRef<PageEditDialogComponent>, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+    constructor(private dataService: DataService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PageEditDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
 
         this.loadingService.create({
             name: 'modulesLoader',

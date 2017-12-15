@@ -1,32 +1,32 @@
-<md-card>
-    <md-card-content>
+<mat-card>
+    <mat-card-content>
         <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
          <span class="push-left-sm">
-        <button md-icon-button [mdMenuTriggerFor]="menu">
-                  <md-icon>more_vert</md-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
               </button>
-                <md-menu #menu="mdMenu">
-                  <button md-menu-item (click)="newSeller()" >
-                    <md-icon>add</md-icon>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="newSeller()" >
+                    <mat-icon>add</mat-icon>
                     <span>Add new</span>
                   </button>
-                </md-menu>
-    <span class="md-title">{{title}}</span>
+                </mat-menu>
+    <span class="mat-title">{{title}}</span>
          </span>
         </div>
-        <md-accordion>
+        <mat-accordion>
 
-            <md-list>
+            <mat-list>
                 <ng-template let-item let-last="last" ngFor [ngForOf]="data">
-                    <md-expansion-panel>
-                        <md-expansion-panel-header>
-                            <md-list-item>
-                                <md-icon mdListAvatar>person</md-icon>
-                                <h3 md-line> {{item.name}} </h3>
-                            </md-list-item>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-list-item>
+                                <mat-icon mdListAvatar>person</mat-icon>
+                                <h3 mat-line> {{item.name}} </h3>
+                            </mat-list-item>
 
-                            <md-divider *ngIf="!last" md-inset></md-divider>
-                        </md-expansion-panel-header>
+                            <mat-divider *ngIf="!last" mat-inset></mat-divider>
+                        </mat-expansion-panel-header>
                         <form #f="ngForm">
                             <div layout="row" layout-wrap>
                                 <div flex="100" layout-padding>
@@ -35,47 +35,47 @@
                                             <h3 style="margin: 0;">Info data</h3>
                                         </div>
                                         <div flex="10" layout="row" layout-align="end center">
-                                            <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
-                                                <md-icon>mode_edit</md-icon>
+                                            <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                                                <mat-icon>mode_edit</mat-icon>
                                             </button>
-                                            <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
-                                                <md-icon>done</md-icon>
+                                            <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                                                <mat-icon>done</mat-icon>
                                             </button>
                                         </div>
                                         <div flex="5" layout="row" layout-align="center center">
-                                            <button md-mini-fab color="warn"
+                                            <button mat-mini-fab color="warn"
                                                     (click)="onDelete(item.uid)">
-                                                <md-icon>delete</md-icon>
+                                                <mat-icon>delete</mat-icon>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div style="margin-top:20px;" flex="25" layout-padding>
-                                    <md-input-container>
-                                        <input mdInput placeholder="E-mail" [ngModel]="item.email" name="email" required
+                                    <mat-input-container>
+                                        <input matInput placeholder="E-mail" [ngModel]="item.email" name="email" required
                                                [readonly]="!editMode">
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
 
                                 <div style="margin-top:20px;" flex="25" layout-padding>
-                                    <md-input-container>
-                                        <input mdInput placeholder="Phone" [ngModel]="item.phone" name="phone" required
+                                    <mat-input-container>
+                                        <input matInput placeholder="Phone" [ngModel]="item.phone" name="phone" required
                                                [readonly]="!editMode">
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
 
                                 <div style="margin-top:20px;" flex="25" layout-padding>
-                                    <md-input-container>
-                                        <input mdInput placeholder="Mobile" [ngModel]="item.mobile" name="mobile"
+                                    <mat-input-container>
+                                        <input matInput placeholder="Mobile" [ngModel]="item.mobile" name="mobile"
                                                required
                                                [readonly]="!editMode">
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
                             </div>
                         </form>
-                    </md-expansion-panel>
+                    </mat-expansion-panel>
                 </ng-template>
-            </md-list>
-        </md-accordion>
-    </md-card-content>
-</md-card>
+            </mat-list>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

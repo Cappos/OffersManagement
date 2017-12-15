@@ -6,7 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {Module} from "../modules.model";
 import {NgForm} from "@angular/forms";
 
-import {MD_DIALOG_DATA, MdDialog, MdDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 
 @Component({
@@ -32,7 +32,7 @@ export class EditModuleDialogComponent implements OnInit {
     itemSaved = false;
     selectedGroup;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, public dialog: MdDialog, private _dialogService: TdDialogService, public dialogRef: MdDialogRef<EditModuleDialogComponent>, @Inject(MD_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<EditModuleDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
 
         this.loadingService.create({
             name: 'modulesLoader',

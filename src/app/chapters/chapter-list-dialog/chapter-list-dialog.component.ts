@@ -9,7 +9,7 @@ import {Observable} from "rxjs/Observable";
 import {SharedService} from "../../shared/shared.service";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
-import {MdDialog, MdDialogRef} from "@angular/material";
+import {MatDialog, MatDialogRef} from "@angular/material";
 import * as fromChapters from '../store/chapters.reducers';
 import * as ChaptersActions from "../store/chapters.actions";
 
@@ -47,7 +47,7 @@ export class ChapterListDialogComponent implements OnInit {
     selectedModule;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromChapters.FeatureState>, private dialog: MdDialog, private loadingService: TdLoadingService, public dialogRef: MdDialogRef<ChapterListDialogComponent>) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromChapters.FeatureState>, private dialog: MatDialog, private loadingService: TdLoadingService, public dialogRef: MatDialogRef<ChapterListDialogComponent>) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

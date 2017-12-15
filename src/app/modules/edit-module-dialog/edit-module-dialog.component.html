@@ -1,16 +1,16 @@
 <div layout="row" layout-wrap layout-align="start center">
     <div flex="60">
-        <h1 md-dialog-title>Choose file</h1>
+        <h1 mat-dialog-title>Choose file</h1>
     </div>
     <div flex="40" layout="column" layout-align="center end">
         <div class="button-row"
              style="display: flex; align-items: center; justify-content: space-around; width: 230px;">
-            <button md-raised-button (click)="onSave(f)">
-                <md-icon md-list-icon>done</md-icon>
+            <button mat-raised-button (click)="onSave(f)">
+                <mat-icon mat-list-icon>done</mat-icon>
                 <span> Save</span>
             </button>
-            <button md-raised-button [md-dialog-close]="savedModuleData">
-                <md-icon md-list-icon>close</md-icon>
+            <button mat-raised-button [mat-dialog-close]="savedModuleData">
+                <mat-icon mat-list-icon>close</mat-icon>
                 <span *ngIf="itemSaved"> Close</span>
                 <span *ngIf="!itemSaved"> Cancel</span>
             </button>
@@ -18,32 +18,32 @@
     </div>
 </div>
 
-<md-dialog-content>
+<mat-dialog-content>
     <form #f="ngForm">
         <div layout="row" layout-wrap>
             <div style="margin-top:20px;" flex="25" layout-padding>
-                <md-input-container>
-                    <input mdInput placeholder="Name" [ngModel]="item?.name" name="name" required>
-                </md-input-container>
+                <mat-input-container>
+                    <input matInput placeholder="Name" [ngModel]="item?.name" name="name" required>
+                </mat-input-container>
             </div>
 
             <div style="margin-top:20px;" flex="25" layout-padding>
-                <md-input-container>
-                    <input mdInput  type="number" placeholder="Price" [ngModel]="item?.price" name="price" required>
-                </md-input-container>
+                <mat-input-container>
+                    <input matInput  type="number" placeholder="Price" [ngModel]="item?.price" name="price" required>
+                </mat-input-container>
             </div>
 
             <div style="margin-top:20px;" flex="25" layout-padding>
-                <md-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
-                    <md-option *ngFor="let group of groups" [value]="group.value">
+                <mat-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
+                    <mat-option *ngFor="let group of groups" [value]="group.value">
                         {{group.name}}
-                    </md-option>
-                </md-select>
+                    </mat-option>
+                </mat-select>
             </div>
             <div style="margin-top:20px;" flex="25" layout-padding>
-                <md-input-container>
-                    <input mdInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required>
-                </md-input-container>
+                <mat-input-container>
+                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required>
+                </mat-input-container>
             </div>
             <div style="margin-top:20px;" flex="100" layout-padding>
                 <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
@@ -51,4 +51,4 @@
             </div>
         </div>
     </form>
-</md-dialog-content>
+</mat-dialog-content>

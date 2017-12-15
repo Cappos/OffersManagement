@@ -11,7 +11,7 @@ import {Observable} from "rxjs/Observable";
 
 import * as fromModules from '../store/modules.reducers';
 import * as ModulesActions from "../store/modules.actions";
-import {MdDialog, MdDialogRef} from "@angular/material";
+import {MatDialog, MatDialogRef} from "@angular/material";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
 
@@ -47,7 +47,7 @@ export class ModuleListDialogComponent implements OnInit {
     selectedModule;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromModules.FeatureState>, public dialog: MdDialog, public dialogRef: MdDialogRef<ModuleListDialogComponent>, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromModules.FeatureState>, public dialog: MatDialog, public dialogRef: MatDialogRef<ModuleListDialogComponent>, private loadingService: TdLoadingService) {
 
         this.loadingService.create({
             name: 'modulesLoader',

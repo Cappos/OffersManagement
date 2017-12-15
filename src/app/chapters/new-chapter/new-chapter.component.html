@@ -1,79 +1,79 @@
-<md-card>
-    <md-card-title>
+<mat-card>
+    <mat-card-title>
         <div layout="row" layout-wrap>
             <div flex="90" layout="column" layout-align="center start">{{[title]}}</div>
             <div flex="10" layout="column" layout-align="center end">
-                <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
-                    <md-icon>done</md-icon>
+                <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                    <mat-icon>done</mat-icon>
                 </button>
             </div>
         </div>
-    </md-card-title>
-    <md-divider></md-divider>
-    <md-card-content>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
         <form #f="ngForm">
             <div layout="row" layout-wrap>
                 <div flex="100" layout-padding>
                     <h3 style="margin: 0;">Info data</h3>
                 </div>
                 <div style="margin-top:20px;" flex="30" layout-padding>
-                    <md-input-container style="max-width: 800px; width: 100%;">
-                        <input mdInput placeholder="Title" ngModel name="name" required>
-                    </md-input-container>
+                    <mat-input-container style="max-width: 800px; width: 100%;">
+                        <input matInput placeholder="Title" ngModel name="name" required>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="10" layout-padding>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Price" [ngModel]="chapterPrice | number: '2.2-2'" name="subTotal"
+                    <mat-input-container>
+                        <input matInput placeholder="Price" [ngModel]="chapterPrice | number: '2.2-2'" name="subTotal"
                                required readonly>
-                    </md-input-container>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>
-                    <md-input-container>
-                        <input mdInput placeholder="Created date" ngModel name="tstamp" required>
-                    </md-input-container>
+                    <mat-input-container>
+                        <input matInput placeholder="Created date" ngModel name="tstamp" required>
+                    </mat-input-container>
                 </div>
 
                 <!-- MODULES START -->
 
                 <div flex="100" layout-padding>
-                    <md-divider></md-divider>
+                    <mat-divider></mat-divider>
                     <h3>Modules</h3>
                 </div>
-                <md-card *ngFor="let module of chaptersModules" flex="100">
-                    <md-card-content>
+                <mat-card *ngFor="let module of chaptersModules" flex="100">
+                    <mat-card-content>
                         <form #group.uid="ngForm">
                             <div layout="row" layout-wrap>
                                 <div style="margin-top:20px;" flex="90" layout-padding>
-                                    <md-input-container style="max-width: 800px; width: 100%;">
-                                        <input mdInput placeholder="Name" [ngModel]="module.name"
+                                    <mat-input-container style="max-width: 800px; width: 100%;">
+                                        <input matInput placeholder="Name" [ngModel]="module.name"
                                                name="name" readonly>
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
                                 <div flex="5" layout="column" layout-align="center end">
-                                    <button md-mini-fab color="primary"
+                                    <button mat-mini-fab color="primary"
                                             (click)="onModuleEdit(module.uid, item?.uid)">
-                                        <md-icon>mode_edit</md-icon>
+                                        <mat-icon>mode_edit</mat-icon>
                                     </button>
                                 </div>
                                 <div flex="5" layout="column" layout-align="center center">
-                                    <button md-mini-fab color="warn"
+                                    <button mat-mini-fab color="warn"
                                             (click)="onModuleRemove(module.uid, null)">
-                                        <md-icon>remove</md-icon>
+                                        <mat-icon>remove</mat-icon>
                                     </button>
                                 </div>
                                 <div flex="20" layout-padding>
-                                    <md-input-container>
-                                        <input mdInput placeholder="Price" [ngModel]="module.price"
+                                    <mat-input-container>
+                                        <input matInput placeholder="Price" [ngModel]="module.price"
                                                name="price" readonly>
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
                                 <div flex="25" layout-padding>
-                                    <md-input-container>
-                                        <input mdInput placeholder="Created date"
+                                    <mat-input-container>
+                                        <input matInput placeholder="Created date"
                                                [ngModel]="module.tstamp" name="tstamp" readonly>
-                                    </md-input-container>
+                                    </mat-input-container>
                                 </div>
                                 <div style="margin-top:20px;" flex="100" layout-padding>
                                     <h3 style="margin-top: 0;">Description</h3>
@@ -85,24 +85,24 @@
                             <div style="margin-top:20px;" flex="100" layout-padding>
                             </div>
                         </form>
-                    </md-card-content>
-                </md-card>
+                    </mat-card-content>
+                </mat-card>
                 <div flex="25" layout-padding style="margin:20px 0;">
-                    <button md-raised-button  color="primary" [mdMenuTriggerFor]="moduleMenu">Add
+                    <button mat-raised-button  color="primary" [matMenuTriggerFor]="moduleMenu">Add
                         module
                     </button>
-                    <md-menu #moduleMenu="mdMenu">
-                        <button md-menu-item (click)="addFromModuleList()">
-                            <md-icon>playlist_add</md-icon>
+                    <mat-menu #moduleMenu="matMenu">
+                        <button mat-menu-item (click)="addFromModuleList()">
+                            <mat-icon>playlist_add</mat-icon>
                             <span >Select from list</span>
                         </button>
-                        <button md-menu-item (click)="addModule()">
-                            <md-icon>add</md-icon>
+                        <button mat-menu-item (click)="addModule()">
+                            <mat-icon>add</mat-icon>
                             <span >Add new</span>
                         </button>
-                    </md-menu>
+                    </mat-menu>
                 </div>
             </div>
         </form>
-    </md-card-content>
-</md-card>
+    </mat-card-content>
+</mat-card>

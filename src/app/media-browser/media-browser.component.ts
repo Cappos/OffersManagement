@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {MdDialog, MdDialogRef, MdSnackBar} from "@angular/material";
+import {MatDialog, MatDialogRef, MatSnackBar} from "@angular/material";
 import {TdDialogService} from "@covalent/core";
 import {Http} from "@angular/http";
 import {Module} from "../modules/modules.model";
@@ -42,7 +42,7 @@ export class MediaBrowserComponent implements OnInit {
     clickedButton;
     mediaData;
 
-    constructor(private http: Http, public dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, public snackBar: MdSnackBar, private elementRef: ElementRef, public dialogRef: MdDialogRef<MediaBrowserComponent>, private httpClient: HttpClient) {
+    constructor(private http: Http, public dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, public snackBar: MatSnackBar, private elementRef: ElementRef, public dialogRef: MatDialogRef<MediaBrowserComponent>, private httpClient: HttpClient) {
 
         this.mediaData = this.httpClient.get<Module>('http://wrenchweb.com/http/mediaData', {
             observe: 'body',

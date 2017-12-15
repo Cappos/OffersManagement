@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {MdDialog, MdDialogRef} from "@angular/material";
+import {MatDialog, MatDialogRef} from "@angular/material";
 
 @Component({
     selector: 'app-new-seller',
@@ -10,7 +10,7 @@ import {MdDialog, MdDialogRef} from "@angular/material";
 export class NewSellerComponent implements OnInit {
     savedSellerData;
 
-    constructor(public dialog: MdDialog, public dialogRef: MdDialogRef<NewSellerComponent>) {
+    constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<NewSellerComponent>) {
     }
 
     ngOnInit() {

@@ -1,76 +1,76 @@
 <div layout="row" layout-wrap layout-padding>
     <div flex="50">
-        <md-card>
-            <md-card-header>
-                <md-card-title style="margin-bottom: 0;">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title style="margin-bottom: 0;">
                     <h2 style="margin-bottom: 0;">Last offers</h2>
-                </md-card-title>
-            </md-card-header>
-            <md-card-content flex="100" layout="row">
-                <md-list>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content flex="100" layout="row">
+                <mat-list>
                     <ng-container *ngFor="let offer of offersData; let i = index">
-                        <md-list-item *ngIf="i < 5">
-                            <md-icon md-list-icon>subtitles</md-icon>
-                            <h4 md-line (click)="selectOffer(offer.uid)" style="cursor: pointer">{{offer.offerNumber}}</h4>
-                            <p md-line> {{offer.tstamp}} </p>
-                        </md-list-item>
+                        <mat-list-item *ngIf="i < 5">
+                            <mat-icon mat-list-icon>subtitles</mat-icon>
+                            <h4 mat-line (click)="selectOffer(offer.uid)" style="cursor: pointer">{{offer.offerNumber}}</h4>
+                            <p mat-line> {{offer.tstamp}} </p>
+                        </mat-list-item>
                     </ng-container>
 
 
-                </md-list>
-            </md-card-content>
-        </md-card>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
     </div>
 
     <div flex="50">
-        <md-card>
-            <md-card-header>
-                <md-card-title>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
                     <h2 style="margin-bottom: 0;">Default chapters</h2>
-                </md-card-title>
-                <md-card-subtitle>Dog Breed</md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
+                </mat-card-title>
+                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
                 <p>
                     The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
                     A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
                     bred for hunting.
                 </p>
-            </md-card-content>
-        </md-card>
+            </mat-card-content>
+        </mat-card>
     </div>
     <div flex="50">
-        <md-card>
-            <md-card-header>
-                <md-card-title>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
                     <h2>New Clients</h2>
-                </md-card-title>
-                <md-card-subtitle>Dog Breed</md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
+                </mat-card-title>
+                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
                 <p>
                     The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
                     A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
                     bred for hunting.
                 </p>
-            </md-card-content>
-        </md-card>
+            </mat-card-content>
+        </mat-card>
     </div>
     <div flex="50">
-        <md-card>
-            <md-card-header>
-                <md-card-title>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
                     <h2>Signed offers</h2>
-                </md-card-title>
-                <md-card-subtitle>Dog Breed</md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
+                </mat-card-title>
+                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
                 <p>
                     The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
                     A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
                     bred for hunting.
                 </p>
-            </md-card-content>
-        </md-card>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

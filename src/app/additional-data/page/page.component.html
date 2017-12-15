@@ -1,33 +1,33 @@
-<md-card>
-    <md-card-title>
+<mat-card>
+    <mat-card-title>
         <div layout="row" layout-wrap>
             <div flex="90" layout="column" layout-align="center start">{{title}}</div>
             <div flex="10" layout="column" layout-align="center end">
-                <button md-mini-fab (click)="onEdit()" *ngIf="!editMode">
-                    <md-icon>mode_edit</md-icon>
+                <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                    <mat-icon>mode_edit</mat-icon>
                 </button>
-                <button md-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
-                    <md-icon>done</md-icon>
+                <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                    <mat-icon>done</mat-icon>
                 </button>
             </div>
         </div>
-    </md-card-title>
-    <md-card-subtitle>id: {{id}}</md-card-subtitle>
-    <md-divider></md-divider>
-    <md-card-content>
+    </mat-card-title>
+    <mat-card-subtitle>id: {{id}}</mat-card-subtitle>
+    <mat-divider></mat-divider>
+    <mat-card-content>
         <form #f="ngForm">
             <div layout="row" layout-wrap>
                 <div style="margin-top:20px;" flex="100" layout-padding>
-                    <md-input-container style="max-width: 800px; width: 100%;">
-                        <input mdInput placeholder="Title" [ngModel]="item?.title"
+                    <mat-input-container style="max-width: 800px; width: 100%;">
+                        <input matInput placeholder="Title" [ngModel]="item?.title"
                                name="name" readonly>
-                    </md-input-container>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
-                    <md-input-container style="max-width: 800px; width: 100%;">
-                        <input mdInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle" required
+                    <mat-input-container style="max-width: 800px; width: 100%;">
+                        <input matInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle" required
                                [readonly]="!editMode">
-                    </md-input-container>
+                    </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
                     <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
@@ -35,5 +35,5 @@
                 </div>
             </div>
         </form>
-    </md-card-content>
-</md-card>
+    </mat-card-content>
+</mat-card>

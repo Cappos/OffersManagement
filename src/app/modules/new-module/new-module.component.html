@@ -1,41 +1,41 @@
-<md-card>
-  <md-card-title>
+<mat-card>
+  <mat-card-title>
     <div layout="row" layout-wrap>
       <div flex="90" layout="column" layout-align="center start">New module</div>
       <div flex="10" layout="column" layout-align="center end">
-        <button md-mini-fab (click)="onSave(f)" color="primary">
-          <md-icon>done</md-icon>
+        <button mat-mini-fab (click)="onSave(f)" color="primary">
+          <mat-icon>done</mat-icon>
         </button>
       </div>
     </div>
-  </md-card-title>
-  <md-divider></md-divider>
-  <md-card-content>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content>
     <form #f="ngForm">
       <div layout="row" layout-wrap>
         <div style="margin-top:20px;" flex="25" layout-padding>
-          <md-input-container>
-            <input mdInput placeholder="Name" ngModel name="name" required>
-          </md-input-container>
+          <mat-input-container>
+            <input matInput placeholder="Name" ngModel name="name" required>
+          </mat-input-container>
         </div>
 
         <div style="margin-top:20px;" flex="25" layout-padding>
-          <md-input-container>
-            <input mdInput type="number" placeholder="Price" ngModel name="price" required>
-          </md-input-container>
+          <mat-input-container>
+            <input matInput type="number" placeholder="Price" ngModel name="price" required>
+          </mat-input-container>
         </div>
 
         <div style="margin-top:20px;" flex="25" layout-padding>
-          <md-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
-            <md-option *ngFor="let group of groups" [value]="group.value">
+          <mat-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
+            <mat-option *ngFor="let group of groups" [value]="group.value">
               {{group.name}}
-            </md-option>
-          </md-select>
+            </mat-option>
+          </mat-select>
         </div>
         <div style="margin-top:20px;" flex="100" layout-padding>
           <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData" (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
         </div>
       </div>
     </form>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

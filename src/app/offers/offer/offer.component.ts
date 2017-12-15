@@ -6,7 +6,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {Location} from '@angular/common';
 import {NgForm} from "@angular/forms";
-import {MdDialog, DateAdapter} from "@angular/material";
+import {MatDialog, DateAdapter} from "@angular/material";
 import 'rxjs/Observable';
 import 'rxjs/operator/take';
 
@@ -44,7 +44,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     newDate;
     exDate;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter:DateAdapter<Date>) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter:DateAdapter<Date>) {
 
         this.loadingService.create({
             name: 'modulesLoader',

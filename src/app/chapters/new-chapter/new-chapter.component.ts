@@ -4,7 +4,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import 'rxjs/Observable';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
@@ -31,7 +31,7 @@ export class NewChapterComponent implements OnInit {
     savedChapterData;
     itemSaved = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

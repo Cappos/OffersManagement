@@ -1,17 +1,17 @@
-<md-card>
-  <md-card-content>
+<mat-card>
+  <mat-card-content>
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
   <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
-      <button md-icon-button [mdMenuTriggerFor]="menu">
-                  <md-icon>more_vert</md-icon>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
               </button>
-                <md-menu #menu="mdMenu">
-                  <button md-menu-item routerLink="/newChapter">
-                    <md-icon>add</md-icon>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item routerLink="/newChapter">
+                    <mat-icon>add</mat-icon>
                     <span>Add new</span>
                   </button>
-                </md-menu>
-    <span class="md-title">{{title}}</span>
+                </mat-menu>
+    <span class="mat-title">{{title}}</span>
   </span>
       <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
      </span>
@@ -19,7 +19,7 @@
                      (searchDebounce)="search($event)" flex>
       </td-search-box>
     </div>
-    <md-divider></md-divider>
+    <mat-divider></mat-divider>
     <table td-data-table #dataTable>
 
       <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
@@ -32,7 +32,7 @@
           {{row.uid}}
         </td>
         <td td-data-table-cell>
-          <button md-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.name}}</button>
+          <button mat-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.name}}</button>
         </td>
         <td td-data-table-cell>
           {{row.subTotal | number:'2.2-2'}}
@@ -42,25 +42,25 @@
         </td>
         <td td-data-table-cell colspan="2">
           <div layout="row">
-            <span layout-margin><a (click)="onEdit(row)"><md-icon color="accent">mode_edit</md-icon></a></span>
-            <span layout-margin><a (click)="onDelete(row)"><md-icon color="warn">delete</md-icon></a></span>
+            <span layout-margin><a (click)="onEdit(row)"><mat-icon color="accent">mode_edit</mat-icon></a></span>
+            <span layout-margin><a (click)="onDelete(row)"><mat-icon color="warn">delete</mat-icon></a></span>
           </div>
         </td>
 
       </tr>
       </tbody>
     </table>
-    <div class="md-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
+    <div class="mat-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
       <h3>No results to display.</h3>
     </div>
     <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
       <span hide-xs>Rows per page:</span>
-      <md-select [style.width.px]="50" [(ngModel)]="pageSize">
-        <md-option *ngFor="let size of [5,10,15,20]" [value]="size">
+      <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+        <mat-option *ngFor="let size of [5,10,15,20]" [value]="size">
           {{size}}
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
       {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
     </td-paging-bar>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

@@ -5,7 +5,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import 'rxjs/Observable';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
@@ -37,7 +37,7 @@ export class ChapterComponent implements OnInit {
     editModuleGroup: number;
     chapterPrice: number;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dataService: DataService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

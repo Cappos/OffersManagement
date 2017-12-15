@@ -4,7 +4,7 @@ import {slideInDownAnimation} from "../_animations/app.animations";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../shared/shared.service";
 import {NewSellerComponent} from "./new-seller/new-seller.component";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 
 @Component({
     selector: 'app-sellers',
@@ -51,7 +51,7 @@ export class SellersComponent implements OnInit {
         }
     ];
 
-    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MdDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,){
+    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,){
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,

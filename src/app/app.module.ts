@@ -66,6 +66,10 @@ import {MediaBrowserComponent} from './media-browser/media-browser.component';
 import {DataService} from './shared/data.service';
 import { PageListDialogComponent } from './additional-data/page-list-dialog/page-list-dialog.component';
 import { PageEditDialogComponent } from './additional-data/page-edit-dialog/page-edit-dialog.component';
+import {Apollo, ApolloModule} from "apollo-angular";
+import {DataNodeService} from "./dataNode.service";
+import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
+import {InMemoryCache} from "apollo-cache-inmemory";
 
 
 
@@ -153,11 +157,26 @@ import { PageEditDialogComponent } from './additional-data/page-edit-dialog/page
         CovalentMediaModule,
         CovalentMenuModule,
         CovalentNotificationsModule,
-        CovalentCommonModule
+        CovalentCommonModule,
+        /** Apollo*/
+        HttpClientModule,
+        ApolloModule,
+        HttpLinkModule
     ],
-    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService],
+    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService, DataNodeService],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {
+    constructor(
+        apollo: Apollo,
+        httpLink: HttpLink
+    ) {
+        apollo.create({
+            // By default, this client will send queries to the
+            // `/graphql` endpoint on the same host
+            link: httpLink.create({}),
+            cache: new InMemoryCache()
+        });
+    }
 }

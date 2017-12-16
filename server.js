@@ -1,5 +1,5 @@
 const express = require('express');
-const models = require('./server/models/index');
+const models = require('./server/models');
 const expressGraphQL = require('express-graphql');
 const path = require('path');
 const http = require('http');
@@ -10,7 +10,7 @@ const schema = require('./server/schema/schema');
 const app = express();
 
 // Replace with your mongoLab URI
-const MONGO_URI = 'mongodb://cappors:tester@ds135156.mlab.com:35156/lyricaldb';
+const MONGO_URI = 'mongodb://cappors:testertester@ds059546.mlab.com:59546/offers-management';
 if (!MONGO_URI) {
     throw new Error('You must provide a MongoLab URI');
 }

@@ -5,6 +5,8 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 import {SharedService} from "../shared/shared.service";
 import {NewSellerComponent} from "./new-seller/new-seller.component";
 import {MatDialog} from "@angular/material";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
 
 @Component({
     selector: 'app-sellers',
@@ -20,38 +22,39 @@ export class SellersComponent implements OnInit {
     pageTitle = 'Sellers';
     title = 'List of sellers';
     editMode = false;
-    data: any[] = [
-        {
-            "name": "Martin Glatz",
-            "uid": 1,
-            "email": "martin.glatz@deepscreen.ch",
-            "phone": "+41 43 255 68 68",
-            "mobile": "+41 79 915 21 37"
-        },
-        {
-            "name": "Simon Glatz",
-            "uid": 2,
-            "email": "simon.glatz@deepscreen.ch",
-            "phone": "+41 43 255 68 68",
-            "mobile": "+41 79 915 21 37"
-        },
-        {
-            "name": "Lena Jung",
-            "uid": 3,
-            "email": "lena.jung@deepscreen.ch",
-            "phone": "+41 43 255 68 68",
-            "mobile": "+41 79 915 21 37"
-        },
-        {
-            "name": "Sonia Kale",
-            "uid": 4,
-            "email": "sonia.kale@deepscreen.ch",
-            "phone": "",
-            "mobile": ""
-        }
-    ];
+    // data: any[] = [
+    //     {
+    //         "name": "Martin Glatz",
+    //         "uid": 1,
+    //         "email": "martin.glatz@deepscreen.ch",
+    //         "phone": "+41 43 255 68 68",
+    //         "mobile": "+41 79 915 21 37"
+    //     },
+    //     {
+    //         "name": "Simon Glatz",
+    //         "uid": 2,
+    //         "email": "simon.glatz@deepscreen.ch",
+    //         "phone": "+41 43 255 68 68",
+    //         "mobile": "+41 79 915 21 37"
+    //     },
+    //     {
+    //         "name": "Lena Jung",
+    //         "uid": 3,
+    //         "email": "lena.jung@deepscreen.ch",
+    //         "phone": "+41 43 255 68 68",
+    //         "mobile": "+41 79 915 21 37"
+    //     },
+    //     {
+    //         "name": "Sonia Kale",
+    //         "uid": 4,
+    //         "email": "sonia.kale@deepscreen.ch",
+    //         "phone": "",
+    //         "mobile": ""
+    //     }
+    // ];
+    data;
 
-    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,){
+    constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -63,27 +66,56 @@ export class SellersComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.apollo.query({
+            query: getSealerData
+        }).subscribe(({data, loading}) => {
+            console.log(data, loading);
+            this.data = data
+        });
 
         this.loadingService.resolveAll('modulesLoader');
+
     }
 
     onEdit(uid) {
         console.log(uid, 'edit');
         this.editMode = true
     }
+
     onSave(from: NgForm) {
         let value = from.value;
         this.editMode = false;
         console.log(value);
     }
 
-    newSeller(){
+    newSeller() {
         let dialogRef = this.dialog.open(NewSellerComponent);
 
         dialogRef.afterClosed().subscribe(result => {
-            if(result){
+            if (result) {
                 console.log(result);
                 this.data.push(result);
+
+                this.apollo.mutate({
+                    mutation: addSealer,
+                    variables: {
+                        name: result.name,
+                        email: result.email,
+                        phone: result.phone,
+                        mobile: result.mobile,
+                        value: result.value
+                    },
+                    refetchQueries: [{
+                        query: getSealerData
+                    }]
+                }).subscribe((res) => {
+                    console.log(res);
+                    this.apollo.query({query: getSealerData, fetchPolicy: 'network-only'})
+                        .subscribe(() => {
+                            console.log('refresh done, our watchQuery will update')
+                        });
+                    this.data = this.apollo.watchQuery({query: getSealerData});
+                });
             }
         })
     }
@@ -105,7 +137,28 @@ export class SellersComponent implements OnInit {
         });
 
     }
-
-
-
 }
+const getSealerData = gql`
+    {
+        sealers{
+            _id
+            name
+            email
+            phone
+            mobile
+            value
+        }
+    }
+`;
+const addSealer = gql`
+    mutation AddSealer($name: String!, $email: String!, $phone: String, $mobile: String, $value: Int!) {
+        addSealer(name: $name, email: $email, phone: $phone, mobile: $mobile, value: $value){
+            _id,
+            name
+            email
+            phone
+            mobile
+            value
+        }
+    }
+`;

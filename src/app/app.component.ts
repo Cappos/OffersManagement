@@ -17,22 +17,22 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.apollo.query({
-            query
-        }).subscribe(({data, loading}) => {
-            console.log(data, loading);
-        });
+        // this.apollo.query({
+        //     query
+        // }).subscribe(({data, loading}) => {
+        //     console.log(data, loading);
+        // });
     }
 }
 
-const query = gql`
-    {
-        songs {
-            id
-            title
-            lyrics {
-                content
-            }
-        }
-    }
-`;
+// const query = gql`
+//     {
+//         songs {
+//             id
+//             title
+//             lyrics {
+//                 content
+//             }
+//         }
+//     }
+// `;

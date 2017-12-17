@@ -19,6 +19,7 @@ export class NewSellerComponent implements OnInit {
     onSave(form: NgForm) {
         let value = form.value;
         this.savedSellerData = value;
+        this.savedSellerData.value = 2;
         this.dialogRef.close(this.savedSellerData);
     }
 

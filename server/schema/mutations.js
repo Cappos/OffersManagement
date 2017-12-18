@@ -22,11 +22,31 @@ const mutation = new GraphQLObjectType({
         },
         deleteSealer: {
             type: SealerType,
-            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
-            resolve(parentValue, { id }) {
-                return Sealer.findOneAndRemove({ _id: id });
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Sealer.findOneAndRemove({_id: id});
             }
-        }
+        },
+        editSealer: {
+            type: SealerType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                name: {type: new GraphQLNonNull(GraphQLString)},
+                email: {type: new GraphQLNonNull(GraphQLString)},
+                phone: {type: GraphQLString},
+                mobile: {type: GraphQLString}
+            },
+            resolve(parentValue, args) {
+                return Sealer.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        name: args.name,
+                        email: args.email,
+                        phone: args.phone,
+                        mobile: args.mobile
+                    }
+                }, { new: true });
+            }
+        },
     }
 });
 

@@ -38,7 +38,7 @@
                                             <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
                                                 <mat-icon>mode_edit</mat-icon>
                                             </button>
-                                            <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary">
+                                            <button mat-mini-fab (click)="onSave(f, item.name, item._id)" *ngIf="editMode" color="primary">
                                                 <mat-icon>done</mat-icon>
                                             </button>
                                         </div>

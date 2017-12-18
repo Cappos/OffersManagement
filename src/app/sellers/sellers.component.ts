@@ -6,7 +6,11 @@ import {SharedService} from '../shared/shared.service';
 import {NewSellerComponent} from './new-seller/new-seller.component';
 import {MatDialog} from '@angular/material';
 import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
+import getSealerData from '../queries/fetchSealer';
+import addSealer from '../queries/createSealer';
+import removeSealer from '../queries/deleteSealer';
+import updateSealer from '../queries/editSealer';
+
 
 @Component({
     selector: 'app-sellers',
@@ -40,20 +44,32 @@ export class SellersComponent implements OnInit {
             query: getSealerData
         }).valueChanges.subscribe(({data}) => {
             this.data = data.sealers;
+            this.loadingService.resolveAll('modulesLoader');
         });
-
-        this.loadingService.resolveAll('modulesLoader');
     }
 
     onEdit(uid) {
-        console.log(uid, 'edit');
         this.editMode = true;
     }
 
-    onSave(from: NgForm) {
+    onSave(from: NgForm, userName, userId) {
         const value = from.value;
-        this.editMode = false;
-        console.log(value);
+        this.apollo.mutate({
+            mutation: updateSealer,
+            variables: {
+                id: userId,
+                name: userName,
+                email: value.email,
+                phone: value.phone,
+                mobile: value.mobile
+            },
+            refetchQueries: [{
+                query: getSealerData
+            }]
+        }).subscribe((res) => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications(`user ${res.data.editSealer.name} created.`);
+        });
     }
 
     newSeller() {
@@ -102,38 +118,5 @@ export class SellersComponent implements OnInit {
                 });
             }
         });
-
     }
 }
-const getSealerData = gql`
-    {
-        sealers{
-            _id
-            name
-            email
-            phone
-            mobile
-            value
-        }
-    }
-`;
-const addSealer = gql`
-    mutation AddSealer($name: String!, $email: String!, $phone: String, $mobile: String, $value: Int!) {
-        addSealer(name: $name, email: $email, phone: $phone, mobile: $mobile, value: $value){
-            _id,
-            name
-            email
-            phone
-            mobile
-            value
-        }
-    }
-`;
-
-const removeSealer = gql`
-    mutation DeleteSealer($id: ID!) {
-        deleteSealer(id: $id){
-            name
-        }
-    }
-`;

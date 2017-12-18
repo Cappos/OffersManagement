@@ -32,7 +32,6 @@ export class ModulesComponent implements OnInit {
     title = 'List of all modules';
     color = 'grey';
     disabled = false;
-    selectable = false;
     columns: ITdDataTableColumn[] = [
         {name: 'uid', label: 'No.', tooltip: 'No.'},
         {name: 'name', label: 'Name', tooltip: 'Name'},

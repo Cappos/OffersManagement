@@ -3,6 +3,8 @@ const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull} 
 const mongoose = require('mongoose');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
+const Module = mongoose.model('module');
+const ModuleType = require('./types/module_type');
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -47,6 +49,18 @@ const mutation = new GraphQLObjectType({
                 }, { new: true });
             }
         },
+        addModule: {
+            type: ModuleType,
+            args: {
+                name: {type: new GraphQLNonNull(GraphQLString)},
+                bodytext: {type: GraphQLString},
+                price: {type: GraphQLInt},
+                tstmp: {  type: GraphQLString }
+            },
+            resolve(parentValue, args) {
+                return (new Module(args)).save()
+            }
+        }
     }
 });
 

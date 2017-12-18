@@ -11,12 +11,7 @@ const ModuleSchema = new Schema({
         default: Date.now
     },
     cruserId: Number,
-    crdate:  Date,
-    modify: Boolean,
-    groupUid: {
-        type: Schema.Types.ObjectId,
-        ref: 'group'
-    }
+    crdate:  Date
 });
 
 mongoose.model('module', ModuleSchema);

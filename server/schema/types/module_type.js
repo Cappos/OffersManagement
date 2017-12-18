@@ -14,14 +14,7 @@ const ModuleType = new GraphQLObjectType({
       price: {type: GraphQLInt},
       tstamp: {type: GraphQLDate},
       cruserId: {type: GraphQLInt},
-      crdate:  {type: GraphQLDate},
-      modify: {type: GraphQLBoolean},
-      groupUid: {
-          type: require('./group_type'),
-          resolve(parentValue, args) {
-              console.log(parentValue, args);
-          }
-      }
+      crdate:  {type: GraphQLDate}
   })
 });
 

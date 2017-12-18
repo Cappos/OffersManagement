@@ -27,9 +27,9 @@
                 {{column.label}}
             </th>
             <tbody>
-            <tr td-data-table-row *ngFor="let row of filteredData;">
+            <tr td-data-table-row *ngFor="let row of filteredData; let i = index">
                 <td td-data-table-cell>
-                    {{row.uid}}
+                    {{i +1}}
                 </td>
                 <td td-data-table-cell>
                     <button mat-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.name}}</button>

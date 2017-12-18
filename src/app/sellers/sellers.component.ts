@@ -1,12 +1,12 @@
 import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
-import {NgForm} from "@angular/forms";
-import {slideInDownAnimation} from "../_animations/app.animations";
-import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
-import {SharedService} from "../shared/shared.service";
-import {NewSellerComponent} from "./new-seller/new-seller.component";
-import {MatDialog} from "@angular/material";
-import {Apollo} from "apollo-angular";
-import gql from "graphql-tag";
+import {NgForm} from '@angular/forms';
+import {slideInDownAnimation} from '../_animations/app.animations';
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from '@covalent/core';
+import {SharedService} from '../shared/shared.service';
+import {NewSellerComponent} from './new-seller/new-seller.component';
+import {MatDialog} from '@angular/material';
+import {Apollo} from 'apollo-angular';
+import gql from 'graphql-tag';
 
 @Component({
     selector: 'app-sellers',
@@ -16,43 +16,13 @@ import gql from "graphql-tag";
 })
 export class SellersComponent implements OnInit {
 
-    @HostBinding('@routeAnimation') routeAnimation: boolean = true;
-    @HostBinding('class.td-route-animation') classAnimation: boolean = true;
+    @HostBinding('@routeAnimation') routeAnimation = true;
+    @HostBinding('class.td-route-animation') classAnimation = true;
 
     pageTitle = 'Sellers';
     title = 'List of sellers';
     editMode = false;
-    // data: any[] = [
-    //     {
-    //         "name": "Martin Glatz",
-    //         "uid": 1,
-    //         "email": "martin.glatz@deepscreen.ch",
-    //         "phone": "+41 43 255 68 68",
-    //         "mobile": "+41 79 915 21 37"
-    //     },
-    //     {
-    //         "name": "Simon Glatz",
-    //         "uid": 2,
-    //         "email": "simon.glatz@deepscreen.ch",
-    //         "phone": "+41 43 255 68 68",
-    //         "mobile": "+41 79 915 21 37"
-    //     },
-    //     {
-    //         "name": "Lena Jung",
-    //         "uid": 3,
-    //         "email": "lena.jung@deepscreen.ch",
-    //         "phone": "+41 43 255 68 68",
-    //         "mobile": "+41 79 915 21 37"
-    //     },
-    //     {
-    //         "name": "Sonia Kale",
-    //         "uid": 4,
-    //         "email": "sonia.kale@deepscreen.ch",
-    //         "phone": "",
-    //         "mobile": ""
-    //     }
-    // ];
-    data;
+    data: any;
 
     constructor(private loadingService: TdLoadingService, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private apollo: Apollo) {
         this.loadingService.create({
@@ -66,36 +36,31 @@ export class SellersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.apollo.query({
+        this.apollo.watchQuery<any>({
             query: getSealerData
-        }).subscribe(({data, loading}) => {
-            console.log(data, loading);
-            this.data = data
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.sealers;
         });
 
         this.loadingService.resolveAll('modulesLoader');
-
     }
 
     onEdit(uid) {
         console.log(uid, 'edit');
-        this.editMode = true
+        this.editMode = true;
     }
 
     onSave(from: NgForm) {
-        let value = from.value;
+        const value = from.value;
         this.editMode = false;
         console.log(value);
     }
 
     newSeller() {
-        let dialogRef = this.dialog.open(NewSellerComponent);
+        const dialogRef = this.dialog.open(NewSellerComponent);
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
-                this.data.push(result);
-
                 this.apollo.mutate({
                     mutation: addSealer,
                     variables: {
@@ -109,30 +74,32 @@ export class SellersComponent implements OnInit {
                         query: getSealerData
                     }]
                 }).subscribe((res) => {
-                    console.log(res);
-                    this.apollo.query({query: getSealerData, fetchPolicy: 'network-only'})
-                        .subscribe(() => {
-                            console.log('refresh done, our watchQuery will update')
-                        });
-                    this.data = this.apollo.watchQuery({query: getSealerData});
+                    this.sharedService.sneckBarNotifications(`user ${res.data.addSealer.name} created.`);
                 });
             }
-        })
+        });
     }
 
-    onDelete(uid: number) {
-        let id = uid;
+    onDelete(id: string) {
         this._dialogService.openConfirm({
-            message: 'Are you sure you want to remove this module?',
+            message: 'Are you sure you want to Delete this Sealer?',
             viewContainerRef: this._viewContainerRef,
             title: 'Confirm remove',
             cancelButton: 'Cancel',
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let seller = this.data.filter(seller => seller.uid === id)[0];
-                let sellerIndex = this.data.indexOf(seller);
-                this.data.splice(sellerIndex, 1);
+                this.apollo.mutate({
+                    mutation: removeSealer,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: getSealerData
+                    }]
+                }).subscribe((res) => {
+                    this.sharedService.sneckBarNotifications(`user ${res.data.deleteSealer.name} deleted!!!.`);
+                });
             }
         });
 
@@ -159,6 +126,14 @@ const addSealer = gql`
             phone
             mobile
             value
+        }
+    }
+`;
+
+const removeSealer = gql`
+    mutation DeleteSealer($id: ID!) {
+        deleteSealer(id: $id){
+            name
         }
     }
 `;

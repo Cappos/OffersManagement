@@ -19,6 +19,13 @@ const mutation = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return (new Sealer(args)).save()
             }
+        },
+        deleteSealer: {
+            type: SealerType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                return Sealer.findOneAndRemove({ _id: id });
+            }
         }
     }
 });

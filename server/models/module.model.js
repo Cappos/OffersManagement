@@ -11,7 +11,8 @@ const ModuleSchema = new Schema({
         default: Date.now
     },
     cruserId: Number,
-    crdate:  Date
+    crdate:  Date,
+    groupId: String
 });
 
 mongoose.model('module', ModuleSchema);

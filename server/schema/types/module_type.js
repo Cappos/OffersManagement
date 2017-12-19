@@ -14,7 +14,8 @@ const ModuleType = new GraphQLObjectType({
       price: {type: GraphQLInt},
       tstamp: {type: GraphQLDate},
       cruserId: {type: GraphQLInt},
-      crdate:  {type: GraphQLDate}
+      crdate:  {type: GraphQLDate},
+      groupId: {type: GraphQLString}
   })
 });
 

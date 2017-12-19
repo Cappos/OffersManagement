@@ -55,7 +55,8 @@ const mutation = new GraphQLObjectType({
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLInt},
-                tstmp: {  type: GraphQLString }
+                tstmp: {  type: GraphQLString },
+                groupId: {type: GraphQLString}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()

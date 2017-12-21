@@ -70,6 +70,7 @@ import {Apollo, ApolloModule} from "apollo-angular";
 import {DataNodeService} from "./dataNode.service";
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from "apollo-cache-inmemory";
+import {NgPipesModule} from 'ngx-pipes';
 
 
 
@@ -114,6 +115,7 @@ import {InMemoryCache} from "apollo-cache-inmemory";
         EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects, ChaptersEffects]),
         HttpClientModule,
         DragulaModule,
+        NgPipesModule,
         /** Material Modules */
         MatButtonModule,
         MatCheckboxModule,
@@ -163,7 +165,7 @@ import {InMemoryCache} from "apollo-cache-inmemory";
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService, DataNodeService],
+    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService, DataNodeService, NgPipesModule],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent],
     bootstrap: [AppComponent]
 })

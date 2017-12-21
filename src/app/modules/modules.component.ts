@@ -1,8 +1,8 @@
 import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
-import {Store} from "@ngrx/store";
 import 'rxjs';
 import 'rxjs/add/operator/take';
+import getModulesData from '../queries/fetchModules';
 
 import {
     IPageChangeEvent,
@@ -10,12 +10,10 @@ import {
     TdDataTableSortingOrder, TdDialogService, TdLoadingService
 } from '@covalent/core';
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-
-import * as fromModules from '../modules/store/modules.reducers';
-import * as ModulesActions from "./store/modules.actions";
+import {Apollo} from 'apollo-angular';
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
+import removeModule from '../queries/deleteModule';
 
 @Component({
     selector: 'app-modules',
@@ -41,8 +39,6 @@ export class ModulesComponent implements OnInit {
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
 
-    modulesState: Observable<fromModules.State>;
-
     data: any[];
     filteredData;
     filteredTotal: number;
@@ -53,7 +49,7 @@ export class ModulesComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromModules.FeatureState>, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -62,21 +58,19 @@ export class ModulesComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-
-        //get data from backend
-        this.store.dispatch(new ModulesActions.GetModules());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.modulesState = this.store.select('modulesList');
-        this.modulesState.take(2).subscribe((fromModules: fromModules.State) => {
-            this.data = fromModules.modules;
+        this.apollo.watchQuery<any>({
+            query: getModulesData
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.modules;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
-         });
+        });
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -114,13 +108,12 @@ export class ModulesComponent implements OnInit {
     }
 
     onEdit(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this.router.navigate(['/modules/' + id + '/edit']);
-
     }
 
     onDelete(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this module?',
             viewContainerRef: this._viewContainerRef,
@@ -129,18 +122,26 @@ export class ModulesComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let module = this.data.filter(module => module.uid === id)[0];
-                let moduleIndex = this.data.indexOf(module);
-                this.data.splice(moduleIndex, 1);
-                this.filteredData = this.data;
-                this.filter();
+                this.apollo.mutate({
+                    mutation: removeModule,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: getModulesData
+                    }]
+                }).subscribe((res) => {
+                    console.log(res);
+                    this.sharedService.sneckBarNotifications(`module ${res.data.deleteModule.name} deleted!!!.`);
+                });
+
             }
         });
 
     }
 
-    onSelect(uid){
-        this.router.navigate(['/modules/' + uid ]);
+    onSelect(id){
+        this.router.navigate(['/modules/' + id ]);
     }
 
 }

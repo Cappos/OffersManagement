@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -45,6 +45,7 @@
     "mongoose": "^4.13.7",
     "ng2-dragula": "^1.5.0",
     "ng2-filter-pipe": "^0.1.10",
+    "ngx-pipes": "^2.0.5",
     "rxjs": "^5.4.2",
     "tinymce": "^4.6.7",
     "zone.js": "^0.8.14"

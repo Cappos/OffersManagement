@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull} = graphql;
+const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat} = graphql;
 const mongoose = require('mongoose');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
@@ -54,14 +54,42 @@ const mutation = new GraphQLObjectType({
             args: {
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 bodytext: {type: GraphQLString},
-                price: {type: GraphQLInt},
+                price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLString}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()
             }
-        }
+        },
+        editModule: {
+            type: ModuleType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                name: {type: new GraphQLNonNull(GraphQLString)},
+                bodytext: {type: GraphQLString},
+                price: {type: GraphQLFloat},
+                tstmp: {  type: GraphQLString },
+                groupId: {type: GraphQLString}
+            },
+            resolve(parentValue, args) {
+                return Sealer.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        name: args.name,
+                        email: args.email,
+                        phone: args.phone,
+                        mobile: args.mobile
+                    }
+                }, { new: true });
+            }
+        },
+        deleteModule: {
+            type: ModuleType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Module.findOneAndRemove({_id: id});
+            }
+        },
     }
 });
 

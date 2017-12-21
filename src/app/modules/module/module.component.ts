@@ -1,18 +1,13 @@
 import {Component, OnInit, Output} from '@angular/core';
 import { Location } from '@angular/common';
-import {Store} from "@ngrx/store";
-import {Module} from "../modules.model";
 import 'rxjs/add/operator/take';
-
-import * as ModulesActions from '../store/modules.actions'
 import {NgForm} from "@angular/forms";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs/Observable";
-
-import * as fromModules from '../../modules/store/modules.reducers';
-import {HttpClient} from "@angular/common/http";
 import {SharedService} from "../../shared/shared.service";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {Apollo} from 'apollo-angular';
+import fetchModule from '../../queries/fetchModule';
 
 @Component({
     selector: 'app-module',
@@ -23,7 +18,6 @@ export class ModuleComponent implements OnInit {
     pageTitle = 'Modules';
     id: number;
     item;
-    moduleState: Observable<any>;
     @Output() editMode = false;
     rteData;
     groups: any[] = [
@@ -35,7 +29,7 @@ export class ModuleComponent implements OnInit {
     ];
     selectedGroup = this.groups[0].value;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private store: Store<fromModules.FeatureState>, private httpClient: HttpClient, private loadingService: TdLoadingService, private location: Location) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -49,17 +43,20 @@ export class ModuleComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(
             (params: Params) => {
-                this.id = +params['id'];
+                this.id = params['id'];
                 this.editMode = !!params['edit'];
-                this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
-                    observe: 'body',
-                    responseType: 'json'
-                });
-                this.moduleState.take(1).subscribe((res) => {
-                    this.item = res;
+
+                this.apollo.watchQuery<any>({
+                    query: fetchModule,
+                    variables: {
+                        id: this.id
+                    }
+                }).valueChanges.subscribe(({data}) => {
+                    this.item = data.module;
                     this.rteData = this.item.bodytext;
+                    this.selectedGroup = this.item.groupUid;
                     this.loadingService.resolveAll('modulesLoader');
-                })
+                });
             }
         );
     }

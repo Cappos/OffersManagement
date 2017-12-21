@@ -46,9 +46,6 @@ export class NewModuleComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         console.log(value);
-        // if(typeof(value.price) === intiger){
-        //
-        // }
         this.apollo.mutate({
             mutation: createModule,
             variables: {

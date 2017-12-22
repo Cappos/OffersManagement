@@ -3,11 +3,11 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/take';
 import {NgForm} from "@angular/forms";
 import {ActivatedRoute, Params} from "@angular/router";
-import {Observable} from "rxjs/Observable";
 import {SharedService} from "../../shared/shared.service";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from 'apollo-angular';
 import fetchModule from '../../queries/fetchModule';
+
 
 @Component({
     selector: 'app-module',
@@ -20,14 +20,8 @@ export class ModuleComponent implements OnInit {
     item;
     @Output() editMode = false;
     rteData;
-    groups: any[] = [
-        {name: 'Technical', value: 1},
-        {name: 'Design', value: 2},
-        {name: 'Optimization', value: 3},
-        {name: 'SEO', value: 4}
-
-    ];
-    selectedGroup = this.groups[0].value;
+    groups: any[];
+    selectedGroup;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({

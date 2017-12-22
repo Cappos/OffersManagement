@@ -7,8 +7,11 @@ const SealerType = require('./types/sealer_type');
 const offer = mongoose.model('offer');
 const Sealer = mongoose.model('sealer');
 const ModuleType = require('./types/module_type');
-
-const Modules = mongoose.model('module');
+const Module = mongoose.model('module');
+const GroupType = require('./types/group_type');
+const Group = mongoose.model('group');
+const CategoryType = require('./types/category_type');
+const Category = mongoose.model('category')
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -35,14 +38,40 @@ const RootQuery = new GraphQLObjectType({
         modules: {
             type: new GraphQLList(ModuleType),
             resolve(parentValue) {
-                return Modules.find({});
+                return Module.find({});
             }
         },
         module: {
-            type: new GraphQLList(ModuleType),
+            type: ModuleType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Modules.findOne({_id: id});
+                return Module.findById({_id: id});
+            }
+        },
+        groups: {
+            type: new GraphQLList(GroupType),
+            resolve(parentValue) {
+                return Group.find({});
+            }
+        },
+        group: {
+            type: GroupType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Group.findById({_id: id});
+            }
+        },
+        categories: {
+            type: new GraphQLList(CategoryType),
+            resolve(parentValue) {
+                return Category.find({});
+            }
+        },
+        category: {
+            type: CategoryType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Category.findById({_id: id});
             }
         },
     })

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLFloat } = graphql;
 const GraphQLDate = require('graphql-date');
-const GroupType = require('./group_type');
+const CategoryType = require('./category_type');
 const Module = mongoose.model('module');
 
 const ModuleType = new GraphQLObjectType({
@@ -15,7 +15,12 @@ const ModuleType = new GraphQLObjectType({
       tstamp: {type: GraphQLDate},
       cruserId: {type: GraphQLInt},
       crdate:  {type: GraphQLDate},
-      groupId: {type: GraphQLString}
+      groupId: {
+          type: new GraphQLList(CategoryType),
+          resolve(parentValue) {
+              return Module.findCategory(parentValue);
+          }
+      }
   })
 });
 

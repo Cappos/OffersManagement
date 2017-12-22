@@ -26,7 +26,7 @@
         </div>
 
         <div style="margin-top:20px;" flex="25" layout-padding>
-          <mat-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
+          <mat-select placeholder="Group" floatPlaceholder="auto" ngModel name="groupUid">
             <mat-option *ngFor="let group of groups" [value]="group.value">
               {{group.name}}
             </mat-option>

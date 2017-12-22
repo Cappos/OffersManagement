@@ -1,10 +1,12 @@
 const graphql = require('graphql');
-const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat} = graphql;
+const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat, GraphQLList} = graphql;
 const mongoose = require('mongoose');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
 const Module = mongoose.model('module');
 const ModuleType = require('./types/module_type');
+const CategoryType = require('./types/category_type');
+const Category = mongoose.model('category');
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -56,7 +58,7 @@ const mutation = new GraphQLObjectType({
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
-                groupId: {type: GraphQLString}
+                groupId: {type: GraphQLID}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()
@@ -70,7 +72,7 @@ const mutation = new GraphQLObjectType({
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
-                groupId: {type: GraphQLString}
+                groupId: {type: GraphQLID}
             },
             resolve(parentValue, args) {
                 return Sealer.findOneAndUpdate({_id: args.id}, {
@@ -88,6 +90,17 @@ const mutation = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Module.findOneAndRemove({_id: id});
+            }
+        },
+        addCategory: {
+            type: CategoryType,
+            args: {
+                name: {type: GraphQLString},
+                value: {type: GraphQLInt},
+                tstamp: {type: GraphQLString}
+            },
+            resolve(parentValue, args) {
+                return (new Category(args)).save()
             }
         },
     }

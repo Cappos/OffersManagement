@@ -5,6 +5,8 @@ import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from 'apollo-angular';
 import createModule from '../../queries/crateModule';
 import {Router} from "@angular/router";
+import fetchCategories from '../../queries/fetchCategories';
+import getModulesData from '../../queries/fetchModules';
 
 @Component({
     selector: 'app-new-module',
@@ -15,14 +17,7 @@ export class NewModuleComponent implements OnInit {
     pageTitle = 'Modules';
     @Output() editMode = true;
     rteData = '';
-    groups: any[] = [
-        {name: 'Technical', value: "1"},
-        {name: 'Design', value: "2"},
-        {name: 'Optimization', value: "3"},
-        {name: 'SEO', value: "4"}
-
-    ];
-    selectedGroup;
+    groups: any[];
 
     constructor(private sharedService: SharedService, private loadingService: TdLoadingService, private apollo: Apollo, private router: Router) {
         this.loadingService.create({
@@ -35,8 +30,15 @@ export class NewModuleComponent implements OnInit {
         this.sharedService.changeTitle(this.pageTitle);
     }
 
-    ngOnInit(){
-        this.loadingService.resolveAll('modulesLoader');
+    ngOnInit() {
+        this.apollo.watchQuery<any>({
+            query: fetchCategories
+        }).valueChanges.subscribe(({data}) => {
+            this.groups = data.categories;
+            console.log(this.groups);
+            this.loadingService.resolveAll('modulesLoader');
+        });
+
     }
 
     keyupHandler(ev) {
@@ -52,14 +54,15 @@ export class NewModuleComponent implements OnInit {
                 name: value.name,
                 bodytext: this.rteData,
                 price: value.price,
-                group: value.groupUid
-            }
+                groupId: value.groupUid
+            },
+            refetchQueries: [{
+                query: getModulesData
+            }]
         }).subscribe(() => {
             this.editMode = false;
             this.sharedService.sneckBarNotifications(`module created.`);
             this.router.navigate(['/modules']);
         });
-
     }
-
 }

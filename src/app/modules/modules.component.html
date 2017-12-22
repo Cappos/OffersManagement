@@ -41,7 +41,7 @@
                     {{row.price | number:'3.2'}}
                 </td>
                 <td td-data-table-cell>
-                    {{row.tstamp}}
+                    {{row.tstamp | date: 'dd.MM.y'}}
                 </td>
                 <td td-data-table-cell colspan="2">
                     <div layout="row">

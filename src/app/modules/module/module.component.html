@@ -47,7 +47,7 @@
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
+                            <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'" name="tstamp" required
                                    [readonly]="!editMode">
                         </mat-input-container>
                     </div>

@@ -11,8 +11,27 @@ const ModuleSchema = new Schema({
         default: Date.now
     },
     cruserId: Number,
-    crdate:  Date,
-    groupId: String
+    crdate: Date,
+    groupId: [{
+        type: Schema.Types.ObjectId,
+        ref: 'category'
+    }]
 });
+
+ModuleSchema.statics.findCategory = function (id) {
+    const Category = mongoose.model('category');
+
+    return this.findById(id._id)
+        .populate('groupId' , {model: 'module'})
+        .then(module => {
+            Category.findById(id.groupId[0]).then(res => {
+                module.groupId = res
+                console.log(module);
+
+            })
+
+        });
+}
+
 
 mongoose.model('module', ModuleSchema);

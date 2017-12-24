@@ -60,8 +60,8 @@ const mutation = new GraphQLObjectType({
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID}
             },
-            resolve(parentValue, args) {
-                return (new Module(args)).save()
+            resolve(parentValue, { name, bodytext, price, tstmp,  groupId}) {
+                return Module.addCategory(name, bodytext, price, tstmp,  groupId);
             }
         },
         editModule: {

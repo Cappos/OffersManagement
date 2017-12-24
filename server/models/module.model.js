@@ -17,21 +17,35 @@ const ModuleSchema = new Schema({
         ref: 'category'
     }]
 });
-
-ModuleSchema.statics.findCategory = function (id) {
+ModuleSchema.statics.addCategory = function(name, bodytext, price, tstmp,  groupId) {
     const Category = mongoose.model('category');
 
-    return this.findById(id._id)
-        .populate('groupId' , {model: 'module'})
+    return this.findById(id)
         .then(module => {
-            Category.findById(id.groupId[0]).then(res => {
-                module.groupId = res
-                console.log(module);
-
-            })
-
+            const category = new Category({ content, module });
+            module.groupId.push(category);
+            return Promise.all([category.save(), module.save()])
+                .then(([groupId, module]) => module);
         });
 }
+// ModuleSchema.statics.addCategory = function(id, content) {
+//     const Category = mongoose.model('category');
+//
+//     return this.findById(id)
+//         .then(module => {
+//             const category = new Category({ content, module });
+//             module.groupId.push(category);
+//             return Promise.all([category.save(), module.save()])
+//                 .then(([groupId, module]) => module);
+//         });
+// }
 
+
+
+ModuleSchema.statics.findCategory = function (id) {
+    return this.findById(id)
+        .populate('groupId')
+        .then(module => module.groupId);
+};
 
 mongoose.model('module', ModuleSchema);

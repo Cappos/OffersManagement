@@ -10,7 +10,17 @@ const CategoryType = new GraphQLObjectType({
       _id: {type: GraphQLID},
       name: { type: GraphQLString },
       value: {type: GraphQLInt},
-      tstamp: {type: GraphQLDate}
+      tstamp: {type: GraphQLDate},
+      module: {
+          type: require('./module_type'),
+          resolve(parentValue) {
+              return Category.findById(parentValue).populate('module')
+                  .then(category => {
+                      console.log(category);
+                      return category.module
+                  });
+          }
+      }
   })
 });
 

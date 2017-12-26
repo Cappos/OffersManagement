@@ -17,18 +17,7 @@ const ModuleSchema = new Schema({
         ref: 'category'
     }]
 });
-ModuleSchema.statics.addCategory = function(name, bodytext, price, tstmp,  groupId) {
-    const Category = mongoose.model('category');
-
-    return this.findById(id)
-        .then(module => {
-            const category = new Category({ content, module });
-            module.groupId.push(category);
-            return Promise.all([category.save(), module.save()])
-                .then(([groupId, module]) => module);
-        });
-}
-// ModuleSchema.statics.addCategory = function(id, content) {
+// ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {
 //     const Category = mongoose.model('category');
 //
 //     return this.findById(id)
@@ -39,8 +28,6 @@ ModuleSchema.statics.addCategory = function(name, bodytext, price, tstmp,  group
 //                 .then(([groupId, module]) => module);
 //         });
 // }
-
-
 
 ModuleSchema.statics.findCategory = function (id) {
     return this.findById(id)

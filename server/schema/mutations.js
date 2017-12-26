@@ -60,8 +60,8 @@ const mutation = new GraphQLObjectType({
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID}
             },
-            resolve(parentValue, { name, bodytext, price, tstmp,  groupId}) {
-                return Module.addCategory(name, bodytext, price, tstmp,  groupId);
+            resolve(parentValue, args) {
+                return (new Module(args)).save()
             }
         },
         editModule: {
@@ -75,12 +75,12 @@ const mutation = new GraphQLObjectType({
                 groupId: {type: GraphQLID}
             },
             resolve(parentValue, args) {
-                return Sealer.findOneAndUpdate({_id: args.id}, {
+                return Module.findOneAndUpdate({_id: args.id}, {
                     $set: {
                         name: args.name,
-                        email: args.email,
-                        phone: args.phone,
-                        mobile: args.mobile
+                        bodytext: args.bodytext,
+                        price: args.price,
+                        groupId: args.groupId
                     }
                 }, { new: true });
             }
@@ -96,7 +96,7 @@ const mutation = new GraphQLObjectType({
             type: CategoryType,
             args: {
                 name: {type: GraphQLString},
-                value: {type: GraphQLInt},
+                value: {type: GraphQLString},
                 tstamp: {type: GraphQLString}
             },
             resolve(parentValue, args) {

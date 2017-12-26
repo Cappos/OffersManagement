@@ -9,7 +9,7 @@ const CategoryType = new GraphQLObjectType({
   fields: () => ({
       _id: {type: GraphQLID},
       name: { type: GraphQLString },
-      value: {type: GraphQLInt},
+      value: {type: GraphQLString},
       tstamp: {type: GraphQLDate},
       module: {
           type: require('./module_type'),

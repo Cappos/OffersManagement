@@ -17,7 +17,7 @@ export class NewModuleComponent implements OnInit {
     pageTitle = 'Modules';
     @Output() editMode = true;
     rteData = '';
-    groups: any[];
+    categories: any[];
 
     constructor(private sharedService: SharedService, private loadingService: TdLoadingService, private apollo: Apollo, private router: Router) {
         this.loadingService.create({
@@ -34,8 +34,8 @@ export class NewModuleComponent implements OnInit {
         this.apollo.watchQuery<any>({
             query: fetchCategories
         }).valueChanges.subscribe(({data}) => {
-            this.groups = data.categories;
-            console.log(this.groups);
+            console.log(data);
+            this.categories = data.categories;
             this.loadingService.resolveAll('modulesLoader');
         });
 
@@ -47,6 +47,7 @@ export class NewModuleComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
+        const category = this.categories.find(category => category.value == value.categoryId);
         console.log(value);
         this.apollo.mutate({
             mutation: createModule,
@@ -54,7 +55,7 @@ export class NewModuleComponent implements OnInit {
                 name: value.name,
                 bodytext: this.rteData,
                 price: value.price,
-                groupId: value.groupUid
+                groupId: category._id
             },
             refetchQueries: [{
                 query: getModulesData

@@ -7,6 +7,8 @@ import {SharedService} from "../../shared/shared.service";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from 'apollo-angular';
 import fetchModule from '../../queries/fetchModule';
+import updateModule from '../../queries/updateModule';
+import getModulesData from '../../queries/fetchModules';
 
 
 @Component({
@@ -20,8 +22,8 @@ export class ModuleComponent implements OnInit {
     item;
     @Output() editMode = false;
     rteData;
-    groups: any[];
     selectedGroup;
+    categories: any[];
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
@@ -44,11 +46,14 @@ export class ModuleComponent implements OnInit {
                     query: fetchModule,
                     variables: {
                         id: this.id
-                    }
+                    },
+                    fetchPolicy: 'network-only'
                 }).valueChanges.subscribe(({data}) => {
+                    console.log(data);
                     this.item = data.module;
+                    this.categories = data.categories;
                     this.rteData = this.item.bodytext;
-                    this.selectedGroup = this.item.groupUid;
+                    this.selectedGroup = this.item.groupId[0].value;
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -57,9 +62,26 @@ export class ModuleComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        // const updateModule = new Module(this.item.uid, value.name, this.rteData, value.price, value.tstamp, this.item.cruserId, this.item.crdate, this.item.modify, value.groupUid);
-        // this.store.dispatch(new ModulesActions.AddModule(updateModule));
-        this.editMode = false;
+        const category = this.categories.find(category => category.value == value.categoryId);
+        const price = value.price.replace(',', '')
+
+        this.apollo.mutate({
+            mutation: updateModule,
+            variables: {
+                id: this.id,
+                name: value.name,
+                bodytext: this.rteData,
+                price: +price,
+                groupId: category._id
+            },
+            refetchQueries: [{
+                query: getModulesData
+            }]
+        }).subscribe(() => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications(`module updated.`);
+            this.editMode = false;
+        });
     }
 
     keyupHandler(ev) {

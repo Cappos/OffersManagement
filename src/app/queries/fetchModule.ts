@@ -8,7 +8,17 @@ export default gql`
             bodytext
             price
             tstamp
-            
+            groupId {
+                _id
+                name
+                value
+            }
+        }
+        
+        categories {
+            _id
+            name
+            value
         }
     }
 `;

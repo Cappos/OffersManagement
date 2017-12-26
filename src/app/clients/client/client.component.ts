@@ -1,12 +1,12 @@
 import {Component, OnInit, Output} from '@angular/core';
 import { Location } from '@angular/common';
-import {Observable} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
-import {Client} from "../client.model";
 import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {Apollo} from "apollo-angular";
+import fetchClient from '../../queries/fetchClient';
+import updateClient from '../../queries/updateClient';
 
 @Component({
     selector: 'app-client',
@@ -17,10 +17,10 @@ export class ClientComponent implements OnInit {
     pageTitle = 'Clients';
     id: number;
     item;
-    clientState: Observable<any>;
+    offers: any[] =[];
     @Output() editMode = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private router: Router, private loadingService: TdLoadingService, private location: Location) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -34,24 +34,46 @@ export class ClientComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(
             (params: Params) => {
-                this.id = +params['id'];
+                this.id = params['id'];
                 this.editMode = !!params['edit'];
-                this.clientState = this.httpClient.get<Client>('http://wrenchweb.com/http/clientData', {
-                    observe: 'body',
-                    responseType: 'json'
+
+                this.apollo.watchQuery<any>({
+                    query: fetchClient,
+                    variables: {
+                        id: this.id
+                    },
+                    fetchPolicy: 'network-only'
+                }).valueChanges.subscribe(({data}) => {
+                    this.item = data.client;
+                    this.loadingService.resolveAll('modulesLoader');
                 });
-                this.clientState.take(1).subscribe((res) => {
-                    this.item = res;
-                });
-                this.loadingService.resolveAll('modulesLoader');
             }
         );
     }
 
     onSave(form: NgForm) {
         const value = form.value;
-        console.log(value);
-        this.editMode = false;
+        const offers = this.offers.length ? this.offers : null;
+
+        this.apollo.mutate({
+            mutation: updateClient,
+            variables: {
+                id: this.id,
+                clientName: value.clientName,
+                contactPerson: value.contactPerson,
+                companyName: value.companyName,
+                address: value.address,
+                contactPhone: value.contactPhone,
+                mobile: value.mobile,
+                mail: value.mail,
+                webSite: value.webSite,
+                pib: value.pib,
+                offers: offers
+            }
+        }).subscribe(() => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications(`client updated.`);
+        });
     }
 
     onEdit() {

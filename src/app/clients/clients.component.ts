@@ -5,13 +5,12 @@ import {
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
     TdDataTableSortingOrder, TdDialogService, TdLoadingService
 } from "@covalent/core";
-import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import * as fromClients from './store/clients.reducers';
-import * as ClientsActions from "./store/clients.actions";
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
+import {Apollo} from "apollo-angular";
+import fatchClient from '../queries/fetchClients';
+import removeClient from '../queries/deleteClient';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class ClientsComponent implements OnInit {
     pageTitle = 'Clients';
     title = 'List of all clients';
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.'},
+        {name: 'id', label: 'No.', tooltip: 'No.'},
         {name: 'companyName', label: 'Name', tooltip: 'Name'},
         {name: 'address', label: 'Address', tooltip: 'Address'},
         {name: 'contactPerson', label: 'Contact person', tooltip: 'Contact person'},
@@ -36,8 +35,6 @@ export class ClientsComponent implements OnInit {
         {name: 'tstamp', label: 'Date', tooltip: 'Date'},
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
-
-    clientsState: Observable<fromClients.State>;
 
     data: any[];
     filteredData;
@@ -49,7 +46,7 @@ export class ClientsComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromClients.FeatureState>, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -57,15 +54,15 @@ export class ClientsComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-        //get data from backend
-        this.store.dispatch(new ClientsActions.GetClients());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.clientsState = this.store.select('clientsList');
-        this.clientsState.take(2).subscribe((fromClients: fromClients.State) => {
-            this.data = fromClients.clients;
+        this.apollo.watchQuery<any>({
+            query: fatchClient,
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.clients;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
@@ -108,13 +105,13 @@ export class ClientsComponent implements OnInit {
     }
 
     onEdit(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this.router.navigate(['/clients/' + id + '/edit']);
 
     }
 
     onDelete(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this client?',
             viewContainerRef: this._viewContainerRef,
@@ -123,14 +120,19 @@ export class ClientsComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let client = this.data.filter(client => client.uid === id)[0];
-                let clientIndex = this.data.indexOf(client);
-                this.data.splice(clientIndex, 1);
-                this.filteredData = this.data;
-                this.filter();
+                this.apollo.mutate({
+                    mutation: removeClient,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: fatchClient
+                    }]
+                }).subscribe((res) => {
+                    this.sharedService.sneckBarNotifications(`client ${res.data.deleteClient.companyName} deleted!!!.`);
+                });
             }
         });
-
     }
 
     onSelect(uid) {

@@ -27,12 +27,12 @@
                 {{column.label}}
             </th>
             <tbody>
-            <tr td-data-table-row *ngFor="let row of filteredData;">
+            <tr td-data-table-row *ngFor="let row of filteredData; let i = index">
                 <td td-data-table-cell>
-                    {{row.uid}}
+                    {{i +1}}
                 </td>
                 <td td-data-table-cell>
-                    <button mat-menu-item [routerLink]="[row.uid]" (click)="onSelect(row.uid)">{{row.companyName}}
+                    <button mat-menu-item [routerLink]="[row.uid]" (click)="onSelect(row._id)">{{row.companyName}}
                     </button>
                 </td>
                 <td td-data-table-cell>
@@ -48,7 +48,7 @@
                     {{row.mail}}
                 </td>
                 <td td-data-table-cell>
-                    {{row.tstamp}}
+                    {{row.tstamp | date: 'dd.MM.y'}}
                 </td>
                 <td td-data-table-cell colspan="2">
                     <div layout="row">

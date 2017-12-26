@@ -7,6 +7,8 @@ const Module = mongoose.model('module');
 const ModuleType = require('./types/module_type');
 const CategoryType = require('./types/category_type');
 const Category = mongoose.model('category');
+const ClientType = require('./types/client_type');
+const Client = mongoose.model('client');
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -101,6 +103,62 @@ const mutation = new GraphQLObjectType({
             },
             resolve(parentValue, args) {
                 return (new Category(args)).save()
+            }
+        },
+        addClient: {
+            type: ClientType,
+            args: {
+                contactPerson: {type: GraphQLString},
+                companyName: {type: GraphQLString},
+                address: {type: GraphQLString},
+                contactPhone: {type: GraphQLString},
+                mobile: {type: GraphQLString},
+                mail: {type: GraphQLString},
+                webSite: {type: GraphQLString},
+                pib: {type: GraphQLString},
+                tstmp: {type: GraphQLString},
+                offers: {type: GraphQLID}
+            },
+            resolve(parentValue, args) {
+                return (new Client(args)).save()
+            }
+        },
+        editClient: {
+            type: ClientType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                contactPerson: {type: GraphQLString},
+                companyName: {type: new GraphQLNonNull(GraphQLString)},
+                address: {type: GraphQLString},
+                contactPhone: {type: GraphQLString},
+                mobile: {type: GraphQLString},
+                mail: {type: GraphQLString},
+                webSite: {type: GraphQLString},
+                pib: {type: GraphQLString},
+                tstmp: {type: GraphQLString},
+                offers: {type: GraphQLID}
+            },
+            resolve(parentValue, args) {
+                return Client.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        contactPerson: args.contactPerson,
+                        companyName: args.companyName,
+                        address: args.address,
+                        contactPhone: args.contactPhone,
+                        mobile: args.mobile,
+                        mail: args.mail,
+                        webSite: args.webSite,
+                        pib: args.pib,
+                        offers: args.offers
+                    }
+                }, { new: true });
+            }
+        },
+        deleteClient: {
+            type: ClientType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Client.findOneAndRemove({_id: id});
             }
         },
     }

@@ -11,7 +11,9 @@ const Module = mongoose.model('module');
 const GroupType = require('./types/group_type');
 const Group = mongoose.model('group');
 const CategoryType = require('./types/category_type');
-const Category = mongoose.model('category')
+const Category = mongoose.model('category');
+const ClientType =  require('./types/client_type');
+const Client = mongoose.model('client');
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -72,6 +74,19 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Category.findById({_id: id});
+            }
+        },
+        clients: {
+            type: new GraphQLList(ClientType),
+            resolve(parentValue) {
+                return Client.find({});
+            }
+        },
+        client: {
+            type: ClientType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Client.findById({_id: id});
             }
         },
     })

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
 const GraphQLDate = require('graphql-date');
 const Client = mongoose.model('client');
 
@@ -8,7 +8,6 @@ const ClientType = new GraphQLObjectType({
   name:  'ClientType',
   fields: () => ({
       _id: {type: GraphQLID},
-      clientName: { type: GraphQLString },
       contactPerson:  { type: GraphQLString },
       companyName:  { type: GraphQLString },
       address:  { type: GraphQLString },
@@ -16,7 +15,7 @@ const ClientType = new GraphQLObjectType({
       mobile:  { type: GraphQLString },
       mail:  { type: GraphQLString },
       webSite:  { type: GraphQLString },
-      pib:  { type: GraphQLInt },
+      pib:  { type: GraphQLString },
       tstamp: {type: GraphQLDate},
       offers:  {
           type: require('./offer_type'),

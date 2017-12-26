@@ -10,7 +10,7 @@ const ClientSchema = new Schema({
     mobile: String,
     mail: String,
     webSite: String,
-    pib: Number,
+    pib: String,
     tstamp: {
         type: Date,
         default: Date.now

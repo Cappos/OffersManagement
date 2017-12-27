@@ -48,6 +48,8 @@ export class NewModuleComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId);
+        const group = null;
+
         console.log(value);
         this.apollo.mutate({
             mutation: createModule,
@@ -55,7 +57,8 @@ export class NewModuleComponent implements OnInit {
                 name: value.name,
                 bodytext: this.rteData,
                 price: value.price,
-                groupId: category._id
+                groupId: group,
+                categoryId: category._id
             },
             refetchQueries: [{
                 query: getModulesData

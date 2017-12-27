@@ -1,6 +1,5 @@
 import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
-import {Store} from "@ngrx/store";
 import 'rxjs';
 import 'rxjs/add/operator/take';
 
@@ -10,11 +9,10 @@ import {
     TdDataTableSortingOrder, TdDialogService, TdLoadingService
 } from '@covalent/core';
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-
-import * as fromChapters from './store/chapters.reducers';
-import * as ChaptersActions from "./store/chapters.actions";
 import {slideInDownAnimation} from "../_animations/app.animations";
+import {Apollo} from "apollo-angular";
+import fetchGroups from '../queries/fetchGroups';
+import removeGroup from '../queries/deleteGroup';
 
 @Component({
     selector: 'app-chapters',
@@ -32,17 +30,14 @@ export class ChaptersComponent implements OnInit {
     title = 'List of all chapters';
     color = 'grey';
     disabled = false;
-    selectable = false;
 
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.'},
+        {name: 'id', label: 'No.', tooltip: 'No.'},
         {name: 'name', label: 'Name', tooltip: 'Name'},
         {name: 'price', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date'},
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
-
-    modulesState: Observable<fromChapters.State>;
 
     data: any[];
     filteredData;
@@ -50,11 +45,11 @@ export class ChaptersComponent implements OnInit {
     searchTerm = '';
     fromRow = 1;
     currentPage = 1;
-    pageSize = 5;
+    pageSize = 10;
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromChapters.FeatureState>, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -62,21 +57,19 @@ export class ChaptersComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-        //get data from backend
-        this.store.dispatch(new ChaptersActions.GetChapters());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.modulesState = this.store.select('chaptersList');
-        this.modulesState.take(2).subscribe((fromChapters: fromChapters.State) => {
-            this.data = fromChapters.chapters;
+        this.apollo.watchQuery<any>({
+            query: fetchGroups
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.groups;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });
-
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -114,13 +107,13 @@ export class ChaptersComponent implements OnInit {
     }
 
     onEdit(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this.router.navigate(['/chapters/' + id + '/edit']);
 
     }
 
     onDelete(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this Chapter?',
             viewContainerRef: this._viewContainerRef,
@@ -129,11 +122,18 @@ export class ChaptersComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let chapter = this.data.filter(chapter => chapter.uid === id)[0];
-                let chapterIndex = this.data.indexOf(chapter);
-                this.data.splice(chapterIndex, 1);
-                this.filteredData = this.data;
-                this.filter();
+                this.apollo.mutate({
+                    mutation: removeGroup,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: fetchGroups
+                    }]
+                }).subscribe((res) => {
+                    this.sharedService.sneckBarNotifications(`chapter ${res.data.deleteGroup.name} deleted!!!.`);
+                });
+
             }
         });
 

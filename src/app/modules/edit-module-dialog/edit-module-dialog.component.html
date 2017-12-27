@@ -34,15 +34,15 @@
             </div>
 
             <div style="margin-top:20px;" flex="25" layout-padding>
-                <mat-select placeholder="Group" floatPlaceholder="auto" [(ngModel)]="selectedGroup" name="groupUid">
-                    <mat-option *ngFor="let group of groups" [value]="group.value">
-                        {{group.name}}
+                <mat-select placeholder="Category" floatPlaceholder="auto" [(ngModel)]="selectedChapter" name="categoryId">
+                    <mat-option *ngFor="let category of categories" [value]="category.value">
+                        {{category.name}}
                     </mat-option>
                 </mat-select>
             </div>
             <div style="margin-top:20px;" flex="25" layout-padding>
                 <mat-input-container>
-                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required>
+                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" readonly>
                 </mat-input-container>
             </div>
             <div style="margin-top:20px;" flex="100" layout-padding>

@@ -1,13 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
-import {Module} from "../modules.model";
 import {NgForm} from "@angular/forms";
 
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
+import {Apollo} from "apollo-angular";
+import fetchModule from '../../queries/fetchModule';
+import fetchCategories from '../../queries/fetchCategories';
 
 @Component({
     selector: 'app-edit-module-dialog',
@@ -17,22 +16,16 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 export class EditModuleDialogComponent implements OnInit {
     pageTitle = 'Modules';
     id: number;
-    item: Module;
-    moduleState: Observable<any>;
+    item;
     rteData = '';
-    groups: any[] = [
-        {name: 'Technical', value: 1},
-        {name: 'Design', value: 2},
-        {name: 'Optimization', value: 3},
-        {name: 'SEO', value: 4}
-
-    ];
-
-    savedModuleData;
     itemSaved = false;
+    selectedChapter;
+    categories: any[];
     selectedGroup;
+    savedModuleData;
+    count = 0;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<EditModuleDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<EditModuleDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -45,30 +38,77 @@ export class EditModuleDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.data.edit) {
-            this.id = this.data.moduleUid;
-            this.moduleState = this.httpClient.get<Module>('http://wrenchweb.com/http/moduleData', {
-                observe: 'body',
-                responseType: 'json'
-            });
-            this.moduleState.take(1).subscribe((res) => {
-                this.item = res;
+        console.log(this.data);
+        if (this.data.edit && this.data.moduleUid) {
+            this.id = this.data.groupUid;
+            const chapterId = this.data.chapterId
+
+            this.apollo.watchQuery<any>({
+                query: fetchModule,
+                variables: {
+                    id: this.id
+                },
+                fetchPolicy: 'network-only'
+            }).valueChanges.subscribe(({data}) => {
+                this.item = data.module;
+                this.categories = data.categories;
                 this.rteData = this.item.bodytext;
-                this.selectedGroup = this.item.groupUid;
-            })
+                this.selectedChapter = chapterId;
+                this.selectedGroup = this.item.categoryId[0].value;
+            });
+        }
+        else if (this.data.edit) {
+            this.id = this.data.groupUid;
+            const chapterId = this.data.chapterId
+
+
+            this.apollo.watchQuery<any>({
+                query: fetchCategories
+            }).valueChanges.subscribe(({data}) => {
+                this.categories = data.categories;
+                this.id = this.data.groupUid;
+                this.item = this.data.moduleNew
+                this.rteData = this.item.bodytext;
+                this.selectedChapter = chapterId;
+            });
+
         }
         else {
-            this.selectedGroup = this.data.groupUid;
-            console.log(this.selectedGroup, 'else');
+            console.log(this.data);
+            this.apollo.watchQuery<any>({
+                query: fetchCategories
+            }).valueChanges.subscribe(({data}) => {
+                this.categories = data.categories;
+                this.id = this.data.groupUid;
+
+            });
         }
         this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {
-        console.log('saved');
-        this.savedModuleData = form.value;
-        this.savedModuleData.bodytext = this.rteData;
-        this.itemSaved = true;
+        const value = form.value;
+        const category = this.categories.find(category => category.value == value.categoryId);
+        this.count++;
+
+        if (this.data.edit && this.item._id) {
+            let price = value.price.replace(',', '');
+
+            this.savedModuleData = value;
+            this.savedModuleData.id = this.item._id;
+            this.savedModuleData.bodytext = this.rteData;
+            this.savedModuleData.price = +price;
+            this.savedModuleData.groupUid = this.id;
+            this.savedModuleData.categoryId = category._id;
+        }
+        else {
+            this.savedModuleData = value;
+            this.savedModuleData.id = this.id + this.count;
+            this.savedModuleData.moduleNew = true;
+            this.savedModuleData.bodytext = this.rteData;
+            this.savedModuleData.groupUid = this.id;
+            this.savedModuleData.categoryId = category._id;
+        }
     }
 
     keyupHandler(ev) {

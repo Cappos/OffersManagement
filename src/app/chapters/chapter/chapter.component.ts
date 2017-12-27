@@ -1,20 +1,16 @@
 import {Component, HostBinding, OnInit, Output, ViewContainerRef} from '@angular/core';
 import {Location} from '@angular/common';
-import {Observable} from "rxjs/Observable";
 import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {MatDialog} from "@angular/material";
-import 'rxjs/Observable';
-
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
-import {Group} from "../../offers/groups.model";
-import {Module} from "../../modules/modules.model";
 import {slideInDownAnimation} from "../../_animations/app.animations";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
-import {DataService} from "../../shared/data.service";
+import {Apollo} from "apollo-angular";
+import fetchGroup from '../../queries/fetchGroup';
+import updateGroup from '../../queries/updateGroup';
 
 @Component({
     selector: 'app-chapter',
@@ -31,13 +27,15 @@ export class ChapterComponent implements OnInit {
     pageTitle = 'Chapters';
     id: number;
     item;
-    chapterState: Observable<any>;
     @Output() editMode = false;
-    chaptersModules: Module[];
+    chaptersModules = [];
     editModuleGroup: number;
     chapterPrice: number;
+    modulesNew = [];
+    modulesUpdate = [];
+    modules: any[];
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -51,23 +49,49 @@ export class ChapterComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(
             (params: Params) => {
-                this.id = +params['id'];
+                this.id = params['id'];
                 this.editMode = !!params['edit'];
-                this.chapterState = this.dataService.getChapterData();
 
-                this.chapterState.take(1).subscribe((res) => {
-                    this.item = res;
-                    this.chaptersModules = this.item.modules;
+                this.apollo.watchQuery<any>({
+                    query: fetchGroup,
+                    variables: {
+                        id: this.id
+                    },
+                    fetchPolicy: 'network-only'
+                }).valueChanges.subscribe(({data}) => {
+                    this.item = data.group;
+                    if (this.item.modules) {
+                        this.chaptersModules = this.item.modules;
+                    }
                     this.chapterPrice = this.item.subTotal;
+                    this.loadingService.resolveAll('modulesLoader');
                 });
-                this.loadingService.resolveAll('modulesLoader');
             }
         );
     }
 
     onSave(form: NgForm) {
         const value = form.value;
-        this.editMode = false;
+        const modules = this.modules.length ? this.modules : null;
+        let subTotal = null;
+
+        if (value.subTotal) {
+            subTotal = value.subTotal.replace(',', '');
+        }
+
+        this.apollo.mutate({
+            mutation: updateGroup,
+            variables: {
+                id: this.id,
+                name: value.name,
+                bodytext: value.bodytext,
+                subTotal: subTotal,
+                modules: modules
+            }
+        }).subscribe(() => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications(`chapter updated.`);
+        });
     }
 
     onEdit() {
@@ -75,13 +99,16 @@ export class ChapterComponent implements OnInit {
         this.editMode = true
     }
 
-    onModuleEdit(moduleUid: number, groupUid: number) {
+    onModuleEdit(moduleUid: number, groupUid: number, moduleNew: boolean, moduleData: any) {
         this.editModuleGroup = groupUid;
+        let moduleNewData = moduleNew ? moduleData : null;
+
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 moduleUid: moduleUid,
                 groupUid: groupUid,
-                edit: true
+                edit: true,
+                moduleNew: moduleNewData
             }
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -145,16 +172,25 @@ export class ChapterComponent implements OnInit {
         });
     }
 
-    addModule(groupUid: number) {
-        this.editModuleGroup = groupUid;
+    addModule(chapterId: number) {
+        this.editModuleGroup = chapterId;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
-                groupUid: groupUid,
+                groupUid: chapterId,
                 edit: false
             }
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                console.log(result);
+
+                if (result.moduleNew) {
+                    this.modulesNew.push(result)
+                }
+                else {
+                    this.modulesUpdate.push(result)
+                }
+
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 

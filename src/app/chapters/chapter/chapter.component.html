@@ -18,7 +18,7 @@
                 </div>
             </div>
         </mat-card-title>
-        <mat-card-subtitle>id: {{item.uid}}</mat-card-subtitle>
+        <mat-card-subtitle>id: {{item._id}}</mat-card-subtitle>
         <mat-divider></mat-divider>
         <mat-card-content>
             <form #f="ngForm">
@@ -41,8 +41,7 @@
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Created date" [ngModel]="item.tstamp" name="tstamp" required
-                                   >
+                            <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                         </mat-input-container>
                     </div>
                     <div flex="15" layout-padding layout-align="center end" layout="column">
@@ -55,9 +54,9 @@
                         <mat-divider></mat-divider>
                         <h3>Modules</h3>
                     </div>
-                    <mat-card *ngFor="let module of item.modules" flex="100">
+                    <mat-card *ngFor="let module of chaptersModules" flex="100">
                         <mat-card-content>
-                            <form #group.uid="ngForm">
+                            <form #group._id="ngForm">
                                 <div layout="row" layout-wrap>
                                     <div style="margin-top:20px;" flex="90" layout-padding>
                                         <mat-input-container style="max-width: 800px; width: 100%;">
@@ -67,13 +66,13 @@
                                     </div>
                                     <div flex="5" layout="column" layout-align="center end">
                                         <button mat-mini-fab color="primary"
-                                                (click)="onModuleEdit(module.uid, item.uid)">
+                                                (click)="onModuleEdit(module._id, item._id, module.moduleNew, module)">
                                             <mat-icon>mode_edit</mat-icon>
                                         </button>
                                     </div>
                                     <div flex="5" layout="column" layout-align="center center">
                                         <button mat-mini-fab color="warn"
-                                                (click)="onModuleRemove(module.uid, item.uid)">
+                                                (click)="onModuleRemove(module._id, item._id)">
                                             <mat-icon>remove</mat-icon>
                                         </button>
                                     </div>
@@ -106,11 +105,11 @@
                             module
                         </button>
                         <mat-menu #moduleMenu="matMenu">
-                            <button mat-menu-item (click)="addFromModuleList(item.uid)">
+                            <button mat-menu-item (click)="addFromModuleList(item._id)">
                                 <mat-icon>playlist_add</mat-icon>
                                 <span >Select from list</span>
                             </button>
-                            <button mat-menu-item (click)="addModule(item.uid)">
+                            <button mat-menu-item (click)="addModule(item._id)">
                                 <mat-icon>add</mat-icon>
                                 <span >Add new</span>
                             </button>

@@ -9,6 +9,8 @@ const CategoryType = require('./types/category_type');
 const Category = mongoose.model('category');
 const ClientType = require('./types/client_type');
 const Client = mongoose.model('client');
+const GroupType = require('./types/group_type');
+const Group = mongoose.model('group');
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -60,7 +62,8 @@ const mutation = new GraphQLObjectType({
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
-                groupId: {type: GraphQLID}
+                groupId: {type: GraphQLID},
+                categoryId: {type: GraphQLID}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()
@@ -74,7 +77,9 @@ const mutation = new GraphQLObjectType({
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
-                groupId: {type: GraphQLID}
+                groupId: {type: GraphQLID},
+                categoryId: {type: GraphQLID}
+
             },
             resolve(parentValue, args) {
                 return Module.findOneAndUpdate({_id: args.id}, {
@@ -82,7 +87,8 @@ const mutation = new GraphQLObjectType({
                         name: args.name,
                         bodytext: args.bodytext,
                         price: args.price,
-                        groupId: args.groupId
+                        groupId: args.groupId,
+                        categoryId: args.categoryId
                     }
                 }, { new: true });
             }
@@ -159,6 +165,43 @@ const mutation = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Client.findOneAndRemove({_id: id});
+            }
+        },
+        addGroup: {
+            type: GroupType,
+            args: {
+                name: {  type: GraphQLString },
+                subTotal: {type: GraphQLFloat},
+                tstamp: {  type: GraphQLString },
+                modules: {type: GraphQLID}
+            },
+            resolve(parentValue, args) {
+                return (new Group(args)).save()
+            }
+        },
+        editGroup: {
+            type: GroupType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                name: {type: new GraphQLNonNull(GraphQLString)},
+                subTotal: {type: GraphQLFloat},
+                modules: {type: GraphQLID}
+            },
+            resolve(parentValue, args) {
+                return Group.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        name: args.name,
+                        subTotal: args.subTotal,
+                        modules: args.modules
+                    }
+                }, { new: true });
+            }
+        },
+        deleteGroup: {
+            type: GroupType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Group.findOneAndRemove({_id: id});
             }
         },
     }

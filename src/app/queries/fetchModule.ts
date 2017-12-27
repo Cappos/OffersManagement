@@ -13,6 +13,11 @@ export default gql`
                 name
                 value
             }
+            categoryId {
+                _id
+                name
+                value
+            }
         }
         
         categories {

@@ -18,6 +18,12 @@ const ModuleType = new GraphQLObjectType({
       groupId: {
           type: new GraphQLList(CategoryType),
           resolve(parentValue) {
+              return Module.findGroup(parentValue._id);
+          }
+      },
+      categoryId: {
+          type: new GraphQLList(CategoryType),
+          resolve(parentValue) {
               return Module.findCategory(parentValue._id);
           }
       }

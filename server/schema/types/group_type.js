@@ -10,15 +10,12 @@ const GroupType = new GraphQLObjectType({
   fields: () => ({
       _id: {type: GraphQLID},
       name: {type: GraphQLString},
-      bodytext: {type: GraphQLString},
       subTotal: {type: GraphQLInt},
       tstamp: {type: GraphQLDate},
-      cruserId: {type: GraphQLInt},
-      crdate: {type: GraphQLDate},
       modules: {
           type: new GraphQLList(ModuleType),
-          resolve(parentValue, args) {
-              console.log(parentValue, args);
+          resolve(parentValue) {
+              return Group.findCategory(parentValue._id);
           }
       }
   })

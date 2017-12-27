@@ -14,6 +14,10 @@ const ModuleSchema = new Schema({
     crdate: Date,
     groupId: [{
         type: Schema.Types.ObjectId,
+        ref: 'group'
+    }],
+    categoryId:  [{
+        type: Schema.Types.ObjectId,
         ref: 'category'
     }]
 });
@@ -30,6 +34,12 @@ const ModuleSchema = new Schema({
 // }
 
 ModuleSchema.statics.findCategory = function (id) {
+    return this.findById(id)
+        .populate('categoryId')
+        .then(module => module.categoryId);
+};
+
+ModuleSchema.statics.findGroup = function (id) {
     return this.findById(id)
         .populate('groupId')
         .then(module => module.groupId);

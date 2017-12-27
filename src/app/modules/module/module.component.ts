@@ -49,11 +49,10 @@ export class ModuleComponent implements OnInit {
                     },
                     fetchPolicy: 'network-only'
                 }).valueChanges.subscribe(({data}) => {
-                    console.log(data);
                     this.item = data.module;
                     this.categories = data.categories;
                     this.rteData = this.item.bodytext;
-                    this.selectedGroup = this.item.groupId[0].value;
+                    this.selectedGroup = this.item.categoryId[0].value;
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -61,9 +60,11 @@ export class ModuleComponent implements OnInit {
     }
 
     onSave(form: NgForm) {
+        console.log(form);
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId);
-        const price = value.price.replace(',', '')
+        const price = value.price.replace(',', '');
+        const group = null;
 
         this.apollo.mutate({
             mutation: updateModule,
@@ -72,7 +73,8 @@ export class ModuleComponent implements OnInit {
                 name: value.name,
                 bodytext: this.rteData,
                 price: +price,
-                groupId: category._id
+                groupId: group,
+                categoryId: category._id
             },
             refetchQueries: [{
                 query: getModulesData

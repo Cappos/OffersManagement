@@ -113,6 +113,17 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                if (result.moduleNew) {
+                    let module = this.modulesNew.filter(module => module.id === result.id)[0];
+                    let moduleIndex = this.modulesNew.indexOf(module);
+                    this.modulesNew[moduleIndex] = result;
+                }
+                else {
+                    let module = this.modulesUpdate.filter(module => module.id === result.id)[0];
+                    let moduleIndex = this.modulesUpdate.indexOf(module);
+                    this.modulesUpdate[moduleIndex] = result;
+                }
+
                 let module = this.chaptersModules.filter(module => module.name === result.name)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
@@ -140,7 +151,7 @@ export class ChapterComponent implements OnInit {
         });
     }
 
-    onModuleRemove(moduleUid: number, groupUid: number) {
+    onModuleRemove(moduleUid: number, groupUid: number, moduleData: any) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this module?',
             viewContainerRef: this._viewContainerRef,
@@ -149,6 +160,17 @@ export class ChapterComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
+                if (!moduleUid) {
+                    let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
+                    let moduleIndex = this.modulesNew.indexOf(module);
+                    this.modulesNew.splice(moduleIndex, 1);
+                }
+                else {
+                    let module = this.modulesUpdate.filter(module => module.id === moduleUid.id)[0];
+                    let moduleIndex = this.modulesUpdate.indexOf(module);
+                    this.modulesUpdate.splice(moduleIndex, 1);
+                }
+
                 let module = this.chaptersModules.filter(module => module.uid === moduleUid)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
@@ -218,6 +240,7 @@ export class ChapterComponent implements OnInit {
             if (result) {
                 for (let e in result) {
                     // update modules list after adding new
+                    this.modulesNew.push(result[e]);
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];
                     let sum: number = 0;

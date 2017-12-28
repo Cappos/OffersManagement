@@ -8,6 +8,7 @@ export default gql`
             bodytext
             price
             tstamp
+            moduleNew
         }
     }
 `;

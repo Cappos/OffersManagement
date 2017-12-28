@@ -18,6 +18,7 @@ export default gql`
                 name
                 value
             }
+            moduleNew
         }
         
         categories {

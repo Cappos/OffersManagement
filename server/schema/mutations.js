@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat, GraphQLList} = graphql;
+const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat, GraphQLList, GraphQLBoolean} = graphql;
 const mongoose = require('mongoose');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
@@ -63,7 +63,8 @@ const mutation = new GraphQLObjectType({
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID},
-                categoryId: {type: GraphQLID}
+                categoryId: {type: GraphQLID},
+                moduleNew: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()
@@ -78,7 +79,8 @@ const mutation = new GraphQLObjectType({
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID},
-                categoryId: {type: GraphQLID}
+                categoryId: {type: GraphQLID},
+                moduleNew: {type: GraphQLBoolean}
 
             },
             resolve(parentValue, args) {

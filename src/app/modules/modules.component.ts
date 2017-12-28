@@ -62,7 +62,6 @@ export class ModulesComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('init');
         this.apollo.watchQuery<any>({
             query: getModulesData
         }).valueChanges.subscribe(({data}) => {

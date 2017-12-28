@@ -1,5 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Component, OnInit} from '@angular/core';
 import 'rxjs';
 import 'rxjs/add/operator/take';
 import {
@@ -7,13 +6,10 @@ import {
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
     TdDataTableSortingOrder, TdLoadingService
 } from '@covalent/core';
-import {Observable} from "rxjs/Observable";
-
-import * as fromModules from '../store/modules.reducers';
-import * as ModulesActions from "../store/modules.actions";
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {SharedService} from "../../shared/shared.service";
-import {NgForm} from "@angular/forms";
+import {Apollo} from 'apollo-angular';
+import getModulesData from '../../queries/fetchModules';
 
 @Component({
     selector: 'app-module-list-dialog',
@@ -26,14 +22,13 @@ export class ModuleListDialogComponent implements OnInit {
     title = 'List of all modules';
     color = 'grey';
     columns: ITdDataTableColumn[] = [
+        {name: 'chacked', label: '', tooltip: '', width: 50},
         {name: 'uid', label: 'No.', tooltip: 'No.', width: 70},
         {name: 'name', label: 'Name', tooltip: 'Name'},
         {name: 'bodytext', label: 'Description', tooltip: 'Description', width: 400},
         {name: 'price', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date', width: 150}
     ];
-
-    modulesState: Observable<fromModules.State>;
 
     data: any[];
     filteredData;
@@ -44,10 +39,10 @@ export class ModuleListDialogComponent implements OnInit {
     pageSize = 5;
     sortBy = 'uid';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
-    selectedModule;
+    selectedModule: any;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromModules.FeatureState>, public dialog: MatDialog, public dialogRef: MatDialogRef<ModuleListDialogComponent>, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, public dialog: MatDialog, public dialogRef: MatDialogRef<ModuleListDialogComponent>, private loadingService: TdLoadingService, private apollo: Apollo) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -57,18 +52,16 @@ export class ModuleListDialogComponent implements OnInit {
         });
         this.loadingService.register('modulesLoader');
 
-        //get data from backend
-        this.store.dispatch(new ModulesActions.GetModules());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.modulesState = this.store.select('modulesList');
-        this.modulesState.take(2).subscribe((fromModules: fromModules.State) => {
-            this.data = fromModules.modules;
+        this.apollo.watchQuery<any>({
+            query: getModulesData
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.modules;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
-            console.log(this.filteredData);
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });
@@ -113,8 +106,20 @@ export class ModuleListDialogComponent implements OnInit {
         this.selectedModule = uid;
     }
 
-    addModule(){
+    toggleEditable(event, id) {
+        if (event.checked) {
+            let module = this.data.find(module => module._id == id);
+            this.selectedRows.push(module)
+        }
+        else {
+            let module = this.data.filter(module => module._id == id);
+            let moduleIndex = this.selectedRows.indexOf(module);
+            this.selectedRows.splice(moduleIndex, 1)
+        }
         console.log(this.selectedRows);
+    }
+
+    addModule() {
         this.dialogRef.close(this.selectedRows);
     }
 

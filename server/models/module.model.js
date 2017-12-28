@@ -19,7 +19,12 @@ const ModuleSchema = new Schema({
     categoryId:  [{
         type: Schema.Types.ObjectId,
         ref: 'category'
-    }]
+    }],
+    moduleNew:  {
+        type: Boolean,
+        default: false,
+        writable: true
+    }
 });
 // ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {
 //     const Category = mongoose.model('category');

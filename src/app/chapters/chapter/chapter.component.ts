@@ -25,7 +25,7 @@ export class ChapterComponent implements OnInit {
     @HostBinding('class.td-route-animation') classAnimation: boolean = true;
 
     pageTitle = 'Chapters';
-    id: number;
+    id;
     item;
     @Output() editMode = false;
     chaptersModules = [];
@@ -166,7 +166,7 @@ export class ChapterComponent implements OnInit {
                     this.modulesNew.splice(moduleIndex, 1);
                 }
                 else {
-                    let module = this.modulesUpdate.filter(module => module.id === moduleUid.id)[0];
+                    let module = this.modulesUpdate.filter(module => module.id === moduleUid)[0];
                     let moduleIndex = this.modulesUpdate.indexOf(module);
                     this.modulesUpdate.splice(moduleIndex, 1);
                 }
@@ -240,7 +240,9 @@ export class ChapterComponent implements OnInit {
             if (result) {
                 for (let e in result) {
                     // update modules list after adding new
+                    result[e].moduleNew = true;
                     this.modulesNew.push(result[e]);
+                    console.log(this.modulesNew);
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];
                     let sum: number = 0;

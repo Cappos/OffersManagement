@@ -10,6 +10,7 @@ import {MatDialog, MatDialogRef} from "@angular/material";
 import {SharedService} from "../../shared/shared.service";
 import {Apollo} from 'apollo-angular';
 import getModulesData from '../../queries/fetchModules';
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-module-list-dialog',
@@ -57,9 +58,10 @@ export class ModuleListDialogComponent implements OnInit {
 
     ngOnInit() {
         this.apollo.watchQuery<any>({
-            query: getModulesData
+            query: getModulesData,
+            fetchPolicy: 'network-only'
         }).valueChanges.subscribe(({data}) => {
-            this.data = data.modules;
+            this.data = _.cloneDeep(data.modules);
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
@@ -101,11 +103,6 @@ export class ModuleListDialogComponent implements OnInit {
         this.filteredData = newData;
     }
 
-
-    onSelect(uid) {
-        this.selectedModule = uid;
-    }
-
     toggleEditable(event, id) {
         if (event.checked) {
             let module = this.data.find(module => module._id == id);
@@ -116,10 +113,13 @@ export class ModuleListDialogComponent implements OnInit {
             let moduleIndex = this.selectedRows.indexOf(module);
             this.selectedRows.splice(moduleIndex, 1)
         }
-        console.log(this.selectedRows);
     }
 
     addModule() {
+        for (let e in this.selectedRows) {
+            // update modules list after adding new
+            this.selectedRows[e].moduleNew = true;
+        }
         this.dialogRef.close(this.selectedRows);
     }
 

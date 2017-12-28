@@ -79,8 +79,7 @@ const mutation = new GraphQLObjectType({
                 price: {type: GraphQLFloat},
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID},
-                categoryId: {type: GraphQLID},
-                moduleNew: {type: GraphQLBoolean}
+                categoryId: {type: GraphQLID}
 
             },
             resolve(parentValue, args) {

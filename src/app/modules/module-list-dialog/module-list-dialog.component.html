@@ -39,7 +39,7 @@
             {{i +1}}
         </td>
         <td td-data-table-cell>
-            <button mat-menu-item (click)="onSelect(row._id)">{{row.name}}</button>
+            <button mat-menu-item>{{row.name}}</button>
         </td>
         <td td-data-table-cell>
             <div [innerHTML]="row.bodytext | shorten: 60: '...'"></div>

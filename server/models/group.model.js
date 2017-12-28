@@ -12,13 +12,30 @@ const GroupSchema = new Schema({
     modules: [{
         type: Schema.Types.ObjectId,
         ref: 'module'
-    }]
+    }],
 });
 
 GroupSchema.statics.findCategory = function (id) {
     return this.findById(id)
         .populate('modules')
         .then(group => group.modules);
+};
+
+GroupSchema.statics.updateGroup = function (id, args) {
+    const Module = mongoose.model('module');
+
+    if(args.modules){
+        console.log(args.modules);
+        let modules = args.modules;
+    }
+
+    return this.findOneAndUpdate({_id: id}, {
+        $set: {
+            name: args.name,
+            subTotal: args.subTotal,
+            modules: modules
+        }
+    }, {new: true});
 };
 
 mongoose.model('group', GroupSchema);

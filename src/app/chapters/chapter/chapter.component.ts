@@ -33,7 +33,7 @@ export class ChapterComponent implements OnInit {
     chapterPrice: number;
     modulesNew = [];
     modulesUpdate = [];
-    modules: any[];
+    modules: any[] = [];
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
@@ -72,26 +72,58 @@ export class ChapterComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        const modules = this.modules.length ? this.modules : null;
+
         let subTotal = null;
 
         if (value.subTotal) {
             subTotal = value.subTotal.replace(',', '');
         }
 
-        this.apollo.mutate({
-            mutation: updateGroup,
-            variables: {
-                id: this.id,
-                name: value.name,
-                bodytext: value.bodytext,
-                subTotal: subTotal,
-                modules: modules
+        if (!this.modulesUpdate.length && !this.modulesNew.length) {
+            console.log('empty');
+            let modules = this.modules.length ? this.modules : null;
+            this.apollo.mutate({
+                mutation: updateGroup,
+                variables: {
+                    id: this.id,
+                    name: value.name,
+                    bodytext: value.bodytext,
+                    subTotal: subTotal,
+                    modules: modules
+                }
+            }).subscribe(() => {
+                this.editMode = false;
+                this.sharedService.sneckBarNotifications(`chapter updated.`);
+            });
+        }
+        else {
+            console.log('not null');
+            let modules = []
+            for (let item in this.modulesNew) {
+                modules.push(this.modulesNew[item])
             }
-        }).subscribe(() => {
-            this.editMode = false;
-            this.sharedService.sneckBarNotifications(`chapter updated.`);
-        });
+
+            for (let item in this.modulesUpdate) {
+                modules.push(this.modulesUpdate[item])
+            }
+
+            console.log(modules);
+
+            this.apollo.mutate({
+                mutation: updateGroup,
+                variables: {
+                    id: this.id,
+                    name: value.name,
+                    bodytext: value.bodytext,
+                    subTotal: subTotal,
+                    modules: modules
+                }
+            }).subscribe(() => {
+                this.editMode = false;
+                this.sharedService.sneckBarNotifications(`chapter updated.`);
+            });
+
+        }
     }
 
     onEdit() {
@@ -113,6 +145,7 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                this.editMode = true
                 if (result.moduleNew) {
                     let module = this.modulesNew.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
@@ -160,6 +193,7 @@ export class ChapterComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
+                this.editMode = true
                 if (!moduleUid) {
                     let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
@@ -204,8 +238,7 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
-
+                this.editMode = true
                 if (result.moduleNew) {
                     this.modulesNew.push(result)
                 }
@@ -230,7 +263,6 @@ export class ChapterComponent implements OnInit {
     }
 
     addFromModuleList(groupUid: number) {
-        console.log(groupUid);
         let dialogRef = this.dialog.open(ModuleListDialogComponent, {
             data: {
                 groupUid: groupUid
@@ -238,11 +270,10 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                this.editMode = true
                 for (let e in result) {
                     // update modules list after adding new
-                    result[e].moduleNew = true;
                     this.modulesNew.push(result[e]);
-                    console.log(this.modulesNew);
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];
                     let sum: number = 0;
@@ -263,5 +294,4 @@ export class ChapterComponent implements OnInit {
     goBack() {
         this.location.back();
     }
-
 }

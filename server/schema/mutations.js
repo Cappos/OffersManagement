@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat, GraphQLList, GraphQLBoolean} = graphql;
+const GraphQLJSON = require('graphql-type-json');
 const mongoose = require('mongoose');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
@@ -186,16 +187,10 @@ const mutation = new GraphQLObjectType({
                 id: {type: new GraphQLNonNull(GraphQLID)},
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 subTotal: {type: GraphQLFloat},
-                modules: {type: GraphQLID}
+                modulesNew:{type: GraphQLJSON}
             },
             resolve(parentValue, args) {
-                return Group.findOneAndUpdate({_id: args.id}, {
-                    $set: {
-                        name: args.name,
-                        subTotal: args.subTotal,
-                        modules: args.modules
-                    }
-                }, { new: true });
+                return Group.updateGroup(args);
             }
         },
         deleteGroup: {

@@ -116,7 +116,7 @@ export class ChapterComponent implements OnInit {
                     name: value.name,
                     bodytext: value.bodytext,
                     subTotal: subTotal,
-                    modules: modules
+                    modulesNew: modules
                 }
             }).subscribe(() => {
                 this.editMode = false;

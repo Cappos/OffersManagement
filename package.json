@@ -31,7 +31,6 @@
     "@covalent/markdown": "^1.0.0-beta.7",
     "@ngrx/effects": "^4.0.5",
     "@ngrx/store": "^4.0.3",
-    "@types/gyraphql-type-json": "^0.1.2",
     "@types/lodash": "^4.14.91",
     "apollo-angular": "^1.0.0",
     "apollo-angular-link-http": "^1.0.1",

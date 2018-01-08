@@ -13,6 +13,7 @@ import 'tinymce/plugins/help';
 import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/advlist';
+import {Observable} from "rxjs/Observable";
 
 declare const tinymce: any;
 
@@ -25,7 +26,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
     @Output() onEditorContentChange = new EventEmitter();
     @Input() editMode: boolean;
     editor;
-    @Input() rteData;
+    @Input() rteData: EventEmitter<string>;
     editorInit = 0;
 
 
@@ -47,7 +48,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
                 let edit = this.editMode ? 'design' : 'readonly';
                 editor.setMode(edit);
                 editor.on('init', () => {
-                    editor.setContent(this.rteData);
+                    this.editor.setContent(this.rteData);
                     this.editorInit++;
                 });
                 editor.on('keyup change', () => {
@@ -70,6 +71,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
     }
 
     ngOnDestroy() {
+        console.log('destroy rte');
         tinymce.remove(this.editor);
     }
 }

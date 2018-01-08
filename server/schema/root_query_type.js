@@ -40,7 +40,7 @@ const RootQuery = new GraphQLObjectType({
         modules: {
             type: new GraphQLList(ModuleType),
             resolve(parentValue) {
-                return Module.find({});
+                return Module.find({defaultModule: true});
             }
         },
         module: {

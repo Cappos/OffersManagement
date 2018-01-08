@@ -17,7 +17,7 @@ export class EditModuleDialogComponent implements OnInit {
     pageTitle = 'Modules';
     id: number;
     item;
-    rteData = '';
+    rteData;
     itemSaved = false;
     selectedChapter;
     categories: any[];
@@ -50,10 +50,12 @@ export class EditModuleDialogComponent implements OnInit {
                 fetchPolicy: 'network-only'
             }).valueChanges.subscribe(({data}) => {
                 this.item = data.module;
-                this.categories = data.categories;
                 this.rteData = this.item.bodytext;
+                this.categories = data.categories;
                 this.selectedChapter = chapterId;
-                this.selectedGroup = this.item.categoryId[0].value;
+                if(this.item.categoryId[0]){
+                    this.selectedGroup = this.item.categoryId[0].value;
+                }
             });
         }
         // if edit module that is not yet saved

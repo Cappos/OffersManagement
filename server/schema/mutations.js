@@ -65,7 +65,8 @@ const mutation = new GraphQLObjectType({
                 tstmp: {  type: GraphQLString },
                 groupId: {type: GraphQLID},
                 categoryId: {type: GraphQLID},
-                moduleNew: {type: GraphQLBoolean}
+                moduleNew: {type: GraphQLBoolean},
+                defaultModule: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()

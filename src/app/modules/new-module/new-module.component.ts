@@ -58,7 +58,8 @@ export class NewModuleComponent implements OnInit {
                 bodytext: this.rteData,
                 price: value.price,
                 groupId: group,
-                categoryId: category._id
+                categoryId: category._id,
+                defaultModule: true
             },
             refetchQueries: [{
                 query: getModulesData

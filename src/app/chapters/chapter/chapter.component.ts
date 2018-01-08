@@ -106,7 +106,7 @@ export class ChapterComponent implements OnInit {
         }
         else {
             console.log('not null');
-            let modules = []
+            let modules = [];
             for (let item in this.modulesNew) {
                 modules.push(this.modulesNew[item])
             }
@@ -157,7 +157,7 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.editMode = true
+                this.editMode = true;
                 if (result.moduleNew) {
                     let module = this.modulesNew.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);

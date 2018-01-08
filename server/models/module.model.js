@@ -24,6 +24,10 @@ const ModuleSchema = new Schema({
         type: Boolean,
         default: false,
         writable: true
+    },
+    defaultModule: {
+        type: Boolean,
+        default: false
     }
 });
 // ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {

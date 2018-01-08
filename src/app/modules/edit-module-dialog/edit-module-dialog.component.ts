@@ -40,7 +40,7 @@ export class EditModuleDialogComponent implements OnInit {
     ngOnInit() {
         // if edit module that is in database
         if (this.data.edit && this.data.moduleUid) {
-            this.id = this.data.groupUid;
+            this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;
             this.apollo.watchQuery<any>({
                 query: fetchModule,
@@ -59,7 +59,6 @@ export class EditModuleDialogComponent implements OnInit {
         // if edit module that is not yet saved
         else if (this.data.edit) {
             this.id = this.data.groupUid;
-
             this.apollo.watchQuery<any>({
                 query: fetchCategories
             }).valueChanges.subscribe(({data}) => {
@@ -89,32 +88,50 @@ export class EditModuleDialogComponent implements OnInit {
         this.count = Math.random();
 
         if (this.data.edit && this.item._id) {
-            let price = value.price.replace(',', '');
+            let price = value.price;
+
+            if(value.price.lenght > 3){
+                price.replace(',', '');
+            }
 
             this.savedModuleData = value;
-            this.savedModuleData.id = this.item._id;
+            this.savedModuleData.moduleNew = false;
+            this.savedModuleData._id = this.id;
             this.savedModuleData.bodytext = this.rteData;
             this.savedModuleData.price = +price;
-            this.savedModuleData.groupUid = this.id;
-            this.savedModuleData.categoryId = category._id;
+            this.savedModuleData.groupUid = this.data.groupUid;
+            if(category){
+                this.savedModuleData.categoryId = category._id
+            }
             this.itemSaved = true;
         }
         else if (this.data.edit){
+            let price = value.price;
+
+            if(value.price.lenght > 3){
+                price.replace(',', '');
+            }
+
             this.savedModuleData = value;
-            this.savedModuleData.id = this.data.moduleNew.id;
+            this.savedModuleData._id = this.data.moduleNew.id;
             this.savedModuleData.moduleNew = true;
             this.savedModuleData.bodytext = this.rteData;
-            this.savedModuleData.groupUid = this.id;
-            this.savedModuleData.categoryId = category._id;
+            this.savedModuleData.price = +price;
+            this.savedModuleData.groupUid = this.data.groupUid;
+            if(category){
+                this.savedModuleData.categoryId = category._id
+            }
             this.itemSaved = true;
         }
         else {
             this.savedModuleData = value;
-            this.savedModuleData.id = this.id + this.count;
+            this.savedModuleData._id = this.id + this.count;
             this.savedModuleData.moduleNew = true;
             this.savedModuleData.bodytext = this.rteData;
-            this.savedModuleData.groupUid = this.id;
-            this.savedModuleData.categoryId = category._id;
+            this.savedModuleData.groupUid = this.data.groupUid;
+            if(category){
+                this.savedModuleData.categoryId = category._id
+            }
             this.itemSaved = true;
         }
     }

@@ -11,6 +11,7 @@ import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module
 import {Apollo} from "apollo-angular";
 import fetchGroup from '../../queries/fetchGroup';
 import updateGroup from '../../queries/updateGroup';
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-chapter',
@@ -59,7 +60,7 @@ export class ChapterComponent implements OnInit {
                     },
                     fetchPolicy: 'network-only'
                 }).valueChanges.subscribe(({data}) => {
-                    this.item = data.group;
+                    this.item = _.cloneDeep(data.group);
                     if (this.item.modules) {
                         this.chaptersModules = this.item.modules;
                     }
@@ -81,7 +82,7 @@ export class ChapterComponent implements OnInit {
 
         if (!this.modulesUpdate.length && !this.modulesNew.length) {
             console.log('empty');
-            let modules = this.modules.length ? this.modules : null;
+            let modules = this.modules.length ? this.modules : [];
             this.apollo.mutate({
                 mutation: updateGroup,
                 variables: {
@@ -90,11 +91,18 @@ export class ChapterComponent implements OnInit {
                     bodytext: value.bodytext,
                     subTotal: subTotal,
                     modules: modules
-                }
+                },
+                refetchQueries: [{
+                    query: fetchGroup,
+                    variables: {
+                        id: this.id
+                    }
+                }]
             }).subscribe(() => {
                 this.editMode = false;
                 this.sharedService.sneckBarNotifications(`chapter updated.`);
             });
+            console.log(this.id, 'init');
         }
         else {
             console.log('not null');
@@ -106,9 +114,7 @@ export class ChapterComponent implements OnInit {
             for (let item in this.modulesUpdate) {
                 modules.push(this.modulesUpdate[item])
             }
-
-            console.log(modules);
-
+            console.log(this.id, 'else');
             this.apollo.mutate({
                 mutation: updateGroup,
                 variables: {
@@ -117,7 +123,13 @@ export class ChapterComponent implements OnInit {
                     bodytext: value.bodytext,
                     subTotal: subTotal,
                     modulesNew: modules
-                }
+                },
+                refetchQueries: [{
+                    query: fetchGroup,
+                    variables: {
+                        id: this.id
+                    }
+                }]
             }).subscribe(() => {
                 this.editMode = false;
                 this.sharedService.sneckBarNotifications(`chapter updated.`);
@@ -134,7 +146,7 @@ export class ChapterComponent implements OnInit {
     onModuleEdit(moduleUid: number, groupUid: number, moduleNew: boolean, moduleData: any) {
         this.editModuleGroup = groupUid;
         let moduleNewData = moduleNew ? moduleData : null;
-
+        console.log(moduleUid);
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 moduleUid: moduleUid,
@@ -149,12 +161,24 @@ export class ChapterComponent implements OnInit {
                 if (result.moduleNew) {
                     let module = this.modulesNew.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
-                    this.modulesNew[moduleIndex] = result;
+                    if (moduleIndex >= 0) {
+                        this.modulesNew[moduleIndex] = result;
+                    }
+                    else {
+                        this.modulesNew.push(result);
+                    }
                 }
                 else {
                     let module = this.modulesUpdate.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesUpdate.indexOf(module);
-                    this.modulesUpdate[moduleIndex] = result;
+
+                    if (moduleIndex >= 0) {
+                        this.modulesUpdate[moduleIndex] = result;
+                    }
+                    else {
+                        console.log(moduleIndex, 'else');
+                        this.modulesUpdate.push(result);
+                    }
                 }
 
                 let module = this.chaptersModules.filter(module => module.name === result.name)[0];
@@ -162,17 +186,7 @@ export class ChapterComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                // update module after edit if parent group not change
-                if (result.groupUid === this.editModuleGroup) {
-                    this.chaptersModules[moduleIndex] = result;
-                }
-                // update module after edit if parent group change
-                else {
-                    let moduleOld = this.chaptersModules.filter(module => module.name === result.name)[0];
-                    let moduleOldIndex = this.chaptersModules.indexOf(moduleOld);
-
-                    this.chaptersModules.splice(moduleOldIndex, 1);
-                }
+                this.chaptersModules[moduleIndex] = result;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {

@@ -7,6 +7,16 @@ export default gql`
             name
             subTotal
             tstamp
+            modules {
+                _id
+                name
+                bodytext
+                price
+                tstamp
+                cruserId
+                crdate
+                moduleNew
+            }
         }
     }
 `;

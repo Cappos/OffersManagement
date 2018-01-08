@@ -29,7 +29,7 @@
 
             <div style="margin-top:20px;" flex="25" layout-padding>
                 <mat-input-container>
-                    <input matInput  type="number" placeholder="Price" [ngModel]="item?.price" name="price" required>
+                    <input matInput  type="number" placeholder="Price" [ngModel]="item?.price | number:'2.2-2'" name="price" required>
                 </mat-input-container>
             </div>
 
@@ -42,7 +42,7 @@
             </div>
             <div style="margin-top:20px;" flex="25" layout-padding>
                 <mat-input-container>
-                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" readonly>
+                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                 </mat-input-container>
             </div>
             <div style="margin-top:20px;" flex="100" layout-padding>

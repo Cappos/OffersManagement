@@ -179,7 +179,8 @@ const mutation = new GraphQLObjectType({
                 modulesNew:{type: GraphQLJSON}
             },
             resolve(parentValue, args) {
-                return (new Group(args)).save()
+                // return (new Group(args)).save()
+                return Group.createGroup(args);
             }
         },
         editGroup: {

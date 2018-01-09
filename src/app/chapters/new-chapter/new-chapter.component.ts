@@ -6,8 +6,9 @@ import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-m
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Group} from "../../offers/groups.model";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
+import {Router} from "@angular/router";
 import {Apollo} from "apollo-angular";
-import fetchGroup from '../../queries/fetchGroup';
+import fetchGroups from '../../queries/fetchGroups';
 import createGroup from '../../queries/createGroup';
 
 @Component({
@@ -32,7 +33,7 @@ export class NewChapterComponent implements OnInit {
     modulesDeleted = [];
     modules: any[] = [];
 
-    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
+    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo, private router: Router) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -62,22 +63,18 @@ export class NewChapterComponent implements OnInit {
             this.apollo.mutate({
                 mutation: createGroup,
                 variables: {
-                    id: this.id,
                     name: value.name,
                     subTotal: subTotal,
                     modules: modules
                 },
                 refetchQueries: [{
-                    query: fetchGroup,
-                    variables: {
-                        id: this.id
-                    }
+                    query: fetchGroups
                 }]
             }).subscribe(() => {
                 this.editMode = false;
-                this.sharedService.sneckBarNotifications(`chapter updated.`);
+                this.sharedService.sneckBarNotifications(`chapter created.`);
+                this.router.navigate(['/chapters']);
             });
-            console.log(this.id, 'init');
         }
         else {
             console.log('not null');
@@ -91,20 +88,17 @@ export class NewChapterComponent implements OnInit {
             this.apollo.mutate({
                 mutation: createGroup,
                 variables: {
-                    id: this.id,
                     name: value.name,
                     subTotal: subTotal,
                     modulesNew: modules
                 },
                 refetchQueries: [{
-                    query: fetchGroup,
-                    variables: {
-                        id: this.id
-                    }
+                    query: fetchGroups
                 }]
             }).subscribe(() => {
                 this.editMode = false;
-                this.sharedService.sneckBarNotifications(`chapter updated.`);
+                this.sharedService.sneckBarNotifications(`chapter created.`);
+                this.router.navigate(['/chapters']);
             });
 
         }

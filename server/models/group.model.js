@@ -37,7 +37,7 @@ GroupSchema.statics.updateGroup = function (args) {
                     }
                 }, {new: true})
                 .then(chapter => {
-                    if(ModulesNew[e].moduleNew){
+                    if (ModulesNew[e].moduleNew) {
 
                         let module = new Module({
                             name: ModulesNew[e].name,
@@ -51,7 +51,7 @@ GroupSchema.statics.updateGroup = function (args) {
                         return Promise.all([module.save(), chapter.save()])
                             .then(([module, chapter]) => chapter);
                     }
-                    else{
+                    else {
                         return Module.findOneAndUpdate({_id: ModulesNew[e]._id}, {
                             $set: {
                                 name: ModulesNew[e].name,
@@ -61,7 +61,7 @@ GroupSchema.statics.updateGroup = function (args) {
                                 categoryId: ModulesNew[e].categoryId,
                                 deleted: ModulesNew[e].deleted
                             }
-                        }, { new: true });
+                        }, {new: true});
 
                     }
 
@@ -79,6 +79,31 @@ GroupSchema.statics.updateGroup = function (args) {
                 }
             }, {new: true})
     }
+};
+
+GroupSchema.statics.createGroup = function (args) {
+    const Module = mongoose.model('module');
+    const Group = mongoose.model('group');
+    const ModulesNew = args.modulesNew
+
+    return (new Group(args)).save().then(chapter => {
+        for (let e in ModulesNew) {
+            if (ModulesNew[e].moduleNew) {
+                let module = new Module({
+                    name: ModulesNew[e].name,
+                    bodytext: ModulesNew[e].bodytext,
+                    price: ModulesNew[e].price,
+                    groupId: args.id,
+                    categoryId: ModulesNew[e].categoryId,
+                    moduleNew: false
+                });
+                chapter.modules.push(module);
+                module.save()
+            }
+        }
+        return Promise.all([chapter.save()])
+            .then(([chapter]) => chapter);
+    });
 };
 
 mongoose.model('group', GroupSchema);

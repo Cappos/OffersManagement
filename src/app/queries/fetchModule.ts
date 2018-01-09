@@ -19,6 +19,7 @@ export default gql`
                 value
             }
             moduleNew
+            deleted
         }
         
         categories {

@@ -9,6 +9,7 @@ export default gql`
             price
             tstamp
             moduleNew
+            deleted
         }
     }
 `;

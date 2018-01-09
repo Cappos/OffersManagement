@@ -27,7 +27,8 @@ const ModuleType = new GraphQLObjectType({
               return Module.findCategory(parentValue._id);
           }
       },
-      moduleNew: {type: GraphQLBoolean}
+      moduleNew: {type: GraphQLBoolean},
+      deleted: {type: GraphQLBoolean}
   })
 });
 

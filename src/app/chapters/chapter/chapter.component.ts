@@ -34,6 +34,7 @@ export class ChapterComponent implements OnInit {
     chapterPrice: number;
     modulesNew = [];
     modulesUpdate = [];
+    modulesDeleted = [];
     modules: any[] = [];
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
@@ -88,7 +89,6 @@ export class ChapterComponent implements OnInit {
                 variables: {
                     id: this.id,
                     name: value.name,
-                    bodytext: value.bodytext,
                     subTotal: subTotal,
                     modules: modules
                 },
@@ -120,7 +120,6 @@ export class ChapterComponent implements OnInit {
                 variables: {
                     id: this.id,
                     name: value.name,
-                    bodytext: value.bodytext,
                     subTotal: subTotal,
                     modulesNew: modules
                 },
@@ -146,7 +145,6 @@ export class ChapterComponent implements OnInit {
     onModuleEdit(moduleUid: number, groupUid: number, moduleNew: boolean, moduleData: any) {
         this.editModuleGroup = groupUid;
         let moduleNewData = moduleNew ? moduleData : null;
-        console.log(moduleUid);
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 moduleUid: moduleUid,
@@ -214,18 +212,28 @@ export class ChapterComponent implements OnInit {
                     this.modulesNew.splice(moduleIndex, 1);
                 }
                 else {
-                    let module = this.modulesUpdate.filter(module => module.id === moduleUid)[0];
-                    let moduleIndex = this.modulesUpdate.indexOf(module);
-                    this.modulesUpdate.splice(moduleIndex, 1);
+                    let module = this.chaptersModules.filter(module => module.id === moduleUid)[0];
+                    let moduleIndex = this.chaptersModules.indexOf(module);
+                    console.log(module, 'test');
+                    console.log(this.chaptersModules, 'chapter');
+
+                    if (moduleIndex >= 0) {
+
+                        module.deleted = true;
+                        this.modulesUpdate.push(module);
+                        console.log(this.modulesUpdate);
+                        // update modules lis after module delete
+                        this.chaptersModules.splice(moduleIndex, 1);
+                    }
                 }
 
-                let module = this.chaptersModules.filter(module => module.uid === moduleUid)[0];
-                let moduleIndex = this.chaptersModules.indexOf(module);
+
+                // let module = this.chaptersModules.filter(module => module.uid === moduleUid)[0];
+                // let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                // update modules lis after module delete
-                this.chaptersModules.splice(moduleIndex, 1);
+
 
                 // update chapter price
                 for (let m in this.chaptersModules) {

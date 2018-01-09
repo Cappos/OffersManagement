@@ -58,7 +58,8 @@ GroupSchema.statics.updateGroup = function (args) {
                                 bodytext: ModulesNew[e].bodytext,
                                 price: ModulesNew[e].price,
                                 groupId: ModulesNew[e].groupId,
-                                categoryId: ModulesNew[e].categoryId
+                                categoryId: ModulesNew[e].categoryId,
+                                deleted: ModulesNew[e].deleted
                             }
                         }, { new: true });
 
@@ -74,7 +75,7 @@ GroupSchema.statics.updateGroup = function (args) {
             {
                 $set: {
                     name: args.name,
-                    subTotal: args.subTotal,
+                    subTotal: args.subTotal
                 }
             }, {new: true})
     }

@@ -176,7 +176,7 @@ const mutation = new GraphQLObjectType({
                 name: {  type: GraphQLString },
                 subTotal: {type: GraphQLFloat},
                 tstamp: {  type: GraphQLString },
-                modules: {type: GraphQLID}
+                modulesNew:{type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return (new Group(args)).save()

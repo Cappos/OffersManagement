@@ -28,6 +28,10 @@ const ModuleSchema = new Schema({
     defaultModule: {
         type: Boolean,
         default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 // ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {

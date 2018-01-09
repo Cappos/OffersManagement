@@ -87,13 +87,14 @@ GroupSchema.statics.createGroup = function (args) {
     const ModulesNew = args.modulesNew
 
     return (new Group(args)).save().then(chapter => {
+        console.log(chapter);
         for (let e in ModulesNew) {
             if (ModulesNew[e].moduleNew) {
                 let module = new Module({
                     name: ModulesNew[e].name,
                     bodytext: ModulesNew[e].bodytext,
                     price: ModulesNew[e].price,
-                    groupId: args.id,
+                    groupId: chapter._id,
                     categoryId: ModulesNew[e].categoryId,
                     moduleNew: false
                 });

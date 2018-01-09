@@ -39,7 +39,10 @@ export class EditModuleDialogComponent implements OnInit {
 
     ngOnInit() {
         // if edit module that is in database
+
         if (this.data.edit && this.data.moduleUid) {
+            console.log('if');
+            console.log(this.data, 'form data');
             this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;
             this.apollo.watchQuery<any>({
@@ -53,32 +56,41 @@ export class EditModuleDialogComponent implements OnInit {
                 this.rteData = this.item.bodytext;
                 this.categories = data.categories;
                 this.selectedChapter = chapterId;
-                if(this.item.categoryId[0]){
+                if (this.item.categoryId[0]) {
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
             });
         }
         // if edit module that is not yet saved
         else if (this.data.edit) {
-            this.id = this.data.groupUid;
+            console.log('elese if');
+            console.log(this.data);
+            if (this.data.groupUid) {
+                this.id = this.data.groupUid;
+            }
             this.apollo.watchQuery<any>({
                 query: fetchCategories
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
-                this.id = this.data.groupUid;
+                // this.id = this.data.groupUid;
                 this.item = this.data.moduleNew;
                 this.rteData = this.item.bodytext;
                 const categoryId = this.categories.find(category => category._id == this.item.categoryId);
-                this.selectedGroup = categoryId.value;
+                if (this.item.categoryId) {
+                    this.selectedGroup = this.item.categoryId[0].value;
+
+                }
+                console.log(this.item);
             });
         }
         // if this is a new module
         else {
+            console.log('else');
+            this.rteData = '';
             this.apollo.watchQuery<any>({
                 query: fetchCategories
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
-                this.id = this.data.groupUid;
             });
         }
         this.loadingService.resolveAll('modulesLoader');
@@ -88,11 +100,12 @@ export class EditModuleDialogComponent implements OnInit {
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId) || null;
         this.count = Math.random();
+        console.log(this.item.moduleNew);
 
-        if (this.data.edit && this.item._id) {
+        if (this.data.edit && this.item._id && !this.item.moduleNew) {
             let price = value.price;
-
-            if(value.price.lenght > 3){
+            console.log('if dole');
+            if (value.price.lenght > 3) {
                 price.replace(',', '');
             }
 
@@ -102,15 +115,15 @@ export class EditModuleDialogComponent implements OnInit {
             this.savedModuleData.bodytext = this.rteData;
             this.savedModuleData.price = +price;
             this.savedModuleData.groupUid = this.data.groupUid;
-            if(category){
+            if (category) {
                 this.savedModuleData.categoryId = category._id
             }
             this.itemSaved = true;
         }
-        else if (this.data.edit){
+        else if (this.data.edit) {
             let price = value.price;
-
-            if(value.price.lenght > 3){
+            console.log('else if dole');
+            if (value.price.lenght > 3) {
                 price.replace(',', '');
             }
 
@@ -120,18 +133,19 @@ export class EditModuleDialogComponent implements OnInit {
             this.savedModuleData.bodytext = this.rteData;
             this.savedModuleData.price = +price;
             this.savedModuleData.groupUid = this.data.groupUid;
-            if(category){
+            if (category) {
                 this.savedModuleData.categoryId = category._id
             }
             this.itemSaved = true;
         }
         else {
+            console.log('else dole');
             this.savedModuleData = value;
             this.savedModuleData._id = this.id + this.count;
             this.savedModuleData.moduleNew = true;
             this.savedModuleData.bodytext = this.rteData;
             this.savedModuleData.groupUid = this.data.groupUid;
-            if(category){
+            if (category) {
                 this.savedModuleData.categoryId = category._id
             }
             this.itemSaved = true;

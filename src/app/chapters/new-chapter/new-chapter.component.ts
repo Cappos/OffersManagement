@@ -26,11 +26,8 @@ export class NewChapterComponent implements OnInit {
     chaptersModules = [];
     chapterPrice: number = 0;
     editModuleGroup: number;
-    savedChapterData;
-    itemSaved = false;
     modulesNew = [];
     modulesUpdate = [];
-    modulesDeleted = [];
     modules: any[] = [];
 
     constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo, private router: Router) {
@@ -50,7 +47,6 @@ export class NewChapterComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-
         let subTotal = null;
 
         if (value.subTotal) {
@@ -104,13 +100,10 @@ export class NewChapterComponent implements OnInit {
         }
     }
 
-    onModuleEdit(moduleUid: number, groupUid: number, moduleNew: boolean, moduleData: any) {
-        this.editModuleGroup = groupUid;
+    onModuleEdit(moduleNew: boolean, moduleData: any) {
         let moduleNewData = moduleNew ? moduleData : null;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
-                moduleUid: moduleUid,
-                groupUid: groupUid,
                 edit: true,
                 moduleNew: moduleNewData
             }
@@ -245,10 +238,7 @@ export class NewChapterComponent implements OnInit {
     }
 
     addFromModuleList() {
-        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
-            data: {
-            }
-        });
+        let dialogRef = this.dialog.open(ModuleListDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.editMode = true
@@ -271,6 +261,4 @@ export class NewChapterComponent implements OnInit {
             }
         });
     }
-
 }
-

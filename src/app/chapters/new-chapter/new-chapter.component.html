@@ -53,13 +53,13 @@
                                 </div>
                                 <div flex="5" layout="column" layout-align="center end">
                                     <button mat-mini-fab color="primary"
-                                            (click)="onModuleEdit(module.uid, item?.uid)">
+                                            (click)="onModuleEdit(module.moduleNew, module)">
                                         <mat-icon>mode_edit</mat-icon>
                                     </button>
                                 </div>
                                 <div flex="5" layout="column" layout-align="center center">
                                     <button mat-mini-fab color="warn"
-                                            (click)="onModuleRemove(module.uid, null)">
+                                            (click)="onModuleRemove(module._id, module)">
                                         <mat-icon>remove</mat-icon>
                                     </button>
                                 </div>

@@ -1,6 +1,6 @@
 <div layout="row" layout-wrap layout-align="start center">
     <div flex="60">
-        <h1 mat-dialog-title>Choose file</h1>
+        <h1 mat-dialog-title>Add/Edit module</h1>
     </div>
     <div flex="40" layout="column" layout-align="center end">
         <div class="button-row"
@@ -47,10 +47,9 @@
             </div>
             <div style="margin-top:20px;" flex="100" layout-padding>
                 <ng-template [ngIf]="rteData">
-                    <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
-                                     (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
                 </ng-template>
-
+                <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
+                                 (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
             </div>
         </div>
     </form>

@@ -17,7 +17,7 @@ export class EditModuleDialogComponent implements OnInit {
     pageTitle = 'Modules';
     id: number;
     item;
-    rteData;
+    rteData = '';
     itemSaved = false;
     selectedChapter;
     categories: any[];
@@ -39,10 +39,7 @@ export class EditModuleDialogComponent implements OnInit {
 
     ngOnInit() {
         // if edit module that is in database
-
         if (this.data.edit && this.data.moduleUid) {
-            console.log('if');
-            console.log(this.data, 'form data');
             this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;
             this.apollo.watchQuery<any>({
@@ -56,15 +53,15 @@ export class EditModuleDialogComponent implements OnInit {
                 this.rteData = this.item.bodytext;
                 this.categories = data.categories;
                 this.selectedChapter = chapterId;
-                if (this.item.categoryId[0]) {
+                if (this.item.categoryId) {
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
+                this.loadingService.resolveAll('modulesLoader');
             });
+
         }
         // if edit module that is not yet saved
         else if (this.data.edit) {
-            console.log('elese if');
-            console.log(this.data);
             if (this.data.groupUid) {
                 this.id = this.data.groupUid;
             }
@@ -72,88 +69,71 @@ export class EditModuleDialogComponent implements OnInit {
                 query: fetchCategories
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
-                // this.id = this.data.groupUid;
                 this.item = this.data.moduleNew;
                 this.rteData = this.item.bodytext;
-                const categoryId = this.categories.find(category => category._id == this.item.categoryId);
                 if (this.item.categoryId) {
                     this.selectedGroup = this.item.categoryId[0].value;
-
                 }
-                console.log(this.item);
+                this.loadingService.resolveAll('modulesLoader');
             });
         }
         // if this is a new module
         else {
-            console.log('else');
-            this.rteData = '';
             this.apollo.watchQuery<any>({
-                query: fetchCategories
+                query: fetchCategories,
+                fetchPolicy: 'network-only'
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
+                this.rteData = ' ';
+                this.loadingService.resolveAll('modulesLoader');
             });
         }
-        this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId) || null;
-        this.count = Math.random();
-        console.log(this.item.moduleNew);
+        let price = value.price;
+        let newPrice;
 
-        if (this.data.edit && this.item._id && !this.item.moduleNew) {
-            let price = value.price;
-            console.log('if dole');
-            if (value.price.lenght > 3) {
-                price.replace(',', '');
-            }
-
-            this.savedModuleData = value;
-            this.savedModuleData.moduleNew = false;
-            this.savedModuleData._id = this.id;
-            this.savedModuleData.bodytext = this.rteData;
-            this.savedModuleData.price = +price;
-            this.savedModuleData.groupUid = this.data.groupUid;
-            if (category) {
-                this.savedModuleData.categoryId = category._id
-            }
-            this.itemSaved = true;
-        }
-        else if (this.data.edit) {
-            let price = value.price;
-            console.log('else if dole');
-            if (value.price.lenght > 3) {
-                price.replace(',', '');
-            }
-
-            this.savedModuleData = value;
-            this.savedModuleData._id = this.data.moduleNew.id;
-            this.savedModuleData.moduleNew = true;
-            this.savedModuleData.bodytext = this.rteData;
-            this.savedModuleData.price = +price;
-            this.savedModuleData.groupUid = this.data.groupUid;
-            if (category) {
-                this.savedModuleData.categoryId = category._id
-            }
-            this.itemSaved = true;
+        // Format price
+        if (price.length >= 6) {
+            newPrice = price.replace(/,/g, '');
         }
         else {
-            console.log('else dole');
-            this.savedModuleData = value;
+            newPrice = price;
+        }
+
+        // Make temp id
+        this.count = Math.random();
+
+        this.savedModuleData = value;
+
+        if (this.data.edit && this.item._id && !this.item.moduleNew) {
+            this.savedModuleData.moduleNew = false;
+            this.savedModuleData._id = this.id;
+            this.savedModuleData.price = +newPrice;
+        }
+        else if (this.data.edit) {
+            this.savedModuleData._id = this.data.moduleNew.id;
+            this.savedModuleData.moduleNew = true;
+            this.savedModuleData.price = +newPrice;
+        }
+        else {
             this.savedModuleData._id = this.id + this.count;
             this.savedModuleData.moduleNew = true;
-            this.savedModuleData.bodytext = this.rteData;
-            this.savedModuleData.groupUid = this.data.groupUid;
-            if (category) {
-                this.savedModuleData.categoryId = category._id
-            }
-            this.itemSaved = true;
         }
+
+        this.savedModuleData.bodytext = this.rteData;
+        this.savedModuleData.groupUid = this.data.groupUid;
+        // Set category if is selected
+        if (category) {
+            this.savedModuleData.categoryId = category._id
+        }
+        this.itemSaved = true;
     }
 
     keyupHandler(ev) {
         this.rteData = ev;
     }
-
 }

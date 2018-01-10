@@ -25,7 +25,6 @@ export class NewChapterComponent implements OnInit {
     @Output() editMode = true;
     chaptersModules = [];
     chapterPrice: number = 0;
-    editModuleGroup: number;
     modulesNew = [];
     modulesUpdate = [];
     modules: any[] = [];
@@ -151,7 +150,7 @@ export class NewChapterComponent implements OnInit {
         });
     }
 
-    onModuleRemove(moduleUid: number, groupUid: number, moduleData: any) {
+    onModuleRemove(moduleUid: number, moduleData: any) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this module?',
             viewContainerRef: this._viewContainerRef,
@@ -160,7 +159,7 @@ export class NewChapterComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                this.editMode = true
+                this.editMode = true;
                 if (!moduleUid) {
                     let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
@@ -241,7 +240,7 @@ export class NewChapterComponent implements OnInit {
         let dialogRef = this.dialog.open(ModuleListDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.editMode = true
+                this.editMode = true;
                 for (let e in result) {
                     // update modules list after adding new
                     this.modulesNew.push(result[e]);

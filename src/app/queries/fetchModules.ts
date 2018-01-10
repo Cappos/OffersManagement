@@ -10,6 +10,11 @@ export default gql`
             tstamp
             moduleNew
             deleted
+            categoryId {
+                _id
+                name
+                value
+            }
         }
     }
 `;

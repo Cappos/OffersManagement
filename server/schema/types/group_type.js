@@ -15,7 +15,7 @@ const GroupType = new GraphQLObjectType({
       modules: {
           type: new GraphQLList(ModuleType),
           resolve(parentValue) {
-              return Group.findCategory(parentValue._id);
+              return Group.findModules(parentValue._id);
           }
       }
   })

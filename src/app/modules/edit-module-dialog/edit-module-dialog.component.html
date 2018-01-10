@@ -18,39 +18,39 @@
     </div>
 </div>
 
-<mat-dialog-content>
-    <form #f="ngForm">
-        <div layout="row" layout-wrap>
-            <div style="margin-top:20px;" flex="25" layout-padding>
-                <mat-input-container>
-                    <input matInput placeholder="Name" [ngModel]="item?.name" name="name" required>
-                </mat-input-container>
-            </div>
+<form #f="ngForm">
+    <div layout="row" layout-wrap>
+        <div style="margin-top:20px;" flex="25" layout-padding>
+            <mat-input-container>
+                <input matInput placeholder="Name" [ngModel]="item?.name" name="name" required>
+            </mat-input-container>
+        </div>
 
-            <div style="margin-top:20px;" flex="25" layout-padding>
-                <mat-input-container>
-                    <input matInput  placeholder="Price" [ngModel]="item?.price | number:'2.2-2'" name="price" required>
-                </mat-input-container>
-            </div>
+        <div style="margin-top:20px;" flex="25" layout-padding>
+            <mat-input-container>
+                <input matInput placeholder="Price" [ngModel]="item?.price | number:'2.2-2'" name="price" required>
+            </mat-input-container>
+        </div>
 
-            <div style="margin-top:20px;" flex="25" layout-padding>
-                <mat-select placeholder="Category" floatPlaceholder="auto" [(ngModel)]="selectedGroup"  [(value)]="selectedGroup" name="categoryId">
-                    <mat-option *ngFor="let category of categories" [value]="category.value">
-                        {{category.name}}
-                    </mat-option>
-                </mat-select>
-            </div>
-            <div style="margin-top:20px;" flex="25" layout-padding>
-                <mat-input-container>
-                    <input matInput placeholder="Created date" [ngModel]="item?.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
-                </mat-input-container>
-            </div>
-            <div style="margin-top:20px;" flex="100" layout-padding>
-                <ng-template [ngIf]="rteData">
-                </ng-template>
+        <div style="margin-top:20px;" flex="25" layout-padding>
+            <mat-select placeholder="Category" floatPlaceholder="auto" [(ngModel)]="selectedGroup"
+                        [(value)]="selectedGroup" name="categoryId">
+                <mat-option *ngFor="let category of categories" [value]="category.value">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div style="margin-top:20px;" flex="25" layout-padding>
+            <mat-input-container>
+                <input matInput placeholder="Created date" [ngModel]="item?.tstamp | date: 'dd.MM.y'" name="tstamp"
+                       readonly>
+            </mat-input-container>
+        </div>
+        <div style="margin-top:20px;" flex="100" layout-padding>
+            <ng-template [ngIf]="rteData">
                 <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
                                  (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
-            </div>
+            </ng-template>
         </div>
-    </form>
-</mat-dialog-content>
+    </div>
+</form>

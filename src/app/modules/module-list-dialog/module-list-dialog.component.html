@@ -9,23 +9,7 @@
     </td-search-box>
 </div>
 <mat-divider></mat-divider>
-<!--<td-data-table-->
-        <!--#dataTable-->
-        <!--[data]="filteredData"-->
-        <!--[columns]="columns"-->
-        <!--[selectable]="true"-->
-        <!--[clickable]="false"-->
-        <!--[multiple]="true"-->
-        <!--[sortable]="true"-->
-        <!--[sortBy]="sortBy"-->
-        <!--[(ngModel)]="selectedRows"-->
-        <!--[sortOrder]="sortOrder"-->
-        <!--(sortChange)="sort($event)"-->
-        <!--layout="row" flex="100">-->
-<!--</td-data-table>-->
-
 <table td-data-table #dataTable>
-
     <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
         (sortChange)="sort($event, column.name)">
         {{column.label}}

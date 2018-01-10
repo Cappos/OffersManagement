@@ -16,9 +16,14 @@ const GroupSchema = new Schema({
     }],
 });
 
-GroupSchema.statics.findCategory = function (id) {
+GroupSchema.statics.findModules = function (id) {
     return this.findById(id)
-        .populate('modules')
+        .populate({
+            path: 'modules',
+            match: {
+                deleted: false
+            }
+        })
         .then(group => group.modules);
 };
 
@@ -26,7 +31,7 @@ GroupSchema.statics.updateGroup = function (args) {
     const Module = mongoose.model('module');
 
     if (args.modulesNew) {
-        const ModulesNew = args.modulesNew
+        const ModulesNew = args.modulesNew;
 
         for (let e in ModulesNew) {
             this.findOneAndUpdate({_id: args.id},
@@ -52,6 +57,7 @@ GroupSchema.statics.updateGroup = function (args) {
                             .then(([module, chapter]) => chapter);
                     }
                     else {
+                        console.log(ModulesNew[e]);
                         return Module.findOneAndUpdate({_id: ModulesNew[e]._id}, {
                             $set: {
                                 name: ModulesNew[e].name,
@@ -84,10 +90,9 @@ GroupSchema.statics.updateGroup = function (args) {
 GroupSchema.statics.createGroup = function (args) {
     const Module = mongoose.model('module');
     const Group = mongoose.model('group');
-    const ModulesNew = args.modulesNew
+    const ModulesNew = args.modulesNew;
 
     return (new Group(args)).save().then(chapter => {
-        console.log(chapter);
         for (let e in ModulesNew) {
             if (ModulesNew[e].moduleNew) {
                 let module = new Module({

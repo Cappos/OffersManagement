@@ -34,7 +34,6 @@ export class ChapterComponent implements OnInit {
     chapterPrice: number;
     modulesNew = [];
     modulesUpdate = [];
-    modulesDeleted = [];
     modules: any[] = [];
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
@@ -74,9 +73,7 @@ export class ChapterComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-
         let subTotal = null;
-
         if (value.subTotal) {
             subTotal = value.subTotal.replace(',', '');
         }
@@ -102,7 +99,6 @@ export class ChapterComponent implements OnInit {
                 this.editMode = false;
                 this.sharedService.sneckBarNotifications(`chapter updated.`);
             });
-            console.log(this.id, 'init');
         }
         else {
             console.log('not null');
@@ -114,7 +110,6 @@ export class ChapterComponent implements OnInit {
             for (let item in this.modulesUpdate) {
                 modules.push(this.modulesUpdate[item])
             }
-            console.log(this.id, 'else');
             this.apollo.mutate({
                 mutation: updateGroup,
                 variables: {
@@ -205,35 +200,29 @@ export class ChapterComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                this.editMode = true
+                console.log(moduleUid);
+                console.log(this.chaptersModules);
+                this.editMode = true;
                 if (!moduleUid) {
                     let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
                     this.modulesNew.splice(moduleIndex, 1);
                 }
                 else {
-                    let module = this.chaptersModules.filter(module => module.id === moduleUid)[0];
+                    let module = this.chaptersModules.filter(module => module._id === moduleUid)[0];
                     let moduleIndex = this.chaptersModules.indexOf(module);
-                    console.log(module, 'test');
-                    console.log(this.chaptersModules, 'chapter');
 
+                    console.log(module);
                     if (moduleIndex >= 0) {
-
                         module.deleted = true;
                         this.modulesUpdate.push(module);
-                        console.log(this.modulesUpdate);
                         // update modules lis after module delete
                         this.chaptersModules.splice(moduleIndex, 1);
                     }
                 }
 
-
-                // let module = this.chaptersModules.filter(module => module.uid === moduleUid)[0];
-                // let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
-
-
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
@@ -260,7 +249,7 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.editMode = true
+                this.editMode = true;
                 if (result.moduleNew) {
                     this.modulesNew.push(result)
                 }
@@ -292,7 +281,7 @@ export class ChapterComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.editMode = true
+                this.editMode = true;
                 for (let e in result) {
                     // update modules list after adding new
                     this.modulesNew.push(result[e]);

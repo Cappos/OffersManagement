@@ -13,7 +13,6 @@ import 'tinymce/plugins/help';
 import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/advlist';
-import {Observable} from "rxjs/Observable";
 
 declare const tinymce: any;
 

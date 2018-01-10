@@ -16,6 +16,7 @@ export default gql`
                 cruserId
                 crdate
                 moduleNew
+                deleted
             }
         }
     }

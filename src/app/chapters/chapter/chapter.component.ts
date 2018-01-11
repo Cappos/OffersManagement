@@ -200,11 +200,9 @@ export class ChapterComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                console.log(moduleUid);
-                console.log(this.chaptersModules);
                 this.editMode = true;
                 if (!moduleUid) {
-                    let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
+                    let module = this.modulesNew.filter(module => module._id === moduleData.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
                     this.modulesNew.splice(moduleIndex, 1);
                 }
@@ -212,7 +210,6 @@ export class ChapterComponent implements OnInit {
                     let module = this.chaptersModules.filter(module => module._id === moduleUid)[0];
                     let moduleIndex = this.chaptersModules.indexOf(module);
 
-                    console.log(module);
                     if (moduleIndex >= 0) {
                         module.deleted = true;
                         this.modulesUpdate.push(module);

@@ -52,15 +52,14 @@ export class NewChapterComponent implements OnInit {
             subTotal = value.subTotal.replace(',', '');
         }
 
-        if (!this.modulesUpdate.length && !this.modulesNew.length) {
+        if (!this.chaptersModules.length) {
             console.log('empty');
-            let modules = this.modules.length ? this.modules : [];
             this.apollo.mutate({
                 mutation: createGroup,
                 variables: {
                     name: value.name,
                     subTotal: subTotal,
-                    modules: modules
+                    modules: []
                 },
                 refetchQueries: [{
                     query: fetchGroups
@@ -73,19 +72,12 @@ export class NewChapterComponent implements OnInit {
         }
         else {
             console.log('not null');
-            let modules = [];
-            for (let item in this.modulesNew) {
-                modules.push(this.modulesNew[item])
-            }
-            for (let item in this.modulesUpdate) {
-                modules.push(this.modulesUpdate[item])
-            }
             this.apollo.mutate({
                 mutation: createGroup,
                 variables: {
                     name: value.name,
                     subTotal: subTotal,
-                    modulesNew: modules
+                    modulesNew: this.chaptersModules
                 },
                 refetchQueries: [{
                     query: fetchGroups
@@ -110,35 +102,19 @@ export class NewChapterComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.editMode = true;
-                if (result.moduleNew) {
-                    let module = this.modulesNew.filter(module => module.id === result.id)[0];
-                    let moduleIndex = this.modulesNew.indexOf(module);
-                    if (moduleIndex >= 0) {
-                        this.modulesNew[moduleIndex] = result;
-                    }
-                    else {
-                        this.modulesNew.push(result);
-                    }
-                }
-                else {
-                    let module = this.modulesUpdate.filter(module => module.id === result.id)[0];
-                    let moduleIndex = this.modulesUpdate.indexOf(module);
-
-                    if (moduleIndex >= 0) {
-                        this.modulesUpdate[moduleIndex] = result;
-                    }
-                    else {
-                        console.log(moduleIndex, 'else');
-                        this.modulesUpdate.push(result);
-                    }
-                }
 
                 let module = this.chaptersModules.filter(module => module.name === result.name)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
+
+                if (moduleIndex >= 0) {
+                    this.chaptersModules[moduleIndex] = result;
+                }
+                else {
+                    this.chaptersModules.push(result);
+                }
+
                 let modulePrices: any[] = [];
                 let sum: number = 0;
-
-                this.chaptersModules[moduleIndex] = result;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
@@ -160,33 +136,14 @@ export class NewChapterComponent implements OnInit {
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
                 this.editMode = true;
-                if (!moduleUid) {
-                    let module = this.modulesNew.filter(module => module.id === moduleData.id)[0];
-                    let moduleIndex = this.modulesNew.indexOf(module);
-                    this.modulesNew.splice(moduleIndex, 1);
-                }
-                else {
-                    let module = this.chaptersModules.filter(module => module.id === moduleUid)[0];
-                    let moduleIndex = this.chaptersModules.indexOf(module);
-                    console.log(module, 'test');
-                    console.log(this.chaptersModules, 'chapter');
+                let module = this.chaptersModules.filter(module => module._id === moduleUid)[0];
+                let moduleIndex = this.chaptersModules.indexOf(module);
 
-                    if (moduleIndex >= 0) {
+                // update modules lis after module delete
+                this.chaptersModules.splice(moduleIndex, 1);
 
-                        module.deleted = true;
-                        this.modulesUpdate.push(module);
-                        console.log(this.modulesUpdate);
-                        // update modules lis after module delete
-                        this.chaptersModules.splice(moduleIndex, 1);
-                    }
-                }
-
-
-                // let module = this.chaptersModules.filter(module => module.uid === moduleUid)[0];
-                // let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
-
 
 
                 // update chapter price
@@ -214,17 +171,12 @@ export class NewChapterComponent implements OnInit {
             if (result) {
                 this.editMode = true
                 if (result.moduleNew) {
-                    this.modulesNew.push(result)
-                }
-                else {
-                    this.modulesUpdate.push(result)
+                    // update modules lis after adding module
+                    this.chaptersModules.push(result)
                 }
 
                 let modulePrices: any[] = [];
                 let sum: number = 0;
-
-                // update modules lis after adding module
-                this.chaptersModules.push(result);
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
@@ -243,7 +195,6 @@ export class NewChapterComponent implements OnInit {
                 this.editMode = true;
                 for (let e in result) {
                     // update modules list after adding new
-                    this.modulesNew.push(result[e]);
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];
                     let sum: number = 0;

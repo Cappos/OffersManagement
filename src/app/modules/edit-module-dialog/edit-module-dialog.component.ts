@@ -79,6 +79,7 @@ export class EditModuleDialogComponent implements OnInit {
         }
         // if this is a new module
         else {
+            this.id = Math.random();
             this.apollo.watchQuery<any>({
                 query: fetchCategories,
                 fetchPolicy: 'network-only'

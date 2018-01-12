@@ -7,7 +7,7 @@
     <mat-divider></mat-divider>
     <mat-card-content>
         <mat-tab-group dynamicHeight="true" #tabGroup (selectChange)="onSelectChange($event)"
-                      [selectedIndex]="activeTab">
+                       [selectedIndex]="activeTab">
             <mat-tab label="Pages">
                 <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm" layout-padding>
                                   <span class="push-left-sm">
@@ -24,25 +24,29 @@
                                   </span>
                 </div>
                 <mat-divider></mat-divider>
-                <table td-data-table #dataTable >
+                <table td-data-table #dataTable>
                     <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
                         (sortChange)="sort($event, column.name)">
                         {{column.label}}
                     </th>
                     <tbody [dragula]='dragContainer' [dragulaModel]='data'>
-                    <tr #accordionModule td-data-table-row *ngFor="let row of data; let i = index" [attr.uid]="row.uid" [attr.index]="i">
+                    <tr #accordionModule td-data-table-row *ngFor="let row of data; let i = index" [attr._id]="row._id"
+                        [attr.index]="i">
                         <td td-data-table-cell>
-                            {{row.uid}}
+                            {{i +1 }}
                         </td>
                         <td td-data-table-cell>
-                            <button mat-menu-item [routerLink]="['page/' + row.uid]" (click)="onSelect(row.uid)">{{row.title}}</button>
+                            <button mat-menu-item [routerLink]="['page/' + row._id]" (click)="onSelect(row._id)">
+                                {{row.title}}
+                            </button>
                         </td>
                         <td td-data-table-cell>
-                            {{row.tstamp}}
+                            {{row.tstamp | date: 'dd.MM.y'}}
                         </td>
                         <td td-data-table-cell colspan="2">
                             <div layout="row">
-                                <span layout-margin><a (click)="onEdit(row)"><mat-icon color="accent">mode_edit</mat-icon></a></span>
+                                <span layout-margin><a (click)="onEdit(row)"><mat-icon
+                                        color="accent">mode_edit</mat-icon></a></span>
                                 <span layout-margin><a (click)="onDelete(row)"><mat-icon color="warn">delete</mat-icon></a></span>
                                 <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
                             </div>
@@ -60,7 +64,7 @@
                         <div layout="row" layout-wrap>
                             <div *ngFor="let img of media" flex="15" layout-padding>
                                     <span class="mat-button-wrapper">
-                                        <mat-icon  color="warn" (click)="onImgRemove(img.id)">cancel</mat-icon>
+                                        <mat-icon color="warn" (click)="onImgRemove(img.id)">cancel</mat-icon>
                                     </span>
                                 <img [src]="img.src">
                                 <h4>{{img.name}}</h4>

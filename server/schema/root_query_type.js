@@ -14,6 +14,8 @@ const CategoryType = require('./types/category_type');
 const Category = mongoose.model('category');
 const ClientType =  require('./types/client_type');
 const Client = mongoose.model('client');
+const PageType =  require('./types/page_type');
+const Page = mongoose.model('page');
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -87,6 +89,12 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Client.findById({_id: id});
+            }
+        },
+        pages: {
+            type: new GraphQLList(PageType),
+            resolve(parentValue) {
+                return Page.find({});
             }
         },
     })

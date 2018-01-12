@@ -12,6 +12,9 @@ const ClientType = require('./types/client_type');
 const Client = mongoose.model('client');
 const GroupType = require('./types/group_type');
 const Group = mongoose.model('group');
+const PageType =  require('./types/page_type');
+const Page = mongoose.model('page');
+
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -200,6 +203,26 @@ const mutation = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Group.findOneAndRemove({_id: id});
+            }
+        },
+        addPage: {
+            type: PageType,
+            args: {
+                type: {type: GraphQLInt},
+                title: {type: GraphQLString},
+                subtitle: {type: GraphQLString},
+                bodytext: {type: GraphQLString},
+                tstamp: {type: GraphQLString}
+            },
+            resolve(parentValue, args) {
+                return (new Page(args)).save()
+            }
+        },
+        deletePage: {
+            type: PageType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Page.findOneAndRemove({_id: id});
             }
         },
     }

@@ -6,7 +6,6 @@ import {
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableSortingOrder,
     TdLoadingService,
 } from '@covalent/core';
-import {Observable} from 'rxjs/observable';
 import 'rxjs';
 import {Router} from '@angular/router';
 import {slideInDownAnimation} from '../_animations/app.animations';
@@ -14,6 +13,9 @@ import {DragulaService} from 'ng2-dragula';
 import {MediaBrowserComponent} from '../media-browser/media-browser.component';
 import {MatDialog} from '@angular/material';
 import {DataService} from '../shared/data.service';
+import {Apollo} from "apollo-angular";
+import getPages from '../queries/fetchPages';
+import removePage from '../queries/deletePage';
 
 @Component({
     selector: 'app-additional-data',
@@ -39,13 +41,12 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
     data: any[];
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
-    pageState: Observable<any>;
     pagesOrder: any[] = [];
     dragContainer = 'pages-bag';
     media: any[] = [];
     dropSubscription;
 
-    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private dragulaService: DragulaService, public dialog: MatDialog, private dataService: DataService) {
+    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private dragulaService: DragulaService, public dialog: MatDialog, private dataService: DataService, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -66,21 +67,21 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageState = this.dataService.getPagesData();
-
-        this.pageState.take(1).subscribe((res) => {
-            this.data = res;
+        this.apollo.watchQuery<any>({
+            query: getPages,
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.pages;
 
             // Enable ordering chapters
             this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
-                this.accordionModule.changes.take(1).subscribe(children => {
+                this.accordionModule.changes.subscribe(children => {
                     this.pagesOrder = [];
                     children.forEach(child => {
                         const index = +child.nativeElement.getAttribute('index') + 1;
-                        const element = {uid: child.nativeElement.getAttribute('uid'), order: index};
+                        const element = {_id: child.nativeElement.getAttribute('_id'), order: index};
                         this.pagesOrder.push(element);
                     });
-                    console.log(this.pagesOrder, 'new order');
                 });
             });
             this.loadingService.resolveAll('modulesLoader');
@@ -99,7 +100,7 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
 
     onEdit(row) {
         console.log(row);
-        this.router.navigate(['/additionalData/page/' + row.uid + '/edit']);
+        this.router.navigate(['/additionalData/page/' + row._id + '/edit']);
     }
 
     onDelete(row) {

@@ -5,5 +5,6 @@ require('./offerDescription.model');
 require('./sealer.model');
 require('./client.model');
 require('./category.model');
+require('./page.model');
 
 

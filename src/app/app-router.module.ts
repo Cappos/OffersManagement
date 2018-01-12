@@ -36,13 +36,10 @@ const appRoutes: Routes = [
     {path: 'clients/:id', component: ClientComponent},
     {path: 'clients/:id/:edit', component: ClientComponent},
     {path: 'newClient', component: NewClientComponent},
-    {
-        path: 'additionalData', component: AdditionalDataComponent, children: [
-        {path: 'page/:id', component: PageComponent},
-        {path: 'page/:id?/:edit', component: PageComponent},
-        {path: 'newPage', component: PageComponent}
-    ]
-    },
+    {path: 'additionalData', component: AdditionalDataComponent},
+    {path: 'additionalData/page/:id', component: PageComponent},
+    {path: 'additionalData/page/:id?/:edit', component: PageComponent},
+    {path: 'additionalData/newPage', component: PageComponent},
     {path: 'sellers', component: SellersComponent}
 ];
 

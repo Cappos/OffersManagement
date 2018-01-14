@@ -1,7 +1,12 @@
 <mat-card>
     <mat-card-title>
         <div layout="row" layout-wrap>
-            <div flex="90" layout="column" layout-align="center start">{{title}}</div>
+            <div flex="5">
+                <button mat-icon-button (click)="goBack()" color="accent">
+                    <mat-icon >keyboard_backspace</mat-icon>
+                </button>
+            </div>
+            <div flex="85" layout="column" layout-align="center start">{{title}}</div>
             <div flex="10" layout="column" layout-align="center end">
                 <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
                     <mat-icon>mode_edit</mat-icon>
@@ -20,7 +25,7 @@
                 <div style="margin-top:20px;" flex="100" layout-padding>
                     <mat-input-container style="max-width: 800px; width: 100%;">
                         <input matInput placeholder="Title" [ngModel]="item?.title"
-                               name="name" readonly>
+                               name="title" [readonly]="!editMode">
                     </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
@@ -30,8 +35,10 @@
                     </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
-                    <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
-                                     (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+                    <ng-template [ngIf]="rteData">
+                        <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
+                                         (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+                    </ng-template>
                 </div>
             </div>
         </form>

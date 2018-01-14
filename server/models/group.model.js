@@ -14,6 +14,14 @@ const GroupSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'module'
     }],
+    defaultGroup: {
+        type: Boolean,
+        default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 GroupSchema.statics.findModules = function (id) {
@@ -57,7 +65,6 @@ GroupSchema.statics.updateGroup = function (args) {
                             .then(([module, chapter]) => chapter);
                     }
                     else {
-                        console.log(ModulesNew[e]);
                         return Module.findOneAndUpdate({_id: ModulesNew[e]._id}, {
                             $set: {
                                 name: ModulesNew[e].name,
@@ -68,9 +75,7 @@ GroupSchema.statics.updateGroup = function (args) {
                                 deleted: ModulesNew[e].deleted
                             }
                         }, {new: true});
-
                     }
-
                 });
         }
         return this.findById(args.id);

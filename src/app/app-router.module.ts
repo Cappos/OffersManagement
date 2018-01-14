@@ -38,7 +38,7 @@ const appRoutes: Routes = [
     {path: 'newClient', component: NewClientComponent},
     {path: 'additionalData', component: AdditionalDataComponent},
     {path: 'additionalData/page/:id', component: PageComponent},
-    {path: 'additionalData/page/:id?/:edit', component: PageComponent},
+    {path: 'additionalData/page/:id/:edit', component: PageComponent},
     {path: 'additionalData/newPage', component: PageComponent},
     {path: 'sellers', component: SellersComponent}
 ];

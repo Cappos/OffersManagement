@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
 const GraphQLDate = require('graphql-date');
 const ClientType = require('./client_type');
 const GroupType = require('./group_type');
@@ -33,7 +33,8 @@ const OfferType = new GraphQLObjectType({
           resolve(parentValue, args) {
               console.log(parentValue, args);
           }
-      }
+      },
+      deleted: {type: GraphQLBoolean}
   })
 });
 

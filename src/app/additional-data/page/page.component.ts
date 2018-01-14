@@ -1,9 +1,15 @@
 import {Component, OnInit, Output} from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {ActivatedRoute, Params} from "@angular/router";
+import { Location } from '@angular/common';
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
-import {DataService} from "../../shared/data.service";
+import {SharedService} from "../../shared/shared.service";
+import {Apollo} from "apollo-angular";
+import fetchPage from '../../queries/fetchPage';
+import getPagesData from '../../queries/fetchPages';
+import updatePage from '../../queries/updatePage';
+import  createPage from '../../queries/createPage';
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-page',
@@ -14,11 +20,10 @@ export class PageComponent implements OnInit {
     title;
     id: number;
     item;
-    pageState: Observable<any>;
     @Output() editMode = false;
-    rteData;
+    rteData = '';
 
-    constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private apollo: Apollo, private sharedService: SharedService, private location: Location, private router: Router) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -32,36 +37,74 @@ export class PageComponent implements OnInit {
         this.route.params.subscribe(
             (params: Params) => {
                 if(params['id']){
-                    this.id = +params['id'];
+                    this.id = params['id'];
                     this.editMode = !!params['edit'];
-                    this.pageState = this.dataService.getPageData();
 
-                    this.pageState.take(1).subscribe((res) => {
-                        this.item = res;
+                    this.apollo.watchQuery<any>({
+                        query: fetchPage,
+                        variables: {
+                            id: this.id
+                        },
+                        fetchPolicy: 'network-only'
+                    }).valueChanges.subscribe(({data}) => {
+                        this.item = _.cloneDeep(data.page);
                         this.title = this.item.title;
                         this.rteData = this.item.bodytext;
-                    })
-                }
-                else {
-                    this.title = 'New page';
-                    this.rteData = '';
-                    this.editMode = true;
-                }
+                        this.loadingService.resolveAll('modulesLoader');
+                    });
 
-                this.loadingService.resolveAll('modulesLoader');
+                } else {
+                    this.title = 'New page';
+                    this.rteData = ' ';
+                    this.editMode = true;
+                    this.loadingService.resolveAll('modulesLoader');
+                }
 
             }
         );
     }
 
     onEdit() {
-        console.log('edit');
         this.editMode = true;
     }
 
     onSave(form: NgForm){
-        console.log(form.value);
-        this.editMode = false;
+        const value = form.value;
+        if(this.id){
+            this.apollo.mutate({
+                mutation: updatePage,
+                variables: {
+                    id: this.id,
+                    title: value.title,
+                    subtitle: value.subtitle,
+                    bodytext: this.rteData
+                },
+                refetchQueries: [{
+                    query: getPagesData
+                }]
+            }).subscribe(() => {
+                this.sharedService.sneckBarNotifications(`page updated.`);
+                this.editMode = false;
+            });
+        }
+        else {
+            this.apollo.mutate({
+                mutation: createPage,
+                variables: {
+                    title: value.title,
+                    subtitle: value.subtitle,
+                    bodytext: this.rteData
+                },
+                refetchQueries: [{
+                    query: getPagesData
+                }]
+            }).subscribe(() => {
+                this.sharedService.sneckBarNotifications(`page created.`);
+                this.editMode = false;
+                this.router.navigate(['/additionalData']);
+            });
+        }
+
 
     }
 
@@ -69,4 +112,7 @@ export class PageComponent implements OnInit {
         console.log(ev);
     }
 
+    goBack(){
+        this.location.back();
+    }
 }

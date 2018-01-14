@@ -1,18 +1,16 @@
 import {
-    Component, HostBinding, OnInit, Output, ElementRef, QueryList, ViewChildren, OnDestroy
+    Component, HostBinding, OnInit, Output, ElementRef, QueryList, ViewChildren, ViewContainerRef
 } from '@angular/core';
 import {SharedService} from '../shared/shared.service';
 import {
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableSortingOrder,
-    TdLoadingService,
+    TdLoadingService, TdDialogService
 } from '@covalent/core';
 import 'rxjs';
 import {Router} from '@angular/router';
 import {slideInDownAnimation} from '../_animations/app.animations';
-import {DragulaService} from 'ng2-dragula';
 import {MediaBrowserComponent} from '../media-browser/media-browser.component';
 import {MatDialog} from '@angular/material';
-import {DataService} from '../shared/data.service';
 import {Apollo} from "apollo-angular";
 import getPages from '../queries/fetchPages';
 import removePage from '../queries/deletePage';
@@ -23,7 +21,7 @@ import removePage from '../queries/deletePage';
     styleUrls: ['./additional-data.component.css'],
     animations: [slideInDownAnimation]
 })
-export class AdditionalDataComponent implements OnInit, OnDestroy {
+export class AdditionalDataComponent implements OnInit {
     @HostBinding('@routeAnimation') routeAnimation = true;
     @HostBinding('class.td-route-animation') classAnimation = true;
 
@@ -41,28 +39,16 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
     data: any[];
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
-    pagesOrder: any[] = [];
-    dragContainer = 'pages-bag';
     media: any[] = [];
-    dropSubscription;
 
-    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private dragulaService: DragulaService, public dialog: MatDialog, private dataService: DataService, private apollo: Apollo) {
+    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, public dialog: MatDialog, private apollo: Apollo, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
             mode: LoadingMode.Indeterminate,
             color: 'accent',
         });
-
         this.sharedService.changeTitle(this.pageTitle);
-
-        // Enable drag and drop
-        this.dragulaService.setOptions(this.dragContainer, {
-            moves: function (el, container, handle) {
-                return handle.className === 'handle mat-icon material-icons';
-            }
-        });
-
         this.loadingService.register('modulesLoader');
     }
 
@@ -72,18 +58,6 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
             fetchPolicy: 'network-only'
         }).valueChanges.subscribe(({data}) => {
             this.data = data.pages;
-
-            // Enable ordering chapters
-            this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
-                this.accordionModule.changes.subscribe(children => {
-                    this.pagesOrder = [];
-                    children.forEach(child => {
-                        const index = +child.nativeElement.getAttribute('index') + 1;
-                        const element = {_id: child.nativeElement.getAttribute('_id'), order: index};
-                        this.pagesOrder.push(element);
-                    });
-                });
-            });
             this.loadingService.resolveAll('modulesLoader');
         });
     }
@@ -96,19 +70,41 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
     onSelectChange = ($event: any): void => {
         this.activeTab = $event.index;
         this.router.navigate(['/additionalData/']);
-    }
+    };
 
     onEdit(row) {
-        console.log(row);
-        this.router.navigate(['/additionalData/page/' + row._id + '/edit']);
+        let id = row['_id'];
+        this.router.navigate(['/additionalData/page/' + id + '/edit']);
     }
 
     onDelete(row) {
-        console.log(row);
+        let id = row['_id'];
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this page?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                this.apollo.mutate({
+                    mutation: removePage,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: getPages
+                    }]
+                }).subscribe((res) => {
+                    this.sharedService.sneckBarNotifications(`module ${res.data.deletePage.title} deleted!!!.`);
+                });
+            }
+        });
     }
 
-    onSelect(uid) {
-        console.log(uid);
+    onSelect(row) {
+        let id = row['_id'];
+        this.router.navigate(['/additionalData/page/' + id + '/edit']);
     }
 
     addGraph() {
@@ -123,10 +119,5 @@ export class AdditionalDataComponent implements OnInit, OnDestroy {
 
     onImgRemove(id: number) {
         this.media.splice(this.media.findIndex(el => el.id === id), 1);
-    }
-
-    ngOnDestroy() {
-        this.dragulaService.destroy(this.dragContainer);
-        this.dropSubscription.unsubscribe();
     }
 }

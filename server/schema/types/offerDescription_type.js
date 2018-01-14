@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLBoolean } = graphql;
 const SealerType = require('./sealer_type');
 const OfferDescription = mongoose.model('offerDescription');
 
@@ -14,7 +14,8 @@ const OfferDescriptionType = new GraphQLObjectType({
           resolve(parentValue, args) {
               console.log(parentValue, args);
           }
-      }
+      },
+      deleted: {type: GraphQLBoolean}
   })
 });
 

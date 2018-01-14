@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
 const GraphQLDate = require('graphql-date');
 const ModuleType = require('./module_type');
 const Group = mongoose.model('group');
@@ -17,7 +17,9 @@ const GroupType = new GraphQLObjectType({
           resolve(parentValue) {
               return Group.findModules(parentValue._id);
           }
-      }
+      },
+      defaultGroup: {type: GraphQLBoolean},
+      deleted: {type: GraphQLBoolean}
   })
 });
 

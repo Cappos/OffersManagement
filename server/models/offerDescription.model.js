@@ -7,7 +7,11 @@ const OfferDescriptionSchema = new Schema({
     sealer: [{
         type: Schema.Types.ObjectId,
         ref: 'sealer'
-    }]
+    }],
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 mongoose.model('offerDescription', OfferDescriptionSchema);

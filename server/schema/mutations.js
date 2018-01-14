@@ -36,7 +36,11 @@ const mutation = new GraphQLObjectType({
             type: SealerType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Sealer.findOneAndRemove({_id: id});
+                return Sealer.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, { new: true });
             }
         },
         editSealer: {
@@ -103,7 +107,11 @@ const mutation = new GraphQLObjectType({
             type: ModuleType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Module.findOneAndRemove({_id: id});
+                return Module.findOneAndUpdate({_id: id}, {
+                    $set: {
+                       deleted: true
+                    }
+                }, { new: true });
             }
         },
         addCategory: {
@@ -170,7 +178,11 @@ const mutation = new GraphQLObjectType({
             type: ClientType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Client.findOneAndRemove({_id: id});
+                return Client.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, { new: true });
             }
         },
         addGroup: {
@@ -182,7 +194,6 @@ const mutation = new GraphQLObjectType({
                 modulesNew:{type: GraphQLJSON}
             },
             resolve(parentValue, args) {
-                // return (new Group(args)).save()
                 return Group.createGroup(args);
             }
         },
@@ -202,7 +213,11 @@ const mutation = new GraphQLObjectType({
             type: GroupType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Group.findOneAndRemove({_id: id});
+                return Group.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, { new: true });
             }
         },
         addPage: {
@@ -222,7 +237,29 @@ const mutation = new GraphQLObjectType({
             type: PageType,
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
-                return Page.findOneAndRemove({_id: id});
+                return Page.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, { new: true });
+            }
+        },
+        editPage: {
+            type: PageType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                title: {type: new GraphQLNonNull(GraphQLString)},
+                subtitle: {type: GraphQLString},
+                bodytext: {type: GraphQLString}
+            },
+            resolve(parentValue, args) {
+                return Page.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        title: args.title,
+                        subtitle: args.subtitle,
+                        bodytext: args.bodytext
+                    }
+                }, { new: true });
             }
         },
     }

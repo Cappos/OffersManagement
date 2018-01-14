@@ -36,13 +36,13 @@ const RootQuery = new GraphQLObjectType({
         sealers: {
             type: new GraphQLList(SealerType),
             resolve(parentValue) {
-                return Sealer.find({});
+                return Sealer.find({deleted: false});
             }
         },
         modules: {
             type: new GraphQLList(ModuleType),
             resolve(parentValue) {
-                return Module.find({defaultModule: true});
+                return Module.find({defaultModule: true, deleted: false});
             }
         },
         module: {
@@ -55,7 +55,7 @@ const RootQuery = new GraphQLObjectType({
         groups: {
             type: new GraphQLList(GroupType),
             resolve(parentValue) {
-                return Group.find({});
+                return Group.find({defaultGroup: true, deleted: false});
             }
         },
         group: {
@@ -68,7 +68,7 @@ const RootQuery = new GraphQLObjectType({
         categories: {
             type: new GraphQLList(CategoryType),
             resolve(parentValue) {
-                return Category.find({});
+                return Category.find({deleted: false});
             }
         },
         category: {
@@ -81,7 +81,7 @@ const RootQuery = new GraphQLObjectType({
         clients: {
             type: new GraphQLList(ClientType),
             resolve(parentValue) {
-                return Client.find({});
+                return Client.find({deleted: false});
             }
         },
         client: {
@@ -94,9 +94,16 @@ const RootQuery = new GraphQLObjectType({
         pages: {
             type: new GraphQLList(PageType),
             resolve(parentValue) {
-                return Page.find({});
+                return Page.find({deleted: false});
             }
         },
+        page: {
+            type: PageType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Page.findById({_id: id});
+            }
+        }
     })
 });
 

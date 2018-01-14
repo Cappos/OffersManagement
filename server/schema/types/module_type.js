@@ -28,6 +28,7 @@ const ModuleType = new GraphQLObjectType({
           }
       },
       moduleNew: {type: GraphQLBoolean},
+      defaultModule: {type: GraphQLBoolean},
       deleted: {type: GraphQLBoolean}
   })
 });

@@ -29,14 +29,14 @@
                         (sortChange)="sort($event, column.name)">
                         {{column.label}}
                     </th>
-                    <tbody [dragula]='dragContainer' [dragulaModel]='data'>
+                    <tbody>
                     <tr #accordionModule td-data-table-row *ngFor="let row of data; let i = index" [attr._id]="row._id"
                         [attr.index]="i">
                         <td td-data-table-cell>
                             {{i +1 }}
                         </td>
                         <td td-data-table-cell>
-                            <button mat-menu-item [routerLink]="['page/' + row._id]" (click)="onSelect(row._id)">
+                            <button mat-menu-item (click)="onSelect(row)">
                                 {{row.title}}
                             </button>
                         </td>
@@ -48,7 +48,6 @@
                                 <span layout-margin><a (click)="onEdit(row)"><mat-icon
                                         color="accent">mode_edit</mat-icon></a></span>
                                 <span layout-margin><a (click)="onDelete(row)"><mat-icon color="warn">delete</mat-icon></a></span>
-                                <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
                             </div>
                         </td>
                     </tr>

@@ -22,7 +22,11 @@ const OfferSchema = new Schema({
     groups: [{
         type: Schema.Types.ObjectId,
         ref: 'group'
-    }]
+    }],
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 OfferSchema.statics.findClient = function(id) {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt} = graphql;
+const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLBoolean} = graphql;
 const GraphQLDate = require('graphql-date');
 
 const PageType = new GraphQLObjectType({
@@ -11,7 +11,9 @@ const PageType = new GraphQLObjectType({
         title: {type: GraphQLString},
         subtitle: {type: GraphQLString},
         bodytext: {type: GraphQLString},
-        tstamp: {type: GraphQLDate}
+        tstamp: {type: GraphQLDate},
+        defaultPage: {type: GraphQLBoolean},
+        deleted: {type: GraphQLBoolean}
     })
 });
 

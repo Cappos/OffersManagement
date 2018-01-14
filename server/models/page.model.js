@@ -6,10 +6,21 @@ const PageSchema = new Schema({
     type: Number,
     title: String,
     subtitle: String,
-    bodytext: String,
+    bodytext: {
+        type: String,
+        default: ' '
+    },
     tstamp: {
         type: Date,
         default: Date.now
+    },
+    defaultPage: {
+        type: Boolean,
+        default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -11,6 +11,10 @@ const SealerSchema = new Schema({
     active: {
         type: Schema.Types.ObjectId,
         ref: 'offer'
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

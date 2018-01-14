@@ -18,7 +18,11 @@ const ClientSchema = new Schema({
     offers:  [{
         type: Schema.Types.ObjectId,
         ref: 'offer'
-    }]
+    }],
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 ClientSchema.statics.findOffer = function (id) {

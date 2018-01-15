@@ -1,8 +1,6 @@
 import {Component, OnInit, Output, ViewContainerRef} from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {MatDialog} from "@angular/material";
 import 'rxjs/Observable';
@@ -14,6 +12,10 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/chapter-list-dialog.component";
+import {Apollo} from 'apollo-angular';
+import createOffer from '../../queries/createOffer';
+import getOffers from '../../queries/fetchOffers';
+
 
 @Component({
     selector: 'app-new-offer',
@@ -33,7 +35,7 @@ export class NewOfferComponent implements OnInit {
     editModuleGroup: number;
     totalPrice;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -51,7 +53,53 @@ export class NewOfferComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        this.editMode = false;
+        let totalPrice = null;
+
+        if (value.totalPrice) {
+            totalPrice = value.totalPrice.replace(',', '');
+        }
+
+        if (!this.offersModules.length) {
+            console.log('empty');
+            this.apollo.mutate({
+                mutation: createOffer,
+                variables: {
+                    offerNumber: value.offerNumber,
+                    offerTitle: value.offerTitle,
+                    totalPrice: totalPrice,
+                    bodytext: value.bodytext,
+                    groups: []
+                },
+                refetchQueries: [{
+                    query: getOffers
+                }]
+            }).subscribe(() => {
+                this.editMode = false;
+                this.sharedService.sneckBarNotifications(`offer created.`);
+                this.router.navigate(['/offers']);
+            });
+        }
+        else {
+            console.log('not null');
+            this.apollo.mutate({
+                mutation: createOffer,
+                variables: {
+                    offerNumber: value.offerNumber,
+                    offerTitle: value.offerTitle,
+                    totalPrice: totalPrice,
+                    bodytext: value.bodytext,
+                    groupsNew: this.offersModules
+                },
+                refetchQueries: [{
+                    query: getOffers
+                }]
+            }).subscribe(() => {
+                this.editMode = false;
+                this.sharedService.sneckBarNotifications(`offer created.`);
+                this.router.navigate(['/offers']);
+            });
+
+        }
     }
 
     onEdit() {

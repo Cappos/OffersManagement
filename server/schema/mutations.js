@@ -12,8 +12,10 @@ const ClientType = require('./types/client_type');
 const Client = mongoose.model('client');
 const GroupType = require('./types/group_type');
 const Group = mongoose.model('group');
-const PageType =  require('./types/page_type');
+const PageType = require('./types/page_type');
 const Page = mongoose.model('page');
+const OfferType = require('./types/offer_type');
+const Offer = mongoose.model('offer');
 
 
 const mutation = new GraphQLObjectType({
@@ -40,7 +42,7 @@ const mutation = new GraphQLObjectType({
                     $set: {
                         deleted: true
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         editSealer: {
@@ -60,7 +62,7 @@ const mutation = new GraphQLObjectType({
                         phone: args.phone,
                         mobile: args.mobile
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         addModule: {
@@ -69,7 +71,7 @@ const mutation = new GraphQLObjectType({
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
-                tstmp: {  type: GraphQLString },
+                tstmp: {type: GraphQLString},
                 groupId: {type: GraphQLID},
                 categoryId: {type: GraphQLID},
                 moduleNew: {type: GraphQLBoolean},
@@ -86,7 +88,7 @@ const mutation = new GraphQLObjectType({
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 bodytext: {type: GraphQLString},
                 price: {type: GraphQLFloat},
-                tstmp: {  type: GraphQLString },
+                tstmp: {type: GraphQLString},
                 groupId: {type: GraphQLID},
                 categoryId: {type: GraphQLID}
 
@@ -100,7 +102,7 @@ const mutation = new GraphQLObjectType({
                         groupId: args.groupId,
                         categoryId: args.categoryId
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         deleteModule: {
@@ -109,9 +111,9 @@ const mutation = new GraphQLObjectType({
             resolve(parentValue, {id}) {
                 return Module.findOneAndUpdate({_id: id}, {
                     $set: {
-                       deleted: true
+                        deleted: true
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         addCategory: {
@@ -171,7 +173,7 @@ const mutation = new GraphQLObjectType({
                         pib: args.pib,
                         offers: args.offers
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         deleteClient: {
@@ -182,16 +184,16 @@ const mutation = new GraphQLObjectType({
                     $set: {
                         deleted: true
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         addGroup: {
             type: GroupType,
             args: {
-                name: {  type: GraphQLString },
+                name: {type: GraphQLString},
                 subTotal: {type: GraphQLFloat},
-                tstamp: {  type: GraphQLString },
-                modulesNew:{type: GraphQLJSON}
+                tstamp: {type: GraphQLString},
+                modulesNew: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Group.createGroup(args);
@@ -203,7 +205,7 @@ const mutation = new GraphQLObjectType({
                 id: {type: new GraphQLNonNull(GraphQLID)},
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 subTotal: {type: GraphQLFloat},
-                modulesNew:{type: GraphQLJSON}
+                modulesNew: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Group.updateGroup(args);
@@ -217,7 +219,7 @@ const mutation = new GraphQLObjectType({
                     $set: {
                         deleted: true
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         addPage: {
@@ -241,7 +243,7 @@ const mutation = new GraphQLObjectType({
                     $set: {
                         deleted: true
                     }
-                }, { new: true });
+                }, {new: true});
             }
         },
         editPage: {
@@ -259,7 +261,23 @@ const mutation = new GraphQLObjectType({
                         subtitle: args.subtitle,
                         bodytext: args.bodytext
                     }
-                }, { new: true });
+                }, {new: true});
+            }
+        },
+        addOffer: {
+            type: OfferType,
+            args: {
+                offerTitle: {type: GraphQLString},
+                offerNumber: {type: GraphQLString},
+                totalPrice: {type: GraphQLFloat},
+                tstamp: {type: GraphQLString},
+                bodytext: {type: GraphQLString},
+                client: {type: GraphQLID},
+                groups: {type: GraphQLJSON},
+                sealer: {type: GraphQLID}
+            },
+            resolve(parentValue, args) {
+                return Offer.createOffer(args);
             }
         },
     }

@@ -3,8 +3,8 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
 const GraphQLDate = require('graphql-date');
 const ClientType = require('./client_type');
+const SelerType = require('./sealer_type');
 const GroupType = require('./group_type');
-const OfferDescriptionType = require('./offerDescription_type');
 const Offer = mongoose.model('offer');
 
 const OfferType = new GraphQLObjectType({
@@ -12,26 +12,26 @@ const OfferType = new GraphQLObjectType({
   fields: () => ({
       _id: {type: GraphQLID},
       offerNumber: { type: GraphQLString },
+      offerTitle: { type: GraphQLString },
       bodytext: { type: GraphQLString },
       totalPrice: { type: GraphQLInt },
       tstamp: { type: GraphQLDate },
-      crdate: { type: GraphQLDate },
       client: {
           type: new GraphQLList(ClientType),
-          resolve(parentValue, args) {
-             console.log(parentValue, args);
-          }
-      },
-      offerDescription: {
-          type: new GraphQLList(OfferDescriptionType),
-          resolve(parentValue, args) {
-              console.log(parentValue, args);
+          resolve(parentValue) {
+              return Offer.findClient(parentValue._id);
           }
       },
       groups: {
           type: new GraphQLList(GroupType),
-          resolve(parentValue, args) {
-              console.log(parentValue, args);
+          resolve(parentValue) {
+              return Offer.findGroups(parentValue._id);
+          }
+      },
+      sealer: {
+          type: new GraphQLList(SelerType),
+          resolve(parentValue) {
+              return Offer.findSealer(parentValue._id);
           }
       },
       deleted: {type: GraphQLBoolean}

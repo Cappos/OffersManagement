@@ -267,7 +267,7 @@ const mutation = new GraphQLObjectType({
         addOffer: {
             type: OfferType,
             args: {
-                offerTitle: {type: GraphQLString},
+                offerTitle: {type: new GraphQLNonNull(GraphQLString)},
                 offerNumber: {type: GraphQLString},
                 totalPrice: {type: GraphQLFloat},
                 tstamp: {type: GraphQLString},

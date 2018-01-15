@@ -29,7 +29,8 @@ const OfferSchema = new Schema({
     }
 });
 
-OfferSchema.statics.findClient = function(id) {
+OfferSchema.statics.findClient = function (id) {
+
     return this.findById(id)
         .populate({
             path: 'client',
@@ -39,13 +40,13 @@ OfferSchema.statics.findClient = function(id) {
         }).then(offer => offer.client);
 };
 
-OfferSchema.statics.findGroups = function(id) {
+OfferSchema.statics.findGroups = function (id) {
     return this.findById(id)
         .populate('groups')
         .then(offer => offer.groups);
 };
 
-OfferSchema.statics.findSealer = function(id) {
+OfferSchema.statics.findSealer = function (id) {
     return this.findById(id)
         .populate('sealer')
         .then(offer => offer.sealer);
@@ -57,29 +58,35 @@ OfferSchema.statics.createOffer = function (args) {
     const Group = mongoose.model('group');
     const Client = mongoose.model('client');
     const GroupsNew = args.groups;
+    return this.count().then((count) => {
+        args.offerNumber = count + 1 + '/' + new Date().getFullYear();
+        return (new Offer(args)).save().then(offer => {
+            Client.findOneAndUpdate({_id: args.client},
+                {
+                    $push: {
+                        offers: offer._id,
+                    }
+                }, {new: true}).then((res) => res);
 
-    return (new Offer(args)).save().then(offer => {
-        Client.findOneAndUpdate({_id: args.client},
-            {
-                $push: {
-                    offers: offer._id,
+            for (let e in GroupsNew) {
+                if (GroupsNew.length > 0) {
+                    let group = new Group({
+                        name: GroupsNew[e].name,
+                        subTotal: GroupsNew[e].subTotal,
+                        modulesNew: GroupsNew[e].modulesNew
+                    });
+                    offer.groups.push(group);
+                    group.save()
                 }
-            }, {new: true}).then((res) => res)
-
-        for (let e in GroupsNew) {
-            if (GroupsNew.length > 0) {
-                let group = new Group({
-                    name: GroupsNew[e].name,
-                    subTotal: GroupsNew[e].subTotal,
-                    modulesNew: GroupsNew[e].modulesNew
-                });
-                offer.groups.push(group);
-                group.save()
             }
-        }
-        return Promise.all([offer.save()])
-            .then(([offer]) => offer);
+            return Promise.all([offer.save()])
+                .then(([offer]) => offer);
+        });
     });
+
+
+
+
 };
 
 mongoose.model('offer', OfferSchema);

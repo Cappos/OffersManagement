@@ -2,9 +2,9 @@ import gql from 'graphql-tag';
 import 'graphql-type-json';
 
 export default gql`
-    mutation CreateGroup($name: String!, $subTotal: Float, $modulesNew: JSON) {
-        addGroup(name: $name, subTotal: $subTotal, modulesNew: $modulesNew){
-            name
+    mutation CreateOffer( $offerTitle: String!, $offerNumber: String, $totalPrice: Float, $bodytext: String, $client: ID, $groups: JSON, $seller: ID) {
+        addOffer(offerTitle: $offerTitle, offerNumber: $offerNumber, totalPrice: $totalPrice, bodytext: $bodytext, client: $client, groups: $groups, sealer: $seller){
+            offerTitle
         }
     }
 `;

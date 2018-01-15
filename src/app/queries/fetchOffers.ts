@@ -1,22 +1,15 @@
 import gql from 'graphql-tag';
 
 export default gql`
-    query fetchGroup( $id: ID!) {
-        group (id: $id){
+    {
+        offers {
             _id
-            name
-            subTotal
+            offerNumber
+            totalPrice
             tstamp
-            modules {
+            client {
                 _id
-                name
-                bodytext
-                price
-                tstamp
-                cruserId
-                crdate
-                moduleNew
-                deleted
+                companyName
             }
         }
     }

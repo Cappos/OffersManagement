@@ -15,6 +15,7 @@ import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/cha
 import {Apollo} from 'apollo-angular';
 import createOffer from '../../queries/createOffer';
 import getOffers from '../../queries/fetchOffers';
+import getSealersClients from '../../queries/getSealersClients';
 
 
 @Component({
@@ -28,10 +29,13 @@ export class NewOfferComponent implements OnInit {
     title = 'New offer';
     id: number;
     item: Offer;
-    files: any[] =[];
+    files: any[] = [];
     @Output() editMode = true;
-    selectedSaler: any[] =[];
-    offersModules: Group[] =[];
+    selectedSeller;
+    selectedClient;
+    sellers;
+    clients;
+    offersModules: Group[] = [];
     editModuleGroup: number;
     totalPrice;
 
@@ -47,18 +51,27 @@ export class NewOfferComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadingService.resolveAll('modulesLoader');
-        this.totalPrice = 0;
+        this.apollo.watchQuery<any>({
+            query: getSealersClients
+        }).valueChanges.subscribe(({data}) => {
+            this.clients = data.clients;
+            this.sellers = data.sealers;
+            this.totalPrice = 0;
+            this.loadingService.resolveAll('modulesLoader');
+        });
+
     }
 
     onSave(form: NgForm) {
         const value = form.value;
+        const client = this.clients.find(client => client._id == value.client);
+        const seller = this.sellers.find(seller => seller.value == value.seller);
         let totalPrice = null;
 
         if (value.totalPrice) {
             totalPrice = value.totalPrice.replace(',', '');
         }
-
+        console.log(value, seller);
         if (!this.offersModules.length) {
             console.log('empty');
             this.apollo.mutate({
@@ -68,11 +81,13 @@ export class NewOfferComponent implements OnInit {
                     offerTitle: value.offerTitle,
                     totalPrice: totalPrice,
                     bodytext: value.bodytext,
+                    client: client._id,
+                    seller: seller._id,
                     groups: []
                 },
                 refetchQueries: [{
                     query: getOffers
-                }]
+                }],
             }).subscribe(() => {
                 this.editMode = false;
                 this.sharedService.sneckBarNotifications(`offer created.`);
@@ -270,11 +285,11 @@ export class NewOfferComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                for(let c in result) {
+                for (let c in result) {
                     let group = this.offersModules.filter(group => group.uid === result[c].uid)[0];
                     let groupIndex = this.offersModules.indexOf(group);
 
-                    if(groupIndex > -1) {
+                    if (groupIndex > -1) {
                         this.sharedService.sneckBarNotifications('This chapter is already part of this offer!!!');
                     }
                     else {
@@ -351,11 +366,11 @@ export class NewOfferComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(result => {
-            if(result){
-                for(let e in result) {
+            if (result) {
+                for (let e in result) {
                     let group = this.offersModules.filter(group => group.uid === result[e].groupUid)[0];
                     let groupIndex;
-                    if(group){
+                    if (group) {
                         groupIndex = this.offersModules.indexOf(group);
                     }
                     else {

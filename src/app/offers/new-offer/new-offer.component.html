@@ -1,201 +1,215 @@
 <mat-card>
     <mat-card-title>
-      <div layout="row" layout-wrap>
-        <div flex="90" layout="column" layout-align="center start">{{title}}</div>
-        <div flex="10" layout="column" layout-align="center end">
-          <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
-            <mat-icon>mode_edit</mat-icon>
-          </button>
-          <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary" [disabled]="!f.valid">
-            <mat-icon>done</mat-icon>
-          </button>
-        </div>
-      </div>
-    </mat-card-title>
-  <mat-divider></mat-divider>
-    <mat-card-content>
-      <form #f="ngForm">
         <div layout="row" layout-wrap>
-          <div flex="100" layout-padding>
-            <h3 style="margin: 0;">Info data</h3>
-          </div>
-          <div style="margin-top:20px;" flex="100" layout-padding>
-            <mat-input-container style="max-width: 800px; width: 100%;">
-              <input matInput placeholder="Title" [ngModel]="item?.offerDescription.offerTitle" name="offerTitle" required [readonly]="!editMode">
-            </mat-input-container>
-          </div>
+            <div flex="90" layout="column" layout-align="center start">{{title}}</div>
+            <div flex="10" layout="column" layout-align="center end">
+                <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="onSave(f)" *ngIf="editMode" color="primary" [disabled]="!f.valid">
+                    <mat-icon>done</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form #f="ngForm">
+            <div layout="row" layout-wrap>
+                <div flex="100" layout-padding>
+                    <h3 style="margin: 0;">Info data</h3>
+                </div>
+                <div style="margin-top:20px;" flex="100" layout-padding>
+                    <mat-input-container style="max-width: 800px; width: 100%;">
+                        <input matInput placeholder="Title" [ngModel]="item?.offerDescription.offerTitle"
+                               name="offerTitle" required [readonly]="!editMode">
+                    </mat-input-container>
+                </div>
 
-          <div style="margin-top:20px;" flex="25" layout-padding>
-            <mat-input-container>
-              <input matInput placeholder="Client" [ngModel]="item?.clientName" name="clientName" required
-                     [readonly]="!editMode">
-            </mat-input-container>
-          </div>
+                <div style="margin-top:20px;" flex="25" layout-padding>
+                    <mat-input-container>
+                        <mat-select placeholder="Client" floatPlaceholder="auto" [(ngModel)]="selectedClient"
+                                    name="client" [disabled]="!editMode">
+                            <mat-option *ngFor="let client of clients" [value]="client._id">
+                                {{client.companyName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-input-container>
+                </div>
 
-          <div style="margin-top:20px;" flex="25" layout-padding>
-            <mat-select placeholder="Saler" floatPlaceholder="auto" [(ngModel)]="selectedSaler"
-                       name="salerUid">
-              <mat-option *ngFor="let saler of item?.offerDescription.saler" [value]="saler.value">
-                {{saler.name}}
-              </mat-option>
-            </mat-select>
-          </div>
-          <div style="margin-top:20px;" flex="25" layout-padding>
-            <mat-input-container>
-              <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required
-                     [readonly]="!editMode">
-            </mat-input-container>
-          </div>
-          <div style="margin-top:20px;" flex="25" layout-padding>
-            <mat-input-container>
-              <input matInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2'" name="totalPrice" required readonly>
-            </mat-input-container>
-          </div>
+                <div style="margin-top:20px;" flex="25" layout-padding>
+                    <mat-input-container>
+                        <mat-select placeholder="Seller" floatPlaceholder="auto" [(ngModel)]="selectedSeller"
+                                    name="seller" [disabled]="!editMode">
+                            <mat-option *ngFor="let seller of sellers" [value]="seller.value">
+                                {{seller.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-input-container>
+                </div>
+                <div style="margin-top:20px;" flex="25" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Created date" ngModel name="tstamp" readonly>
+                    </mat-input-container>
+                </div>
+                <div style="margin-top:20px;" flex="25" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2'"
+                               name="totalPrice" readonly>
+                    </mat-input-container>
+                </div>
 
-          <!-- MODULES START -->
+                <!-- MODULES START -->
 
-          <div flex="100" layout-padding>
-            <mat-divider></mat-divider>
-            <h3 style="margin-bottom: 0;">Chapters</h3>
-          </div>
-          <div style="margin-top:20px;" flex="100" layout-padding>
-            <mat-accordion>
-              <div *ngFor="let group of offersModules" layout="row">
-                <mat-expansion-panel hideToggle="true" flex="90" layout="column" layout-align="center start">
-                    <mat-expansion-panel-header  layout="row">
-                        <mat-panel-title flex="80">
-                            <h4>{{group.name}}</h4>
-                        </mat-panel-title>
-                        <mat-panel-description flex="20" >
-                            <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
-                        </mat-panel-description>
-                        <mat-icon>arrow_drop_down</mat-icon>
-                    </mat-expansion-panel-header>
-                  <div flex="100" layout-padding layout="row">
-                    <h3 style="margin-top: 0;">Modules</h3>
-                  </div>
-                  <mat-card *ngFor="let module of group.modules">
-                    <mat-card-content>
-                      <form #group.uid="ngForm">
-                        <div layout="row" layout-wrap>
-                          <div style="margin-top:20px;" flex="90" layout-padding>
-                            <mat-input-container style="max-width: 800px; width: 100%;">
-                              <input matInput placeholder="Name" [ngModel]="module.name"
-                                     name="name" readonly>
-                            </mat-input-container>
-                          </div>
-                          <div flex="5" layout="column" layout-align="center end">
-                            <button mat-mini-fab color="primary"
-                                    (click)="onModuleEdit(module.uid, group.uid)">
-                              <mat-icon>mode_edit</mat-icon>
-                            </button>
-                          </div>
-                          <div flex="5" layout="column" layout-align="center center">
-                            <button mat-mini-fab color="warn"
-                                    (click)="onModuleRemove(module.uid, group.uid)">
-                              <mat-icon>remove</mat-icon>
-                            </button>
-                          </div>
-                          <div flex="20" layout-padding>
-                            <mat-input-container>
-                              <input matInput placeholder="Price" [ngModel]="module.price | number:'2.2-2'"
-                                     name="price" readonly>
-                            </mat-input-container>
-                          </div>
+                <div flex="100" layout-padding>
+                    <mat-divider></mat-divider>
+                    <h3 style="margin-bottom: 0;">Chapters</h3>
+                </div>
+                <div style="margin-top:20px;" flex="100" layout-padding>
+                    <mat-accordion>
+                        <div *ngFor="let group of offersModules" layout="row">
+                            <mat-expansion-panel hideToggle="true" flex="90" layout="column"
+                                                 layout-align="center start">
+                                <mat-expansion-panel-header layout="row">
+                                    <mat-panel-title flex="80">
+                                        <h4>{{group.name}}</h4>
+                                    </mat-panel-title>
+                                    <mat-panel-description flex="20">
+                                        <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                    </mat-panel-description>
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </mat-expansion-panel-header>
+                                <div flex="100" layout-padding layout="row">
+                                    <h3 style="margin-top: 0;">Modules</h3>
+                                </div>
+                                <mat-card *ngFor="let module of group.modules">
+                                    <mat-card-content>
+                                        <form #group.uid="ngForm">
+                                            <div layout="row" layout-wrap>
+                                                <div style="margin-top:20px;" flex="90" layout-padding>
+                                                    <mat-input-container style="max-width: 800px; width: 100%;">
+                                                        <input matInput placeholder="Name" [ngModel]="module.name"
+                                                               name="name" readonly>
+                                                    </mat-input-container>
+                                                </div>
+                                                <div flex="5" layout="column" layout-align="center end">
+                                                    <button mat-mini-fab color="primary"
+                                                            (click)="onModuleEdit(module.uid, group.uid)">
+                                                        <mat-icon>mode_edit</mat-icon>
+                                                    </button>
+                                                </div>
+                                                <div flex="5" layout="column" layout-align="center center">
+                                                    <button mat-mini-fab color="warn"
+                                                            (click)="onModuleRemove(module.uid, group.uid)">
+                                                        <mat-icon>remove</mat-icon>
+                                                    </button>
+                                                </div>
+                                                <div flex="20" layout-padding>
+                                                    <mat-input-container>
+                                                        <input matInput placeholder="Price"
+                                                               [ngModel]="module.price | number:'2.2-2'"
+                                                               name="price" readonly>
+                                                    </mat-input-container>
+                                                </div>
 
-                          <div flex="25" layout-padding>
-                            <mat-input-container style="width: 80%;">
-                              <input matInput placeholder="Group" [ngModel]="group.name"
-                                     name="groupUid" readonly>
-                            </mat-input-container>
-                          </div>
-                          <div flex="25" layout-padding>
-                            <mat-input-container>
-                              <input matInput placeholder="Created date"
-                                     [ngModel]="module.tstamp" name="tstamp" readonly>
-                            </mat-input-container>
-                          </div>
-                          <div style="margin-top:20px;" flex="100" layout-padding>
-                            <h3 style="margin-top: 0;">Description</h3>
+                                                <div flex="25" layout-padding>
+                                                    <mat-input-container style="width: 80%;">
+                                                        <input matInput placeholder="Group" [ngModel]="group.name"
+                                                               name="groupUid" readonly>
+                                                    </mat-input-container>
+                                                </div>
+                                                <div flex="25" layout-padding>
+                                                    <mat-input-container>
+                                                        <input matInput placeholder="Created date"
+                                                               [ngModel]="module.tstamp" name="tstamp" readonly>
+                                                    </mat-input-container>
+                                                </div>
+                                                <div style="margin-top:20px;" flex="100" layout-padding>
+                                                    <h3 style="margin-top: 0;">Description</h3>
 
-                            <div [innerHTML]="module.bodytext"></div>
-                          </div>
-                        </div>
+                                                    <div [innerHTML]="module.bodytext"></div>
+                                                </div>
+                                            </div>
 
-                        <div style="margin-top:20px;" flex="100" layout-padding>
-                        </div>
-                      </form>
-                    </mat-card-content>
-                  </mat-card>
-                    <div flex="25" layout-padding style="margin:20px 0;">
-                        <button mat-raised-button  color="primary" [matMenuTriggerFor]="moduleMenu">Add
-                            module
-                        </button>
-                        <mat-menu #moduleMenu="matMenu">
-                            <button mat-menu-item (click)="addFromModuleList(group.uid)">
-                                <mat-icon>playlist_add</mat-icon>
-                                <span >Select from list</span>
-                            </button>
-                            <button mat-menu-item (click)="addModule(group.uid)">
-                                <mat-icon>add</mat-icon>
-                                <span >Add new</span>
-                            </button>
-                        </mat-menu>
-                    </div>
-                </mat-expansion-panel>
-                <div flex="10" layout-align="start end" layout="column">
-                  <div layout="row">
+                                            <div style="margin-top:20px;" flex="100" layout-padding>
+                                            </div>
+                                        </form>
+                                    </mat-card-content>
+                                </mat-card>
+                                <div flex="25" layout-padding style="margin:20px 0;">
+                                    <button mat-raised-button color="primary" [matMenuTriggerFor]="moduleMenu">Add
+                                        module
+                                    </button>
+                                    <mat-menu #moduleMenu="matMenu">
+                                        <button mat-menu-item (click)="addFromModuleList(group.uid)">
+                                            <mat-icon>playlist_add</mat-icon>
+                                            <span>Select from list</span>
+                                        </button>
+                                        <button mat-menu-item (click)="addModule(group.uid)">
+                                            <mat-icon>add</mat-icon>
+                                            <span>Add new</span>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </mat-expansion-panel>
+                            <div flex="10" layout-align="start end" layout="column">
+                                <div layout="row">
                                         <span layout-margin>
                                             <a (click)="onChapterEdit(group.uid)"><mat-icon>mode_edit</mat-icon></a>
                                         </span>
-                    <span layout-margin>
+                                    <span layout-margin>
                                             <a (click)="onChapterRemove(group.uid)"><mat-icon>delete</mat-icon></a>
                                        </span>
-                    <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
-                  </div>
+                                    <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-accordion>
+                    <div flex="25" layout-padding style="margin:20px 0;">
+                        <button mat-raised-button color="primary" [matMenuTriggerFor]="chapterMenu" color="primary">Add
+                            Chapter
+                        </button>
+                        <mat-menu #chapterMenu="matMenu">
+                            <button mat-menu-item (click)="addFromChapterList()">
+                                <mat-icon>playlist_add</mat-icon>
+                                <span>Select from list</span>
+                            </button>
+                            <button mat-menu-item (click)="addChapter()">
+                                <mat-icon>add</mat-icon>
+                                <span>Create new</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
-              </div>
-            </mat-accordion>
-              <div flex="25" layout-padding style="margin:20px 0;">
-                  <button mat-raised-button  color="primary" [matMenuTriggerFor]="chapterMenu" color="primary">Add Chapter
-                  </button>
-                  <mat-menu #chapterMenu="matMenu">
-                      <button mat-menu-item (click)="addFromChapterList()">
-                          <mat-icon>playlist_add</mat-icon>
-                          <span >Select from list</span>
-                      </button>
-                      <button mat-menu-item (click)="addChapter()">
-                          <mat-icon>add</mat-icon>
-                          <span >Create new</span>
-                      </button>
-                  </mat-menu>
-              </div>
-          </div>
 
-          <!-- FILES START -->
-          <div flex="100" layout-padding>
-            <mat-divider></mat-divider>
-            <h3 style="margin-bottom: 0;">Related files</h3>
-          </div>
-          <div style="margin-top:20px;" flex="100" layout-padding>
-            <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary" (select)="selectEvent($event)"
-                            (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled" multiple>
-              <mat-icon>file_upload</mat-icon><span>{{ fileUpload.files?.name }}</span>
-              <ng-template td-file-input-label>
-                <mat-icon>attach_file</mat-icon><span>Choose a file...</span>
-              </ng-template>
-            </td-file-upload>
-          </div>
-          <div flex="100" layout-padding>
-            <mat-list>
-              <mat-list-item *ngFor="let file of files">
-                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                <h4 mat-line><a  href="{{file.link}}" style="cursor: pointer">{{file.name}}</a></h4>
-                <p mat-line> {{file.tstamp}} </p>
-              </mat-list-item>
-            </mat-list>
-          </div>
-        </div>
-      </form>
+                <!-- FILES START -->
+                <div flex="100" layout-padding>
+                    <mat-divider></mat-divider>
+                    <h3 style="margin-bottom: 0;">Related files</h3>
+                </div>
+                <div style="margin-top:20px;" flex="100" layout-padding>
+                    <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
+                                    (select)="selectEvent($event)"
+                                    (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled"
+                                    multiple>
+                        <mat-icon>file_upload</mat-icon>
+                        <span>{{ fileUpload.files?.name }}</span>
+                        <ng-template td-file-input-label>
+                            <mat-icon>attach_file</mat-icon>
+                            <span>Choose a file...</span>
+                        </ng-template>
+                    </td-file-upload>
+                </div>
+                <div flex="100" layout-padding>
+                    <mat-list>
+                        <mat-list-item *ngFor="let file of files">
+                            <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                            <h4 mat-line><a href="{{file.link}}" style="cursor: pointer">{{file.name}}</a></h4>
+                            <p mat-line> {{file.tstamp}} </p>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+        </form>
     </mat-card-content>
-  </mat-card>
+</mat-card>

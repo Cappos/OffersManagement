@@ -5,15 +5,14 @@ import {
     TdDataTableSortingOrder,
     TdDialogService, TdLoadingService
 } from "@covalent/core";
-import {Observable} from "rxjs/Observable";
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
 
-import * as fromOffers from './store/offers.reducers';
-import * as OffersActions from "./store/offers.actions";
+import {Router} from "@angular/router";
 import {Offer} from "./offers.model";
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
+import {Apollo} from "apollo-angular";
+import getSealersClients from "../queries/getSealersClients";
+import fetchOffer from '../queries/fetchOffers';
 
 @Component({
     selector: 'app-offers',
@@ -31,7 +30,6 @@ export class OffersComponent implements OnInit {
     title = 'List of all offers';
     color = 'grey';
     disabled = false;
-    selectable = false;
     columns: ITdDataTableColumn[] = [
         {name: 'uid', label: 'No.', tooltip: 'No.'},
         {name: 'offerNumber', label: 'Offer number', tooltip: 'Offer number'},
@@ -41,7 +39,6 @@ export class OffersComponent implements OnInit {
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];
 
-    offersState: Observable<fromOffers.State>;
 
     data: Offer[];
     filteredData;
@@ -53,7 +50,7 @@ export class OffersComponent implements OnInit {
     sortBy = 'id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private store: Store<fromOffers.FeatureState>, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -61,14 +58,15 @@ export class OffersComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-        this.store.dispatch(new OffersActions.GetOffers());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.offersState = this.store.select('offersList');
-        this.offersState.take(2).subscribe((fromOffers: fromOffers.State) => {
-            this.data = fromOffers.offers;
+        this.apollo.watchQuery<any>({
+            query: fetchOffer,
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.data = data.offers;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
@@ -99,7 +97,7 @@ export class OffersComponent implements OnInit {
         const excludedColumns: string[] = this.columns
             .filter((column: ITdDataTableColumn) => {
                 return ((column.filter === undefined && column.hidden === true) ||
-                (column.filter !== undefined && column.filter === false));
+                    (column.filter !== undefined && column.filter === false));
             }).map((column: ITdDataTableColumn) => {
                 return column.name;
             });
@@ -115,6 +113,7 @@ export class OffersComponent implements OnInit {
         this.router.navigate(['/offers/' + id + '/edit']);
 
     }
+
     onDelete(row: any) {
         let id = +row['uid'];
         this._dialogService.openConfirm({

@@ -1,18 +1,13 @@
 import {Component, Inject, OnInit, Output, ViewContainerRef} from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material";
-import 'rxjs/Observable';
-import 'rxjs/operators';
-
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
-import {Group} from "../../offers/groups.model";
-import {Module} from "../../modules/modules.model";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
+import {Apollo} from "apollo-angular";
+import fetchGroup from "../../queries/fetchGroup";
 
 @Component({
     selector: 'app-chapter-dialog',
@@ -23,8 +18,7 @@ import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module
 export class ChapterDialogComponent implements OnInit {
     pageTitle = 'Chapter';
     id: number;
-    item: Group;
-    chapterState: Observable<any>;
+    item;
     @Output() editMode = false;
     editModuleGroup: number;
     chapterPrice: number = 0;
@@ -36,7 +30,7 @@ export class ChapterDialogComponent implements OnInit {
     modules: any[] = [];
 
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, ) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -48,18 +42,28 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.data.edit) {
+        if (this.data.edit && !this.data.newOffer) {
             this.id = this.data.groupUid;
-            this.chapterState = this.httpClient.get<Group>('http://wrenchweb.com/http/chapterData', {
-                observe: 'body',
-                responseType: 'json'
-            });
-            this.chapterState.subscribe((res) => {
-                this.item = res;
+
+            this.apollo.watchQuery<any>({
+                query: fetchGroup,
+                variables: {
+                    id: this.id
+                },
+                fetchPolicy: 'network-only'
+            }).valueChanges.subscribe(({data}) => {
+                this.item = data.groups;
                 this.chaptersModules = this.item.modules;
                 this.chapterPrice = this.item.subTotal;
                 this.loadingService.resolveAll('modulesLoader');
-            })
+            });
+        }
+        else if(this.data.edit){
+            this.id = this.data.groupUid;
+            this.item = this.data.chapterNew;
+            this.chaptersModules = this.item.modules;
+            this.chapterPrice = this.item.subTotal;
+            this.loadingService.resolveAll('modulesLoader');
         }
         else {
             this.id = Math.random();
@@ -71,14 +75,13 @@ export class ChapterDialogComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         this.savedChapterData = form.value;
-        this.savedChapterData.modulesNew = this.chaptersModules;
+        this.savedChapterData.modules = this.chaptersModules;
         this.savedChapterData.subTotal = this.chapterPrice;
         this.savedChapterData._id = this.id;
         this.itemSaved = true;
     }
 
     onModuleEdit(moduleUid: number, groupUid: number) {
-        console.log(moduleUid, groupUid);
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -89,26 +92,15 @@ export class ChapterDialogComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                let module = this.chaptersModules.filter(module => module.name === result.name)[0];
+                let module = this.chaptersModules.filter(module => module._id === moduleUid)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                if (result.groupUid === this.editModuleGroup) {
-                    this.chaptersModules[moduleIndex] = result;
-                    for (let m in this.chaptersModules) {
-                        modulePrices.push(this.chaptersModules[m].price);
-                    }
-                }
-                else {
-                    let moduleOld = this.chaptersModules.filter(module => module.name === result.name)[0];
-                    let moduleOldIndex = this.chaptersModules.indexOf(moduleOld);
+                this.chaptersModules[moduleIndex] = result;
 
-                    this.chaptersModules.splice(moduleOldIndex, 1);
-
-                    for (let m in this.chaptersModules) {
-                        modulePrices.push(this.chaptersModules[m].price);
-                    }
+                for (let m in this.chaptersModules) {
+                    modulePrices.push(this.chaptersModules[m].price);
                 }
 
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
@@ -151,7 +143,6 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     addModule() {
-        // this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 edit: false
@@ -159,7 +150,7 @@ export class ChapterDialogComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.editMode = true
+                this.editMode = true;
                 if (result.moduleNew) {
                     // update modules lis after adding module
                     this.chaptersModules.push(result)

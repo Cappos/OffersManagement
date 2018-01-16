@@ -302,17 +302,19 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    onChapterEdit(groupUid: number) {
+    onChapterEdit(groupUid: number, chapter) {
         console.log('Edit Chapter');
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 groupUid: groupUid,
+                newOffer: true,
+                chapterNew: chapter,
                 edit: true
             }
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                let group = this.offersModules.filter(group => group.uid === result.groupUid)[0];
+                let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
                 // update chapter after edit
@@ -337,7 +339,7 @@ export class NewOfferComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let group = this.offersModules.filter(group => group.uid === groupUid)[0];
+                let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
                 // remove chapter after delete
@@ -345,10 +347,14 @@ export class NewOfferComponent implements OnInit {
 
                 // update total price
                 let modulesPrices: any[] = [];
-                for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+
+                // check if offers chapters is empty before update count
+                if(this.offersModules.length > 0){
+                    for (let g in this.offersModules) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                    this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
-                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }

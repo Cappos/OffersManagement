@@ -48,7 +48,7 @@
           </div>
           <div style="margin-top:20px;" flex="25" layout-padding>
             <mat-input-container>
-              <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" readonly>
+              <input matInput placeholder="Created date" [ngModel]="item?.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
             </mat-input-container>
           </div>
 
@@ -89,7 +89,7 @@
                   <div flex="25" layout-padding>
                     <mat-input-container>
                       <input matInput placeholder="Created date"
-                             [ngModel]="module.tstamp" name="tstamp" readonly>
+                             [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                     </mat-input-container>
                   </div>
                   <div style="margin-top:20px;" flex="100" layout-padding>

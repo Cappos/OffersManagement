@@ -20,6 +20,7 @@ export default gql`
             groupsNew: $groupsNew, 
             offerPages: $offerPages, 
             sealer: $seller){
+            _id,
             offerTitle
         }
     }

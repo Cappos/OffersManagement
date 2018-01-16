@@ -59,128 +59,205 @@
                     </mat-input-container>
                 </div>
 
-                <!-- MODULES START -->
+                <!-- PAGES AND CHAPTERS START -->
 
                 <div flex="100" layout-padding>
                     <mat-divider></mat-divider>
-                    <h3 style="margin-bottom: 0;">Chapters</h3>
+                    <h3 style="margin-bottom: 0;">Pages & Chapters</h3>
                 </div>
+
                 <div style="margin-top:20px;" flex="100" layout-padding>
                     <mat-accordion>
-                        <div *ngFor="let group of offersModules" layout="row">
-                            <mat-expansion-panel hideToggle="true" flex="90" layout="column"
-                                                 layout-align="center start">
-                                <mat-expansion-panel-header layout="row">
-                                    <mat-panel-title flex="80">
-                                        <h4>{{group.name}}</h4>
-                                    </mat-panel-title>
-                                    <mat-panel-description flex="20">
-                                        <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
-                                    </mat-panel-description>
-                                    <mat-icon>arrow_drop_down</mat-icon>
-                                </mat-expansion-panel-header>
-                                <div flex="100" layout-padding layout="row">
-                                    <h3 style="margin-top: 0;">Modules</h3>
-                                </div>
-                                <mat-card *ngFor="let module of group.modules">
-                                    <mat-card-content>
-                                        <form #group._id="ngForm">
-                                            <div layout="row" layout-wrap>
-                                                <div style="margin-top:20px;" flex="90" layout-padding>
-                                                    <mat-input-container style="max-width: 800px; width: 100%;">
-                                                        <input matInput placeholder="Name" [ngModel]="module.name"
-                                                               name="name" readonly>
-                                                    </mat-input-container>
-                                                </div>
-                                                <div flex="5" layout="column" layout-align="center end">
-                                                    <button mat-mini-fab color="primary"
-                                                            (click)="onModuleEdit(module._id, group._id, module)">
-                                                        <mat-icon>mode_edit</mat-icon>
-                                                    </button>
-                                                </div>
-                                                <div flex="5" layout="column" layout-align="center center">
-                                                    <button mat-mini-fab color="warn"
-                                                            (click)="onModuleRemove(module._id, group._id)">
-                                                        <mat-icon>remove</mat-icon>
-                                                    </button>
-                                                </div>
-                                                <div flex="20" layout-padding>
-                                                    <mat-input-container>
-                                                        <input matInput placeholder="Price"
-                                                               [ngModel]="module.price | number:'2.2-2'"
-                                                               name="price" readonly>
-                                                    </mat-input-container>
-                                                </div>
+                        <ng-container *ngFor="let group of offersModules; let i = index" ngSwitch="{{group.type}}">
 
-                                                <div flex="25" layout-padding>
-                                                    <mat-input-container style="width: 80%;">
-                                                        <input matInput placeholder="Group" [ngModel]="group.name"
-                                                               name="groupUid" readonly>
-                                                    </mat-input-container>
-                                                </div>
-                                                <div flex="25" layout-padding>
-                                                    <mat-input-container>
-                                                        <input matInput placeholder="Created date"
-                                                               [ngModel]="module.tstamp" name="tstamp | date: 'dd.MM.y'" readonly>
-                                                    </mat-input-container>
-                                                </div>
-                                                <div style="margin-top:20px;" flex="100" layout-padding>
-                                                    <h3 style="margin-top: 0;">Description</h3>
-
-                                                    <div [innerHTML]="module.bodytext"></div>
-                                                </div>
-                                            </div>
-
+                            <!-- PAGES -->
+                            <div *ngSwitchCase="'2'" layout="row">
+                                <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
+                                                     layout-align="center start" [attr._id]="group._id"
+                                                     [attr.index]="i">
+                                    <mat-expansion-panel-header layout="row">
+                                        <mat-panel-title flex="100">
+                                                <span layout="column" flex="5" layout-align="center start">
+                                                    <mat-icon class="grey">description</mat-icon>
+                                                </span>
+                                            <h4 layout="column" flex="95" layout-align="center start">
+                                                {{group.title}}</h4>
+                                        </mat-panel-title>
+                                        <mat-icon>arrow_drop_down</mat-icon>
+                                    </mat-expansion-panel-header>
+                                    <form #group.uid="ngForm">
+                                        <div layout="row" layout-wrap>
                                             <div style="margin-top:20px;" flex="100" layout-padding>
+                                                <mat-input-container style="width: 100%;">
+                                                    <input matInput placeholder="Title" [ngModel]="group.title"
+                                                           name="group.title" readonly>
+                                                </mat-input-container>
                                             </div>
-                                        </form>
-                                    </mat-card-content>
-                                </mat-card>
-                                <div flex="25" layout-padding style="margin:20px 0;">
-                                    <button mat-raised-button color="primary" [matMenuTriggerFor]="moduleMenu">Add
-                                        module
-                                    </button>
-                                    <mat-menu #moduleMenu="matMenu">
-                                        <button mat-menu-item (click)="addFromModuleList(group._id)">
-                                            <mat-icon>playlist_add</mat-icon>
-                                            <span>Select from list</span>
-                                        </button>
-                                        <button mat-menu-item (click)="addModule(group._id)">
-                                            <mat-icon>add</mat-icon>
-                                            <span>Add new</span>
-                                        </button>
-                                    </mat-menu>
-                                </div>
-                            </mat-expansion-panel>
-                            <div flex="10" layout-align="start end" layout="column">
-                                <div layout="row">
+                                            <div style="margin-top:20px;" flex="100" layout-padding>
+                                                <mat-input-container style="width: 100%;">
+                                                    <input matInput placeholder="Subtitle" [ngModel]="group.subtitle"
+                                                           name="group.subtitle" readonly>
+                                                </mat-input-container>
+                                            </div>
+                                            <div flex="100" layout-padding>
+                                                <h3 style="margin-top: 0;">Content</h3>
+                                                <div [innerHTML]="group.bodytext"></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </mat-expansion-panel>
+                                <div flex="10" layout-align="start end" layout="column">
+                                    <div layout="row">
                                         <span layout-margin>
-                                            <a (click)="onChapterEdit(group._id, group)"><mat-icon>mode_edit</mat-icon></a>
+                                            <a (click)="onPageEdit(group._id, group)"><mat-icon
+                                                    color="accent">mode_edit</mat-icon></a>
                                         </span>
-                                    <span layout-margin>
-                                            <a (click)="onChapterRemove(group._id)"><mat-icon>delete</mat-icon></a>
+                                        <span layout-margin>
+                                            <a (click)="onPageRemove(group._id)"><mat-icon
+                                                    color="warn">delete</mat-icon></a>
                                        </span>
-                                    <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                        <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- CHAPTERS -->
+                            <div *ngSwitchCase="'1'" layout="row">
+                                <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
+                                                     layout-align="center start" [attr.uid]="group._id"
+                                                     [attr.index]="i">
+                                    <mat-expansion-panel-header layout="row">
+                                        <mat-panel-title flex="80">
+                                                 <span layout="column" flex="5" layout-align="center start">
+                                                    <mat-icon class="grey">storage</mat-icon>
+                                                </span>
+                                            <h4 layout="column" flex="95" layout-align="center start">
+                                                {{group.name}}</h4>
+                                        </mat-panel-title>
+                                        <mat-panel-description flex="20">
+                                            <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                        </mat-panel-description>
+                                        <mat-icon>arrow_drop_down</mat-icon>
+                                    </mat-expansion-panel-header>
+                                    <div flex="100" layout-padding layout="row">
+                                        <h3 style="margin-top: 0;">Modules</h3>
+                                    </div>
+                                    <mat-card *ngFor="let module of group.modules">
+                                        <mat-card-content>
+                                            <form #group.uid="ngForm">
+                                                <div layout="row" layout-wrap>
+                                                    <div style="margin-top:20px;" flex="90" layout-padding>
+                                                        <mat-input-container style="max-width: 800px; width: 100%;">
+                                                            <input matInput placeholder="Name"
+                                                                   [ngModel]="module.name"
+                                                                   name="name" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="5" layout="column" layout-align="center end">
+                                                        <button mat-mini-fab color="primary"
+                                                                (click)="onModuleEdit(module._id, group._id, module)">
+                                                            <mat-icon>mode_edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div flex="5" layout="column" layout-align="center center">
+                                                        <button mat-mini-fab color="warn"
+                                                                (click)="onModuleRemove(module._id, group._id)">
+                                                            <mat-icon>remove</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div flex="20" layout-padding>
+                                                        <mat-input-container>
+                                                            <input matInput placeholder="Price"
+                                                                   [ngModel]="module.price | number:'2.2-2'"
+                                                                   name="price" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+
+                                                    <div flex="25" layout-padding>
+                                                        <mat-input-container style="width: 80%;">
+                                                            <input matInput placeholder="Group"
+                                                                   [ngModel]="group.name"
+                                                                   name="groupUid" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="25" layout-padding>
+                                                        <mat-input-container>
+                                                            <input matInput placeholder="Created date"
+                                                                   [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                                        <h3 style="margin-top: 0;">Description</h3>
+
+                                                        <div [innerHTML]="module.bodytext"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div style="margin-top:20px;" flex="100" layout-padding>
+                                                </div>
+                                            </form>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <div flex="25" layout-padding style="margin:20px 0;">
+                                        <button mat-raised-button color="primary" [matMenuTriggerFor]="moduleMenu">Add
+                                            module
+                                        </button>
+                                        <mat-menu #moduleMenu="matMenu">
+                                            <button mat-menu-item (click)="addFromModuleList(group._id)">
+                                                <mat-icon>playlist_add</mat-icon>
+                                                <span>Select from list</span>
+                                            </button>
+                                            <button mat-menu-item (click)="addModule(group._id)">
+                                                <mat-icon>add</mat-icon>
+                                                <span>Add new</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                </mat-expansion-panel>
+                                <div flex="10" layout-align="start end" layout="column">
+                                    <div layout="row">
+                                        <span layout-margin>
+                                            <a (click)="onChapterEdit(group._id, group)"><mat-icon
+                                                    color="accent">mode_edit</mat-icon></a>
+                                        </span>
+                                        <span layout-margin>
+                                            <a (click)="onChapterRemove(group._id)"><mat-icon
+                                                    color="warn">delete</mat-icon></a>
+                                       </span>
+                                        <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PAGES CHAPTERS END -->
+
+                        </ng-container>
                     </mat-accordion>
+
                     <div flex="25" layout-padding style="margin:20px 0;">
-                        <button mat-raised-button color="primary" [matMenuTriggerFor]="chapterMenu" color="primary">Add
-                            Chapter
+                        <button mat-raised-button color="primary" [matMenuTriggerFor]="chapterMenu" color="primary">
+                            Add
                         </button>
                         <mat-menu #chapterMenu="matMenu">
+                            <button mat-menu-item (click)="addFromPagesList()">
+                                <mat-icon>playlist_add</mat-icon>
+                                <span>Select page from list</span>
+                            </button>
+                            <button mat-menu-item (click)="addPage()">
+                                <mat-icon>add</mat-icon>
+                                <span>Create new page</span>
+                            </button>
                             <button mat-menu-item (click)="addFromChapterList()">
                                 <mat-icon>playlist_add</mat-icon>
-                                <span>Select from list</span>
+                                <span>Select chapter from list</span>
                             </button>
                             <button mat-menu-item (click)="addChapter()">
                                 <mat-icon>add</mat-icon>
-                                <span>Create new</span>
+                                <span>Create new chapter</span>
                             </button>
                         </mat-menu>
                     </div>
                 </div>
+                <!-- PAGES AND CHAPTERS END -->
 
                 <!-- FILES START -->
                 <div flex="100" layout-padding>

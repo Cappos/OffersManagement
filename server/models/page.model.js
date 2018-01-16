@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const PageSchema = new Schema({
     id: String,
-    type: Number,
+    type: {
+        type: Number,
+        default: 2
+    },
     title: String,
     subtitle: String,
     bodytext: {

@@ -29,6 +29,10 @@ const ModuleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    type: {
+        type: Number,
+        default: 1
+    },
     deleted: {
         type: Boolean,
         default: false

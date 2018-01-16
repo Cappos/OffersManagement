@@ -3,7 +3,6 @@ import {Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
 import {MatDialog} from "@angular/material";
-import 'rxjs/Observable';
 import {Location} from '@angular/common';
 import {Offer} from "../offers.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
@@ -15,7 +14,8 @@ import {Apollo} from 'apollo-angular';
 import createOffer from '../../queries/createOffer';
 import getOffers from '../../queries/fetchOffers';
 import getSealersClients from '../../queries/getSealersClients';
-
+import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
+import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
 
 
 @Component({
@@ -134,7 +134,7 @@ export class NewOfferComponent implements OnInit {
                 newOffer: true,
                 moduleNew: module,
                 edit: true
-            } 
+            }
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -147,8 +147,6 @@ export class NewOfferComponent implements OnInit {
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                console.log(this.offersModules);
-
                 // update chapter price
                 for (let m in this.offersModules[groupIndex].modules) {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
@@ -157,11 +155,12 @@ export class NewOfferComponent implements OnInit {
                 this.offersModules[groupIndex].subTotal = sum;
 
 
-
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -202,7 +201,9 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -237,7 +238,9 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -255,12 +258,15 @@ export class NewOfferComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new
+                result.type = 1;
                 this.offersModules.push(result);
 
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -287,13 +293,16 @@ export class NewOfferComponent implements OnInit {
                         this.sharedService.sneckBarNotifications('This chapter is already part of this offer!!!');
                     }
                     else {
+                        result[c].type = 1;
                         this.offersModules.push(result[c]);
                     }
 
                     // update total price
                     let modulesPrices: any[] = [];
                     for (let g in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].subTotal);
+                        if (this.offersModules[g].subTotal) {
+                            modulesPrices.push(this.offersModules[g].subTotal);
+                        }
                     }
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
@@ -323,7 +332,9 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
@@ -349,9 +360,13 @@ export class NewOfferComponent implements OnInit {
                 let modulesPrices: any[] = [];
 
                 // check if offers chapters is empty before update count
-                if(this.offersModules.length > 0){
+                if (this.offersModules.length > 0) {
+                    // update total price
+                    let modulesPrices: any[] = [];
                     for (let g in this.offersModules) {
-                        modulesPrices.push(this.offersModules[g].subTotal);
+                        if (this.offersModules[g].subTotal) {
+                            modulesPrices.push(this.offersModules[g].subTotal);
+                        }
                     }
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
@@ -388,9 +403,122 @@ export class NewOfferComponent implements OnInit {
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
-                    modulesPrices.push(this.offersModules[g].subTotal);
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+            }
+        });
+    }
+
+    addFromPagesList() {
+        console.log('addPage from list');
+        let dialogRef = this.dialog.open(PageListDialogComponent, {
+            data: {
+                edit: false
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for (let c in result) {
+                    result[c].type = 2;
+                    this.offersModules.push(result[c]);
+                    this.sharedService.sneckBarNotifications('Pages added!!!');
+
+                    // update total price
+                    let modulesPrices: any[] = [];
+                    for (let g in this.offersModules) {
+                        if (this.offersModules[g].subTotal) {
+                            modulesPrices.push(this.offersModules[g].subTotal);
+                        }
+                    }
+                    this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
+            }
+        });
+    }
+
+    addPage(offerUid: number) {
+        console.log('addPage');
+        let dialogRef = this.dialog.open(PageEditDialogComponent, {
+            data: {
+                offerUid: offerUid
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                // update chapters after adding new
+                result.type = 2;
+                this.offersModules.push(result);
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.sharedService.sneckBarNotifications('Chapter added!!!');
+            }
+        });
+    }
+
+    onPageEdit(pageUid: number, page) {
+        console.log('edit Page');
+        let dialogRef = this.dialog.open(PageEditDialogComponent, {
+            data: {
+                pageNew: page,
+                pageUid: pageUid,
+                edit: true
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                let group = this.offersModules.filter(group => group._id === pageUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
+
+                // update chapter after edit
+                this.offersModules[groupIndex] = result;
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+            }
+        });
+    }
+
+    onPageRemove(pageUid: number) {
+        console.log('remove Page');
+        this._dialogService.openConfirm({
+            message: 'Are you sure you want to remove this Page?',
+            viewContainerRef: this._viewContainerRef,
+            title: 'Confirm remove',
+            cancelButton: 'Cancel',
+            acceptButton: 'Remove',
+        }).afterClosed().subscribe((accept: boolean) => {
+            if (accept) {
+                let group = this.offersModules.filter(group => group._id === pageUid)[0];
+                let groupIndex = this.offersModules.indexOf(group);
+
+                // remove chapter after delete
+                this.offersModules.splice(groupIndex, 1);
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.sharedService.sneckBarNotifications('Page removed!!!');
             }
         });
     }

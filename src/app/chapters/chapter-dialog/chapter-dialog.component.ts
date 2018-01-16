@@ -21,16 +21,20 @@ import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module
 })
 
 export class ChapterDialogComponent implements OnInit {
-    pageTitle = 'Offers';
+    pageTitle = 'Chapter';
     id: number;
     item: Group;
     chapterState: Observable<any>;
     @Output() editMode = false;
-    chaptersModules: Module[];
     editModuleGroup: number;
     chapterPrice: number = 0;
     savedChapterData;
     itemSaved = false;
+    chaptersModules = [];
+    modulesNew = [];
+    modulesUpdate = [];
+    modules: any[] = [];
+
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private httpClient: HttpClient, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, ) {
         this.loadingService.create({
@@ -50,25 +54,26 @@ export class ChapterDialogComponent implements OnInit {
                 observe: 'body',
                 responseType: 'json'
             });
-            this.chapterState.take(1).subscribe((res) => {
+            this.chapterState.subscribe((res) => {
                 this.item = res;
                 this.chaptersModules = this.item.modules;
                 this.chapterPrice = this.item.subTotal;
+                this.loadingService.resolveAll('modulesLoader');
             })
         }
         else {
+            this.id = Math.random();
             this.chaptersModules = [];
+            this.loadingService.resolveAll('modulesLoader');
         }
-        this.loadingService.resolveAll('modulesLoader');
     }
 
     onSave(form: NgForm) {
         const value = form.value;
         this.savedChapterData = form.value;
-        this.savedChapterData.modules = this.chaptersModules;
-        this.savedChapterData.subTotal = 0;
-        this.savedChapterData.uid = this.id || 100;
-        this.savedChapterData.type = 1;
+        this.savedChapterData.modulesNew = this.chaptersModules;
+        this.savedChapterData.subTotal = this.chapterPrice;
+        this.savedChapterData._id = this.id;
         this.itemSaved = true;
     }
 
@@ -154,15 +159,21 @@ export class ChapterDialogComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                this.editMode = true
+                if (result.moduleNew) {
+                    // update modules lis after adding module
+                    this.chaptersModules.push(result)
+                }
+
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                this.chaptersModules.push(result);
+                console.log(this.chaptersModules);
 
+                // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
                 }
-
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
             }

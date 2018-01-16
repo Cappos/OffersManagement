@@ -84,7 +84,7 @@
                                 </div>
                                 <mat-card *ngFor="let module of group.modules">
                                     <mat-card-content>
-                                        <form #group.uid="ngForm">
+                                        <form #group._id="ngForm">
                                             <div layout="row" layout-wrap>
                                                 <div style="margin-top:20px;" flex="90" layout-padding>
                                                     <mat-input-container style="max-width: 800px; width: 100%;">
@@ -94,13 +94,13 @@
                                                 </div>
                                                 <div flex="5" layout="column" layout-align="center end">
                                                     <button mat-mini-fab color="primary"
-                                                            (click)="onModuleEdit(module.uid, group.uid)">
+                                                            (click)="onModuleEdit(module._id, group._id, module)">
                                                         <mat-icon>mode_edit</mat-icon>
                                                     </button>
                                                 </div>
                                                 <div flex="5" layout="column" layout-align="center center">
                                                     <button mat-mini-fab color="warn"
-                                                            (click)="onModuleRemove(module.uid, group.uid)">
+                                                            (click)="onModuleRemove(module._id, group._id)">
                                                         <mat-icon>remove</mat-icon>
                                                     </button>
                                                 </div>
@@ -121,7 +121,7 @@
                                                 <div flex="25" layout-padding>
                                                     <mat-input-container>
                                                         <input matInput placeholder="Created date"
-                                                               [ngModel]="module.tstamp" name="tstamp" readonly>
+                                                               [ngModel]="module.tstamp" name="tstamp | date: 'dd.MM.y'" readonly>
                                                     </mat-input-container>
                                                 </div>
                                                 <div style="margin-top:20px;" flex="100" layout-padding>
@@ -141,11 +141,11 @@
                                         module
                                     </button>
                                     <mat-menu #moduleMenu="matMenu">
-                                        <button mat-menu-item (click)="addFromModuleList(group.uid)">
+                                        <button mat-menu-item (click)="addFromModuleList(group._id)">
                                             <mat-icon>playlist_add</mat-icon>
                                             <span>Select from list</span>
                                         </button>
-                                        <button mat-menu-item (click)="addModule(group.uid)">
+                                        <button mat-menu-item (click)="addModule(group._id)">
                                             <mat-icon>add</mat-icon>
                                             <span>Add new</span>
                                         </button>
@@ -155,10 +155,10 @@
                             <div flex="10" layout-align="start end" layout="column">
                                 <div layout="row">
                                         <span layout-margin>
-                                            <a (click)="onChapterEdit(group.uid)"><mat-icon>mode_edit</mat-icon></a>
+                                            <a (click)="onChapterEdit(group._id)"><mat-icon>mode_edit</mat-icon></a>
                                         </span>
                                     <span layout-margin>
-                                            <a (click)="onChapterRemove(group.uid)"><mat-icon>delete</mat-icon></a>
+                                            <a (click)="onChapterRemove(group._id)"><mat-icon>delete</mat-icon></a>
                                        </span>
                                     <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
                                 </div>

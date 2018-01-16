@@ -11,8 +11,8 @@ import {Offer} from "./offers.model";
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
 import {Apollo} from "apollo-angular";
-import getSealersClients from "../queries/getSealersClients";
 import fetchOffer from '../queries/fetchOffers';
+import removeOffer from '../queries/deleteOffer';
 
 @Component({
     selector: 'app-offers',
@@ -31,7 +31,7 @@ export class OffersComponent implements OnInit {
     color = 'grey';
     disabled = false;
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.'},
+        {name: 'id', label: 'No.', tooltip: 'No.'},
         {name: 'offerNumber', label: 'Offer number', tooltip: 'Offer number'},
         {name: 'clientName', label: 'Client', tooltip: 'Client'},
         {name: 'totalPrice', label: 'Price', tooltip: 'Price'},
@@ -109,13 +109,13 @@ export class OffersComponent implements OnInit {
     }
 
     onEdit(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this.router.navigate(['/offers/' + id + '/edit']);
 
     }
 
     onDelete(row: any) {
-        let id = +row['uid'];
+        let id = row['_id'];
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this offer?',
             viewContainerRef: this._viewContainerRef,
@@ -124,18 +124,23 @@ export class OffersComponent implements OnInit {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let offer = this.data.filter(offer => offer.uid === id)[0];
-                let offerIndex = this.data.indexOf(offer);
-                this.data.splice(offerIndex, 1);
-                this.filteredData = this.data;
-                this.filter();
+                this.apollo.mutate({
+                    mutation: removeOffer,
+                    variables: {
+                        id: id,
+                    },
+                    refetchQueries: [{
+                        query: fetchOffer
+                    }]
+                }).subscribe((res) => {
+                    this.sharedService.sneckBarNotifications(`chapter ${res.data.deleteOffer.offerNumber} deleted!!!.`);
+                });
             }
         });
-
     }
 
-    onSelect(uid) {
-        this.router.navigate(['/offers/' + uid]);
+    onSelect(id) {
+        this.router.navigate(['/offers/' + id]);
     }
 
 }

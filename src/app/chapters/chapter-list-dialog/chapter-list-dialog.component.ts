@@ -1,17 +1,15 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
     IPageChangeEvent,
     ITdDataTableColumn, ITdDataTableSortChangeEvent, LoadingMode, LoadingType, TdDataTableService,
-    TdDataTableSortingOrder, TdDialogService,
+    TdDataTableSortingOrder,
     TdLoadingService
 } from "@covalent/core";
-import {Observable} from "rxjs/Observable";
 import {SharedService} from "../../shared/shared.service";
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
 import {MatDialog, MatDialogRef} from "@angular/material";
-import * as fromChapters from '../store/chapters.reducers';
-import * as ChaptersActions from "../store/chapters.actions";
+import {Apollo} from 'apollo-angular';
+import getChapters from '../../queries/fetchGroupsModules';
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-chapter-list-dialog',
@@ -24,16 +22,15 @@ export class ChapterListDialogComponent implements OnInit {
     title = 'List of all chapters';
     color = 'grey';
     disabled = false;
-    selectable = false;
+
 
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.'},
-        {name: 'name', label: 'Name', tooltip: 'Name', width: 350},
+        {name: 'chacked', label: '', tooltip: '', width: 50},
+        {name: '_id', label: 'No.', tooltip: 'No.', width: 70},
+        {name: 'name', label: 'Name', tooltip: 'Name'},
         {name: 'subTotal', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date', width: 150}
     ];
-
-    modulesState: Observable<fromChapters.State>;
 
     data: any[];
     filteredData;
@@ -42,12 +39,11 @@ export class ChapterListDialogComponent implements OnInit {
     fromRow = 1;
     currentPage = 1;
     pageSize = 5;
-    sortBy = 'uid';
+    sortBy = '_id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
-    selectedModule;
     selectedRows: any[] = [];
 
-    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private store: Store<fromChapters.FeatureState>, private dialog: MatDialog, private loadingService: TdLoadingService, public dialogRef: MatDialogRef<ChapterListDialogComponent>) {
+    constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private dialog: MatDialog, private loadingService: TdLoadingService, public dialogRef: MatDialogRef<ChapterListDialogComponent>, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -55,22 +51,19 @@ export class ChapterListDialogComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-        //get data from backend
-        this.store.dispatch(new ChaptersActions.GetChapters());
         this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
-        this.modulesState = this.store.select('chaptersList');
-        this.modulesState.take(2).subscribe((fromChapters: fromChapters.State) => {
-            this.data = fromChapters.chapters;
-            console.log(this.data);
+        this.apollo.watchQuery<any>({
+            query: getChapters
+        }).valueChanges.subscribe(({data}) => {
+            this.data = _.cloneDeep(data.groups);
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });
-
     }
 
     sort(sortEvent: ITdDataTableSortChangeEvent, name: string): void {
@@ -107,7 +100,24 @@ export class ChapterListDialogComponent implements OnInit {
         this.filteredData = newData;
     }
 
-    addChapter(){
+    toggleEditable(event, id) {
+        if (event.checked) {
+            let group = this.data.find(group => group._id == id);
+            for (let m in group.modules) {
+                group.modules[m].moduleNew = true
+            }
+
+            this.selectedRows.push(group)
+        }
+        else {
+            let group = this.data.filter(group => group._id == id);
+            let groupIndex = this.selectedRows.indexOf(group);
+            this.selectedRows.splice(groupIndex, 1)
+        }
+    }
+
+    addChapter() {
+        console.log(this.selectedRows);
         this.dialogRef.close(this.selectedRows);
     }
 }

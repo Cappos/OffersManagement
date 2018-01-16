@@ -39,7 +39,8 @@ export class EditModuleDialogComponent implements OnInit {
 
     ngOnInit() {
         // if edit module that is in database
-        if (this.data.edit && this.data.moduleUid) {
+        if (this.data.edit && this.data.moduleUid && !this.data.newOffer) {
+            console.log('is in database');
             this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;
             this.apollo.watchQuery<any>({
@@ -62,7 +63,11 @@ export class EditModuleDialogComponent implements OnInit {
         }
         // if edit module that is not yet saved
         else if (this.data.edit) {
-            if (this.data.groupUid) {
+            console.log('not yet saved');
+            if (this.data.moduleUid){
+                this.id = this.data.moduleUid;
+            }
+            else if (this.data.groupUid) {
                 this.id = this.data.groupUid;
             }
             this.apollo.watchQuery<any>({
@@ -79,6 +84,7 @@ export class EditModuleDialogComponent implements OnInit {
         }
         // if this is a new module
         else {
+            console.log('new module');
             this.id = Math.random();
             this.apollo.watchQuery<any>({
                 query: fetchCategories,
@@ -113,12 +119,10 @@ export class EditModuleDialogComponent implements OnInit {
         if (this.data.edit && this.item._id && !this.item.moduleNew) {
             this.savedModuleData.moduleNew = false;
             this.savedModuleData._id = this.id;
-            this.savedModuleData.price = +newPrice;
         }
         else if (this.data.edit) {
-            this.savedModuleData._id = this.data.moduleNew.id;
+            this.savedModuleData._id = this.data.moduleNew._id;
             this.savedModuleData.moduleNew = true;
-            this.savedModuleData.price = +newPrice;
         }
         else {
             this.savedModuleData._id = this.id + this.count;
@@ -127,6 +131,7 @@ export class EditModuleDialogComponent implements OnInit {
 
         this.savedModuleData.bodytext = this.rteData;
         this.savedModuleData.groupUid = this.data.groupUid;
+        this.savedModuleData.price = +newPrice;
         // Set category if is selected
         if (category) {
             this.savedModuleData.categoryId = category._id

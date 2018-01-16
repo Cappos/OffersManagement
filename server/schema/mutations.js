@@ -273,13 +273,26 @@ const mutation = new GraphQLObjectType({
                 tstamp: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
                 client: {type: GraphQLID},
-                groups: {type: GraphQLJSON},
-                sealer: {type: GraphQLID}
+                sealer: {type: GraphQLID},
+                groups: {type: GraphQLID},
+                groupsNew: {type: GraphQLJSON},
+                offerPages: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Offer.createOffer(args);
             }
         },
+        deleteOffer: {
+            type: OfferType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Offer.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, {new: true});
+            }
+        }
     }
 });
 

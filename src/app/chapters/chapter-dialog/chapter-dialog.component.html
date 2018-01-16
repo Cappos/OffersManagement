@@ -27,7 +27,6 @@
         <div flex="90" layout="column" layout-align="center start">{{[item?.name]}}</div>
       </div>
     </mat-card-title>
-    <mat-card-subtitle>id: {{item?.uid}}</mat-card-subtitle>
     <mat-divider></mat-divider>
     <mat-card-content>
       <form #f="ngForm">
@@ -49,7 +48,7 @@
           </div>
           <div style="margin-top:20px;" flex="25" layout-padding>
             <mat-input-container>
-              <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" required>
+              <input matInput placeholder="Created date" [ngModel]="item?.tstamp" name="tstamp" readonly>
             </mat-input-container>
           </div>
 
@@ -61,7 +60,7 @@
           </div>
           <mat-card *ngFor="let module of chaptersModules" flex="100">
             <mat-card-content>
-              <form #group.uid="ngForm">
+              <form #group._id="ngForm">
                 <div layout="row" layout-wrap>
                   <div style="margin-top:20px;" flex="90" layout-padding>
                     <mat-input-container style="max-width: 800px; width: 100%;">
@@ -71,19 +70,19 @@
                   </div>
                   <div flex="5" layout="column" layout-align="center end">
                     <button mat-mini-fab color="primary"
-                            (click)="onModuleEdit(module.uid, item?.uid)">
+                            (click)="onModuleEdit(module._id, item?._id)">
                       <mat-icon>mode_edit</mat-icon>
                     </button>
                   </div>
                   <div flex="5" layout="column" layout-align="center center">
                     <button mat-mini-fab color="warn"
-                            (click)="onModuleRemove(module.uid, item?.uid)">
+                            (click)="onModuleRemove(module._id, item?._id)">
                       <mat-icon>remove</mat-icon>
                     </button>
                   </div>
                   <div flex="20" layout-padding>
                     <mat-input-container>
-                      <input matInput placeholder="Price" [ngModel]="module.price"
+                      <input matInput placeholder="Price" [ngModel]="module.price | number:'2.2-2'"
                              name="price" readonly>
                     </mat-input-container>
                   </div>

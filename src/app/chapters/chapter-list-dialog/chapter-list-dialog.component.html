@@ -9,20 +9,31 @@
   </td-search-box>
 </div>
 <mat-divider></mat-divider>
-<td-data-table
-        #dataTable
-        [data]="filteredData"
-        [columns]="columns"
-        [selectable]="true"
-        [clickable]="false"
-        [multiple]="true"
-        [sortable]="true"
-        [sortBy]="sortBy"
-        [(ngModel)]="selectedRows"
-        [sortOrder]="sortOrder"
-        (sortChange)="sort($event)"
-        layout="row" flex="100">
-</td-data-table>
+<table td-data-table #dataTable>
+  <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
+      (sortChange)="sort($event, column.name)">
+    {{column.label}}
+  </th>
+  <tbody>
+  <tr td-data-table-row *ngFor="let row of filteredData; let i = index">
+    <td td-data-table-cell >
+      <mat-checkbox (change)="toggleEditable($event, row._id)"></mat-checkbox>
+    </td>
+    <td td-data-table-cell >
+      {{i +1}}
+    </td>
+    <td td-data-table-cell>
+      <button mat-menu-item>{{row.name}}</button>
+    </td>
+    <td td-data-table-cell>
+      {{row.subTotal | number:'3.2'}}
+    </td>
+    <td td-data-table-cell>
+      {{row.tstamp | date: 'dd.MM.y'}}
+    </td>
+  </tr>
+  </tbody>
+</table>
 <div class="mat-padding" *ngIf="!filteredData" layout="row" layout-align="center center">
   <h3>No results to display.</h3>
 </div>

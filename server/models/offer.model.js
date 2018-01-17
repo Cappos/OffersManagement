@@ -19,6 +19,10 @@ const OfferSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'group'
     }],
+    pages: [{
+            type: Schema.Types.ObjectId,
+            ref: 'page'
+        }],
     sealer: [{
         type: Schema.Types.ObjectId,
         ref: 'sealer'
@@ -45,6 +49,11 @@ OfferSchema.statics.findGroups = function (id) {
         .populate('groups')
         .then(offer => offer.groups);
 };
+OfferSchema.statics.findPages = function (id) {
+    return this.findById(id)
+        .populate('pages')
+        .then(offer => offer.pages);
+};
 
 OfferSchema.statics.findSealer = function (id) {
     return this.findById(id)
@@ -58,6 +67,7 @@ OfferSchema.statics.createOffer = function (args) {
     const Group = mongoose.model('group');
     const Client = mongoose.model('client');
     const Module = mongoose.model('module')
+    const Page = mongoose.model('page');
     const GroupsNew = args.groupsNew;
 
     return this.count().then((count) => {
@@ -72,32 +82,46 @@ OfferSchema.statics.createOffer = function (args) {
                     }
                 }, {new: true}).then((res) => res);
 
+
             for (let e in GroupsNew) {
                 if (GroupsNew.length > 0) {
                     // create new group
-                    let group = new Group({
-                        name: GroupsNew[e].name,
-                        subTotal: GroupsNew[e].subTotal
-                    });
-                    group.save().then((res) => {
-                        for (let m in GroupsNew[e].modules) {
-                            if (GroupsNew[e].modules[m].moduleNew) {
-                                // create new modules form modules array
-                                let module = new Module({
-                                    name: GroupsNew[e].modules[m].name,
-                                    bodytext: GroupsNew[e].modules[m].bodytext,
-                                    price: GroupsNew[e].modules[m].price,
-                                    groupId: group._id,
-                                    categoryId: GroupsNew[e].modules[m].categoryId,
-                                    moduleNew: false
-                                });
-                                module.save()
-                                res.modules.push(module);
+                    if(GroupsNew[e].type === 1){
+                        let group = new Group({
+                            name: GroupsNew[e].name,
+                            subTotal: GroupsNew[e].subTotal
+                        });
+                        group.save().then((res) => {
+                            for (let m in GroupsNew[e].modules) {
+                                if (GroupsNew[e].modules[m].moduleNew) {
+                                    // create new modules form modules array
+                                    let module = new Module({
+                                        name: GroupsNew[e].modules[m].name,
+                                        bodytext: GroupsNew[e].modules[m].bodytext,
+                                        price: GroupsNew[e].modules[m].price,
+                                        groupId: group._id,
+                                        categoryId: GroupsNew[e].modules[m].categoryId,
+                                        moduleNew: false
+                                    });
+                                    module.save()
+                                    res.modules.push(module);
+                                }
                             }
-                        }
-                        res.save()
-                    })
-                    offer.groups.push(group);
+                            res.save()
+                        })
+                        offer.groups.push(group);
+                    }
+                    // create new page from pages array
+                    else if (GroupsNew[e].type === 2){
+                        let page = new Page({
+                            type: GroupsNew[e].type,
+                            title: GroupsNew[e].title,
+                            subtitle: GroupsNew[e].subtitle,
+                            bodytext: GroupsNew[e].bodytext
+                        });
+                        page.save().then((res) => res)
+                        offer.pages.push(page);
+                    }
                 }
             }
             return Promise.all([offer.save()])

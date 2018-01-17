@@ -16,12 +16,13 @@ import getOffers from '../../queries/fetchOffers';
 import getSealersClients from '../../queries/getSealersClients';
 import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
-
+import { TdFileService, IUploadOptions } from '@covalent/core';
 
 @Component({
     selector: 'app-new-offer',
     templateUrl: './new-offer.component.html',
-    styleUrls: ['./new-offer.component.css']
+    styleUrls: ['./new-offer.component.css'],
+    providers: [ TdFileService ]
 })
 
 export class NewOfferComponent implements OnInit {
@@ -30,17 +31,18 @@ export class NewOfferComponent implements OnInit {
     id: number;
     item: Offer;
     files: any[] = [];
+    file: File;
     @Output() editMode = true;
     selectedSeller;
     selectedClient;
     sellers;
     clients;
     offersModules = [];
-    offerPages = [];
     editModuleGroup: number;
     totalPrice;
 
-    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
+
+    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -105,8 +107,7 @@ export class NewOfferComponent implements OnInit {
                     bodytext: value.bodytext,
                     client: client._id,
                     seller: seller._id,
-                    groupsNew: this.offersModules,
-                    offerPages: this.offerPages
+                    groupsNew: this.offersModules
                 },
                 refetchQueries: [{
                     query: getOffers
@@ -433,7 +434,10 @@ export class NewOfferComponent implements OnInit {
                             modulesPrices.push(this.offersModules[g].subTotal);
                         }
                     }
-                    this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(modulesPrices.length > 0){
+                        this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
+
                 }
             }
         });
@@ -534,8 +538,18 @@ export class NewOfferComponent implements OnInit {
     uploadEvent(files: FileList | File): void {
         if (files instanceof FileList) {
             console.log(files);
+
         } else {
             console.log('else');
+            let options: IUploadOptions = {
+                url: 'http://localhost:3000/upload',
+                method: 'post',
+                file: files
+            };
+            this.fileUploadService.upload(options).subscribe((response) => {
+                console.log(response);
+            });
+
         }
     }
 

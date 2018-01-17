@@ -5,7 +5,9 @@ const GraphQLDate = require('graphql-date');
 const ClientType = require('./client_type');
 const SelerType = require('./sealer_type');
 const GroupType = require('./group_type');
+const PageType = require('./page_type');
 const Offer = mongoose.model('offer');
+
 
 const OfferType = new GraphQLObjectType({
   name:  'OfferType',
@@ -26,6 +28,12 @@ const OfferType = new GraphQLObjectType({
           type: new GraphQLList(GroupType),
           resolve(parentValue) {
               return Offer.findGroups(parentValue._id);
+          }
+      },
+      pages: {
+          type: new GraphQLList(PageType),
+          resolve(parentValue) {
+              return Offer.findPages(parentValue._id);
           }
       },
       sealer: {

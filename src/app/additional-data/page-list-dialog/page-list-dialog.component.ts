@@ -105,6 +105,7 @@ export class PageListDialogComponent implements OnInit {
         if (event.checked) {
             let page = this.data.find(page => page._id == id);
             this.selectedRows.push(page)
+            console.log(this.selectedRows);
         }
         else {
             let page = this.data.filter(page => page._id == id);

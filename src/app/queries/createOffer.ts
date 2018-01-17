@@ -8,8 +8,7 @@ export default gql`
     $totalPrice: Float, 
     $bodytext: String, 
     $client: ID, 
-    $groupsNew: JSON, 
-    $offerPages: JSON, 
+    $groupsNew: JSON,
     $seller: ID) {
         addOffer(
             offerTitle: $offerTitle, 
@@ -17,8 +16,7 @@ export default gql`
             totalPrice: $totalPrice, 
             bodytext: $bodytext, 
             client: $client, 
-            groupsNew: $groupsNew, 
-            offerPages: $offerPages, 
+            groupsNew: $groupsNew,
             sealer: $seller){
             _id,
             offerTitle

@@ -1,4 +1,7 @@
-import {Component, OnInit, Output, ViewContainerRef} from '@angular/core';
+import {
+    Component, ElementRef, OnInit, Output, ViewChild,
+    ViewContainerRef
+} from '@angular/core';
 import {Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
@@ -16,13 +19,13 @@ import getOffers from '../../queries/fetchOffers';
 import getSealersClients from '../../queries/getSealersClients';
 import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
-import { TdFileService, IUploadOptions } from '@covalent/core';
+import {TdFileService, IUploadOptions} from '@covalent/core';
 
 @Component({
     selector: 'app-new-offer',
     templateUrl: './new-offer.component.html',
     styleUrls: ['./new-offer.component.css'],
-    providers: [ TdFileService ]
+    providers: [TdFileService]
 })
 
 export class NewOfferComponent implements OnInit {
@@ -40,6 +43,8 @@ export class NewOfferComponent implements OnInit {
     offersModules = [];
     editModuleGroup: number;
     totalPrice;
+    disabled = false;
+    @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
 
 
     constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService) {
@@ -64,6 +69,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
+
     onSave(form: NgForm) {
         const value = form.value;
         const client = this.clients.find(client => client._id == value.client);
@@ -85,7 +91,8 @@ export class NewOfferComponent implements OnInit {
                     bodytext: value.bodytext,
                     client: client._id,
                     seller: seller._id,
-                    groups: []
+                    groups: [],
+                    files: this.files
                 },
                 refetchQueries: [{
                     query: getOffers
@@ -107,7 +114,8 @@ export class NewOfferComponent implements OnInit {
                     bodytext: value.bodytext,
                     client: client._id,
                     seller: seller._id,
-                    groupsNew: this.offersModules
+                    groupsNew: this.offersModules,
+                    files: this.files
                 },
                 refetchQueries: [{
                     query: getOffers
@@ -434,7 +442,7 @@ export class NewOfferComponent implements OnInit {
                             modulesPrices.push(this.offersModules[g].subTotal);
                         }
                     }
-                    if(modulesPrices.length > 0){
+                    if (modulesPrices.length > 0) {
                         this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                     }
 
@@ -546,10 +554,14 @@ export class NewOfferComponent implements OnInit {
                 method: 'post',
                 file: files
             };
-            this.fileUploadService.upload(options).subscribe((response) => {
-                console.log(response);
-            });
+            this.fileUploadService.upload(options).subscribe((data) => {
+                let file = JSON.parse(data);
+                file.tstamp = new Date();
+                this.files.push(file);
+                let event = new MouseEvent('click', {bubbles: true});
+                this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
 
+            });
         }
     }
 
@@ -560,6 +572,5 @@ export class NewOfferComponent implements OnInit {
     goBack() {
         this.location.back();
     }
-
 }
 

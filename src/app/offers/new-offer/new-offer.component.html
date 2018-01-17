@@ -269,7 +269,7 @@
                                     (select)="selectEvent($event)"
                                     (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled">
                         <mat-icon>file_upload</mat-icon>
-                        <span>{{ fileUpload.files?.name }}</span>
+                        <span class="test">{{ fileUpload.files?.name }}</span>
                         <ng-template td-file-input-label>
                             <mat-icon>attach_file</mat-icon>
                             <span>Choose a file...</span>
@@ -280,8 +280,8 @@
                     <mat-list>
                         <mat-list-item *ngFor="let file of files">
                             <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                            <h4 mat-line><a href="{{file.link}}" style="cursor: pointer">{{file.name}}</a></h4>
-                            <p mat-line> {{file.tstamp}} </p>
+                            <h4 mat-line><a href="{{file.path}}" style="cursor: pointer">{{file.originalname}}</a></h4>
+                            <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
                         </mat-list-item>
                     </mat-list>
                 </div>

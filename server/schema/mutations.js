@@ -275,7 +275,8 @@ const mutation = new GraphQLObjectType({
                 client: {type: GraphQLID},
                 sealer: {type: GraphQLID},
                 groups: {type: GraphQLID},
-                groupsNew: {type: GraphQLJSON}
+                groupsNew: {type: GraphQLJSON},
+                files: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Offer.createOffer(args);

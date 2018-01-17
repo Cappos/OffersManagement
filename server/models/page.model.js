@@ -19,7 +19,7 @@ const PageSchema = new Schema({
     },
     defaultPage: {
         type: Boolean,
-        default: false
+        default: true
     },
     deleted: {
         type: Boolean,

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
+const GraphQLJSON = require('graphql-type-json');
 const GraphQLDate = require('graphql-date');
 const ClientType = require('./client_type');
 const SelerType = require('./sealer_type');
@@ -36,6 +37,7 @@ const OfferType = new GraphQLObjectType({
               return Offer.findPages(parentValue._id);
           }
       },
+      files: {type: GraphQLJSON},
       sealer: {
           type: new GraphQLList(SelerType),
           resolve(parentValue) {

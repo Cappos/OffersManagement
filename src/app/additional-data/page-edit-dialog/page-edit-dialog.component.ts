@@ -45,10 +45,15 @@ export class PageEditDialogComponent implements OnInit {
                 this.loadingService.resolveAll('modulesLoader');
             });
         }
-        else {
+        else if(this.data.pageUid){
             this.id = this.data.pageUid;
             this.item = this.data.pageNew;
             this.rteData = this.item.bodytext;
+            this.loadingService.resolveAll('modulesLoader');
+        }
+        else {
+            this.id = Math.random();
+            this.rteData = ' ';
             this.loadingService.resolveAll('modulesLoader');
         }
     }
@@ -57,7 +62,7 @@ export class PageEditDialogComponent implements OnInit {
         console.log('saved');
         this.savedPageData = form.value;
         this.savedPageData.bodytext = this.rteData;
-        this.savedPageData.uid = this.id
+        this.savedPageData.uid = this.id;
         this.savedPageData.type = 2;
         this.itemSaved = true;
     }

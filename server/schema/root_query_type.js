@@ -95,7 +95,7 @@ const RootQuery = new GraphQLObjectType({
         pages: {
             type: new GraphQLList(PageType),
             resolve(parentValue) {
-                return Page.find({deleted: false});
+                return Page.find({deleted: false, defaultPage: true});
             }
         },
         page: {

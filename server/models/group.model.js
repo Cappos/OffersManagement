@@ -96,6 +96,7 @@ GroupSchema.statics.createGroup = function (args) {
     const Module = mongoose.model('module');
     const Group = mongoose.model('group');
     const ModulesNew = args.modulesNew;
+    args.defaultGroup = true;
 
     return (new Group(args)).save().then(chapter => {
         for (let e in ModulesNew) {
@@ -106,7 +107,7 @@ GroupSchema.statics.createGroup = function (args) {
                     price: ModulesNew[e].price,
                     groupId: chapter._id,
                     categoryId: ModulesNew[e].categoryId,
-                    moduleNew: false
+                    moduleNew: false,
                 });
                 chapter.modules.push(module);
                 module.save()

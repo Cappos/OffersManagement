@@ -23,6 +23,7 @@ const OfferSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'page'
         }],
+    files: Array,
     sealer: [{
         type: Schema.Types.ObjectId,
         ref: 'sealer'
@@ -108,7 +109,7 @@ OfferSchema.statics.createOffer = function (args) {
                                 }
                             }
                             res.save()
-                        })
+                        });
                         offer.groups.push(group);
                     }
                     // create new page from pages array
@@ -117,7 +118,8 @@ OfferSchema.statics.createOffer = function (args) {
                             type: GroupsNew[e].type,
                             title: GroupsNew[e].title,
                             subtitle: GroupsNew[e].subtitle,
-                            bodytext: GroupsNew[e].bodytext
+                            bodytext: GroupsNew[e].bodytext,
+                            defaultPage: false
                         });
                         page.save().then((res) => res)
                         offer.pages.push(page);

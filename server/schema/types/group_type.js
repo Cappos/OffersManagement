@@ -18,6 +18,9 @@ const GroupType = new GraphQLObjectType({
               return Group.findModules(parentValue._id);
           }
       },
+      type: {type: GraphQLInt},
+      order: {type: GraphQLInt},
+      groupNew: {type: GraphQLBoolean},
       defaultGroup: {type: GraphQLBoolean},
       deleted: {type: GraphQLBoolean}
   })

@@ -13,6 +13,8 @@ const PageType = new GraphQLObjectType({
         bodytext: {type: GraphQLString},
         tstamp: {type: GraphQLDate},
         defaultPage: {type: GraphQLBoolean},
+        order: {type: GraphQLInt},
+        pageNew: {type: GraphQLBoolean},
         deleted: {type: GraphQLBoolean}
     })
 });

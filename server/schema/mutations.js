@@ -193,7 +193,9 @@ const mutation = new GraphQLObjectType({
                 name: {type: GraphQLString},
                 subTotal: {type: GraphQLFloat},
                 tstamp: {type: GraphQLString},
-                modulesNew: {type: GraphQLJSON}
+                order: {type: GraphQLInt},
+                modulesNew: {type: GraphQLJSON},
+                groupNew: {type: GraphQLBoolean},
             },
             resolve(parentValue, args) {
                 return Group.createGroup(args);
@@ -229,7 +231,9 @@ const mutation = new GraphQLObjectType({
                 title: {type: GraphQLString},
                 subtitle: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
-                tstamp: {type: GraphQLString}
+                tstamp: {type: GraphQLString},
+                order: {type: GraphQLInt},
+                pageNew: {type: GraphQLBoolean},
             },
             resolve(parentValue, args) {
                 return (new Page(args)).save()
@@ -280,6 +284,24 @@ const mutation = new GraphQLObjectType({
             },
             resolve(parentValue, args) {
                 return Offer.createOffer(args);
+            }
+        },
+        editOffer: {
+            type: OfferType,
+            args: {
+                offerTitle: {type: new GraphQLNonNull(GraphQLString)},
+                offerNumber: {type: GraphQLString},
+                totalPrice: {type: GraphQLFloat},
+                tstamp: {type: GraphQLString},
+                bodytext: {type: GraphQLString},
+                client: {type: GraphQLID},
+                sealer: {type: GraphQLID},
+                groups: {type: GraphQLID},
+                groupsNew: {type: GraphQLJSON},
+                files: {type: GraphQLJSON}
+            },
+            resolve(parentValue, args) {
+                return Offer.updateOffer(args);
             }
         },
         deleteOffer: {

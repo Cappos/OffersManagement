@@ -18,6 +18,15 @@ const GroupSchema = new Schema({
         type: Boolean,
         default: false
     },
+    type: {
+        type: Number,
+        default: 1
+    },
+    order: Number,
+    groupNew: {
+        type: Boolean,
+        default: false
+    },
     deleted: {
         type: Boolean,
         default: false

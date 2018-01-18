@@ -15,6 +15,11 @@ export default gql`
                 tstamp
                 cruserId
                 moduleNew
+                categoryId {
+                    _id
+                    name
+                    value
+                }
             }
         }
     }

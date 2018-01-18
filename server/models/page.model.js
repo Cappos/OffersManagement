@@ -21,6 +21,11 @@ const PageSchema = new Schema({
         type: Boolean,
         default: true
     },
+    order: Number,
+    pageNew: {
+        type: Boolean,
+        default: false
+    },
     deleted: {
         type: Boolean,
         default: false

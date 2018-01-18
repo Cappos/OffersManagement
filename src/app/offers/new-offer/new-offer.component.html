@@ -21,7 +21,7 @@
                 </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
                     <mat-input-container style="max-width: 800px; width: 100%;">
-                        <input matInput placeholder="Title" [ngModel]="item?.offerDescription.offerTitle"
+                        <input matInput placeholder="Title" [ngModel]="item?.offerTitle"
                                name="offerTitle" required [readonly]="!editMode">
                     </mat-input-container>
                 </div>
@@ -73,7 +73,7 @@
                             <!-- PAGES -->
                             <div *ngSwitchCase="'2'" layout="row">
                                 <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
-                                                     layout-align="center start" [attr._id]="group._id"
+                                                     layout-align="center start" [attr.id]="group._id"
                                                      [attr.index]="i">
                                     <mat-expansion-panel-header layout="row">
                                         <mat-panel-title flex="100">
@@ -124,7 +124,7 @@
                             <!-- CHAPTERS -->
                             <div *ngSwitchCase="'1'" layout="row">
                                 <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
-                                                     layout-align="center start" [attr.uid]="group._id"
+                                                     layout-align="center start" [attr.id]="group._id"
                                                      [attr.index]="i">
                                     <mat-expansion-panel-header layout="row">
                                         <mat-panel-title flex="80">
@@ -176,7 +176,7 @@
                                                     <div flex="25" layout-padding>
                                                         <mat-input-container style="width: 80%;">
                                                             <input matInput placeholder="Group"
-                                                                   [ngModel]="group.name"
+                                                                   [ngModel]="module.categoryId[0].name"
                                                                    name="groupUid" readonly>
                                                         </mat-input-container>
                                                     </div>

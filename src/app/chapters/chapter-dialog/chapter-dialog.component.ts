@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, Output, ViewContainerRef} from '@angular/core
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
@@ -30,7 +30,7 @@ export class ChapterDialogComponent implements OnInit {
     modules: any[] = [];
 
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo, public dialogRef: MatDialogRef<ChapterDialogComponent>) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -73,11 +73,18 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     onSave(form: NgForm) {
-        const value = form.value;
-        this.savedChapterData = form.value;
+        this.savedChapterData =  form.value;
         this.savedChapterData.modules = this.chaptersModules;
         this.savedChapterData.subTotal = this.chapterPrice;
         this.savedChapterData._id = this.id;
+        this.savedChapterData.type = 1;
+        if(this.item){
+            this.savedChapterData.groupNew = this.item.groupNew
+        }
+        else {
+            this.savedChapterData.groupNew = true;
+        }
+
         this.itemSaved = true;
     }
 

@@ -54,7 +54,7 @@ export class EditModuleDialogComponent implements OnInit {
                 this.rteData = this.item.bodytext;
                 this.categories = data.categories;
                 this.selectedChapter = chapterId;
-                if (this.item.categoryId) {
+                if (this.item.categoryId.lenght > 0) {
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
                 this.loadingService.resolveAll('modulesLoader');
@@ -64,7 +64,7 @@ export class EditModuleDialogComponent implements OnInit {
         // if edit module that is not yet saved
         else if (this.data.edit) {
             console.log('not yet saved');
-            if (this.data.moduleUid){
+            if (this.data.moduleUid) {
                 this.id = this.data.moduleUid;
             }
             else if (this.data.groupUid) {
@@ -102,7 +102,6 @@ export class EditModuleDialogComponent implements OnInit {
         const category = this.categories.find(category => category.value == value.categoryId) || null;
         let price = value.price;
         let newPrice;
-
         // Format price
         if (price.length >= 6) {
             newPrice = price.replace(/,/g, '');
@@ -119,10 +118,12 @@ export class EditModuleDialogComponent implements OnInit {
         if (this.data.edit && this.item._id && !this.item.moduleNew) {
             this.savedModuleData.moduleNew = false;
             this.savedModuleData._id = this.id;
+            this.savedModuleData.tstamp = this.item.tstamp;
         }
         else if (this.data.edit) {
             this.savedModuleData._id = this.data.moduleNew._id;
             this.savedModuleData.moduleNew = true;
+            this.savedModuleData.tstamp = this.item.tstamp;
         }
         else {
             this.savedModuleData._id = this.id + this.count;
@@ -134,7 +135,7 @@ export class EditModuleDialogComponent implements OnInit {
         this.savedModuleData.price = +newPrice;
         // Set category if is selected
         if (category) {
-            this.savedModuleData.categoryId = category._id
+            this.savedModuleData.categoryId = [category]
         }
         this.itemSaved = true;
     }

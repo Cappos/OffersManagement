@@ -20,9 +20,9 @@ const OfferSchema = new Schema({
         ref: 'group'
     }],
     pages: [{
-            type: Schema.Types.ObjectId,
-            ref: 'page'
-        }],
+        type: Schema.Types.ObjectId,
+        ref: 'page'
+    }],
     files: Array,
     sealer: [{
         type: Schema.Types.ObjectId,
@@ -87,10 +87,11 @@ OfferSchema.statics.createOffer = function (args) {
             for (let e in GroupsNew) {
                 if (GroupsNew.length > 0) {
                     // create new group
-                    if(GroupsNew[e].type === 1){
+                    if (GroupsNew[e].type === 1) {
                         let group = new Group({
                             name: GroupsNew[e].name,
-                            subTotal: GroupsNew[e].subTotal
+                            subTotal: GroupsNew[e].subTotal,
+                            order: GroupsNew[e].order
                         });
                         group.save().then((res) => {
                             for (let m in GroupsNew[e].modules) {
@@ -113,13 +114,14 @@ OfferSchema.statics.createOffer = function (args) {
                         offer.groups.push(group);
                     }
                     // create new page from pages array
-                    else if (GroupsNew[e].type === 2){
+                    else if (GroupsNew[e].type === 2) {
                         let page = new Page({
                             type: GroupsNew[e].type,
                             title: GroupsNew[e].title,
                             subtitle: GroupsNew[e].subtitle,
                             bodytext: GroupsNew[e].bodytext,
-                            defaultPage: false
+                            defaultPage: false,
+                            order: GroupsNew[e].order
                         });
                         page.save().then((res) => res)
                         offer.pages.push(page);
@@ -130,6 +132,11 @@ OfferSchema.statics.createOffer = function (args) {
                 .then(([offer]) => offer);
         });
     });
+};
+
+
+OfferSchema.statics.updateOffer = function (args) {
+    console.log(args);
 };
 
 

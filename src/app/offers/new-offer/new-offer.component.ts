@@ -1,6 +1,6 @@
 import {
     Component, ElementRef, OnInit, Output, ViewChild,
-    ViewContainerRef
+    ViewContainerRef, QueryList, ViewChildren
 } from '@angular/core';
 import {Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
@@ -45,6 +45,8 @@ export class NewOfferComponent implements OnInit {
     totalPrice;
     disabled = false;
     @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
+    @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
+    chaptersOrder;
 
 
     constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService) {
@@ -129,12 +131,10 @@ export class NewOfferComponent implements OnInit {
     }
 
     onEdit() {
-        console.log('edit');
         this.editMode = true
     }
 
-    onModuleEdit(moduleUid: number, groupUid: number, module) {
-        console.log(moduleUid, groupUid, 'edit');
+    onModuleEdit(moduleUid, groupUid, module) {
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -267,7 +267,9 @@ export class NewOfferComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new
+                let orderNo = this.offersModules.length + 1;
                 result.type = 1;
+                result.order = orderNo;
                 this.offersModules.push(result);
 
                 // update total price
@@ -284,7 +286,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     addFromChapterList(offerUid) {
-        console.log(offerUid);
         let dialogRef = this.dialog.open(ChapterListDialogComponent, {
             data: {
                 offerId: offerUid,
@@ -293,7 +294,6 @@ export class NewOfferComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
                 for (let c in result) {
                     let group = this.offersModules.filter(group => group._id === result[c].offerId)[0];
                     let groupIndex = this.offersModules.indexOf(group);
@@ -302,6 +302,8 @@ export class NewOfferComponent implements OnInit {
                         this.sharedService.sneckBarNotifications('This chapter is already part of this offer!!!');
                     }
                     else {
+                        let orderNo = this.offersModules.length + 1;
+                        result[c].order = orderNo;
                         result[c].type = 1;
                         this.offersModules.push(result[c]);
                     }
@@ -320,8 +322,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    onChapterEdit(groupUid: number, chapter) {
-        console.log('Edit Chapter');
+    onChapterEdit(groupUid, chapter) {
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 groupUid: groupUid,
@@ -384,7 +385,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     addFromModuleList(groupUid) {
-        console.log(groupUid);
         let dialogRef = this.dialog.open(ModuleListDialogComponent, {
             data: {
                 groupUid: groupUid
@@ -422,7 +422,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     addFromPagesList() {
-        console.log('addPage from list');
         let dialogRef = this.dialog.open(PageListDialogComponent, {
             data: {
                 edit: false
@@ -431,6 +430,8 @@ export class NewOfferComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 for (let c in result) {
+                    let orderNo = this.offersModules.length + 1;
+                    result[c].order = orderNo;
                     result[c].type = 2;
                     this.offersModules.push(result[c]);
                     this.sharedService.sneckBarNotifications('Pages added!!!');
@@ -452,7 +453,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     addPage(offerUid: number) {
-        console.log('addPage');
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
                 offerUid: offerUid
@@ -461,6 +461,8 @@ export class NewOfferComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new
+                let orderNo = this.offersModules.length + 1;
+                result.order = orderNo;
                 result.type = 2;
                 this.offersModules.push(result);
 
@@ -478,7 +480,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     onPageEdit(pageUid: number, page) {
-        console.log('edit Page');
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
                 pageNew: page,
@@ -507,7 +508,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     onPageRemove(pageUid: number) {
-        console.log('remove Page');
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this Page?',
             viewContainerRef: this._viewContainerRef,

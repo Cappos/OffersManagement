@@ -1,7 +1,7 @@
 mat-select {
     max-width: 200px;
     width: 100%;
-    padding-top: 16px !important;
+    /*padding-top: 16px !important;*/
 }
 .mat-select-trigger {
     height: 23px !important;

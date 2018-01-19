@@ -9,10 +9,7 @@ const PageSchema = new Schema({
     },
     title: String,
     subtitle: String,
-    bodytext: {
-        type: String,
-        default: ' '
-    },
+    bodytext: String,
     tstamp: {
         type: Date,
         default: Date.now

@@ -202,7 +202,6 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.groups.push(group);
                         }
                         else {
-                            console.log(GroupsNew[e].order);
                             Group.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {
@@ -213,7 +212,6 @@ OfferSchema.statics.updateOffer = function (args) {
                                 }, {new: true}).then((res) => {
                                 for (let m in GroupsNew[e].modules) {
                                     if (GroupsNew[e].modules[m].moduleNew) {
-                                        console.log('if');
                                         // create new modules form modules array
                                         let module = new Module({
                                             name: GroupsNew[e].modules[m].name,
@@ -248,6 +246,7 @@ OfferSchema.statics.updateOffer = function (args) {
                     }
                     // create new page from pages array
                     else if (GroupsNew[e].type === 2) {
+
                         if (GroupsNew[e].pageNew) {
                             let page = new Page({
                                 type: GroupsNew[e].type,
@@ -261,6 +260,7 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.pages.push(page);
                         }
                         else {
+                            console.log(GroupsNew[e].title, 'log');
                             Page.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {
@@ -272,7 +272,10 @@ OfferSchema.statics.updateOffer = function (args) {
                                         order: GroupsNew[e].order,
                                         deleted: GroupsNew[e].deleted
                                     }
-                                }, {new: true}).then((res) => res);
+                                }, {new: true}).then((res) => {
+                                console.log(res.title);
+                                res
+                            });
                         }
                     }
                 }

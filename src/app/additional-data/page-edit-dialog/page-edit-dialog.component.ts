@@ -19,6 +19,7 @@ export class PageEditDialogComponent implements OnInit {
     savedPageData;
     itemSaved = false;
     editMode = true;
+    order;
 
     constructor(public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PageEditDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo) {
 
@@ -42,6 +43,7 @@ export class PageEditDialogComponent implements OnInit {
             }).valueChanges.subscribe(({data}) => {
                 this.item = _.cloneDeep(data.page);
                 this.rteData = this.item.bodytext;
+                this.order = this.item.order;
                 this.loadingService.resolveAll('modulesLoader');
             });
         }
@@ -49,6 +51,7 @@ export class PageEditDialogComponent implements OnInit {
             this.id = this.data.pageUid;
             this.item = this.data.pageNew;
             this.rteData = this.item.bodytext;
+            this.order = this.item.order;
             this.loadingService.resolveAll('modulesLoader');
         }
         else {
@@ -62,8 +65,9 @@ export class PageEditDialogComponent implements OnInit {
         console.log('saved');
         this.savedPageData = form.value;
         this.savedPageData.bodytext = this.rteData;
-        this.savedPageData.uid = this.id;
+        this.savedPageData._id = this.id;
         this.savedPageData.type = 2;
+        this.savedPageData.order = this.order;
         this.itemSaved = true;
     }
 

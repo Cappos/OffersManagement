@@ -79,7 +79,8 @@ export class OfferComponent implements OnInit, OnDestroy {
                     query: getOffer,
                     variables: {
                         id: this.id
-                    }
+                    },
+                    fetchPolicy: 'network-only'
                 }).valueChanges.subscribe(({data}) => {
                     this.item = _.cloneDeep(data.offer);
                     this.sellers = data.sealers; // Set seller data
@@ -93,10 +94,14 @@ export class OfferComponent implements OnInit, OnDestroy {
                     for (let p of this.item.pages) {
                         this.offersModules.push(p)
                     }
-                    this.offersModules.sort(function(a, b) {
+                    this.offersModules.sort(function (a, b) {
                         return a.order - b.order;
                     });
 
+                    this.offersUpdate = _.cloneDeep(this.offersModules);
+
+
+                    console.log(this.offersUpdate);
                     // format date for datePicker
                     this.totalPrice = this.item.totalPrice;
                     this.newDate = this.item.tstamp;
@@ -111,26 +116,22 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                     // Enable ordering chapters
                     this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
-                        console.log('drop');
                         this.accordionModule.changes.subscribe(children => {
-                            console.log('arccordion');
                             this.chaptersOrder = [];
                             children.forEach(child => {
                                 let index = +child.nativeElement.getAttribute('index') + 1;
                                 let id = child.nativeElement.getAttribute('id');
                                 let element = {id: id, order: index};
+                                let offerData = this.offersUpdate.filter(offerData => offerData._id === id)[0];
                                 let group = this.offersModules.filter(group => group._id === id)[0];
+                                offerData.order = index;
                                 group.order = index;
                                 this.chaptersOrder.push(element);
                             });
-                            console.log(this.chaptersOrder, 'new order');
-                            console.log(this.offersModules);
                         });
                     });
                     this.loadingService.resolveAll('modulesLoader');
                 });
-
-
             }
         );
     }
@@ -142,16 +143,10 @@ export class OfferComponent implements OnInit, OnDestroy {
         const seller = this.sellers.find(seller => seller.value == value.seller);
         let totalPrice = null;
 
-        if (this.offersUpdate.length > 0) {
-            for (let e in this.offersUpdate) {
-               this.offersModules.push(this.offersUpdate[e]);
-            }
-        }
-
         if (value.totalPrice) {
             totalPrice = value.totalPrice.replace(',', '');
         }
-        console.log(totalPrice);
+
         this.apollo.mutate({
             mutation: updateOffer,
             variables: {
@@ -162,7 +157,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 bodytext: value.bodytext,
                 client: client._id,
                 seller: seller._id,
-                groupsNew: !this.offersModules.length ? [] : this.offersModules,
+                groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
                 files: this.files,
                 expDate: value.expDate
             },
@@ -171,10 +166,10 @@ export class OfferComponent implements OnInit, OnDestroy {
             }],
         }).subscribe(() => {
             this.editMode = false;
+            console.log(this.offersUpdate, 'saved data')
             this.sharedService.sneckBarNotifications('Offer saved!!!');
             // this.router.navigate(['/offers']);
         });
-        console.log(this.offersModules);
     }
 
     onEdit() {
@@ -183,7 +178,6 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     onModuleEdit(moduleUid, groupUid, module) {
-        console.log(moduleUid, groupUid, 'edit');
         this.editModuleGroup = groupUid;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
@@ -195,10 +189,21 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+                let moduleData = this.offersUpdate[offerIndex].modules.filter(moduleData => moduleData._id === result._id)[0];
+                let moduleDataIndex = this.offersUpdate[offerIndex].modules.indexOf(moduleData);
+
+                this.offersUpdate[offerIndex].modules[moduleDataIndex] = result;
+
+                // View data update
                 let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
                 let module = this.offersModules[groupIndex].modules.filter(module => module._id === result._id)[0];
                 let moduleIndex = this.offersModules[groupIndex].modules.indexOf(module);
+
                 this.offersModules[groupIndex].modules[moduleIndex] = result;
 
                 let modulePrices: any[] = [];
@@ -209,8 +214,8 @@ export class OfferComponent implements OnInit, OnDestroy {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.offersUpdate[offerIndex].subTotal = sum;
                 this.offersModules[groupIndex].subTotal = sum;
-
 
                 // update total price
                 let modulesPrices: any[] = [];
@@ -235,16 +240,34 @@ export class OfferComponent implements OnInit, OnDestroy {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
+
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+                let moduleData = this.offersUpdate[offerIndex].modules.filter(moduleData => moduleData._id === moduleUid)[0];
+                let moduleDataIndex = this.offersUpdate[offerIndex].modules.indexOf(moduleData);
+
+                if (moduleData.moduleNew) {
+                    console.log('if');
+                    this.offersUpdate[offerIndex].modules.splice(moduleDataIndex, 1);
+                }
+                else {
+
+                    console.log('else');
+                    moduleData.deleted = true;
+                    console.log(moduleData);
+                    this.offersUpdate[offerIndex].modules[moduleDataIndex] = moduleData;
+                    console.log(this.offersUpdate);
+                }
+
+                // View data update
                 let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
                 let module = this.offersModules[groupIndex].modules.filter(module => module._id === moduleUid)[0];
-                module.deleted = true;
                 let moduleIndex = this.offersModules[groupIndex].modules.indexOf(module);
                 let modulePrices: any[] = [];
                 let sum: number = 0;
 
-                // remove module after delete
-                this.offersUpdate.push(module); // preserve deleted element
                 this.offersModules[groupIndex].modules.splice(moduleIndex, 1);
 
                 // update chapter price
@@ -257,6 +280,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 else {
                     sum = 0;
                 }
+                this.offersUpdate[offerIndex].subTotal = sum;
                 this.offersModules[groupIndex].subTotal = sum;
 
                 // update total price
@@ -282,6 +306,14 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                this.offersUpdate[offerIndex].modules.push(result);
+
+                // View data update
                 let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
                 let modulePrices: any[] = [];
@@ -295,6 +327,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     modulePrices.push(this.offersModules[groupIndex].modules[m].price);
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.offersUpdate[offerIndex].subTotal = sum;
                 this.offersModules[groupIndex].subTotal = sum;
 
                 // update total price
@@ -311,7 +344,6 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     addChapter() {
-        console.log('Chapter add');
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 edit: false
@@ -320,8 +352,15 @@ export class OfferComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new
+                let orderNo = this.offersModules.length + 1;
+                result.order = orderNo;
                 result.type = 1;
                 result.groupNew = true;
+
+                // Update data
+                this.offersUpdate.push(result);
+
+                // View data update
                 this.offersModules.push(result);
 
                 // update total price
@@ -338,7 +377,6 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     addFromChapterList(offerUid) {
-        console.log(offerUid);
         let dialogRef = this.dialog.open(ChapterListDialogComponent, {
             data: {
                 offerId: offerUid,
@@ -347,17 +385,29 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
+
                 for (let c in result) {
-                    let group = this.offersModules.filter(group => group._id === result[c].offerId)[0];
+
+                    // Data update
+                    let offerData = this.offersUpdate.filter(offerData => offerData._id === result[c].offerUid)[0];
+
+                    // View data update
+                    let group = this.offersModules.filter(group => group._id === result[c].offerUid)[0];
                     let groupIndex = this.offersModules.indexOf(group);
 
                     if (groupIndex > -1) {
                         this.sharedService.sneckBarNotifications('This chapter is already part of this offer!!!');
                     }
                     else {
+                        let orderNo = this.offersModules.length + 1;
+                        result[c].order = orderNo;
                         result[c].type = 1;
                         result[c].groupNew = true;
+
+                        // Data update
+                        this.offersUpdate.push(result[c]);
+
+                        // View data update
                         this.offersModules.push(result[c]);
                     }
 
@@ -386,6 +436,13 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                this.offersUpdate[offerIndex] = result;
+
+                // View data update
                 let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
@@ -404,7 +461,7 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    onChapterRemove(groupUid: number) {
+    onChapterRemove(groupUid) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this Chapter? If you continue all modules in this chapter will be removed too!!!',
             viewContainerRef: this._viewContainerRef,
@@ -413,7 +470,20 @@ export class OfferComponent implements OnInit, OnDestroy {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let group = this.offersModules.filter(group => group.uid === groupUid)[0];
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                if (offerData.groupeNew) {
+                    this.offersUpdate.splice(offerIndex, 1);
+                }
+                else {
+                    offerData.deleted = true;
+                    this.offersUpdate[offerIndex] = offerData;
+                }
+
+                // View data update
+                let group = this.offersModules.filter(group => group._id === groupUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
                 // remove chapter after delete
@@ -421,85 +491,9 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
-                for (let g in this.offersModules) {
-                    if (this.offersModules[g].subTotal) {
-                        modulesPrices.push(this.offersModules[g].subTotal);
-                    }
-                }
-                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                this.sharedService.sneckBarNotifications('Chapter removed!!!');
-            }
-        });
-    }
 
-    addFromModuleList(groupUid: number) {
-        console.log(groupUid);
-        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
-            data: {
-                groupUid: groupUid
-            }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-            if (result && this.offersModules.filter(module => module.type === 1)) {
-                for (let e in result) {
-                    let group = this.offersModules.filter(group => group.uid === result[e].groupUid)[0];
-                    let groupIndex;
-                    if (group) {
-                        groupIndex = this.offersModules.indexOf(group);
-                    }
-                    else {
-                        let group = this.offersModules.filter(group => group.uid === groupUid)[0];
-                        groupIndex = this.offersModules.indexOf(group);
-                    }
-
-                    // update modules list after adding new
-                    this.offersModules[groupIndex].modules.push(result[e]);
-                    let modulePrices: any[] = [];
-                    let sum: number = 0;
-
-                    // update chapter price
-                    for (let m in this.offersModules[groupIndex].modules) {
-                        modulePrices.push(this.offersModules[groupIndex].modules[m].price);
-                    }
-                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                    this.offersModules[groupIndex].subTotal = sum;
-                }
-
-                // update total price
-                let modulesPrices: any[] = [];
-                for (let g in this.offersModules) {
-                    if (this.offersModules[g].subTotal) {
-                        modulesPrices.push(this.offersModules[g].subTotal);
-                    }
-                }
-                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                this.sharedService.sneckBarNotifications('Modules added!!!');
-            }
-        });
-    }
-
-    addFromPagesList(offerUid: number) {
-        console.log('addPage from list');
-        let dialogRef = this.dialog.open(PageListDialogComponent, {
-            data: {
-                offerUid: offerUid,
-                edit: false
-            }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                for (let c in result) {
-                    let group = this.offersModules.filter(group => group.uid === result[c].uid)[0];
-                    let groupIndex = this.offersModules.indexOf(group);
-
-                    if (groupIndex > -1) {
-                        this.sharedService.sneckBarNotifications('Page is already part of this offer!!!');
-                    }
-                    else {
-                        this.offersModules.push(result[c]);
-                        this.sharedService.sneckBarNotifications('Pages added!!!');
-                    }
-
+                // check if offers chapters is empty before update count
+                if (this.offersModules.length > 0) {
                     // update total price
                     let modulesPrices: any[] = [];
                     for (let g in this.offersModules) {
@@ -513,7 +507,91 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    addPage(offerUid: number) {
+    addFromModuleList(groupUid) {
+        let dialogRef = this.dialog.open(ModuleListDialogComponent, {
+            data: {
+                groupUid: groupUid
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for (let e in result) {
+
+                    // Data update
+                    let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
+                    let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                    this.offersUpdate[offerIndex].modules.push(result[e]);
+
+                    // View data update
+                    let group = this.offersModules.filter(group => group._id === groupUid)[0];
+                    let groupIndex = this.offersModules.indexOf(group);
+
+                    // update modules list after adding new
+                    this.offersModules[groupIndex].modules.push(result[e]);
+                    let modulePrices: any[] = [];
+                    let sum: number = 0;
+
+                    // update chapter price
+                    for (let m in this.offersModules[groupIndex].modules) {
+                        modulePrices.push(this.offersModules[groupIndex].modules[m].price);
+                    }
+                    sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+
+                    this.offersUpdate[offerIndex].subTotal = sum;
+                    this.offersModules[groupIndex].subTotal = sum;
+                }
+
+                // update total price
+                let modulesPrices: any[] = [];
+                for (let g in this.offersModules) {
+                    if (this.offersModules[g].subTotal) {
+                        modulesPrices.push(this.offersModules[g].subTotal);
+                    }
+                }
+                this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+            }
+        });
+    }
+
+    addFromPagesList(offerUid) {
+        console.log('addPage from list');
+        let dialogRef = this.dialog.open(PageListDialogComponent, {
+            data: {
+                offerUid: offerUid,
+                edit: false
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for (let c in result) {
+
+                    let orderNo = this.offersModules.length + 1;
+                    result[c].order = orderNo;
+                    result[c].type = 2;
+                    // Data update
+                    this.offersUpdate.push(result[c]);
+                    // View data update
+                    this.offersModules.push(result[c]);
+                    this.sharedService.sneckBarNotifications('Pages added!!!');
+
+                    // update total price
+                    let modulesPrices: any[] = [];
+                    for (let g in this.offersModules) {
+                        if (this.offersModules[g].subTotal) {
+                            modulesPrices.push(this.offersModules[g].subTotal);
+                        }
+                    }
+                    if (modulesPrices.length > 0) {
+                        this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
+
+                }
+            }
+        });
+    }
+
+    addPage(offerUid) {
         console.log('addPage');
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
@@ -523,6 +601,14 @@ export class OfferComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new
+                let orderNo = this.offersModules.length + 1;
+                result.order = orderNo;
+                result.type = 2;
+
+                // Data update
+                this.offersUpdate.push(result);
+
+                // View data update
                 this.offersModules.push(result);
 
                 // update total price
@@ -538,18 +624,24 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    onPageEdit(pageUid: number, offerUid: number) {
-        console.log('edit Page');
+    onPageEdit(pageUid, page) {
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
-                offerUid: offerUid,
+                pageNew: page,
                 pageUid: pageUid,
                 edit: true
             }
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                let group = this.offersModules.filter(group => group.uid === result.uid)[0];
+                console.log(result);
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === pageUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                this.offersUpdate[offerIndex] = result;
+
+                let group = this.offersModules.filter(group => group._id === pageUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
                 // update chapter after edit
@@ -567,8 +659,7 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    onPageRemove(pageUid: number, offerUid: number) {
-        console.log('remove Page');
+    onPageRemove(pageUid) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this Page?',
             viewContainerRef: this._viewContainerRef,
@@ -577,7 +668,20 @@ export class OfferComponent implements OnInit, OnDestroy {
             acceptButton: 'Remove',
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
-                let group = this.offersModules.filter(group => group.uid === pageUid)[0];
+                // Data update
+                let offerData = this.offersUpdate.filter(offerData => offerData._id === pageUid)[0];
+                let offerIndex = this.offersUpdate.indexOf(offerData);
+
+                if (offerData.groupeNew) {
+                    this.offersUpdate.splice(offerIndex, 1);
+                }
+                else {
+                    offerData.deleted = true;
+                    this.offersUpdate[offerIndex] = offerData;
+                }
+
+                // View data update
+                let group = this.offersModules.filter(group => group._id === pageUid)[0];
                 let groupIndex = this.offersModules.indexOf(group);
 
                 // remove chapter after delete
@@ -596,20 +700,10 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    selectEvent(files: FileList | File): void {
-        if (files instanceof FileList) {
-            console.log(files);
-        } else {
-            console.log('else');
-        }
-    }
-
     uploadEvent(files: FileList | File): void {
         if (files instanceof FileList) {
             console.log(files);
-
         } else {
-            console.log('else');
             let options: IUploadOptions = {
                 url: 'http://localhost:3000/upload',
                 method: 'post',
@@ -621,7 +715,6 @@ export class OfferComponent implements OnInit, OnDestroy {
                 this.files.push(file);
                 let event = new MouseEvent('click', {bubbles: true});
                 this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
-
             });
         }
     }

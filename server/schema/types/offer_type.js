@@ -19,6 +19,8 @@ const OfferType = new GraphQLObjectType({
       bodytext: { type: GraphQLString },
       totalPrice: { type: GraphQLInt },
       tstamp: { type: GraphQLDate },
+      expDate: { type: GraphQLDate },
+      signed: {type: GraphQLBoolean},
       client: {
           type: new GraphQLList(ClientType),
           resolve(parentValue) {

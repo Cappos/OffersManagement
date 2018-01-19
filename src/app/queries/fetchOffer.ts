@@ -9,7 +9,9 @@ export default gql`
             bodytext
             totalPrice
             tstamp
+            expDate
             files
+            signed
             sealer {
                 _id
                 name

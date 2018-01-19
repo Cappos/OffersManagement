@@ -275,6 +275,7 @@ const mutation = new GraphQLObjectType({
                 offerNumber: {type: GraphQLString},
                 totalPrice: {type: GraphQLFloat},
                 tstamp: {type: GraphQLString},
+                expDate: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
                 client: {type: GraphQLID},
                 sealer: {type: GraphQLID},
@@ -289,13 +290,16 @@ const mutation = new GraphQLObjectType({
         editOffer: {
             type: OfferType,
             args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
                 offerTitle: {type: new GraphQLNonNull(GraphQLString)},
                 offerNumber: {type: GraphQLString},
                 totalPrice: {type: GraphQLFloat},
                 tstamp: {type: GraphQLString},
+                expDate: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
                 client: {type: GraphQLID},
                 sealer: {type: GraphQLID},
+                signed: {type: GraphQLBoolean},
                 groups: {type: GraphQLID},
                 groupsNew: {type: GraphQLJSON},
                 files: {type: GraphQLJSON}

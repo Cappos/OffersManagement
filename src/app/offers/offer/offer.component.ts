@@ -1,5 +1,5 @@
 import {
-    Component, ElementRef, OnDestroy, OnInit, Output, ViewContainerRef, ViewChildren, QueryList
+    Component, ElementRef, OnDestroy, OnInit, Output, ViewContainerRef, ViewChildren, QueryList, ViewChild
 } from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
@@ -10,7 +10,10 @@ import 'rxjs/Observable';
 import 'rxjs/operator/take';
 
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
-import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
+import {
+    IUploadOptions, LoadingMode, LoadingType, TdDialogService, TdFileService,
+    TdLoadingService
+} from "@covalent/core";
 import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dialog.component";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/chapter-list-dialog.component";
@@ -21,6 +24,8 @@ import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/pa
 import {Apollo} from 'apollo-angular';
 import getOffer from '../../queries/fetchOffer';
 import * as _ from "lodash";
+import updateOffer from "../../queries/updateOffer";
+import getOffers from "../../queries/fetchOffers";
 
 @Component({
     selector: 'app-offer',
@@ -35,19 +40,22 @@ export class OfferComponent implements OnInit, OnDestroy {
     selectedSeller;
     selectedClient;
     offersModules = [];
-    offersUpdate = []
+    offersUpdate = [];
+    files: any[] = [];
+    file: File;
     editModuleGroup: number;
     dragContainer = 'draggable-bag';
     totalPrice;
     @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
+    @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
     chaptersOrder: any[] = [];
     dropSubscription;
     newDate;
-    exDate;
+    expDate;
     clients;
     sellers;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -74,7 +82,6 @@ export class OfferComponent implements OnInit, OnDestroy {
                     }
                 }).valueChanges.subscribe(({data}) => {
                     this.item = _.cloneDeep(data.offer);
-                    console.log(data);
                     this.sellers = data.sealers; // Set seller data
                     this.selectedSeller = this.item.sealer[0].value;
                     this.selectedClient = this.item.client[0]._id;
@@ -86,12 +93,14 @@ export class OfferComponent implements OnInit, OnDestroy {
                     for (let p of this.item.pages) {
                         this.offersModules.push(p)
                     }
-                    this.item.signed = false; // this is only for development, delete after data base creation
+                    this.offersModules.sort(function(a, b) {
+                        return a.order - b.order;
+                    });
 
                     // format date for datePicker
                     this.totalPrice = this.item.totalPrice;
-                    this.newDate = new Date(this.item.tstamp);
-                    this.exDate = new Date(this.item.exDate);
+                    this.newDate = this.item.tstamp;
+                    this.expDate = this.item.expDate;
 
                     // Enable drag and drop
                     this.dragulaService.setOptions(this.dragContainer, {
@@ -100,25 +109,28 @@ export class OfferComponent implements OnInit, OnDestroy {
                         }
                     });
 
+                    // Enable ordering chapters
+                    this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
+                        console.log('drop');
+                        this.accordionModule.changes.subscribe(children => {
+                            console.log('arccordion');
+                            this.chaptersOrder = [];
+                            children.forEach(child => {
+                                let index = +child.nativeElement.getAttribute('index') + 1;
+                                let id = child.nativeElement.getAttribute('id');
+                                let element = {id: id, order: index};
+                                let group = this.offersModules.filter(group => group._id === id)[0];
+                                group.order = index;
+                                this.chaptersOrder.push(element);
+                            });
+                            console.log(this.chaptersOrder, 'new order');
+                            console.log(this.offersModules);
+                        });
+                    });
                     this.loadingService.resolveAll('modulesLoader');
                 });
 
-                // Enable ordering chapters
-                this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
-                    this.accordionModule.changes.subscribe(children => {
-                        this.chaptersOrder = [];
-                        children.forEach(child => {
-                            let index = +child.nativeElement.getAttribute('index') + 1;
-                            let id = child.nativeElement.getAttribute('id');
-                            let element = {id: id, order: index};
-                            let group = this.offersModules.filter(group => group._id === id)[0];
-                            group.order = index;
-                            this.chaptersOrder.push(element);
-                        });
-                        console.log(this.chaptersOrder, 'new order');
-                        console.log(this.offersModules);
-                    });
-                });
+
             }
         );
     }
@@ -126,7 +138,9 @@ export class OfferComponent implements OnInit, OnDestroy {
     onSave(form: NgForm) {
         const value = form.value;
         this.editMode = false;
-        this.sharedService.sneckBarNotifications('Offer saved!!!');
+        const client = this.clients.find(client => client._id == value.client);
+        const seller = this.sellers.find(seller => seller.value == value.seller);
+        let totalPrice = null;
 
         if (this.offersUpdate.length > 0) {
             for (let e in this.offersUpdate) {
@@ -134,8 +148,33 @@ export class OfferComponent implements OnInit, OnDestroy {
             }
         }
 
+        if (value.totalPrice) {
+            totalPrice = value.totalPrice.replace(',', '');
+        }
+        console.log(totalPrice);
+        this.apollo.mutate({
+            mutation: updateOffer,
+            variables: {
+                id: this.id,
+                offerNumber: value.offerNumber,
+                offerTitle: value.offerTitle,
+                totalPrice: totalPrice,
+                bodytext: value.bodytext,
+                client: client._id,
+                seller: seller._id,
+                groupsNew: !this.offersModules.length ? [] : this.offersModules,
+                files: this.files,
+                expDate: value.expDate
+            },
+            refetchQueries: [{
+                query: getOffers
+            }],
+        }).subscribe(() => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications('Offer saved!!!');
+            // this.router.navigate(['/offers']);
+        });
         console.log(this.offersModules);
-        console.log('test');
     }
 
     onEdit() {
@@ -568,8 +607,22 @@ export class OfferComponent implements OnInit, OnDestroy {
     uploadEvent(files: FileList | File): void {
         if (files instanceof FileList) {
             console.log(files);
+
         } else {
             console.log('else');
+            let options: IUploadOptions = {
+                url: 'http://localhost:3000/upload',
+                method: 'post',
+                file: files
+            };
+            this.fileUploadService.upload(options).subscribe((data) => {
+                let file = JSON.parse(data);
+                file.tstamp = new Date();
+                this.files.push(file);
+                let event = new MouseEvent('click', {bubbles: true});
+                this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
+
+            });
         }
     }
 

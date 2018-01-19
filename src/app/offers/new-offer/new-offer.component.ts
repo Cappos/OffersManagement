@@ -1,11 +1,11 @@
 import {
     Component, ElementRef, OnInit, Output, ViewChild,
-    ViewContainerRef, QueryList, ViewChildren
+    ViewContainerRef, QueryList, ViewChildren, OnDestroy,
 } from '@angular/core';
 import {Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
-import {MatDialog} from "@angular/material";
+import {DateAdapter, MatDialog} from "@angular/material";
 import {Location} from '@angular/common';
 import {Offer} from "../offers.model";
 import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-module-dialog.component";
@@ -20,6 +20,7 @@ import getSealersClients from '../../queries/getSealersClients';
 import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
 import {TdFileService, IUploadOptions} from '@covalent/core';
+import {DragulaService} from "ng2-dragula";
 
 @Component({
     selector: 'app-new-offer',
@@ -28,7 +29,7 @@ import {TdFileService, IUploadOptions} from '@covalent/core';
     providers: [TdFileService]
 })
 
-export class NewOfferComponent implements OnInit {
+export class NewOfferComponent implements OnInit, OnDestroy {
     pageTitle = 'Offers';
     title = 'New offer';
     id: number;
@@ -42,20 +43,26 @@ export class NewOfferComponent implements OnInit {
     clients;
     offersModules = [];
     editModuleGroup: number;
+    dragContainer = 'draggable-bagNew';
     totalPrice;
     disabled = false;
+    dropSubscription;
     @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
     @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
     chaptersOrder;
+    newDate;
+    expDate;
 
 
-    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService) {
+    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService, private dateAdapter: DateAdapter<Date>, private dragulaService: DragulaService) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
             mode: LoadingMode.Indeterminate,
             color: 'accent',
         });
+
+        this.dateAdapter.setLocale('de');
         this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
     }
@@ -66,8 +73,32 @@ export class NewOfferComponent implements OnInit {
         }).valueChanges.subscribe(({data}) => {
             this.clients = data.clients;
             this.sellers = data.sealers;
+            this.newDate = new Date();
             this.totalPrice = 0;
+
+            // Enable drag and drop
+            this.dragulaService.setOptions(this.dragContainer, {
+                moves: function (el, container, handle) {
+                    return handle.className === 'handle mat-icon material-icons';
+                }
+            });
+
             this.loadingService.resolveAll('modulesLoader');
+        });
+
+        // Enable ordering chapters
+        this.dropSubscription = this.dragulaService.drop.subscribe((value) => {
+            this.accordionModule.changes.subscribe(children => {
+                this.chaptersOrder = [];
+                children.forEach(child => {
+                    let index = +child.nativeElement.getAttribute('index') + 1;
+                    let id = child.nativeElement.getAttribute('id');
+                    let element = {id: id, order: index};
+                    let group = this.offersModules.filter(group => group._id === id)[0];
+                    group.order = index;
+                    this.chaptersOrder.push(element);
+                });
+            });
         });
     }
 
@@ -81,53 +112,27 @@ export class NewOfferComponent implements OnInit {
         if (value.totalPrice) {
             totalPrice = value.totalPrice.replace(',', '');
         }
-
-        if (!this.offersModules.length) {
-            console.log('empty');
-            this.apollo.mutate({
-                mutation: createOffer,
-                variables: {
-                    offerNumber: value.offerNumber,
-                    offerTitle: value.offerTitle,
-                    totalPrice: totalPrice,
-                    bodytext: value.bodytext,
-                    client: client._id,
-                    seller: seller._id,
-                    groups: [],
-                    files: this.files
-                },
-                refetchQueries: [{
-                    query: getOffers
-                }],
-            }).subscribe(() => {
-                this.editMode = false;
-                this.sharedService.sneckBarNotifications(`offer created.`);
-                this.router.navigate(['/offers']);
-            });
-        }
-        else {
-            console.log('not null');
-            this.apollo.mutate({
-                mutation: createOffer,
-                variables: {
-                    offerNumber: value.offerNumber,
-                    offerTitle: value.offerTitle,
-                    totalPrice: totalPrice,
-                    bodytext: value.bodytext,
-                    client: client._id,
-                    seller: seller._id,
-                    groupsNew: this.offersModules,
-                    files: this.files
-                },
-                refetchQueries: [{
-                    query: getOffers
-                }]
-            }).subscribe(() => {
-                this.editMode = false;
-                this.sharedService.sneckBarNotifications(`offer created.`);
-                // this.router.navigate(['/offers']);
-            });
-        }
+        this.apollo.mutate({
+            mutation: createOffer,
+            variables: {
+                offerNumber: value.offerNumber,
+                offerTitle: value.offerTitle,
+                totalPrice: totalPrice,
+                bodytext: value.bodytext,
+                client: client._id,
+                seller: seller._id,
+                groupsNew: !this.offersModules.length ? [] : this.offersModules,
+                files: this.files,
+                expDate: value.expDate
+            },
+            refetchQueries: [{
+                query: getOffers
+            }],
+        }).subscribe(() => {
+            this.editMode = false;
+            this.sharedService.sneckBarNotifications(`offer created.`);
+            this.router.navigate(['/offers']);
+        })
     }
 
     onEdit() {
@@ -163,7 +168,6 @@ export class NewOfferComponent implements OnInit {
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.offersModules[groupIndex].subTotal = sum;
 
-
                 // update total price
                 let modulesPrices: any[] = [];
                 for (let g in this.offersModules) {
@@ -176,7 +180,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    onModuleRemove(moduleUid: number, groupUid: number) {
+    onModuleRemove(moduleUid, groupUid) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this module?',
             viewContainerRef: this._viewContainerRef,
@@ -258,7 +262,6 @@ export class NewOfferComponent implements OnInit {
     }
 
     addChapter() {
-        console.log('Chapter add');
         let dialogRef = this.dialog.open(ChapterDialogComponent, {
             data: {
                 edit: false
@@ -351,7 +354,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    onChapterRemove(groupUid: number) {
+    onChapterRemove(groupUid) {
         this._dialogService.openConfirm({
             message: 'Are you sure you want to remove this Chapter? If you continue all modules in this chapter will be removed too!!!',
             viewContainerRef: this._viewContainerRef,
@@ -452,7 +455,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    addPage(offerUid: number) {
+    addPage(offerUid) {
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
                 offerUid: offerUid
@@ -479,7 +482,7 @@ export class NewOfferComponent implements OnInit {
         });
     }
 
-    onPageEdit(pageUid: number, page) {
+    onPageEdit(pageUid, page) {
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
                 pageNew: page,
@@ -571,6 +574,12 @@ export class NewOfferComponent implements OnInit {
 
     goBack() {
         this.location.back();
+    }
+
+    ngOnDestroy() {
+        console.log('destroy');
+        this.dragulaService.destroy(this.dragContainer);
+        this.dropSubscription.unsubscribe();
     }
 }
 

@@ -54,7 +54,9 @@ export class EditModuleDialogComponent implements OnInit {
                 this.rteData = this.item.bodytext;
                 this.categories = data.categories;
                 this.selectedChapter = chapterId;
-                if (this.item.categoryId.lenght > 0) {
+                console.log(this.item);
+                if (this.item.categoryId.length > 0 ){
+                    console.log('if');
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
                 this.loadingService.resolveAll('modulesLoader');
@@ -116,16 +118,19 @@ export class EditModuleDialogComponent implements OnInit {
         this.savedModuleData = value;
 
         if (this.data.edit && this.item._id && !this.item.moduleNew) {
+            console.log('1', this.id);
             this.savedModuleData.moduleNew = false;
             this.savedModuleData._id = this.id;
             this.savedModuleData.tstamp = this.item.tstamp;
         }
         else if (this.data.edit) {
+            console.log('2');
             this.savedModuleData._id = this.data.moduleNew._id;
             this.savedModuleData.moduleNew = true;
             this.savedModuleData.tstamp = this.item.tstamp;
         }
         else {
+            console.log('3');
             this.savedModuleData._id = this.id + this.count;
             this.savedModuleData.moduleNew = true;
         }

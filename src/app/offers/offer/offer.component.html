@@ -80,7 +80,7 @@
                     </div>
                     <div style="margin-top:20px;" flex="20" layout-padding>
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker" placeholder="Expire date" [(ngModel)]="exDate" name="exDate" required [readonly]="!editMode">
+                            <input matInput [matDatepicker]="picker" placeholder="Expire date" [(ngModel)]="expDate" name="expDate" required [readonly]="!editMode">
                             <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="!editMode"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -98,7 +98,7 @@
 
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <mat-accordion [dragula]='dragContainer' [dragulaModel]='offersModules'>
-                            <ng-container *ngFor="let group of offersModules | orderBy: 'order'; let i = index" ngSwitch="{{group.type}}">
+                            <ng-container *ngFor="let group of offersModules; let i = index" ngSwitch="{{group.type}}">
 
                                 <!-- PAGES -->
                                 <div *ngSwitchCase="'2'" layout="row">

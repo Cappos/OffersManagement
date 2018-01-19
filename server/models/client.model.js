@@ -27,7 +27,9 @@ const ClientSchema = new Schema({
 
 ClientSchema.statics.findOffer = function (id) {
     return this.findById(id)
-        .populate('offers')
+        .populate({
+            path: 'offers'
+        })
         .then(client => client.offers);
 };
 

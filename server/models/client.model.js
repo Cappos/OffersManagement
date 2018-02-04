@@ -28,9 +28,16 @@ const ClientSchema = new Schema({
 ClientSchema.statics.findOffer = function (id) {
     return this.findById(id)
         .populate({
-            path: 'offers'
+            path: 'offers',
+            match: {
+                deleted: false
+            }
         })
-        .then(client => client.offers);
+        .then(client => {
+            console.log(client.offers);
+            return client.offers
+
+        });
 };
 
 

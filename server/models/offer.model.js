@@ -52,13 +52,23 @@ OfferSchema.statics.findClient = function (id) {
 
 OfferSchema.statics.findGroups = function (id) {
     return this.findById(id)
-        .populate('groups')
+        .populate({
+            path: 'groups',
+            match: {
+                deleted: false
+            }
+        })
         .then(offer => offer.groups);
 };
 
 OfferSchema.statics.findPages = function (id) {
     return this.findById(id)
-        .populate('pages')
+        .populate({
+            path: 'pages',
+            match: {
+                deleted: false
+            }
+        })
         .then(offer => offer.pages);
 };
 
@@ -202,12 +212,14 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.groups.push(group);
                         }
                         else {
+                            console.log(GroupsNew[e].deleted);
                             Group.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {
                                         name: GroupsNew[e].name,
                                         subTotal: GroupsNew[e].subTotal,
-                                        order: GroupsNew[e].order
+                                        order: GroupsNew[e].order,
+                                        deleted: GroupsNew[e].deleted
                                     }
                                 }, {new: true}).then((res) => {
                                 for (let m in GroupsNew[e].modules) {
@@ -260,7 +272,6 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.pages.push(page);
                         }
                         else {
-                            console.log(GroupsNew[e].title, 'log');
                             Page.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {
@@ -272,10 +283,7 @@ OfferSchema.statics.updateOffer = function (args) {
                                         order: GroupsNew[e].order,
                                         deleted: GroupsNew[e].deleted
                                     }
-                                }, {new: true}).then((res) => {
-                                console.log(res.title);
-                                res
-                            });
+                                }, {new: true}).then((res) => res);
                         }
                     }
                 }

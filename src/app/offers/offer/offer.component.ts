@@ -160,13 +160,10 @@ export class OfferComponent implements OnInit, OnDestroy {
                 groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
                 files: this.files,
                 expDate: value.expDate
-            },
-            refetchQueries: [{
-                query: getOffers
-            }],
+            }
         }).subscribe(() => {
             this.editMode = false;
-            console.log(this.offersUpdate, 'saved data')
+            console.log(this.offersUpdate, 'saved data');
             this.sharedService.sneckBarNotifications('Offer saved!!!');
             // this.router.navigate(['/offers']);
         });
@@ -458,6 +455,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
+            this.editMode = true;
         });
     }
 
@@ -504,10 +502,11 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
             }
+            this.editMode = true;
         });
     }
 
-    addFromModuleList(groupUid) {
+    addFromModuleList(groupUid)     {
         let dialogRef = this.dialog.open(ModuleListDialogComponent, {
             data: {
                 groupUid: groupUid
@@ -551,6 +550,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
             }
+            this.editMode = true;
         });
     }
 
@@ -568,6 +568,7 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                     let orderNo = this.offersModules.length + 1;
                     result[c].order = orderNo;
+                    result[c].pageNew = true;
                     result[c].type = 2;
                     // Data update
                     this.offersUpdate.push(result[c]);
@@ -588,6 +589,7 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                 }
             }
+            this.editMode = true;
         });
     }
 
@@ -620,7 +622,9 @@ export class OfferComponent implements OnInit, OnDestroy {
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.sharedService.sneckBarNotifications('Chapter added!!!');
+                this.editMode = true;
             }
+
         });
     }
 
@@ -655,6 +659,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.editMode = true;
             }
         });
     }
@@ -696,6 +701,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.sharedService.sneckBarNotifications('Page removed!!!');
+                this.editMode = true;
             }
         });
     }
@@ -716,6 +722,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 let event = new MouseEvent('click', {bubbles: true});
                 this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
             });
+            this.editMode = true;
         }
     }
 

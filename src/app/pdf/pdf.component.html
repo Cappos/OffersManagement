@@ -1,5 +1,4 @@
 <section id="content" class="pdf-container">
-
     <h1>{{offerData.offerTitle}}</h1>
     <h4>{{offerData.offerNumber}}</h4>
 
@@ -13,29 +12,29 @@
 
     <ng-container *ngFor="let group of offerGroups; let i = index" ngSwitch="{{group.type}}">
 
-            <!-- PAGES -->
-            <div *ngSwitchCase="'2'">
-                <h2>{{group.title}}</h2>
-                <h4>{{group.subtitle}}</h4>
+        <!-- PAGES -->
+        <div *ngSwitchCase="'2'">
+            <h2>{{group.title}}</h2>
+            <h4>{{group.subtitle}}</h4>
 
-                <div [innerHTML]="group.bodytext"></div>
-                <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
+            <div [innerHTML]="group.bodytext"></div>
+            <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
+        </div>
+
+        <!-- CHAPTERS -->
+        <div *ngSwitchCase="'1'">
+            <h2>{{group.name}}</h2>
+            <div>{{group.subTotal | number:'2.2-2'}}</div>
+            <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
+
+            <div class="modules" *ngFor="let module of group.modules">
+                <h4>{{module.name}}</h4>
+                <div>{{module.price | number:'2.2-2'}}</div>
+                <div>{{module.categoryId[0].name}}</div>
+                <div>{{module.tstamp | date: 'dd.MM.y'}}</div>
+                <div [innerHTML]="module.bodytext"></div>
             </div>
-
-            <!-- CHAPTERS -->
-            <div *ngSwitchCase="'1'">
-                <h2>{{group.name}}</h2>
-                <div>{{group.subTotal | number:'2.2-2'}}</div>
-                <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
-
-                <div class="modules" *ngFor="let module of group.modules">
-                    <h4>{{module.name}}</h4>
-                    <div>{{module.price | number:'2.2-2'}}</div>
-                    <div>{{module.categoryId[0].name}}</div>
-                    <div>{{module.tstamp | date: 'dd.MM.y'}}</div>
-                    <div [innerHTML]="module.bodytext"></div>
-                </div>
-            </div>
-            <!-- PAGES CHAPTERS END -->
+        </div>
+        <!-- PAGES CHAPTERS END -->
     </ng-container>
 </section>

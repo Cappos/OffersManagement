@@ -20,6 +20,6 @@ export class PdfComponent implements OnInit {
 
     public downloadPDF() {
         // return xepOnline.Formatter.Format('content', {render: 'newwin'});
-        return xepOnline.Formatter.Format('content', {render: 'download'});
+        return xepOnline.Formatter.Format('content', {render: 'download', filename: this.offerData.offerNumber});
     }
 }

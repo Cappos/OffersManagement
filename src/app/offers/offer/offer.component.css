@@ -41,3 +41,7 @@ mat-select {
     align-items: center;
 }
 
+app-pdf {
+    display: none;
+}
+

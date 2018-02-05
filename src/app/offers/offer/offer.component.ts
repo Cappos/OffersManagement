@@ -48,6 +48,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     totalPrice;
     @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
     @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
+    @ViewChild('pdfTemplate') pdf;
     chaptersOrder: any[] = [];
     dropSubscription;
     newDate;
@@ -739,6 +740,7 @@ export class OfferComponent implements OnInit, OnDestroy {
 
     onPrint() {
         console.log('print');
+        this.pdf.downloadPDF();
     }
 
     ngOnDestroy() {

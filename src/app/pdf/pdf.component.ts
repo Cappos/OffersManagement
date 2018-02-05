@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-pdf',
-  templateUrl: './pdf.component.html',
-  styleUrls: ['./pdf.component.css']
+    selector: 'app-pdf',
+    templateUrl: './pdf.component.html',
+    styleUrls: ['./pdf.component.css']
 })
 export class PdfComponent implements OnInit {
 
-  constructor() { }
+    @Input() offerData: any;
+    @Input() offerGroups: any;
 
-  ngOnInit() {
-  }
+    constructor() {
+    }
 
+    ngOnInit() {
+        console.log(this.offerData);
+        console.log(this.offerGroups);
+    }
+
+    public downloadPDF() {
+        // return xepOnline.Formatter.Format('content', {render: 'newwin'});
+        return xepOnline.Formatter.Format('content', {render: 'download'});
+    }
 }

@@ -100,14 +100,17 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                     this.offersUpdate = _.cloneDeep(this.offersModules);
 
-
                     console.log(this.offersUpdate);
+
                     // format date for datePicker
                     this.totalPrice = this.item.totalPrice;
                     this.newDate = this.item.tstamp;
                     this.expDate = this.item.expDate;
 
                     // Enable drag and drop
+                    const bag: any = this.dragulaService.find(this.dragContainer);
+                    if (bag !== undefined) this.dragulaService.destroy(this.dragContainer);
+
                     this.dragulaService.setOptions(this.dragContainer, {
                         moves: function (el, container, handle) {
                             return handle.className === 'handle mat-icon material-icons';
@@ -506,7 +509,7 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    addFromModuleList(groupUid)     {
+    addFromModuleList(groupUid) {
         let dialogRef = this.dialog.open(ModuleListDialogComponent, {
             data: {
                 groupUid: groupUid

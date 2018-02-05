@@ -57,11 +57,13 @@ export class PageListDialogComponent implements OnInit {
     ngOnInit() {
         console.log('init');
         this.apollo.watchQuery<any>({
-            query: getPages
+            query: getPages,
+            fetchPolicy: 'network-only'
         }).valueChanges.subscribe(({data}) => {
             this.data = _.cloneDeep(data.pages);
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
+            console.log(this.data, 'page list');
             this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });

@@ -77,10 +77,14 @@ export class NewOfferComponent implements OnInit, OnDestroy {
             this.totalPrice = 0;
 
             // Enable drag and drop
+            const bag: any = this.dragulaService.find(this.dragContainer);
+            if (bag !== undefined) this.dragulaService.destroy(this.dragContainer);
+
             this.dragulaService.setOptions(this.dragContainer, {
                 moves: function (el, container, handle) {
                     return handle.className === 'handle mat-icon material-icons';
-                }
+                },
+                revertOnSpill: true
             });
 
             this.loadingService.resolveAll('modulesLoader');

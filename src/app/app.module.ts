@@ -71,6 +71,7 @@ import {DataNodeService} from "./dataNode.service";
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {NgPipesModule} from 'ngx-pipes';
+import { PdfComponent } from './pdf/pdf.component';
 
 
 
@@ -101,7 +102,8 @@ import {NgPipesModule} from 'ngx-pipes';
         ChapterListDialogComponent,
         MediaBrowserComponent,
         PageListDialogComponent,
-        PageEditDialogComponent
+        PageEditDialogComponent,
+        PdfComponent
     ],
     imports: [
         BrowserAnimationsModule,

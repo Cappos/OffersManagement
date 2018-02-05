@@ -109,7 +109,7 @@ export class PageComponent implements OnInit {
     }
 
     keyupHandler(ev) {
-        console.log(ev);
+        this.rteData = ev;
     }
 
     goBack(){

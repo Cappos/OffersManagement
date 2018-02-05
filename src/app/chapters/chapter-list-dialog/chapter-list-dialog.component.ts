@@ -56,7 +56,8 @@ export class ChapterListDialogComponent implements OnInit {
 
     ngOnInit() {
         this.apollo.watchQuery<any>({
-            query: getChapters
+            query: getChapters,
+            fetchPolicy: 'network-only'
         }).valueChanges.subscribe(({data}) => {
             this.data = _.cloneDeep(data.groups);
             this.filteredData = this.data;

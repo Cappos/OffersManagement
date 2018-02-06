@@ -2,14 +2,9 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import {SharedService} from "../shared/shared.service";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {slideInDownAnimation} from "../_animations/app.animations";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
-import {Store} from "@ngrx/store";
-import 'rxjs/operator/take';
-
-import * as fromOffers from "../offers/store/offers.reducers";
-import * as OffersActions from "../offers/store/offers.actions";
 import {Router} from "@angular/router";
+import {Apollo} from "apollo-angular";
+import getDashboardData from '../queries/fetchDashboard';
 
 @Component({
     selector: 'app-dashboard',
@@ -23,12 +18,9 @@ export class DashboardComponent implements OnInit {
 
     pageTitle = 'Dashboard';
     offersData;
-    chaptersData;
-    sellersData;
     clientsData;
-    offersState: Observable<fromOffers.State>;
 
-    constructor(private sharedService: SharedService, private loadingService: TdLoadingService, private httpClient: HttpClient, private store: Store<fromOffers.FeatureState>, private router: Router) {
+    constructor(private sharedService: SharedService, private loadingService: TdLoadingService, private router: Router, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -37,19 +29,24 @@ export class DashboardComponent implements OnInit {
         });
         this.loadingService.register('modulesLoader');
         this.sharedService.changeTitle(this.pageTitle);
-        this.store.dispatch(new OffersActions.GetOffers());
-        this.offersState = this.store.select('offersList');
     }
 
     ngOnInit() {
-        this.offersState.take(2).subscribe((fromOffers: fromOffers.State) => {
-            this.offersData = fromOffers.offers;
+        this.apollo.watchQuery<any>({
+            query: getDashboardData,
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.offersData = data.dashboardOffers;
+            this.clientsData = data.dashboardClients;
             this.loadingService.resolveAll('modulesLoader');
         });
     }
 
-    selectOffer(offerId: number) {
-        console.log(offerId, 'offer selected');
+    selectOffer(offerId) {
         this.router.navigate(['/offers/' + offerId]);
+    }
+
+    selectClient(clientId) {
+        this.router.navigate(['/clients/' + clientId]);
     }
 }

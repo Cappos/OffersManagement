@@ -174,7 +174,7 @@ OfferSchema.statics.updateOffer = function (args) {
             }, {new: true}).then(offer => {
             Client.findOneAndUpdate({_id: args.client},
                 {
-                    $push: {
+                    $addToSet: {
                         offers: offer._id,
                     }
                 }, {new: true}).then((res) => res);

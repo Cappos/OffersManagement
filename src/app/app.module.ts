@@ -38,7 +38,6 @@ import {modulesReducer} from './modules/store/modules.reducers';
 import {ModulesEffects} from './modules/store/modules.effects';
 import {HttpClientModule} from '@angular/common/http';
 import {RteComponent} from './modules/module/rte/rte.component';
-import {CurrencyPipe} from './pipes/currency.pipe';
 import { NewModuleComponent } from './modules/new-module/new-module.component';
 import {clientsReducer} from './clients/store/clients.reducers';
 import {ClientsEffects} from './clients/store/clients.effects';
@@ -167,7 +166,7 @@ import { PdfComponent } from './pdf/pdf.component';
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, CurrencyPipe, TdLoadingService, DataService, DataNodeService, NgPipesModule],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent],
     bootstrap: [AppComponent]
 })

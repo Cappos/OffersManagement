@@ -1,5 +1,19 @@
 <div layout="row" layout-wrap layout-padding>
-    <div flex="50">
+    <div flex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title style="margin-bottom: 0;">
+                    <h1>Welcome to Offers Management App</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content flex="100" layout="row">
+                <h3>
+                   An application for easy creation and management of offers
+                </h3>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div flex="100">
         <mat-card>
             <mat-card-header>
                 <mat-card-title style="margin-bottom: 0;">
@@ -9,67 +23,35 @@
             <mat-card-content flex="100" layout="row">
                 <mat-list>
                     <ng-container *ngFor="let offer of offersData; let i = index">
-                        <mat-list-item *ngIf="i < 5">
+                        <mat-list-item>
                             <mat-icon mat-list-icon>subtitles</mat-icon>
-                            <h4 mat-line (click)="selectOffer(offer.uid)" style="cursor: pointer">{{offer.offerNumber}}</h4>
-                            <p mat-line> {{offer.tstamp}} </p>
+                            <h3 mat-line (click)="selectOffer(offer._id)" style="cursor: pointer">{{offer.offerNumber}}</h3>
+                            <h4 mat-line>{{offer.offerTitle}}</h4>
+                            <p mat-line> {{offer.tstamp | date: 'dd.MM.y'}} </p>
                         </mat-list-item>
                     </ng-container>
-
-
                 </mat-list>
             </mat-card-content>
         </mat-card>
     </div>
 
-    <div flex="50">
+    <div flex="100">
         <mat-card>
             <mat-card-header>
-                <mat-card-title>
-                    <h2 style="margin-bottom: 0;">Default chapters</h2>
+                <mat-card-title style="margin-bottom: 0;">
+                    <h2 style="margin-bottom: 0;">Last Clients</h2>
                 </mat-card-title>
-                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
-                <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                    bred for hunting.
-                </p>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div flex="50">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>
-                    <h2>New Clients</h2>
-                </mat-card-title>
-                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                    bred for hunting.
-                </p>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div flex="50">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>
-                    <h2>Signed offers</h2>
-                </mat-card-title>
-                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                    bred for hunting.
-                </p>
+            <mat-card-content flex="100" layout="row">
+                <mat-list>
+                    <ng-container *ngFor="let client of clientsData; let i = index">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>work</mat-icon>
+                            <h4 mat-line (click)="selectClient(client._id)" style="cursor: pointer">{{client.companyName}}</h4>
+                            <p mat-line> {{client.tstamp | date: 'dd.MM.y'}} </p>
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
             </mat-card-content>
         </mat-card>
     </div>

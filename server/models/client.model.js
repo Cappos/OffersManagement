@@ -33,11 +33,7 @@ ClientSchema.statics.findOffer = function (id) {
                 deleted: false
             }
         })
-        .then(client => {
-            console.log(client.offers);
-            return client.offers
-
-        });
+        .then(client => client.offers);
 };
 
 

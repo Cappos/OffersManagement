@@ -116,6 +116,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         if (value.totalPrice) {
             totalPrice = value.totalPrice.replace(',', '');
         }
+
         this.apollo.mutate({
             mutation: createOffer,
             variables: {

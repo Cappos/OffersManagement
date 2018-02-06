@@ -3,6 +3,7 @@ import {OfferDescription} from "./offersDescription.model";
 
 export class Offer {
     constructor(public uid: number,
+                public offerTitle: string,
                 public offerNumber: string,
                 public bodytext: string,
                 public totalPrice: number,

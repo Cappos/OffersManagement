@@ -104,7 +104,19 @@ const RootQuery = new GraphQLObjectType({
             resolve(parentValue, {id}) {
                 return Page.findById({_id: id});
             }
-        }
+        },
+        dashboardOffers: {
+            type: new GraphQLList(OfferType),
+            resolve(parentValue) {
+                return Offer.find({deleted: false}).sort('-date').limit(5);
+            }
+        },
+        dashboardClients: {
+            type: new GraphQLList(ClientType),
+            resolve(parentValue) {
+                return Client.find({deleted: false}).sort('-date').limit(5);
+            }
+        },
     })
 });
 

@@ -45,6 +45,7 @@ export class ClientComponent implements OnInit {
                     fetchPolicy: 'network-only'
                 }).valueChanges.subscribe(({data}) => {
                     this.item = data.client;
+                    this.offers = this.item.offers;
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }

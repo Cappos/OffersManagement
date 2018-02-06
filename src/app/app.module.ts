@@ -1,7 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
 import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
@@ -34,23 +32,15 @@ import { ClientsComponent } from './clients/clients.component';
 import { SharedService } from './shared/shared.service';
 import {Ng2FilterPipeModule} from 'ng2-filter-pipe';
 import { ModuleComponent } from './modules/module/module.component';
-import {modulesReducer} from './modules/store/modules.reducers';
-import {ModulesEffects} from './modules/store/modules.effects';
 import {HttpClientModule} from '@angular/common/http';
 import {RteComponent} from './modules/module/rte/rte.component';
 import { NewModuleComponent } from './modules/new-module/new-module.component';
-import {clientsReducer} from './clients/store/clients.reducers';
-import {ClientsEffects} from './clients/store/clients.effects';
 import { ClientComponent } from './clients/client/client.component';
 import { NewClientComponent } from './clients/new-client/new-client.component';
 import { NewOfferComponent } from './offers/new-offer/new-offer.component';
-import {offersReducer} from './offers/store/offers.reducers';
-import {OffersEffects} from './offers/store/offers.effects';
 import { OfferComponent } from './offers/offer/offer.component';
 import { EditModuleDialogComponent } from './modules/edit-module-dialog/edit-module-dialog.component';
 import { ChaptersComponent } from './chapters/chapters.component';
-import {chaptersReducer} from './chapters/store/chapters.reducers';
-import {ChaptersEffects} from './chapters/store/chapters.effects';
 import { ChapterComponent } from './chapters/chapter/chapter.component';
 import { NewChapterComponent } from './chapters/new-chapter/new-chapter.component';
 import { ChapterDialogComponent } from './chapters/chapter-dialog/chapter-dialog.component';
@@ -71,7 +61,6 @@ import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {NgPipesModule} from 'ngx-pipes';
 import { PdfComponent } from './pdf/pdf.component';
-
 
 
 @NgModule({
@@ -112,8 +101,6 @@ import { PdfComponent } from './pdf/pdf.component';
         BrowserModule,
         AppRoutingModule,
         Ng2FilterPipeModule,
-        StoreModule.forRoot({modulesList: modulesReducer, clientsList: clientsReducer, offersList: offersReducer, chaptersList: chaptersReducer}),
-        EffectsModule.forRoot([ModulesEffects, ClientsEffects, OffersEffects, ChaptersEffects]),
         HttpClientModule,
         DragulaModule,
         NgPipesModule,

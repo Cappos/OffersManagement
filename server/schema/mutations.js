@@ -158,7 +158,7 @@ const mutation = new GraphQLObjectType({
                 webSite: {type: GraphQLString},
                 pib: {type: GraphQLString},
                 tstmp: {type: GraphQLString},
-                offers: {type: GraphQLID}
+                offers: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Client.findOneAndUpdate({_id: args.id}, {
@@ -170,8 +170,7 @@ const mutation = new GraphQLObjectType({
                         mobile: args.mobile,
                         mail: args.mail,
                         webSite: args.webSite,
-                        pib: args.pib,
-                        offers: args.offers
+                        pib: args.pib
                     }
                 }, {new: true});
             }

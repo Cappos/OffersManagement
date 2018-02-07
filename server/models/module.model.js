@@ -2,42 +2,45 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ModuleSchema = new Schema({
-    id: String,
-    name: String,
-    bodytext: String,
-    price: Number,
-    tstamp: {
-        type: Date,
-        default: Date.now
+        id: String,
+        name: String,
+        bodytext: String,
+        price: Number,
+        tstamp: {
+            type: Date,
+            default: Date.now
+        },
+        cruserId: Number,
+        crdate: Date,
+        groupId: [{
+            type: Schema.Types.ObjectId,
+            ref: 'group'
+        }],
+        categoryId: [{
+            type: Schema.Types.ObjectId,
+            ref: 'category'
+        }],
+        moduleNew: {
+            type: Boolean,
+            default: false,
+            writable: true
+        },
+        defaultModule: {
+            type: Boolean,
+            default: false
+        },
+        type: {
+            type: Number,
+            default: 1
+        },
+        deleted: {
+            type: Boolean,
+            default: false
+        }
     },
-    cruserId: Number,
-    crdate: Date,
-    groupId: [{
-        type: Schema.Types.ObjectId,
-        ref: 'group'
-    }],
-    categoryId:  [{
-        type: Schema.Types.ObjectId,
-        ref: 'category'
-    }],
-    moduleNew:  {
-        type: Boolean,
-        default: false,
-        writable: true
-    },
-    defaultModule: {
-        type: Boolean,
-        default: false
-    },
-    type: {
-        type: Number,
-        default: 1
-    },
-    deleted: {
-        type: Boolean,
-        default: false
-    }
-});
+    {
+        usePushEach: true
+    });
 // ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {
 //     const Category = mongoose.model('category');
 //

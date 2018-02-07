@@ -25,7 +25,6 @@ import {Apollo} from 'apollo-angular';
 import getOffer from '../../queries/fetchOffer';
 import * as _ from "lodash";
 import updateOffer from "../../queries/updateOffer";
-import getOffers from "../../queries/fetchOffers";
 
 @Component({
     selector: 'app-offer',
@@ -82,12 +81,13 @@ export class OfferComponent implements OnInit, OnDestroy {
                         id: this.id
                     },
                     fetchPolicy: 'network-only'
-                }).valueChanges.subscribe(({data}) => {
+                }).valueChanges.take(1).subscribe(({data}) => {
                     this.item = _.cloneDeep(data.offer);
                     this.sellers = data.sealers; // Set seller data
                     this.selectedSeller = this.item.sealer[0].value;
                     this.selectedClient = this.item.client[0]._id;
                     this.clients = data.clients; // Set client data
+
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
                         this.offersModules.push(g)

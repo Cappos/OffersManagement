@@ -2,42 +2,45 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OfferSchema = new Schema({
-    id: String,
-    offerNumber: String,
-    offerTitle: String,
-    bodytext: String,
-    totalPrice: Number,
-    tstamp: {
-        type: Date,
-        default: Date.now
+        id: String,
+        offerNumber: String,
+        offerTitle: String,
+        bodytext: String,
+        totalPrice: Number,
+        tstamp: {
+            type: Date,
+            default: Date.now
+        },
+        expDate: Date,
+        signed: {
+            type: Boolean,
+            default: false
+        },
+        client: [{
+            type: Schema.Types.ObjectId,
+            ref: 'client'
+        }],
+        groups: [{
+            type: Schema.Types.ObjectId,
+            ref: 'group'
+        }],
+        pages: [{
+            type: Schema.Types.ObjectId,
+            ref: 'page'
+        }],
+        files: Array,
+        sealer: [{
+            type: Schema.Types.ObjectId,
+            ref: 'sealer'
+        }],
+        deleted: {
+            type: Boolean,
+            default: false
+        }
     },
-    expDate: Date,
-    signed: {
-        type: Boolean,
-        default: false
-    },
-    client: [{
-        type: Schema.Types.ObjectId,
-        ref: 'client'
-    }],
-    groups: [{
-        type: Schema.Types.ObjectId,
-        ref: 'group'
-    }],
-    pages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'page'
-    }],
-    files: Array,
-    sealer: [{
-        type: Schema.Types.ObjectId,
-        ref: 'sealer'
-    }],
-    deleted: {
-        type: Boolean,
-        default: false
-    }
-});
+    {
+        usePushEach: true
+    });
 
 OfferSchema.statics.findClient = function (id) {
 
@@ -194,6 +197,7 @@ OfferSchema.statics.updateOffer = function (args) {
                             group.save().then((res) => {
                                 for (let m in GroupsNew[e].modules) {
                                     if (GroupsNew[e].modules[m].moduleNew) {
+                                        console.log('if');
                                         // create new modules form modules array
                                         let module = new Module({
                                             name: GroupsNew[e].modules[m].name,
@@ -212,7 +216,7 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.groups.push(group);
                         }
                         else {
-                            console.log(GroupsNew[e].deleted);
+                            console.log('else');
                             Group.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {

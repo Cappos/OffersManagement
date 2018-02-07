@@ -54,7 +54,6 @@ export class ClientComponent implements OnInit {
 
     onSave(form: NgForm) {
         const value = form.value;
-        const offers = this.offers.length ? this.offers : null;
 
         this.apollo.mutate({
             mutation: updateClient,
@@ -68,8 +67,7 @@ export class ClientComponent implements OnInit {
                 mobile: value.mobile,
                 mail: value.mail,
                 webSite: value.webSite,
-                pib: value.pib,
-                offers: offers
+                pib: value.pib
             }
         }).subscribe(() => {
             this.editMode = false;

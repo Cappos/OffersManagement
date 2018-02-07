@@ -11,7 +11,7 @@ const schema = require('./server/schema/schema');
 const app = express();
 
 // Replace with your mongoLab URI
-const MONGO_URI = 'mongodb://localhost:27017/offers-management';
+const MONGO_URI = 'mongodb://127.0.0.1:27017/offers-management';
 if (!MONGO_URI) {
     throw new Error('You must provide a MongoLab URI');
 }
@@ -22,6 +22,8 @@ mongoose.connection
     .once('open', () => console.log('Connected to MongoDB instance.'))
     .on('error', error => console.log('Error connecting to MongoDB:', error));
 
+
+mongoose.set('debug', false);
 // Handling file upload
 const conn = mongoose.connection;
 const multer = require('multer');

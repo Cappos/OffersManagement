@@ -3,35 +3,38 @@ const Schema = mongoose.Schema;
 const async = require('async');
 
 const GroupSchema = new Schema({
-    id: String,
-    name: String,
-    subTotal: Number,
-    tstamp: {
-        type: Date,
-        default: Date.now
+        id: String,
+        name: String,
+        subTotal: Number,
+        tstamp: {
+            type: Date,
+            default: Date.now
+        },
+        modules: [{
+            type: Schema.Types.ObjectId,
+            ref: 'module'
+        }],
+        defaultGroup: {
+            type: Boolean,
+            default: false
+        },
+        type: {
+            type: Number,
+            default: 1
+        },
+        order: Number,
+        groupNew: {
+            type: Boolean,
+            default: false
+        },
+        deleted: {
+            type: Boolean,
+            default: false
+        }
     },
-    modules: [{
-        type: Schema.Types.ObjectId,
-        ref: 'module'
-    }],
-    defaultGroup: {
-        type: Boolean,
-        default: false
-    },
-    type: {
-        type: Number,
-        default: 1
-    },
-    order: Number,
-    groupNew: {
-        type: Boolean,
-        default: false
-    },
-    deleted: {
-        type: Boolean,
-        default: false
-    }
-});
+    {
+        usePushEach: true
+    });
 
 GroupSchema.statics.findModules = function (id) {
     return this.findById(id)

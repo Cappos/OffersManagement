@@ -92,6 +92,7 @@ OfferSchema.statics.createOffer = function (args) {
 
     return this.count().then((count) => {
         args.offerNumber = '00' + count + 1 + '/' + new Date().getFullYear();
+
         return (new Offer(args)).save().then(offer => {
             Client.findOneAndUpdate({_id: args.client},
                 {
@@ -99,7 +100,6 @@ OfferSchema.statics.createOffer = function (args) {
                         offers: offer._id,
                     }
                 }, {new: true}).then((res) => res);
-
 
             for (let e in GroupsNew) {
                 if (GroupsNew.length > 0) {
@@ -122,7 +122,7 @@ OfferSchema.statics.createOffer = function (args) {
                                         categoryId: GroupsNew[e].modules[m].categoryId,
                                         moduleNew: false
                                     });
-                                    module.save()
+                                    module.save();
                                     res.modules.push(module);
                                 }
                             }
@@ -140,7 +140,7 @@ OfferSchema.statics.createOffer = function (args) {
                             defaultPage: false,
                             order: GroupsNew[e].order
                         });
-                        page.save().then((res) => res)
+                        page.save().then((res) => res);
                         offer.pages.push(page);
                     }
                 }
@@ -153,15 +153,20 @@ OfferSchema.statics.createOffer = function (args) {
 
 
 OfferSchema.statics.updateOffer = function (args) {
-    const Offer = mongoose.model('offer');
     const Group = mongoose.model('group');
     const Client = mongoose.model('client');
     const Module = mongoose.model('module');
     const Page = mongoose.model('page');
     const GroupsNew = args.groupsNew;
 
-    return this.count().then((count) => {
-        args.offerNumber = '00' + count + 1 + '/' + new Date().getFullYear();
+        // Unset offer client
+        Client.findOneAndUpdate({_id: args.oldClient},
+            {
+                $unset: {
+                    offers: args._id,
+                }
+            }, {new: true}).then((res) => res);
+
         return this.findOneAndUpdate({_id: args.id},
             {
                 $set: {
@@ -170,18 +175,19 @@ OfferSchema.statics.updateOffer = function (args) {
                     totalPrice: args.totalPrice,
                     bodytext: args.bodytext,
                     client: args.client,
-                    seller: args.seller,
+                    sealer: args.sealer,
                     expDate: args.expDate,
                     signed: args.signed
                 }
             }, {new: true}).then(offer => {
+
+            // Set new offer client
             Client.findOneAndUpdate({_id: args.client},
                 {
                     $addToSet: {
                         offers: offer._id,
                     }
                 }, {new: true}).then((res) => res);
-
 
             for (let e in GroupsNew) {
                 if (GroupsNew.length > 0) {
@@ -197,7 +203,6 @@ OfferSchema.statics.updateOffer = function (args) {
                             group.save().then((res) => {
                                 for (let m in GroupsNew[e].modules) {
                                     if (GroupsNew[e].modules[m].moduleNew) {
-                                        console.log('if');
                                         // create new modules form modules array
                                         let module = new Module({
                                             name: GroupsNew[e].modules[m].name,
@@ -216,7 +221,6 @@ OfferSchema.statics.updateOffer = function (args) {
                             offer.groups.push(group);
                         }
                         else {
-                            console.log('else');
                             Group.findOneAndUpdate({_id: GroupsNew[e]._id},
                                 {
                                     $set: {
@@ -295,7 +299,6 @@ OfferSchema.statics.updateOffer = function (args) {
             return Promise.all([offer.save()])
                 .then(([offer]) => offer);
         });
-    });
 };
 
 

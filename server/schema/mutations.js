@@ -301,7 +301,9 @@ const mutation = new GraphQLObjectType({
                 signed: {type: GraphQLBoolean},
                 groups: {type: GraphQLID},
                 groupsNew: {type: GraphQLJSON},
-                files: {type: GraphQLJSON}
+                files: {type: GraphQLJSON},
+                oldClient: {type: GraphQLID},
+                oldSeller: {type: GraphQLID}
             },
             resolve(parentValue, args) {
                 return Offer.updateOffer(args);

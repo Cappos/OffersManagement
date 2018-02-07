@@ -13,7 +13,9 @@ export default gql`
     $groupsNew: JSON,
     $files: JSON,
     $signed: Boolean,
-    $seller: ID) {
+    $seller: ID,
+    $oldClient: ID,
+    $oldSeller: ID) {
         editOffer(
             id: $id,
             offerTitle: $offerTitle,
@@ -25,7 +27,9 @@ export default gql`
             groupsNew: $groupsNew,
             files: $files,
             signed: $signed
-            sealer: $seller){
+            sealer: $seller,
+            oldClient: $oldClient,
+            oldSeller: $oldSeller){
             _id,
             offerTitle
         }

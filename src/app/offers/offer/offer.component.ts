@@ -54,6 +54,9 @@ export class OfferComponent implements OnInit, OnDestroy {
     expDate;
     clients;
     sellers;
+    oldClient;
+    oldSeller;
+    offerNumber;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService) {
 
@@ -86,6 +89,9 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.sellers = data.sealers; // Set seller data
                     this.selectedSeller = this.item.sealer[0].value;
                     this.selectedClient = this.item.client[0]._id;
+                    this.oldClient = data.offer.client[0]._id;
+                    this.oldSeller = data.offer.sealer[0]._id;
+                    this.offerNumber = data.offer.offerNumber;
                     this.clients = data.clients; // Set client data
 
                     // Set offer chapters and pages
@@ -155,7 +161,7 @@ export class OfferComponent implements OnInit, OnDestroy {
             mutation: updateOffer,
             variables: {
                 id: this.id,
-                offerNumber: value.offerNumber,
+                offerNumber: this.offerNumber,
                 offerTitle: value.offerTitle,
                 totalPrice: totalPrice,
                 bodytext: value.bodytext,
@@ -163,13 +169,14 @@ export class OfferComponent implements OnInit, OnDestroy {
                 seller: seller._id,
                 groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
                 files: this.files,
-                expDate: value.expDate
+                expDate: value.expDate,
+                oldClient: this.oldClient,
+                oldSeller: this.oldSeller
             }
         }).subscribe(() => {
             this.editMode = false;
             console.log(this.offersUpdate, 'saved data');
             this.sharedService.sneckBarNotifications('Offer saved!!!');
-            // this.router.navigate(['/offers']);
         });
     }
 

@@ -11,7 +11,9 @@ export default gql`
     $client: ID,
     $groupsNew: JSON,
     $files: JSON,
-    $seller: ID) {
+    $seller: ID,
+    $internalHours: Float,
+    $externalHours: Float) {
         addOffer(
             offerTitle: $offerTitle,
             offerNumber: $offerNumber,
@@ -21,7 +23,9 @@ export default gql`
             client: $client,
             groupsNew: $groupsNew,
             files: $files,
-            sealer: $seller){
+            sealer: $seller,
+            internalHours: $internalHours,
+            externalHours: $externalHours){
             _id,
             offerTitle
         }

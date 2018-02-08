@@ -19,14 +19,14 @@
                 <div flex="100" layout-padding>
                     <h3 style="margin: 0;">Info data</h3>
                 </div>
-                <div style="margin-top:20px;" flex="100" layout-padding>
+                <div style="margin-top:20px;" flex="60" layout-padding>
                     <mat-input-container style="max-width: 800px; width: 100%;">
                         <input matInput placeholder="Title" [ngModel]="item?.offerTitle"
                                name="offerTitle" required [readonly]="!editMode">
                     </mat-input-container>
                 </div>
 
-                <div style="margin-top:20px;" flex="20" layout-padding>
+                <div style="margin-top:20px;" flex="15" layout-padding>
                     <mat-input-container>
                         <mat-select placeholder="Client" floatPlaceholder="auto" [(ngModel)]="selectedClient"
                                     name="client" [disabled]="!editMode">
@@ -37,7 +37,7 @@
                     </mat-input-container>
                 </div>
 
-                <div style="margin-top:20px;" flex="20" layout-padding>
+                <div style="margin-top:20px;" flex="15" layout-padding>
                     <mat-input-container>
                         <mat-select placeholder="Seller" floatPlaceholder="auto" [(ngModel)]="selectedSeller"
                                     name="seller" [disabled]="!editMode">
@@ -47,13 +47,23 @@
                         </mat-select>
                     </mat-input-container>
                 </div>
-                <div style="margin-top:20px;" flex="20" layout-padding>
+                <div style="margin-top:20px;" flex="15" layout-padding>
                     <mat-input-container>
                         <input matInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2'"
                                name="totalPrice" readonly>
                     </mat-input-container>
                 </div>
-                <div style="margin-top:20px;" flex="20" layout-padding>
+                <div style="margin-top:20px;" flex="15" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Internal hours" [ngModel]="internalHours" name="internalHours" readonly>
+                    </mat-input-container>
+                </div>
+                <div style="margin-top:20px;" flex="15" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Extrnal hours" [ngModel]="externalHours" name="externalHours" readonly>
+                    </mat-input-container>
+                </div>
+                <div style="margin-top:20px;" flex="15" layout-padding>
                     <mat-form-field>
                         <input matInput [matDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate" name="tstamp" required [readonly]="!editMode">
                         <mat-datepicker-toggle matSuffix  [for]="pickerNew" [disabled]="!editMode"></mat-datepicker-toggle>
@@ -156,11 +166,24 @@
                                         <mat-card-content>
                                             <form #group.uid="ngForm">
                                                 <div layout="row" layout-wrap>
-                                                    <div style="margin-top:20px;" flex="90" layout-padding>
+                                                    <div style="margin-top:20px;" flex="50" layout-padding>
                                                         <mat-input-container style="max-width: 800px; width: 100%;">
                                                             <input matInput placeholder="Name"
                                                                    [ngModel]="module.name"
                                                                    name="name" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="20" style="margin-top:20px;" layout-padding>
+                                                        <mat-input-container style="width: 80%;">
+                                                            <input matInput placeholder="Group"
+                                                                   [ngModel]="module.categoryId[0].name"
+                                                                   name="groupUid" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="20" style="margin-top:20px;" layout-padding>
+                                                        <mat-input-container>
+                                                            <input matInput placeholder="Created date"
+                                                                   [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                                                         </mat-input-container>
                                                     </div>
                                                     <div flex="5" layout="column" layout-align="center end">
@@ -182,20 +205,26 @@
                                                                    name="price" readonly>
                                                         </mat-input-container>
                                                     </div>
-
-                                                    <div flex="25" layout-padding>
-                                                        <mat-input-container style="width: 80%;">
-                                                            <input matInput placeholder="Group"
-                                                                   [ngModel]="module.categoryId[0].name"
-                                                                   name="groupUid" readonly>
-                                                        </mat-input-container>
-                                                    </div>
-                                                    <div flex="25" layout-padding>
+                                                    <div flex="20" layout-padding>
                                                         <mat-input-container>
-                                                            <input matInput placeholder="Created date"
-                                                                   [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
+                                                            <input matInput placeholder="Internal hours" [ngModel]="module.internalHours"
+                                                                   name="internalHours" readonly>
                                                         </mat-input-container>
                                                     </div>
+                                                    <div flex="20" layout-padding>
+                                                        <mat-input-container>
+                                                            <input matInput placeholder="External hours" [ngModel]="module.externalHours"
+                                                                   name="externalHours" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="20" layout-padding>
+                                                        <mat-input-container>
+                                                            <input matInput placeholder="Price per hour" [ngModel]="module.pricePerHour"
+                                                                   name="pricePerHour" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+
+
                                                     <div style="margin-top:20px;" flex="100" layout-padding>
                                                         <h3 style="margin-top: 0;">Description</h3>
 

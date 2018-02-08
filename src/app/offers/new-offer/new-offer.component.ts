@@ -52,6 +52,8 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     chaptersOrder;
     newDate;
     expDate;
+    internalHours = 0;
+    externalHours = 0;
 
 
     constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService, private dateAdapter: DateAdapter<Date>, private dragulaService: DragulaService) {
@@ -128,7 +130,9 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                 seller: seller._id,
                 groupsNew: !this.offersModules.length ? [] : this.offersModules,
                 files: this.files,
-                expDate: value.expDate
+                expDate: value.expDate,
+                internalHours: +value.internalHours,
+                externalHours: +value.externalHours
             },
             refetchQueries: [{
                 query: getOffers
@@ -175,12 +179,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -218,12 +232,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -255,12 +279,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
             this.editMode = true;
         });
@@ -282,12 +316,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
         this.editMode = true;
@@ -318,12 +362,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                     // update total price
                     let modulesPrices: any[] = [];
+                    let modulesInternalHours: any[] = [];
+                    let modulesExternalHours: any[] = [];
+
                     for (let g in this.offersModules) {
                         if (this.offersModules[g].subTotal) {
                             modulesPrices.push(this.offersModules[g].subTotal);
                         }
+                        for (let m in this.offersModules[g].modules) {
+                            // Update offers hours
+                            modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                            modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                        }
                     }
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
             }
             this.editMode = true;
@@ -349,12 +403,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }
@@ -381,12 +445,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                 if (this.offersModules.length > 0) {
                     // update total price
                     let modulesPrices: any[] = [];
+                    let modulesInternalHours: any[] = [];
+                    let modulesExternalHours: any[] = [];
+
                     for (let g in this.offersModules) {
                         if (this.offersModules[g].subTotal) {
                             modulesPrices.push(this.offersModules[g].subTotal);
                         }
+                        for (let m in this.offersModules[g].modules) {
+                            // Update offers hours
+                            modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                            modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                        }
                     }
                     this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                    this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
             }
         });
@@ -419,12 +493,22 @@ export class NewOfferComponent implements OnInit, OnDestroy {
 
                 // update total price
                 let modulesPrices: any[] = [];
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
+
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
                         modulesPrices.push(this.offersModules[g].subTotal);
                     }
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
         });
     }

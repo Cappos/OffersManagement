@@ -61,6 +61,8 @@ import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {NgPipesModule} from 'ngx-pipes';
 import { PdfComponent } from './pdf/pdf.component';
+import { PricesComponent } from './prices/prices.component';
+import { PriceAddEditDialogComponent } from './prices/price-add-edit-dialog/price-add-edit-dialog.component';
 
 
 @NgModule({
@@ -91,7 +93,9 @@ import { PdfComponent } from './pdf/pdf.component';
         MediaBrowserComponent,
         PageListDialogComponent,
         PageEditDialogComponent,
-        PdfComponent
+        PdfComponent,
+        PricesComponent,
+        PriceAddEditDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -154,7 +158,7 @@ import { PdfComponent } from './pdf/pdf.component';
         HttpLinkModule
     ],
     providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

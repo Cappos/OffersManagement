@@ -16,6 +16,8 @@ const ClientType =  require('./types/client_type');
 const Client = mongoose.model('client');
 const PageType =  require('./types/page_type');
 const Page = mongoose.model('page');
+const PriceType = require('./types/price_type');
+const Price = mongoose.model('price');
 
 
 const RootQuery = new GraphQLObjectType({
@@ -115,6 +117,19 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(ClientType),
             resolve(parentValue) {
                 return Client.find({deleted: false}).sort('-date').limit(5);
+            }
+        },
+        prices: {
+            type: new GraphQLList(PriceType),
+            resolve(parentValue) {
+                return Price.find({deleted: false});
+            }
+        },
+        price: {
+            type: new GraphQLList(PriceType),
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Price.find({_id: id, deleted: false});
             }
         },
     })

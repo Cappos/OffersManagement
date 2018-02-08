@@ -15,11 +15,17 @@ export default gql`
             sealer {
                 _id
                 name
+                phone
+                mobile
+                email
                 value
             }
             client {
                 _id
                 companyName
+                contactPhone
+                mobile
+                mail
             }
             groups {
                 _id
@@ -61,5 +67,4 @@ export default gql`
             value
         }
     }
-
 `;

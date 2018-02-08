@@ -16,6 +16,8 @@ const PageType = require('./types/page_type');
 const Page = mongoose.model('page');
 const OfferType = require('./types/offer_type');
 const Offer = mongoose.model('offer');
+const PriceType = require('./types/price_type');
+const Price = mongoose.model('price');
 
 
 const mutation = new GraphQLObjectType({
@@ -316,6 +318,40 @@ const mutation = new GraphQLObjectType({
                 return Offer.findOneAndUpdate({_id: id}, {
                     $set: {
                         deleted: true
+                    }
+                }, {new: true});
+            }
+        },
+        addPrice: {
+            type: PriceType,
+            args: {
+                value: {type: new GraphQLNonNull(GraphQLInt)}
+            },
+            resolve(parentValue, args) {
+                return (new Price(args)).save()
+            }
+        },
+        deletePrice: {
+            type: PriceType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return Price.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, {new: true});
+            }
+        },
+        editPrice: {
+            type: PriceType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                value: {type: new GraphQLNonNull(GraphQLInt)}
+            },
+            resolve(parentValue, args) {
+                return Price.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                       value: args.value
                     }
                 }, {new: true});
             }

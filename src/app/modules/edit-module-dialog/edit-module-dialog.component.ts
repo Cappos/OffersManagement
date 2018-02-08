@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
 import fetchModule from '../../queries/fetchModule';
-import fetchCategories from '../../queries/fetchCategories';
+import getCategoriesPrices from '../../queries/getCategoriesPrices';
 
 @Component({
     selector: 'app-edit-module-dialog',
@@ -24,6 +24,9 @@ export class EditModuleDialogComponent implements OnInit {
     selectedGroup;
     savedModuleData;
     count;
+    selectedPrice;
+    prices: any [];
+    totalPrice;
 
     constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<EditModuleDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private apollo: Apollo) {
 
@@ -53,8 +56,10 @@ export class EditModuleDialogComponent implements OnInit {
                 this.item = data.module;
                 this.rteData = this.item.bodytext;
                 this.categories = data.categories;
+                this.prices = data.prices;
+                this.selectedPrice = data.module.pricePerHour;
                 this.selectedChapter = chapterId;
-                console.log(this.item);
+                this.totalPrice = data.module.price;
                 if (this.item.categoryId.length > 0 ){
                     console.log('if');
                     this.selectedGroup = this.item.categoryId[0].value;
@@ -73,11 +78,14 @@ export class EditModuleDialogComponent implements OnInit {
                 this.id = this.data.groupUid;
             }
             this.apollo.watchQuery<any>({
-                query: fetchCategories
+                query: getCategoriesPrices
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
                 this.item = this.data.moduleNew;
                 this.rteData = this.item.bodytext;
+                this.prices = this.data.moduleNew.prices;
+                this.selectedPrice = this.data.moduleNew.pricePerHour;
+                this.totalPrice = this.data.moduleNew.price;
                 if (this.item.categoryId) {
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
@@ -89,29 +97,28 @@ export class EditModuleDialogComponent implements OnInit {
             console.log('new module');
             this.id = Math.random();
             this.apollo.watchQuery<any>({
-                query: fetchCategories,
+                query: getCategoriesPrices,
                 fetchPolicy: 'network-only'
             }).valueChanges.subscribe(({data}) => {
                 this.categories = data.categories;
                 this.rteData = ' ';
+                this.selectedPrice = 0;
+                this.prices = data.prices;
+                this.totalPrice = 0;
                 this.loadingService.resolveAll('modulesLoader');
             });
         }
+
+        console.log(this.totalPrice);
     }
 
     onSave(form: NgForm) {
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId) || null;
-        let price = value.price;
-        let newPrice;
-        // Format price
-        if (price.length >= 6) {
-            newPrice = price.replace(/,/g, '');
-        }
-        else {
-            newPrice = price;
-        }
+        const price =  +value.externalHours * +value.selectedPrice;
+        this.totalPrice = price;
 
+        console.log(this.totalPrice);
         // Make temp id
         this.count = Math.random();
 
@@ -137,7 +144,7 @@ export class EditModuleDialogComponent implements OnInit {
 
         this.savedModuleData.bodytext = this.rteData;
         this.savedModuleData.groupUid = this.data.groupUid;
-        this.savedModuleData.price = +newPrice;
+        this.savedModuleData.price = price;
         // Set category if is selected
         if (category) {
             this.savedModuleData.categoryId = [category]

@@ -84,7 +84,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                         id: this.id
                     },
                     fetchPolicy: 'network-only'
-                }).valueChanges.take(1).subscribe(({data}) => {
+                }).valueChanges.subscribe(({data}) => {
                     this.item = _.cloneDeep(data.offer);
                     this.sellers = data.sealers; // Set seller data
                     this.selectedSeller = this.item.sealer[0].value;

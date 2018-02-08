@@ -41,17 +41,6 @@ const ModuleSchema = new Schema({
     {
         usePushEach: true
     });
-// ModuleSchema.statics.addCategory = function(id, name, bodytext, price, tstmp,  groupId) {
-//     const Category = mongoose.model('category');
-//
-//     return this.findById(id)
-//         .then(module => {
-//             const category = new Category({ content, module });
-//             module.groupId.push(category);
-//             return Promise.all([category.save(), module.save()])
-//                 .then(([groupId, module]) => module);
-//         });
-// }
 
 ModuleSchema.statics.findCategory = function (id) {
     return this.findById(id)

@@ -10,6 +10,9 @@ export default gql`
             tstamp
             moduleNew
             deleted
+            internalHours
+            externalHours
+            pricePerHour
             categoryId {
                 _id
                 name

@@ -15,7 +15,9 @@ export default gql`
     $signed: Boolean,
     $seller: ID,
     $oldClient: ID,
-    $oldSeller: ID) {
+    $oldSeller: ID,
+    $internalHours: Int,
+    $externalHours: Int) {
         editOffer(
             id: $id,
             offerTitle: $offerTitle,
@@ -29,7 +31,9 @@ export default gql`
             signed: $signed
             sealer: $seller,
             oldClient: $oldClient,
-            oldSeller: $oldSeller){
+            oldSeller: $oldSeller,
+            internalHours: $internalHours,
+            externalHours: $externalHours){
             _id,
             offerTitle
         }

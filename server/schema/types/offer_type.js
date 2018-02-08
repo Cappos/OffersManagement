@@ -48,6 +48,8 @@ const OfferType = new GraphQLObjectType({
                   return Offer.findSealer(parentValue._id);
               }
           },
+          internalHours: {type: GraphQLInt},
+          externalHours: {type: GraphQLInt},
           deleted: {type: GraphQLBoolean}
       }
   }

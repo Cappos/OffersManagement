@@ -12,6 +12,8 @@ export default gql`
             expDate
             files
             signed
+            internalHours
+            externalHours
             sealer {
                 _id
                 name
@@ -40,6 +42,9 @@ export default gql`
                     bodytext
                     price
                     tstamp
+                    internalHours
+                    externalHours
+                    pricePerHour
                     categoryId {
                         value
                         _id
@@ -56,6 +61,7 @@ export default gql`
                 tstamp
                 order
             }
+            
         }
         clients {
             _id

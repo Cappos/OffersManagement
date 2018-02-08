@@ -15,6 +15,9 @@ export default gql`
                 tstamp
                 cruserId
                 moduleNew
+                internalHours
+                externalHours
+                pricePerHour
                 categoryId {
                     _id
                     name

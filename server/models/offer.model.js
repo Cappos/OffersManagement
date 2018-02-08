@@ -33,6 +33,14 @@ const OfferSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'sealer'
         }],
+        internalHours: {
+            type: Number,
+            default: 0
+        },
+        externalHours: {
+            type: Number,
+            default: 0
+        },
         deleted: {
             type: Boolean,
             default: false
@@ -159,146 +167,148 @@ OfferSchema.statics.updateOffer = function (args) {
     const Page = mongoose.model('page');
     const GroupsNew = args.groupsNew;
 
-        // Unset offer client
-        Client.findOneAndUpdate({_id: args.oldClient},
+    // Unset offer client
+    Client.findOneAndUpdate({_id: args.oldClient},
+        {
+            $unset: {
+                offers: args._id,
+            }
+        }, {new: true}).then((res) => res);
+
+    return this.findOneAndUpdate({_id: args.id},
+        {
+            $set: {
+                offerNumber: args.offerNumber,
+                offerTitle: args.offerTitle,
+                totalPrice: args.totalPrice,
+                bodytext: args.bodytext,
+                client: args.client,
+                sealer: args.sealer,
+                expDate: args.expDate,
+                signed: args.signed,
+                internalHours: args.internalHours,
+                externalHours: args.externalHours
+            }
+        }, {new: true}).then(offer => {
+
+        // Set new offer client
+        Client.findOneAndUpdate({_id: args.client},
             {
-                $unset: {
-                    offers: args._id,
+                $addToSet: {
+                    offers: offer._id,
                 }
             }, {new: true}).then((res) => res);
 
-        return this.findOneAndUpdate({_id: args.id},
-            {
-                $set: {
-                    offerNumber: args.offerNumber,
-                    offerTitle: args.offerTitle,
-                    totalPrice: args.totalPrice,
-                    bodytext: args.bodytext,
-                    client: args.client,
-                    sealer: args.sealer,
-                    expDate: args.expDate,
-                    signed: args.signed
+        for (let e in GroupsNew) {
+            if (GroupsNew.length > 0) {
+
+                if (GroupsNew[e].type === 1) {
+                    // create new group
+                    if (GroupsNew[e].groupNew) {
+                        let group = new Group({
+                            name: GroupsNew[e].name,
+                            subTotal: GroupsNew[e].subTotal,
+                            order: GroupsNew[e].order
+                        });
+                        group.save().then((res) => {
+                            for (let m in GroupsNew[e].modules) {
+                                if (GroupsNew[e].modules[m].moduleNew) {
+                                    // create new modules form modules array
+                                    let module = new Module({
+                                        name: GroupsNew[e].modules[m].name,
+                                        bodytext: GroupsNew[e].modules[m].bodytext,
+                                        price: GroupsNew[e].modules[m].price,
+                                        groupId: group._id,
+                                        categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
+                                        moduleNew: false
+                                    });
+                                    module.save();
+                                    res.modules.push(module);
+                                }
+                            }
+                            res.save()
+                        });
+                        offer.groups.push(group);
+                    }
+                    else {
+                        Group.findOneAndUpdate({_id: GroupsNew[e]._id},
+                            {
+                                $set: {
+                                    name: GroupsNew[e].name,
+                                    subTotal: GroupsNew[e].subTotal,
+                                    order: GroupsNew[e].order,
+                                    deleted: GroupsNew[e].deleted
+                                }
+                            }, {new: true}).then((res) => {
+                            for (let m in GroupsNew[e].modules) {
+                                if (GroupsNew[e].modules[m].moduleNew) {
+                                    // create new modules form modules array
+                                    let module = new Module({
+                                        name: GroupsNew[e].modules[m].name,
+                                        bodytext: GroupsNew[e].modules[m].bodytext,
+                                        price: GroupsNew[e].modules[m].price,
+                                        groupId: res._id,
+                                        categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
+                                        moduleNew: false
+                                    });
+                                    module.save();
+                                    res.modules.push(module);
+                                }
+                                else {
+                                    Module.findOneAndUpdate({_id: GroupsNew[e].modules[m]._id},
+                                        {
+                                            $set: {
+                                                name: GroupsNew[e].modules[m].name,
+                                                bodytext: GroupsNew[e].modules[m].bodytext,
+                                                price: GroupsNew[e].modules[m].price,
+                                                groupId: res._id,
+                                                categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
+                                                moduleNew: false,
+                                                deleted: GroupsNew[e].modules[m].deleted
+                                            }
+                                        }, {new: true}).then((res) => res);
+                                }
+                            }
+                            res.save()
+                        });
+                    }
+
                 }
-            }, {new: true}).then(offer => {
+                // create new page from pages array
+                else if (GroupsNew[e].type === 2) {
 
-            // Set new offer client
-            Client.findOneAndUpdate({_id: args.client},
-                {
-                    $addToSet: {
-                        offers: offer._id,
+                    if (GroupsNew[e].pageNew) {
+                        let page = new Page({
+                            type: GroupsNew[e].type,
+                            title: GroupsNew[e].title,
+                            subtitle: GroupsNew[e].subtitle,
+                            bodytext: GroupsNew[e].bodytext,
+                            defaultPage: false,
+                            order: GroupsNew[e].order
+                        });
+                        page.save().then((res) => res);
+                        offer.pages.push(page);
                     }
-                }, {new: true}).then((res) => res);
-
-            for (let e in GroupsNew) {
-                if (GroupsNew.length > 0) {
-
-                    if (GroupsNew[e].type === 1) {
-                        // create new group
-                        if (GroupsNew[e].groupNew) {
-                            let group = new Group({
-                                name: GroupsNew[e].name,
-                                subTotal: GroupsNew[e].subTotal,
-                                order: GroupsNew[e].order
-                            });
-                            group.save().then((res) => {
-                                for (let m in GroupsNew[e].modules) {
-                                    if (GroupsNew[e].modules[m].moduleNew) {
-                                        // create new modules form modules array
-                                        let module = new Module({
-                                            name: GroupsNew[e].modules[m].name,
-                                            bodytext: GroupsNew[e].modules[m].bodytext,
-                                            price: GroupsNew[e].modules[m].price,
-                                            groupId: group._id,
-                                            categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
-                                            moduleNew: false
-                                        });
-                                        module.save();
-                                        res.modules.push(module);
-                                    }
+                    else {
+                        Page.findOneAndUpdate({_id: GroupsNew[e]._id},
+                            {
+                                $set: {
+                                    type: GroupsNew[e].type,
+                                    title: GroupsNew[e].title,
+                                    subtitle: GroupsNew[e].subtitle,
+                                    bodytext: GroupsNew[e].bodytext,
+                                    defaultPage: false,
+                                    order: GroupsNew[e].order,
+                                    deleted: GroupsNew[e].deleted
                                 }
-                                res.save()
-                            });
-                            offer.groups.push(group);
-                        }
-                        else {
-                            Group.findOneAndUpdate({_id: GroupsNew[e]._id},
-                                {
-                                    $set: {
-                                        name: GroupsNew[e].name,
-                                        subTotal: GroupsNew[e].subTotal,
-                                        order: GroupsNew[e].order,
-                                        deleted: GroupsNew[e].deleted
-                                    }
-                                }, {new: true}).then((res) => {
-                                for (let m in GroupsNew[e].modules) {
-                                    if (GroupsNew[e].modules[m].moduleNew) {
-                                        // create new modules form modules array
-                                        let module = new Module({
-                                            name: GroupsNew[e].modules[m].name,
-                                            bodytext: GroupsNew[e].modules[m].bodytext,
-                                            price: GroupsNew[e].modules[m].price,
-                                            groupId: res._id,
-                                            categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
-                                            moduleNew: false
-                                        });
-                                        module.save();
-                                        res.modules.push(module);
-                                    }
-                                    else {
-                                        Module.findOneAndUpdate({_id: GroupsNew[e].modules[m]._id},
-                                            {
-                                                $set: {
-                                                    name: GroupsNew[e].modules[m].name,
-                                                    bodytext: GroupsNew[e].modules[m].bodytext,
-                                                    price: GroupsNew[e].modules[m].price,
-                                                    groupId: res._id,
-                                                    categoryId: GroupsNew[e].modules[m].categoryId[0]._id,
-                                                    moduleNew: false,
-                                                    deleted: GroupsNew[e].modules[m].deleted
-                                                }
-                                            }, {new: true}).then((res) => res);
-                                    }
-                                }
-                                res.save()
-                            });
-                        }
-
-                    }
-                    // create new page from pages array
-                    else if (GroupsNew[e].type === 2) {
-
-                        if (GroupsNew[e].pageNew) {
-                            let page = new Page({
-                                type: GroupsNew[e].type,
-                                title: GroupsNew[e].title,
-                                subtitle: GroupsNew[e].subtitle,
-                                bodytext: GroupsNew[e].bodytext,
-                                defaultPage: false,
-                                order: GroupsNew[e].order
-                            });
-                            page.save().then((res) => res);
-                            offer.pages.push(page);
-                        }
-                        else {
-                            Page.findOneAndUpdate({_id: GroupsNew[e]._id},
-                                {
-                                    $set: {
-                                        type: GroupsNew[e].type,
-                                        title: GroupsNew[e].title,
-                                        subtitle: GroupsNew[e].subtitle,
-                                        bodytext: GroupsNew[e].bodytext,
-                                        defaultPage: false,
-                                        order: GroupsNew[e].order,
-                                        deleted: GroupsNew[e].deleted
-                                    }
-                                }, {new: true}).then((res) => res);
-                        }
+                            }, {new: true}).then((res) => res);
                     }
                 }
             }
-            return Promise.all([offer.save()])
-                .then(([offer]) => offer);
-        });
+        }
+        return Promise.all([offer.save()])
+            .then(([offer]) => offer);
+    });
 };
 
 

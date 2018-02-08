@@ -77,6 +77,9 @@ const mutation = new GraphQLObjectType({
                 groupId: {type: GraphQLID},
                 categoryId: {type: GraphQLID},
                 moduleNew: {type: GraphQLBoolean},
+                internalHours: {type: GraphQLInt},
+                externalHours: {type: GraphQLInt},
+                pricePerHour: {type: GraphQLInt},
                 defaultModule: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
@@ -92,6 +95,9 @@ const mutation = new GraphQLObjectType({
                 price: {type: GraphQLFloat},
                 tstmp: {type: GraphQLString},
                 groupId: {type: GraphQLID},
+                internalHours: {type: GraphQLInt},
+                externalHours: {type: GraphQLInt},
+                pricePerHour: {type: GraphQLInt},
                 categoryId: {type: GraphQLID}
 
             },
@@ -102,7 +108,10 @@ const mutation = new GraphQLObjectType({
                         bodytext: args.bodytext,
                         price: args.price,
                         groupId: args.groupId,
-                        categoryId: args.categoryId
+                        categoryId: args.categoryId,
+                        internalHours: args.internalHours,
+                        externalHours: args.externalHours,
+                        pricePerHour: args.pricePerHour,
                     }
                 }, {new: true});
             }

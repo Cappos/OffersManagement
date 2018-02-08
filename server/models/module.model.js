@@ -33,6 +33,18 @@ const ModuleSchema = new Schema({
             type: Number,
             default: 1
         },
+        internalHours: {
+            type: Number,
+            default: 0
+        },
+        externalHours: {
+            type: Number,
+            default: 0
+        },
+        pricePerHour: {
+            type: Number,
+            default: 0
+        },
         deleted: {
             type: Boolean,
             default: false

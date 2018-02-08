@@ -18,6 +18,9 @@ export default gql`
                 name
                 value
             }
+            internalHours
+            externalHours
+            pricePerHour
             moduleNew
             deleted
         }
@@ -27,5 +30,10 @@ export default gql`
             name
             value
         }
-    }
+        
+        prices {
+            _id
+            value
+        }
+    } 
 `;

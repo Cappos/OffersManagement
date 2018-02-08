@@ -23,7 +23,10 @@ export class ModuleComponent implements OnInit {
     @Output() editMode = false;
     rteData;
     selectedGroup;
+    selectedPrice;
+    prices: any [];
     categories: any[];
+    totalPrice;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
@@ -51,7 +54,10 @@ export class ModuleComponent implements OnInit {
                 }).valueChanges.subscribe(({data}) => {
                     this.item = data.module;
                     this.categories = data.categories;
+                    this.prices = data.prices;
+                    this.selectedPrice = data.module.pricePerHour;
                     this.rteData = this.item.bodytext;
+                    this.totalPrice = this.item.price;
                     this.selectedGroup = this.item.categoryId[0].value;
                     this.loadingService.resolveAll('modulesLoader');
                 });
@@ -60,10 +66,10 @@ export class ModuleComponent implements OnInit {
     }
 
     onSave(form: NgForm) {
-        console.log(form);
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId);
-        const price = value.price.replace(',', '');
+        const price =  +value.externalHours * +value.selectedPrice;
+        this.totalPrice = price;
         const group = null;
 
         this.apollo.mutate({
@@ -72,9 +78,12 @@ export class ModuleComponent implements OnInit {
                 id: this.id,
                 name: value.name,
                 bodytext: this.rteData,
-                price: +price,
+                price: price,
                 groupId: group,
-                categoryId: category._id
+                categoryId: category._id,
+                internalHours: +value.internalHours,
+                externalHours: +value.externalHours,
+                pricePerHour: +value.selectedPrice
             },
             refetchQueries: [{
                 query: getModulesData
@@ -91,7 +100,6 @@ export class ModuleComponent implements OnInit {
     }
 
     onEdit() {
-        console.log('edit');
         this.editMode = true
     }
 

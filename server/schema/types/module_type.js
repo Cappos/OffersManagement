@@ -30,6 +30,9 @@ const ModuleType = new GraphQLObjectType({
       moduleNew: {type: GraphQLBoolean},
       defaultModule: {type: GraphQLBoolean},
       type: {type: GraphQLInt},
+      internalHours: {type: GraphQLInt},
+      externalHours: {type: GraphQLInt},
+      pricePerHour: {type: GraphQLInt},
       deleted: {type: GraphQLBoolean}
   })
 });

@@ -58,7 +58,7 @@ GroupSchema.statics.updateGroup = function (args) {
                 {
                     $set: {
                         name: args.name,
-                        subTotal: args.subTotal,
+                        subTotal: args.subTotal
                     }
                 }, {new: true})
                 .then(chapter => {
@@ -70,7 +70,10 @@ GroupSchema.statics.updateGroup = function (args) {
                             price: ModulesNew[e].price,
                             groupId: args.id,
                             categoryId: ModulesNew[e].categoryId,
-                            moduleNew: false
+                            moduleNew: false,
+                            internalHours: ModulesNew[e].internalHours,
+                            externalHours: ModulesNew[e].externalHours,
+                            pricePerHour: ModulesNew[e].pricePerHour
                         });
                         chapter.modules.push(module);
                         return Promise.all([module.save(), chapter.save()])
@@ -84,7 +87,10 @@ GroupSchema.statics.updateGroup = function (args) {
                                 price: ModulesNew[e].price,
                                 groupId: ModulesNew[e].groupId,
                                 categoryId: ModulesNew[e].categoryId,
-                                deleted: ModulesNew[e].deleted
+                                deleted: ModulesNew[e].deleted,
+                                internalHours: ModulesNew[e].internalHours,
+                                externalHours: ModulesNew[e].externalHours,
+                                pricePerHour: ModulesNew[e].pricePerHour
                             }
                         }, {new: true});
                     }

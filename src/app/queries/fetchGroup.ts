@@ -16,6 +16,9 @@ export default gql`
                 cruserId
                 crdate
                 moduleNew
+                internalHours
+                externalHours
+                pricePerHour
                 deleted
             }
         }

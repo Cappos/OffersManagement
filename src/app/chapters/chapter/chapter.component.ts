@@ -137,7 +137,7 @@ export class ChapterComponent implements OnInit {
         this.editMode = true
     }
 
-    onModuleEdit(moduleUid: number, groupUid: number, moduleNew: boolean, moduleData: any) {
+    onModuleEdit(moduleUid, groupUid, moduleNew: boolean, moduleData: any) {
         this.editModuleGroup = groupUid;
         let moduleNewData = moduleNew ? moduleData : null;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
@@ -151,7 +151,9 @@ export class ChapterComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.editMode = true;
+
                 if (result.moduleNew) {
+                    console.log(result);
                     let module = this.modulesNew.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
                     if (moduleIndex >= 0) {
@@ -162,6 +164,7 @@ export class ChapterComponent implements OnInit {
                     }
                 }
                 else {
+                    console.log(result);
                     let module = this.modulesUpdate.filter(module => module.id === result.id)[0];
                     let moduleIndex = this.modulesUpdate.indexOf(module);
 

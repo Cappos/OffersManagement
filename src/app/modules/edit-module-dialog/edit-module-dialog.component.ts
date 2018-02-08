@@ -118,7 +118,6 @@ export class EditModuleDialogComponent implements OnInit {
         const price =  +value.externalHours * +value.selectedPrice;
         this.totalPrice = price;
 
-        console.log(this.totalPrice);
         // Make temp id
         this.count = Math.random();
 
@@ -145,6 +144,7 @@ export class EditModuleDialogComponent implements OnInit {
         this.savedModuleData.bodytext = this.rteData;
         this.savedModuleData.groupUid = this.data.groupUid;
         this.savedModuleData.price = price;
+        this.savedModuleData.pricePerHour = +value.selectedPrice;
         // Set category if is selected
         if (category) {
             this.savedModuleData.categoryId = [category]

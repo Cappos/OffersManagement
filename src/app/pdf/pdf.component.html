@@ -1,38 +1,63 @@
 <section id="content" class="pdf-container">
-    <h1>{{offerData.offerTitle}}</h1>
-    <h4>{{offerData.offerNumber}}</h4>
+    <div class="section-top">
+        <div class="logo">
+            <img src="https://www.deep-screen.ch/assets/logo.png" alt="logo">
+        </div>
+        <div class="line1">
+            <img src="https://i.imgur.com/pVtkNBu.png" alt="line1">
+        </div>
+        <div class="section-title">
+            <h1 class="main-title">Projekt Offerte</h1>
+            <h1 class="main-title">{{offerData.offerTitle}}</h1>
+        </div>
+        <div class="line2">
+            <img src="https://i.imgur.com/oHMDK49.jpg" alt="line2">
+        </div>
 
-    <section class="offer-info">
-        <div>{{offerData.sealer[0].name}}</div>
-        <div>{{offerData.client[0].companyName}}</div>
-        <div>{{offerData.tstamp | date: 'dd.MM.y'}}</div>
-        <div>{{offerData.expDate | date: 'dd.MM.y'}}</div>
-        <div>{{offerData.totalPrice}}</div>
-    </section>
+        <section class="offer-info">
+            <h4>{{offerData.offerNumber}}</h4>
+            <p>{{offerData.sealer[0].name}}</p>
+            <p>{{offerData.client[0].companyName}}</p>
+            <p>{{offerData.tstamp | date: 'dd.MM.y'}}</p>
+            <p>{{offerData.expDate | date: 'dd.MM.y'}}</p>
+            <p>{{offerData.totalPrice}}</p>
+        </section>
+    </div>
 
     <ng-container *ngFor="let group of offerGroups; let i = index" ngSwitch="{{group.type}}">
 
         <!-- PAGES -->
         <div *ngSwitchCase="'2'">
-            <h2>{{group.title}}</h2>
-            <h4>{{group.subtitle}}</h4>
+            <div class="page-wrapper">
+                <div class="content-wrapper">
+                    <h2>{{group.title}}</h2>
+                    <h4>{{group.subtitle}}</h4>
+                    <div class="group-info">
+                        <div [innerHTML]="group.bodytext"></div>
+                        <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
+                    </div>
+                </div>
 
-            <div [innerHTML]="group.bodytext"></div>
-            <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
+            </div>
         </div>
 
         <!-- CHAPTERS -->
         <div *ngSwitchCase="'1'">
-            <h2>{{group.name}}</h2>
-            <div>{{group.subTotal | number:'2.2-2'}}</div>
-            <div>{{group.tstamp | date: 'dd.MM.y'}}</div>
+            <div class="page-wrapper">
+                <div class="content-wrapper">
+                    <h2>{{group.name}}</h2>
+                    <p>{{group.subTotal | number:'2.2-2'}}</p>
+                    <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
 
-            <div class="modules" *ngFor="let module of group.modules">
-                <h4>{{module.name}}</h4>
-                <div>{{module.price | number:'2.2-2'}}</div>
-                <div>{{module.categoryId[0].name}}</div>
-                <div>{{module.tstamp | date: 'dd.MM.y'}}</div>
-                <div [innerHTML]="module.bodytext"></div>
+                    <div class="modules" *ngFor="let module of group.modules">
+                        <h4>{{module.name}}</h4>
+                        <p>{{module.price | number:'2.2-2'}}</p>
+                        <p>{{module.categoryId[0].name}}</p>
+                        <!--<p>{{module.tstamp | date: 'dd.MM.y'}}</p>-->
+                        <p [innerHTML]="module.bodytext"></p>
+                    </div>
+                </div>
+
             </div>
         </div>
         <!-- PAGES CHAPTERS END -->

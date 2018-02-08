@@ -37,6 +37,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             plugins: [
                 'advlist lists link anchor table paste code help contextmenu'
             ],
+            toolbar: ['formatselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | contextmenu'],
             skin_url: '/assets/skins/lightgray',
             height: 300,
             branding: false,

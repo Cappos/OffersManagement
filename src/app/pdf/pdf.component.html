@@ -75,41 +75,78 @@
             <div class="page-wrapper">
                 <div class="content-wrapper">
                     <h2>{{group.name}}</h2>
-                    <p>{{group.subTotal | number:'2.2-2'}}</p>
-                    <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
 
+                    <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
                     <div class="modules" *ngFor="let module of group.modules">
-                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                        <table style="border-collapse: collapse; width: 100%;" border="0">
                             <tbody>
                             <tr class="modules-header">
-                                <td class="first-td">
+                                <th class="first-td">
                                     <h4>{{module.name}}</h4>
-                                </td>
-                                <td class="second-td">
-                                    <p>Betrag</p>
-                                </td>
-                                <td class="third-td">
-                                    <p>Enthalten</p>
-                                </td>
+                                </th>
+                                <th class="second-td">
+                                    <h4>Betrag</h4>
+                                </th>
+                                <th class="third-td">
+                                    <h4>Enthalten</h4>
+                                </th>
+
                             </tr>
                             <tr class="modules-main">
-                                <td class="first-td">
+                                <th class="first-td">
                                     <p [innerHTML]="module.bodytext"></p>
-                                </td>
-                                <td class="second-td">
+                                </th>
+                                <th class="second-td">
                                     <p class="module-price">{{module.price | number:'2.2-2'}}</p>
-                                </td>
-                                <td class="img-shape third-td">
+                                </th>
+                                <th class="img-shape third-td">
                                     <img src="https://i.imgur.com/BCFrz7n.png" alt="x">
-                                </td>
+                                </th>
                             </tr>
                             </tbody>
                         </table>
                         <!--<p>{{module.categoryId[0].name}}</p>-->
                         <!--<p>{{module.tstamp | date: 'dd.MM.y'}}</p>-->
                     </div>
+                    <table class="total-table">
+                        <tbody>
+                        <tr class="total">
+                            <th>
+                                <h4>Total</h4>
+                            </th>
+                            <th>
+                                <p>{{group.subTotal}}</p>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="bemerkungen">
+                        <h4>Bemerkungen</h4>
+                        <ul>
+                            <li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li>
+                            <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag fällig 12 Wochen nach Projektstart (Kickoff Meeting).</li>
+                            <li>Die Nutzungsrechte sind für den Gebrauch der Weblösung abgegolten.</li>
+                            <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}</li>
+                            <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens eine Woche vor der Content-Eingabe geliefert.</li>
+                            <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder Ändern des Inhaltes wird nach Aufwand verrechnet.</li>
+                            <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das Nutzungsrecht erworben.</li>
+                        </ul>
+                        <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie sie komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH, Binzmühlestrasse 97, 8050 Zürich.</p>
+                    </div>
+                    <table class="manager-table">
+                        <tbody>
+                        <tr class="manager">
+                            <th>
+                                <h4>{{offerData.sealer[0].name}}</h4>
+                            </th>
+                            <th>
+                                <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
                 </div>
-
             </div>
         </div>
         <!-- PAGES CHAPTERS END -->

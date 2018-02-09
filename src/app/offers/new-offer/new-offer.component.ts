@@ -338,10 +338,9 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         this.editMode = true;
     }
 
-    addFromChapterList(offerUid) {
+    addFromChapterList() {
         let dialogRef = this.dialog.open(ChapterListDialogComponent, {
             data: {
-                offerId: offerUid,
                 edit: false
             }
         });
@@ -545,12 +544,8 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    addPage(offerUid) {
-        let dialogRef = this.dialog.open(PageEditDialogComponent, {
-            data: {
-                offerUid: offerUid
-            }
-        });
+    addPage() {
+        let dialogRef = this.dialog.open(PageEditDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new

@@ -145,7 +145,8 @@ export class ChapterComponent implements OnInit {
                 moduleUid: moduleUid,
                 groupUid: groupUid,
                 edit: true,
-                moduleNew: moduleNewData
+                moduleNew: moduleNewData,
+                module: moduleNew
             }
         });
         dialogRef.afterClosed().subscribe(result => {

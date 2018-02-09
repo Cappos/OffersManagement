@@ -195,6 +195,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 moduleUid: moduleUid,
                 groupUid: groupUid,
                 moduleNew: module,
+                module: module.ModuleNew,
                 edit: true
             }
         });

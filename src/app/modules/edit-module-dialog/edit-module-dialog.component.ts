@@ -42,7 +42,7 @@ export class EditModuleDialogComponent implements OnInit {
 
     ngOnInit() {
         // if edit module that is in database
-        if (this.data.edit && this.data.moduleUid && !this.data.newOffer && !this.data.moduleNew.moduleNew) {
+        if (this.data.edit && this.data.moduleUid && !this.data.newOffer && !this.data.module) {
             console.log('is in database');
             this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;

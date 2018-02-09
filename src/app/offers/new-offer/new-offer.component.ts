@@ -156,6 +156,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                 groupUid: groupUid,
                 newOffer: true,
                 moduleNew: module,
+                module: module.moduleNew,
                 edit: true
             }
         });

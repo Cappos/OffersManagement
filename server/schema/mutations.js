@@ -77,8 +77,8 @@ const mutation = new GraphQLObjectType({
                 groupId: {type: GraphQLID},
                 categoryId: {type: GraphQLID},
                 moduleNew: {type: GraphQLBoolean},
-                internalHours: {type: GraphQLInt},
-                externalHours: {type: GraphQLInt},
+                internalHours: {type: GraphQLFloat},
+                externalHours: {type: GraphQLFloat},
                 pricePerHour: {type: GraphQLInt},
                 defaultModule: {type: GraphQLBoolean}
             },
@@ -95,8 +95,8 @@ const mutation = new GraphQLObjectType({
                 price: {type: GraphQLFloat},
                 tstmp: {type: GraphQLString},
                 groupId: {type: GraphQLID},
-                internalHours: {type: GraphQLInt},
-                externalHours: {type: GraphQLInt},
+                internalHours: {type: GraphQLFloat},
+                externalHours: {type: GraphQLFloat},
                 pricePerHour: {type: GraphQLInt},
                 categoryId: {type: GraphQLID}
 
@@ -292,8 +292,8 @@ const mutation = new GraphQLObjectType({
                 groups: {type: GraphQLID},
                 groupsNew: {type: GraphQLJSON},
                 files: {type: GraphQLJSON},
-                internalHours: {type: GraphQLInt},
-                externalHours: {type: GraphQLInt}
+                internalHours: {type: GraphQLFloat},
+                externalHours: {type: GraphQLFloat}
             },
             resolve(parentValue, args) {
                 return Offer.createOffer(args);
@@ -317,8 +317,8 @@ const mutation = new GraphQLObjectType({
                 files: {type: GraphQLJSON},
                 oldClient: {type: GraphQLID},
                 oldSeller: {type: GraphQLID},
-                internalHours: {type: GraphQLInt},
-                externalHours: {type: GraphQLInt}
+                internalHours: {type: GraphQLFloat},
+                externalHours: {type: GraphQLFloat}
             },
             resolve(parentValue, args) {
                 return Offer.updateOffer(args);

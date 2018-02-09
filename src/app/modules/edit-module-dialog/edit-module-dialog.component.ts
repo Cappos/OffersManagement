@@ -42,7 +42,7 @@ export class EditModuleDialogComponent implements OnInit {
 
     ngOnInit() {
         // if edit module that is in database
-        if (this.data.edit && this.data.moduleUid && !this.data.newOffer) {
+        if (this.data.edit && this.data.moduleUid && !this.data.newOffer && !this.data.moduleNew.moduleNew) {
             console.log('is in database');
             this.id = this.data.moduleUid;
             const chapterId = this.data.chapterId;
@@ -61,7 +61,6 @@ export class EditModuleDialogComponent implements OnInit {
                 this.selectedChapter = chapterId;
                 this.totalPrice = data.module.price;
                 if (this.item.categoryId.length > 0 ){
-                    console.log('if');
                     this.selectedGroup = this.item.categoryId[0].value;
                 }
                 this.loadingService.resolveAll('modulesLoader');
@@ -83,7 +82,7 @@ export class EditModuleDialogComponent implements OnInit {
                 this.categories = data.categories;
                 this.item = this.data.moduleNew;
                 this.rteData = this.item.bodytext;
-                this.prices = this.data.moduleNew.prices;
+                this.prices = data.prices;
                 this.selectedPrice = this.data.moduleNew.pricePerHour;
                 this.totalPrice = this.data.moduleNew.price;
                 if (this.item.categoryId) {
@@ -108,8 +107,6 @@ export class EditModuleDialogComponent implements OnInit {
                 this.loadingService.resolveAll('modulesLoader');
             });
         }
-
-        console.log(this.totalPrice);
     }
 
     onSave(form: NgForm) {

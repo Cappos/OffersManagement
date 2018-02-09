@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLFloat } = graphql;
 const GraphQLJSON = require('graphql-type-json');
 const GraphQLDate = require('graphql-date');
 
@@ -48,8 +48,8 @@ const OfferType = new GraphQLObjectType({
                   return Offer.findSealer(parentValue._id);
               }
           },
-          internalHours: {type: GraphQLInt},
-          externalHours: {type: GraphQLInt},
+          internalHours: {type: GraphQLFloat},
+          externalHours: {type: GraphQLFloat},
           deleted: {type: GraphQLBoolean}
       }
   }

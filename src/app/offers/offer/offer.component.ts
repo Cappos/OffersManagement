@@ -111,8 +111,6 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                     this.offersUpdate = _.cloneDeep(this.offersModules);
 
-                    console.log(this.offersUpdate);
-
                     // format date for datePicker
                     this.totalPrice = this.item.totalPrice;
                     this.newDate = this.item.tstamp;
@@ -187,7 +185,6 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     onEdit() {
-        console.log('edit');
         this.editMode = true
     }
 
@@ -337,7 +334,6 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
                 // Data update
                 let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
                 let offerIndex = this.offersUpdate.indexOf(offerData);
@@ -592,7 +588,6 @@ export class OfferComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 for (let e in result) {
-
                     // Data update
                     let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
                     let offerIndex = this.offersUpdate.indexOf(offerData);
@@ -616,7 +611,6 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                     this.offersUpdate[offerIndex].subTotal = sum;
                     this.offersModules[groupIndex].subTotal = sum;
-
                 }
 
                 // update total price
@@ -637,7 +631,6 @@ export class OfferComponent implements OnInit, OnDestroy {
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
-
             }
             this.editMode = true;
         });

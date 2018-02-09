@@ -9,19 +9,46 @@
         <div class="section-title">
             <h1 class="main-title">Projekt Offerte</h1>
             <h1 class="main-title">{{offerData.offerTitle}}</h1>
+            <br/>
+            <h2>Wir lösen Ihre Business Challenges.</h2>
         </div>
         <div class="line2">
             <img src="https://i.imgur.com/oHMDK49.jpg" alt="line2">
         </div>
-
-        <section class="offer-info">
-            <h4>{{offerData.offerNumber}}</h4>
-            <p>{{offerData.sealer[0].name}}</p>
-            <p>{{offerData.client[0].companyName}}</p>
-            <p>{{offerData.tstamp | date: 'dd.MM.y'}}</p>
-            <p>{{offerData.expDate | date: 'dd.MM.y'}}</p>
-            <p>{{offerData.totalPrice}}</p>
-        </section>
+        <div class="offer-info-container">
+            <div class="offer-info offer-info1">
+                <!--<h4>{{offerData.offerNumber}}</h4>-->
+                <!--<p>{{offerData.sealer[0].name}}</p>-->
+                <!--<p>{{offerData.client[0].companyName}}</p>-->
+                <!--<p>{{offerData.tstamp | date: 'dd.MM.y'}}</p>-->
+                <!--<p>{{offerData.expDate | date: 'dd.MM.y'}}</p>-->
+                <!--<p>{{offerData.totalPrice}}</p>-->
+                <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
+                <p>Dokumenttyp: Offerte</p>
+                <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
+                <p>Version: 1.0</p>
+            </div>
+            <div class="offer-info">
+                <h4>Verantwortliche Person:</h4>
+                <p>deepscreen GmbH</p>
+                <p>{{offerData.sealer[0].name}}</p>
+                <p>Tel. {{offerData.sealer[0].phone}}</p>
+                <p>Mob. {{offerData.sealer[0].mobile}}</p>
+                <p>{{offerData.sealer[0].mail}}</p>
+            </div>
+            <div class="offer-info">
+                <h4>Empfänger:</h4>
+                <p>orell füssli security printing ltd </p>
+                <p>{{offerData.client[0].name}}</p>
+                <p>Tel. {{offerData.client[0].phone}}</p>
+                <p>Mob. {{offerData.client[0].mobile}}</p>
+                <p>{{offerData.client[0].mail}}</p>
+            </div>
+        </div>
+        <div class="section-top-bottom">
+            <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und darf nicht an unautorisierte Dritte weitergegeben werden.
+            </p>
+        </div>
     </div>
 
     <ng-container *ngFor="let group of offerGroups; let i = index" ngSwitch="{{group.type}}">
@@ -29,6 +56,9 @@
         <!-- PAGES -->
         <div *ngSwitchCase="'2'">
             <div class="page-wrapper">
+                <div class="line3">
+                    <img src="https://i.imgur.com/XAkhpSy.png" alt="line3">
+                </div>
                 <div class="content-wrapper">
                     <h2>{{group.title}}</h2>
                     <h4>{{group.subtitle}}</h4>
@@ -37,7 +67,6 @@
                         <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -50,11 +79,34 @@
                     <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->
 
                     <div class="modules" *ngFor="let module of group.modules">
-                        <h4>{{module.name}}</h4>
-                        <p>{{module.price | number:'2.2-2'}}</p>
-                        <p>{{module.categoryId[0].name}}</p>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                            <tr class="modules-header">
+                                <td class="first-td">
+                                    <h4>{{module.name}}</h4>
+                                </td>
+                                <td class="second-td">
+                                    <p>Betrag</p>
+                                </td>
+                                <td class="third-td">
+                                    <p>Enthalten</p>
+                                </td>
+                            </tr>
+                            <tr class="modules-main">
+                                <td class="first-td">
+                                    <p [innerHTML]="module.bodytext"></p>
+                                </td>
+                                <td class="second-td">
+                                    <p class="module-price">{{module.price | number:'2.2-2'}}</p>
+                                </td>
+                                <td class="img-shape third-td">
+                                    <img src="https://i.imgur.com/BCFrz7n.png" alt="x">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--<p>{{module.categoryId[0].name}}</p>-->
                         <!--<p>{{module.tstamp | date: 'dd.MM.y'}}</p>-->
-                        <p [innerHTML]="module.bodytext"></p>
                     </div>
                 </div>
 

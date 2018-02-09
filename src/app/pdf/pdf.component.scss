@@ -14,8 +14,26 @@
 }
 .section-top{
     page-break-after: always;
-    .offer-info{
-        padding-left: 60px;
+    .offer-info-container{
+        padding:0px 60px;
+        margin-bottom: 20px;
+        text-align: left;
+        .offer-info{
+            float: left;
+            width: 2.5in;
+            height: 1.7in;
+            h4{
+                margin: 0;
+                font-size: 14px;
+            }
+        }
+        .offer-info1{
+            margin-left:60px;
+        }
+    }
+    .section-top-bottom{
+        font-size: 12px;
+        padding: 0 40px;
     }
 
 }
@@ -25,7 +43,18 @@
         margin-top: 0;
         margin-bottom: 15px;
         page-break-after: auto;
+        font-size: 13px;
     }
+    h4{
+        font-size: 14px;
+    }
+    li{
+        font-size: 13px;
+    }
+    ul{
+        margin-left: -20px;
+    }
+
 }
 
 .content-wrapper {
@@ -43,20 +72,101 @@
     margin: 0;
     padding: 0;
     z-index: 2;
-    margin-top: -40px;
+    margin-top: -120px;
     margin-bottom: 30px;
 }
+.line3{
+    display: block;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+}
 :host ::ng-deep{
+    .modules-header{
+        border-top: 1px solid #D5E5A4;
+        border-bottom: 1px solid #D5E5A4;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+    }
+    h4{
+
+    }
+    table{
+
+    }
+    table ,td{
+        border: none;
+    }
+    td{
+        padding-right: 20px;
+        padding-top: 0;
+        vertical-align: top;
+        ul{
+            margin-left: -20px;
+            li{
+            }
+        }
+    }
+    p{
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+    ul{
+        font-size: 13px;
+    }
+    .group-info{
+        ul{
+            margin-left: 0;
+            padding-left: 0;
+            position: relative;
+            li{
+                margin-bottom: 15px;
+                color: #5B5A5A;
+            }
+        }
+    }
     .offer-info{
         p{
             margin-top: 0;
             margin-bottom: 0;
-            font-size: 16px;
+            font-size: 13px;
         }
     }
     .logo{
         margin-top: 80px;
 
+    }
+    .modules-main{
+        td{
+            padding-right: auto;
+            padding-top: auto;
+            vertical-align: middle;
+            .img-shape{
+                margin-left: 40px;
+            }
+        }
+    }
+    .first-td{
+        width: 5in;
+        overflow: hidden;
+        ul{
+            width: 5in;
+            li{
+                width: 5in;
+            }
+        }
+    }
+    .second-td{
+        width: 1in;
+        text-align: center;
+        overflow: hidden;
+    }
+    .third-td{
+        width: 1in;
+        text-align: center;
+        overflow: hidden;
     }
     h3{
         border-top: 1px solid #D5E5A4;
@@ -78,11 +188,11 @@
         text-align: left;
         font-size: 34px;
         font-weight: bold;
-        margin-right: 260px;
+        margin-right: 200px;
 
     }
     ul{
-        padding: 0 24px;
+        padding: 10px 0;
     }
     h1, h2, h3, h4, p{
 
@@ -98,14 +208,18 @@ h2{
     text-align: left;
     font-size: 34px;
     font-weight: bold;
-    margin-right: 260px;
+    margin-right: 200px;
 }
 .section-title{
     margin-top: 150px;
-    margin-bottom: 210px;
+    margin-bottom: 180px;
     h1{
         margin-bottom: 0;
         margin-top: 0;
+        padding: 0px 60px;
+    }
+    h2{
+        font-size: 28px;
         padding: 0px 60px;
     }
 

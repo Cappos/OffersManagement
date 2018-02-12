@@ -20,13 +20,6 @@ export class PdfComponent implements OnInit {
 
     public downloadPDF() {
         // return xepOnline.Formatter.Format('content', {render: 'newwin'});
-        return xepOnline.Formatter.Format('content', {
-            pageMarginLeft: '0',
-            pageMarginRight: '0',
-            pageWidth: '210mm',
-            pageHeight: '297mm',
-            render: 'download',
-            filename: this.offerData.offerNumber
-        });
+        return xepOnline.Formatter.Format('content', {pageMarginLeft: '0', pageMarginRight: '0', pageWidth: '210mm', pageHeight: '297mm', render: 'download', filename: this.offerData.offerNumber});
     }
 }

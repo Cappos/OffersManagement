@@ -7,5 +7,6 @@ require('./client.model');
 require('./category.model');
 require('./page.model');
 require('./price.model');
+require('./user.model');
 
 

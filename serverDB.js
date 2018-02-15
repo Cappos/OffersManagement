@@ -8,6 +8,8 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const schema = require('./server/schema/schema');
 
+var userRoutes = require('./server/routes/user');
+
 const app = express();
 
 // Replace with your mongoLab URI
@@ -79,6 +81,7 @@ app.post('/upload', function(req, res) {
     });
 });
 
+app.use('/user', userRoutes);
 
 //Set Port
 const port = process.env.PORT || '3000';

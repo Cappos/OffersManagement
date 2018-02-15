@@ -18,6 +18,7 @@ import {PageComponent} from "./additional-data/page/page.component";
 import {SellersComponent} from "./sellers/sellers.component";
 import {PdfComponent} from './pdf/pdf.component';
 import {PricesComponent} from "./prices/prices.component";
+import {UsersComponent} from "./users/users.component";
 
 const appRoutes: Routes = [
     {path: '', component: DashboardComponent},
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     {path: 'additionalData/newPage', component: PageComponent},
     {path: 'sellers', component: SellersComponent},
     {path: 'pdf', component: PdfComponent},
-    {path: 'prices', component: PricesComponent}
+    {path: 'prices', component: PricesComponent},
+    {path: 'users', component: UsersComponent}
 ];
 
 @NgModule({

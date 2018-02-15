@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull} = graphql;
@@ -18,6 +17,8 @@ const PageType =  require('./types/page_type');
 const Page = mongoose.model('page');
 const PriceType = require('./types/price_type');
 const Price = mongoose.model('price');
+const UserType = require('./types/user_type');
+const User = mongoose.model('user');
 
 
 const RootQuery = new GraphQLObjectType({
@@ -130,6 +131,19 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Price.find({_id: id, deleted: false});
+            }
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve(parentValue) {
+                return User.find({deleted: false});
+            }
+        },
+        user: {
+            type: UserType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return User.findById({_id: id});
             }
         },
     })

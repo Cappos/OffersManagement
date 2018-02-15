@@ -3,22 +3,21 @@ import {NgForm} from '@angular/forms';
 import {slideInDownAnimation} from '../_animations/app.animations';
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from '@covalent/core';
 import {SharedService} from '../shared/shared.service';
-import {NewSellerComponent} from './new-seller/new-seller.component';
 import {MatDialog} from '@angular/material';
 import {Apollo} from 'apollo-angular';
-import getSealerData from '../queries/fetchSealer';
-import addSealer from '../queries/createSealer';
-import removeSealer from '../queries/deleteSealer';
-import updateSealer from '../queries/editSealer';
-
+import getUserData from '../queries/fetchUser';
+import addUser from '../queries/createUser';
+import removeUser from '../queries/deleteUser';
+import updateUser from '../queries/updateUser';
+import {NewUserComponent} from "./new-user/new-user.component";
 
 @Component({
-    selector: 'app-sellers',
-    templateUrl: './sellers.component.html',
-    styleUrls: ['./sellers.component.css'],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css'],
     animations: [slideInDownAnimation]
 })
-export class SellersComponent implements OnInit {
+export class UsersComponent implements OnInit {
 
     @HostBinding('@routeAnimation') routeAnimation = true;
     @HostBinding('class.td-route-animation') classAnimation = true;
@@ -41,9 +40,9 @@ export class SellersComponent implements OnInit {
 
     ngOnInit(): void {
         this.apollo.watchQuery<any>({
-            query: getSealerData
+            query: getUserData
         }).valueChanges.subscribe(({data}) => {
-            this.data = data.sealers;
+            this.data = data.users;
             this.loadingService.resolveAll('modulesLoader');
         });
     }
@@ -55,42 +54,39 @@ export class SellersComponent implements OnInit {
     onSave(from: NgForm, userName, userId) {
         const value = from.value;
         this.apollo.mutate({
-            mutation: updateSealer,
+            mutation: updateUser,
             variables: {
                 id: userId,
-                name: userName,
+                username: userName,
                 email: value.email,
-                phone: value.phone,
-                mobile: value.mobile
+                password: value.password
             },
             refetchQueries: [{
-                query: getSealerData
+                query: getUserData
             }]
         }).subscribe((res) => {
             this.editMode = false;
-            this.sharedService.sneckBarNotifications(`user ${res.data.editSealer.name} updated.`);
+            this.sharedService.sneckBarNotifications(`user ${res.data.editUser.name} updated.`);
         });
     }
 
-    newSeller() {
-        const dialogRef = this.dialog.open(NewSellerComponent);
+    newUser() {
+        const dialogRef = this.dialog.open(NewUserComponent);
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.apollo.mutate({
-                    mutation: addSealer,
+                    mutation: addUser,
                     variables: {
-                        name: result.name,
+                        username: result.username,
                         email: result.email,
-                        phone: result.phone,
-                        mobile: result.mobile,
-                        value: result.value
+                        password: result.password
                     },
                     refetchQueries: [{
-                        query: getSealerData
+                        query: getUserData
                     }]
                 }).subscribe((res) => {
-                    this.sharedService.sneckBarNotifications(`user ${res.data.addSealer.name} created.`);
+                    this.sharedService.sneckBarNotifications(`user ${res.data.addUser.name} created.`);
                 });
             }
         });
@@ -106,15 +102,15 @@ export class SellersComponent implements OnInit {
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
                 this.apollo.mutate({
-                    mutation: removeSealer,
+                    mutation: removeUser,
                     variables: {
                         id: id,
                     },
                     refetchQueries: [{
-                        query: getSealerData
+                        query: getUserData
                     }]
                 }).subscribe((res) => {
-                    this.sharedService.sneckBarNotifications(`user ${res.data.deleteSealer.name} deleted!!!.`);
+                    this.sharedService.sneckBarNotifications(`user ${res.data.deleteUser.name} deleted!!!.`);
                 });
             }
         });

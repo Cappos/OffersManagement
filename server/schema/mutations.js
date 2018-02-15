@@ -2,6 +2,7 @@ const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLFloat, GraphQLList, GraphQLBoolean} = graphql;
 const GraphQLJSON = require('graphql-type-json');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Sealer = mongoose.model('sealer');
 const SealerType = require('./types/sealer_type');
 const Module = mongoose.model('module');
@@ -18,6 +19,8 @@ const OfferType = require('./types/offer_type');
 const Offer = mongoose.model('offer');
 const PriceType = require('./types/price_type');
 const Price = mongoose.model('price');
+const UserType = require('./types/user_type');
+const User = mongoose.model('user');
 
 
 const mutation = new GraphQLObjectType({
@@ -368,7 +371,52 @@ const mutation = new GraphQLObjectType({
                     }
                 }, {new: true});
             }
-        }
+        },
+        addUser: {
+            type: UserType,
+            args: {
+                username: {type: new GraphQLNonNull(GraphQLString)},
+                password: {type: new GraphQLNonNull(GraphQLString)},
+                email: {type: new GraphQLNonNull(GraphQLString)}
+            },
+            resolve(parentValue, args) {
+                return User.addNewUser(args)
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return User.findOneAndUpdate({_id: id}, {
+                    $set: {
+                        deleted: true
+                    }
+                }, {new: true});
+            }
+        },
+        editUser: {
+            type: UserType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                username: {type: new GraphQLNonNull(GraphQLString)},
+                password: {type: new GraphQLNonNull(GraphQLString)},
+                email: {type: new GraphQLNonNull(GraphQLString)},
+                deleted: {type: GraphQLBoolean},
+                superAdmin: {type: GraphQLBoolean}
+            },
+            resolve(parentValue, args) {
+                const password = bcrypt.hashSync(args.password, 10);
+                return User.findOneAndUpdate({_id: args.id}, {
+                    $set: {
+                        username: args.username,
+                        password: password,
+                        email: args.email,
+                        deleted: args.deleted,
+                        superAdmin: args.superAdmin
+                    }
+                }, {new: true});
+            }
+        },
     }
 });
 

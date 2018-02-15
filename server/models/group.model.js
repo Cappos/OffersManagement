@@ -62,7 +62,7 @@ GroupSchema.statics.updateGroup = function (args) {
                     }
                 }, {new: true})
                 .then(chapter => {
-                    if (ModulesNew[e].moduleNew) {
+                    if (ModulesNew[e].moduleNew && !ModulesNew[e].deleted) {
 
                         let module = new Module({
                             name: ModulesNew[e].name,
@@ -80,19 +80,22 @@ GroupSchema.statics.updateGroup = function (args) {
                             .then(([module, chapter]) => chapter);
                     }
                     else {
-                        return Module.findOneAndUpdate({_id: ModulesNew[e]._id}, {
-                            $set: {
-                                name: ModulesNew[e].name,
-                                bodytext: ModulesNew[e].bodytext,
-                                price: ModulesNew[e].price,
-                                groupId: ModulesNew[e].groupId,
-                                categoryId: ModulesNew[e].categoryId,
-                                deleted: ModulesNew[e].deleted,
-                                internalHours: ModulesNew[e].internalHours,
-                                externalHours: ModulesNew[e].externalHours,
-                                pricePerHour: ModulesNew[e].pricePerHour
-                            }
-                        }, {new: true});
+                        if(!ModulesNew[e].moduleNew){
+                            return Module.findOneAndUpdate({_id: ModulesNew[e]._id}, {
+                                $set: {
+                                    name: ModulesNew[e].name,
+                                    bodytext: ModulesNew[e].bodytext,
+                                    price: ModulesNew[e].price,
+                                    groupId: ModulesNew[e].groupId,
+                                    categoryId: ModulesNew[e].categoryId,
+                                    deleted: ModulesNew[e].deleted,
+                                    internalHours: ModulesNew[e].internalHours,
+                                    externalHours: ModulesNew[e].externalHours,
+                                    pricePerHour: ModulesNew[e].pricePerHour
+                                }
+                            }, {new: true});
+                        }
+
                     }
                 });
         }
@@ -126,6 +129,9 @@ GroupSchema.statics.createGroup = function (args) {
                     groupId: chapter._id,
                     categoryId: ModulesNew[e].categoryId,
                     moduleNew: false,
+                    internalHours: ModulesNew[e].internalHours,
+                    externalHours: ModulesNew[e].externalHours,
+                    pricePerHour: ModulesNew[e].pricePerHour
                 });
                 chapter.modules.push(module);
                 module.save()

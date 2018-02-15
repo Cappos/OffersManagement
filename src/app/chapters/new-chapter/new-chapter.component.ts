@@ -91,12 +91,13 @@ export class NewChapterComponent implements OnInit {
         }
     }
 
-    onModuleEdit(moduleNew: boolean, moduleData: any) {
+    onModuleEdit(moduleUid, moduleNew: boolean, moduleData: any) {
         let moduleNewData = moduleNew ? moduleData : null;
         let dialogRef = this.dialog.open(EditModuleDialogComponent, {
             data: {
                 edit: true,
-                moduleNew: moduleNewData
+                moduleNew: moduleNewData,
+                module: moduleNew
             }
         });
         dialogRef.afterClosed().subscribe(result => {

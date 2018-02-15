@@ -205,6 +205,7 @@ export class ChapterComponent implements OnInit {
         }).afterClosed().subscribe((accept: boolean) => {
             if (accept) {
                 this.editMode = true;
+
                 if (!moduleUid) {
                     let module = this.modulesNew.filter(module => module._id === moduleData.id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
@@ -287,6 +288,7 @@ export class ChapterComponent implements OnInit {
                     // update modules list after adding new
                     this.modulesNew.push(result[e]);
                     this.chaptersModules.push(result[e]);
+
                     let modulePrices: any[] = [];
                     let sum: number = 0;
 

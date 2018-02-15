@@ -63,10 +63,11 @@ import {NgPipesModule} from 'ngx-pipes';
 import { PdfComponent } from './pdf/pdf.component';
 import { PricesComponent } from './prices/prices.component';
 import { PriceAddEditDialogComponent } from './prices/price-add-edit-dialog/price-add-edit-dialog.component';
-import { AuthComponent } from './auth/auth.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
+import {AuthService} from "./auth/auth.service";
+import {AuthGuard} from "./auth/auth-guard.service";
 
 
 @NgModule({
@@ -100,7 +101,6 @@ import { NewUserComponent } from './users/new-user/new-user.component';
         PdfComponent,
         PricesComponent,
         PriceAddEditDialogComponent,
-        AuthComponent,
         LoginComponent,
         UsersComponent,
         NewUserComponent
@@ -165,7 +165,7 @@ import { NewUserComponent } from './users/new-user/new-user.component';
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent],
     bootstrap: [AppComponent]
 })

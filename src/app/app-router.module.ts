@@ -19,34 +19,37 @@ import {SellersComponent} from "./sellers/sellers.component";
 import {PdfComponent} from './pdf/pdf.component';
 import {PricesComponent} from "./prices/prices.component";
 import {UsersComponent} from "./users/users.component";
+import {LoginComponent} from "./auth/login/login.component";
+import {AuthGuard} from "./auth/auth-guard.service";
 
 const appRoutes: Routes = [
-    {path: '', component: DashboardComponent},
-    {path: 'chapters', component: ChaptersComponent},
-    {path: 'chapters/:id', component: ChapterComponent},
-    {path: 'chapters/:id/:edit', component: ChapterComponent},
-    {path: 'newChapter', component: NewChapterComponent},
-    {path: 'modules', component: ModulesComponent},
-    {path: 'modules/:id', component: ModuleComponent},
-    {path: 'modules/:id/:edit', component: ModuleComponent},
-    {path: 'newModule', component: NewModuleComponent},
-    {path: 'offers', component: OffersComponent},
-    {path: 'offers/:id', component: OfferComponent},
-    {path: 'offers/:id/:edit', component: OfferComponent},
-    {path: 'newOffer', component: NewOfferComponent},
-    {path: 'newOffer/:clientId', component: NewOfferComponent},
-    {path: 'clients', component: ClientsComponent},
-    {path: 'clients/:id', component: ClientComponent},
-    {path: 'clients/:id/:edit', component: ClientComponent},
-    {path: 'newClient', component: NewClientComponent},
-    {path: 'additionalData', component: AdditionalDataComponent},
-    {path: 'additionalData/page/:id', component: PageComponent},
-    {path: 'additionalData/page/:id/:edit', component: PageComponent},
-    {path: 'additionalData/newPage', component: PageComponent},
-    {path: 'sellers', component: SellersComponent},
-    {path: 'pdf', component: PdfComponent},
-    {path: 'prices', component: PricesComponent},
-    {path: 'users', component: UsersComponent}
+    {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
+    {path: 'chapters', component: ChaptersComponent, canActivate: [AuthGuard]},
+    {path: 'chapters/:id', component: ChapterComponent, canActivate: [AuthGuard]},
+    {path: 'chapters/:id/:edit', component: ChapterComponent, canActivate: [AuthGuard]},
+    {path: 'newChapter', component: NewChapterComponent, canActivate: [AuthGuard]},
+    {path: 'modules', component: ModulesComponent, canActivate: [AuthGuard]},
+    {path: 'modules/:id', component: ModuleComponent, canActivate: [AuthGuard]},
+    {path: 'modules/:id/:edit', component: ModuleComponent, canActivate: [AuthGuard]},
+    {path: 'newModule', component: NewModuleComponent, canActivate: [AuthGuard]},
+    {path: 'offers', component: OffersComponent, canActivate: [AuthGuard]},
+    {path: 'offers/:id', component: OfferComponent, canActivate: [AuthGuard]},
+    {path: 'offers/:id/:edit', component: OfferComponent, canActivate: [AuthGuard]},
+    {path: 'newOffer', component: NewOfferComponent, canActivate: [AuthGuard]},
+    {path: 'newOffer/:clientId', component: NewOfferComponent, canActivate: [AuthGuard]},
+    {path: 'clients', component: ClientsComponent, canActivate: [AuthGuard]},
+    {path: 'clients/:id', component: ClientComponent, canActivate: [AuthGuard]},
+    {path: 'clients/:id/:edit', component: ClientComponent, canActivate: [AuthGuard]},
+    {path: 'newClient', component: NewClientComponent, canActivate: [AuthGuard]},
+    {path: 'additionalData', component: AdditionalDataComponent, canActivate: [AuthGuard]},
+    {path: 'additionalData/page/:id', component: PageComponent, canActivate: [AuthGuard]},
+    {path: 'additionalData/page/:id/:edit', component: PageComponent, canActivate: [AuthGuard]},
+    {path: 'additionalData/newPage', component: PageComponent, canActivate: [AuthGuard]},
+    {path: 'sellers', component: SellersComponent, canActivate: [AuthGuard]},
+    {path: 'pdf', component: PdfComponent, canActivate: [AuthGuard]},
+    {path: 'prices', component: PricesComponent, canActivate: [AuthGuard]},
+    {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
+    {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

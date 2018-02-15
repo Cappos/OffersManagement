@@ -8,7 +8,6 @@ import {MatDialog, MatDialogRef} from "@angular/material";
     styleUrls: ['./new-user.component.css']
 })
 export class NewUserComponent implements OnInit {
-
     savedUserData;
 
     constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<NewUserComponent>) {
@@ -18,12 +17,8 @@ export class NewUserComponent implements OnInit {
     }
 
     onSave(form: NgForm) {
-        let value = form.value;
-        this.savedUserData = value;
-        this.savedUserData.value = 2;
+        this.savedUserData = form.value;
         this.dialogRef.close(this.savedUserData);
     }
-
-
 }
 

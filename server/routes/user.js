@@ -1,8 +1,9 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const User = mongoose.model('user');
 
 
 router.post('/login', function(req, res, next) {
@@ -29,7 +30,9 @@ router.post('/login', function(req, res, next) {
         res.status(200).json({
             message: 'Successfully logged in',
             token: token,
-            userId: user._id
+            userId: user._id,
+            admin: user.superAdmin,
+            created: new Date().getTime()
         });
     });
 });

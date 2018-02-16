@@ -25,6 +25,7 @@ import {Apollo} from 'apollo-angular';
 import getOffer from '../../queries/fetchOffer';
 import * as _ from "lodash";
 import updateOffer from "../../queries/updateOffer";
+import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
 
 @Component({
     selector: 'app-offer',
@@ -817,9 +818,16 @@ export class OfferComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    onPrint() {
+    onPrint(offer, offersGroups) {
         console.log('print');
-        this.pdf.downloadPDF();
+        // this.pdf.downloadPDF();
+
+        let dialogRef = this.dialog.open(PdfDialogComponent, {
+            data: {
+                offer: offer,
+                groups: offersGroups
+            }
+        });
     }
 
     ngOnDestroy() {

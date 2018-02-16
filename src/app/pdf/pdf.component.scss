@@ -19,15 +19,15 @@
   page-break-after: always;
   .offer-info-container {
     padding: 0px 60px;
-    margin-bottom: 20px;
+    margin-bottom: -40px;
     text-align: left;
     .offer-info {
       float: left;
       width: 2.5in;
-      height: 1.7in;
+      height: 1.1in;
       h4 {
         margin: 0;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
     .offer-info1 {
@@ -35,8 +35,8 @@
     }
   }
   .section-top-bottom {
-    font-size: 12px;
-    padding: 0 40px;
+    font-size: 10px;
+    padding: 0 60px;
   }
 
 }
@@ -47,13 +47,13 @@
     margin-top: 0;
     margin-bottom: 15px;
     page-break-after: auto;
-    font-size: 13px;
+    font-size: 10px;
   }
   h4 {
     font-size: 14px;
   }
   li {
-    font-size: 13px;
+    font-size: 10px;
   }
   ul {
     margin-left: -20px;
@@ -75,11 +75,11 @@
 
 .line2 {
   display: block;
-  margin: 0;
   padding: 0;
   z-index: 2;
   margin-top: -120px;
-  margin-bottom: 30px;
+  margin-bottom: 180px;
+
 }
 
 .line3 {
@@ -90,6 +90,9 @@
 }
 
 :host ::ng-deep {
+  ul{
+    margin: 0 !important;
+  }
   li{
     margin-bottom: 5px;
     color: #5B5A5A;
@@ -161,23 +164,31 @@
   p {
     margin-top: 0;
     margin-bottom: 20px;
-    font-size: 13px;
+    font-size: 10px;
   }
   ul {
-    font-size: 13px;
+    font-size: 10px;
   }
   .group-info {
     ul {
       margin-left: 0;
       padding-left: 0;
       position: relative;
+      page-break-after: auto;
+    }
+    th{
+      width: 50%;
+      text-align: left;
+    }
+    h3{
+      page-break-before: auto;
     }
   }
   .offer-info {
     p {
       margin-top: 0;
       margin-bottom: 0;
-      font-size: 13px;
+      font-size: 11px;
     }
   }
   .logo {
@@ -241,10 +252,10 @@
   }
   h2 {
     text-align: left;
-    font-size: 34px;
+    font-size: 26px;
     font-weight: bold;
     margin-right: 200px;
-
+    margin-top: 0;
   }
   ul {
     padding: 10px 0;
@@ -263,9 +274,10 @@ h1 {
 
 h2 {
   text-align: left;
-  font-size: 34px;
+  font-size: 26px;
   font-weight: bold;
   margin-right: 200px;
+  margin-bottom: 0;
 }
 
 .section-title {
@@ -277,8 +289,9 @@ h2 {
     padding: 0px 60px;
   }
   h2 {
-    font-size: 28px;
+    font-size: 26px;
     padding: 0px 60px;
+    margin: 0;
   }
 
 }

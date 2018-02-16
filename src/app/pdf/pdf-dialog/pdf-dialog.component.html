@@ -1,3 +1,17 @@
+<div layout="row" layout-wrap>
+
+    <div flex="90" layout="column" layout-align="center start"><strong>Offer:</strong> {{[offerData.offerNumber]}}</div>
+    <div flex="5" layout="column" layout-align="center end">
+        <button mat-mini-fab (click)="downloadPDF()" color="primary">
+            <mat-icon>print</mat-icon>
+        </button>
+    </div>
+    <div flex="5" layout="column" layout-align="center center">
+        <button mat-mini-fab  color="accent" mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
 <section id="content" class="pdf-container">
     <div class="section-top">
         <div class="logo">
@@ -46,7 +60,10 @@
             </div>
         </div>
         <div class="section-top-bottom">
-            <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und darf nicht an unautorisierte Dritte weitergegeben werden.
+            <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein
+                Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu
+                irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und darf
+                nicht an unautorisierte Dritte weitergegeben werden.
             </p>
         </div>
     </div>
@@ -93,15 +110,15 @@
 
                             </tr>
                             <tr class="modules-main">
-                                <th class="first-td">
+                                <td class="first-td">
                                     <p [innerHTML]="module.bodytext"></p>
-                                </th>
-                                <th class="second-td">
+                                </td>
+                                <td class="second-td">
                                     <p class="module-price">{{module.price | number:'2.2-2'}}</p>
-                                </th>
-                                <th class="img-shape third-td">
+                                </td>
+                                <td class="img-shape third-td">
                                     <img src="https://i.imgur.com/BCFrz7n.png" alt="x">
-                                </th>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -124,14 +141,25 @@
                         <h4>Bemerkungen</h4>
                         <ul>
                             <li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li>
-                            <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag fällig 12 Wochen nach Projektstart (Kickoff Meeting).</li>
+                            <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag fällig
+                                12 Wochen nach Projektstart (Kickoff Meeting).
+                            </li>
                             <li>Die Nutzungsrechte sind für den Gebrauch der Weblösung abgegolten.</li>
-                            <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}</li>
-                            <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens eine Woche vor der Content-Eingabe geliefert.</li>
-                            <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder Ändern des Inhaltes wird nach Aufwand verrechnet.</li>
-                            <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das Nutzungsrecht erworben.</li>
+                            <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}
+                            </li>
+                            <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens eine
+                                Woche vor der Content-Eingabe geliefert.
+                            </li>
+                            <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder
+                                Ändern des Inhaltes wird nach Aufwand verrechnet.
+                            </li>
+                            <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das
+                                Nutzungsrecht erworben.
+                            </li>
                         </ul>
-                        <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie sie komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH, Binzmühlestrasse 97, 8050 Zürich.</p>
+                        <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie sie
+                            komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH,
+                            Binzmühlestrasse 97, 8050 Zürich.</p>
                     </div>
                     <table class="manager-table">
                         <tbody>

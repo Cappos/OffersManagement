@@ -68,6 +68,7 @@ import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
 import {AuthService} from "./auth/auth.service";
 import {AuthGuard} from "./auth/auth-guard.service";
+import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import {AuthGuard} from "./auth/auth-guard.service";
         PriceAddEditDialogComponent,
         LoginComponent,
         UsersComponent,
-        NewUserComponent
+        NewUserComponent,
+        PdfDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -166,7 +168,7 @@ import {AuthGuard} from "./auth/auth-guard.service";
         HttpLinkModule
     ],
     providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

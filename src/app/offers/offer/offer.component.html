@@ -10,7 +10,7 @@
                 </div>
                 <div flex="85" layout="column" layout-align="center start">{{[item.offerNumber]}}</div>
                 <div flex="5" layout="column" layout-align="center end">
-                    <button mat-mini-fab (click)="onPrint()" color="primary" [disabled]="!f.valid">
+                    <button mat-mini-fab (click)="onPrint(item, offersModules)" color="primary" [disabled]="!f.valid">
                         <mat-icon>print</mat-icon>
                     </button>
                 </div>
@@ -355,6 +355,6 @@
             </form>
         </mat-card-content>
     </mat-card>
-    <app-pdf #pdfTemplate [offerData]="item" [offerGroups]="offersModules"></app-pdf>
+    <!--<app-pdf #pdfTemplate [offerData]="item" [offerGroups]="offersModules"></app-pdf>-->
 </ng-template>
 

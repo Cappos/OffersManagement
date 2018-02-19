@@ -91,7 +91,9 @@
     padding: 0;
     z-index: 2;
 }
-
+.pdf-container {
+    max-width: 980px;
+}
 :host ::ng-deep {
     ul{
         margin: 0 !important;

@@ -33,7 +33,7 @@ export class PdfDialogComponent implements OnInit {
         this.loadingService.resolveAll('modulesLoader');
     }
 
-    private downloadPDF() {
+    public downloadPDF() {
         return xepOnline.Formatter.Format('content', {
             pageMarginLeft: '0',
             pageMarginRight: '0',

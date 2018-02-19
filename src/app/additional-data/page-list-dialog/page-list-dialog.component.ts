@@ -43,6 +43,7 @@ export class PageListDialogComponent implements OnInit {
     selectedPage;
     selectedRows: any[] = [];
 
+
     constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, @Inject(MAT_DIALOG_DATA) private modalData: any, private loadingService: TdLoadingService, private dataService: DataService, private _dataTableService: TdDataTableService, public dialogRef: MatDialogRef<PageListDialogComponent>, private apollo: Apollo) {
         this.loadingService.create({
             name: 'modulesLoader',
@@ -106,14 +107,17 @@ export class PageListDialogComponent implements OnInit {
     toggleEditable(event, id) {
         if (event.checked) {
             let page = this.data.find(page => page._id == id);
-            this.selectedRows.push(page)
-            console.log(this.selectedRows);
+            this.selectedRows.push(page);
         }
         else {
             let page = this.data.filter(page => page._id == id);
             let pageIndex = this.selectedRows.indexOf(page);
             this.selectedRows.splice(pageIndex, 1)
         }
+    }
+
+    isChecked(id): boolean {
+        return this.selectedRows.findIndex(page => page._id == id) > -1;
     }
 
     addPage() {

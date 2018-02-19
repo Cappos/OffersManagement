@@ -107,7 +107,6 @@ export class ChapterListDialogComponent implements OnInit {
             for (let m in group.modules) {
                 group.modules[m].moduleNew = true
             }
-
             this.selectedRows.push(group)
         }
         else {
@@ -115,6 +114,10 @@ export class ChapterListDialogComponent implements OnInit {
             let groupIndex = this.selectedRows.indexOf(group);
             this.selectedRows.splice(groupIndex, 1)
         }
+    }
+
+    isChecked(id): boolean {
+        return this.selectedRows.findIndex(group => group._id == id) > -1;
     }
 
     addChapter() {

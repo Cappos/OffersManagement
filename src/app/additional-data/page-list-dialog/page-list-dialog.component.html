@@ -17,7 +17,7 @@
   <tbody>
   <tr td-data-table-row *ngFor="let row of filteredData; let i = index">
     <td td-data-table-cell >
-      <mat-checkbox (change)="toggleEditable($event, row._id)"></mat-checkbox>
+      <mat-checkbox (change)="toggleEditable($event, row._id)" [checked]="isChecked(row._id)"></mat-checkbox>
     </td>
     <td td-data-table-cell >
       {{i +1}}

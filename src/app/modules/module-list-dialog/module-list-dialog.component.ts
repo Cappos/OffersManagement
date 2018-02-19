@@ -115,6 +115,10 @@ export class ModuleListDialogComponent implements OnInit {
         }
     }
 
+    isChecked(id): boolean {
+        return this.selectedRows.findIndex(module => module._id == id) > -1;
+    }
+
     addModule() {
         for (let e in this.selectedRows) {
             // update modules list after adding new

@@ -104,7 +104,7 @@ export class AdditionalDataComponent implements OnInit {
 
     onSelect(row) {
         let id = row['_id'];
-        this.router.navigate(['/additionalData/page/' + id + '/edit']);
+        this.router.navigate(['/additionalData/page/' + id]);
     }
 
     addGraph() {

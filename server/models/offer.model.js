@@ -187,10 +187,12 @@ OfferSchema.statics.updateOffer = function (args) {
                 bodytext: args.bodytext,
                 client: args.client,
                 sealer: args.sealer,
+                tstamp: args.tstamp,
                 expDate: args.expDate,
                 signed: args.signed,
                 internalHours: args.internalHours,
-                externalHours: args.externalHours
+                externalHours: args.externalHours,
+                files: args.files
             }
         }, {new: true}).then(offer => {
 

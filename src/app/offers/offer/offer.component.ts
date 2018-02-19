@@ -98,6 +98,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.internalHours = this.item.internalHours;
                     this.externalHours = this.item.externalHours;
                     this.clients = data.clients; // Set client data
+                    this.files = this.item.files; // Set uploaded files
 
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
@@ -172,6 +173,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 seller: seller._id,
                 groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
                 files: this.files,
+                tstamp: value.tstamp,
                 expDate: value.expDate,
                 oldClient: this.oldClient,
                 oldSeller: this.oldSeller,
@@ -790,6 +792,14 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
+    selectEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
     uploadEvent(files: FileList | File): void {
         if (files instanceof FileList) {
             console.log(files);
@@ -803,6 +813,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 let file = JSON.parse(data);
                 file.tstamp = new Date();
                 this.files.push(file);
+                console.log(this.files);
                 let event = new MouseEvent('click', {bubbles: true});
                 this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
             });

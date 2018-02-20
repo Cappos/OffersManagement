@@ -35,6 +35,7 @@ router.post('/login', function(req, res, next) {
             created: new Date().getTime()
         });
     });
+    return res;
 });
 
 module.exports = router;

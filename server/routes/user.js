@@ -7,6 +7,7 @@ const User = mongoose.model('user');
 
 
 router.post('/login', function(req, res, next) {
+    return res;
     User.findOne({username: req.body.username}, function(err, user) {
         if (err) {
             return res.status(500).json({
@@ -35,7 +36,6 @@ router.post('/login', function(req, res, next) {
             created: new Date().getTime()
         });
     });
-    return res;
 });
 
 module.exports = router;

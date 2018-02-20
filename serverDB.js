@@ -8,7 +8,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const schema = require('./server/schema/schema');
 
-var userRoutes = require('./server/routes/user');
+const userRoutes = require('./server/routes/user');
 
 const app = express();
 
@@ -42,6 +42,13 @@ app.use('/graphql', expressGraphQL({
     schema,
     graphiql: true
 }));
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
+    next();
+});
 
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));

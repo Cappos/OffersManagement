@@ -90,7 +90,7 @@
                         <ng-container *ngFor="let group of offersModules; let i = index" ngSwitch="{{group.type}}">
 
                             <!-- PAGES -->
-                            <div *ngSwitchCase="'2'" layout="row">
+                            <div *ngSwitchCase="'2'" layout="row" class="page">
                                 <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
                                                      layout-align="center start" [attr.id]="group._id"
                                                      [attr.index]="i">
@@ -104,26 +104,31 @@
                                         </mat-panel-title>
                                         <mat-icon>arrow_drop_down</mat-icon>
                                     </mat-expansion-panel-header>
-                                    <form #group.uid="ngForm">
-                                        <div layout="row" layout-wrap>
-                                            <div style="margin-top:20px;" flex="100" layout-padding>
-                                                <mat-input-container style="width: 100%;">
-                                                    <input matInput placeholder="Title" [ngModel]="group.title"
-                                                           name="group.title" readonly>
-                                                </mat-input-container>
-                                            </div>
-                                            <div style="margin-top:20px;" flex="100" layout-padding>
-                                                <mat-input-container style="width: 100%;">
-                                                    <input matInput placeholder="Subtitle" [ngModel]="group.subtitle"
-                                                           name="group.subtitle" readonly>
-                                                </mat-input-container>
-                                            </div>
-                                            <div flex="100" layout-padding>
-                                                <h3 style="margin-top: 0;">Content</h3>
-                                                <div [innerHTML]="group.bodytext"></div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <form #group.uid="ngForm">
+                                                <div layout="row" layout-wrap>
+                                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                                        <mat-input-container style="width: 100%;">
+                                                            <input matInput placeholder="Title" [ngModel]="group.title"
+                                                                   name="group.title" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div style="margin-top:20px;" flex="100" layout-padding>
+                                                        <mat-input-container style="width: 100%;">
+                                                            <input matInput placeholder="Subtitle" [ngModel]="group.subtitle"
+                                                                   name="group.subtitle" readonly>
+                                                        </mat-input-container>
+                                                    </div>
+                                                    <div flex="100" layout-padding>
+                                                        <h3 style="margin-top: 0;">Content</h3>
+                                                        <div [innerHTML]="group.bodytext"></div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </mat-card-content>
+                                    </mat-card>
+
                                 </mat-expansion-panel>
                                 <div flex="10" layout-align="start end" layout="column">
                                     <div layout="row">

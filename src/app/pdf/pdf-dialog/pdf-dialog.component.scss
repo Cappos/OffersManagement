@@ -1,7 +1,3 @@
-@page {
-
-}
-
 .pdf-container {
     padding-bottom: 50px;
     padding-top: 50px;
@@ -18,13 +14,16 @@
 .section-top {
     page-break-after: always;
     .offer-info-container {
-        padding: 0px 60px;
+
+        padding: 0 60px;
         margin-bottom: -40px;
         text-align: left;
+
         .offer-info {
             float: left;
             width: 2.5in;
             height: 1.1in;
+
             h4 {
                 margin: 0;
                 font-size: 12px;
@@ -47,25 +46,93 @@
         margin-top: 0;
         margin-bottom: 15px;
         page-break-after: auto;
-        font-size: 10px;
+        font-size: 11px;
     }
     h2 {
         margin-bottom: 30px;
     }
     h4 {
         font-size: 14px;
+
+        &.no-borders {
+            border: none;
+        }
     }
     li {
-        font-size: 10px;
+        font-size: 11px;
     }
-    ul {
-        margin-left: -20px;
+    //ul {
+    //
+    //    margin-left: -20px;
+    //}
+
+    td {
+        font-size: 11px;
+        h4 {
+            font-size: 14px;
+        }
     }
 
 }
 
 .content-wrapper {
     padding: 0 60px;
+
+    ul {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    p {
+        ul {
+            padding-left: 0;
+        }
+    }
+
+    h4 {
+        border-top: 1px solid #D5E5A4;
+        border-bottom: 1px solid #D5E5A4;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+    }
+
+    .first-td, .second-td, .third-td, .total {
+        h4 {
+            padding: 10px;
+            border: none;
+            margin: 0;
+        }
+    }
+
+    .bemerkungen {
+        page-break-before: auto;
+
+        h4 {
+            border: none;
+            margin: 0;
+        }
+        ul {
+            padding: 0;
+            margin: 0 0 10px;
+
+            li {
+                font-size: 9px;
+            }
+        }
+
+        p {
+            font-size: 9px;
+        }
+    }
+
+    .manager-table {
+        h4 {
+            border: none;
+            margin: 0;
+        }
+
+    }
 }
 
 .line1 {
@@ -91,42 +158,50 @@
     padding: 0;
     z-index: 2;
 }
+
 .pdf-container {
     max-width: 980px;
 }
+
 :host ::ng-deep {
-    ul{
-        margin: 0 !important;
-    }
-    li{
+
+    li {
         margin-bottom: 5px;
         color: #5B5A5A;
     }
-    .total-table{
+
+    .total-table {
+        margin: 10px 0 40px;
+    }
+
+    .auftrag {
+        border-bottom: 1px solid #D5E5A4;
+    }
+
+    .manager-table {
         margin: 40px 0;
     }
-    .auftrag{
-        border-top: 1px solid #D5E5A4;
-    }
-    .manager-table{
-        margin: 40px 0;
-    }
-    .total{
+
+    .total {
         border-top: 1px solid #D5E5A4;
         border-bottom: 1px solid #D5E5A4;
         padding-top: 10px;
         padding-bottom: 10px;
-        h4{
+
+        h4 {
             text-align: left;
+            border: none;
         }
-        p{
+        p {
             text-align: right;
         }
     }
-    .manager-date{
+
+    .manager-date {
         text-align: right;
     }
-    .manager{
+
+    .manager {
         border-top: 1px solid #D5E5A4;
         border-bottom: 1px solid #D5E5A4;
         padding-top: 10px;
@@ -139,68 +214,81 @@
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 10px;
+
         .second-td, .third-td {
             padding-top: 10px;
+
             h4 {
                 font-size: 14px;
                 font-weight: normal;
+                border: none;
             }
         }
     }
-    h4 {
 
-    }
     table {
         width: 100%;
     }
+
     table, td {
         border: none;
     }
+
     td {
         padding-right: 20px;
         padding-top: 0;
         vertical-align: top;
-        ul {
-            margin-left: -20px;
-            li {
-            }
-        }
     }
     p {
         margin-top: 0;
         margin-bottom: 20px;
-        font-size: 10px;
+        font-size: 11px;
     }
+
     ul {
-        font-size: 10px;
+        font-size: 11px;
     }
+
     .group-info {
+
         ul {
-            margin-left: 0;
-            padding-left: 0;
             position: relative;
             page-break-after: auto;
         }
-        th{
+
+        th {
             width: 50%;
             text-align: left;
+
+            td {
+                font-size: 11px;
+                h4 {
+                    font-size: 14px;
+                }
+            }
         }
-        h3{
+
+        h3 {
             page-break-before: auto;
         }
     }
+
     .offer-info {
+
         p {
             margin-top: 0;
             margin-bottom: 0;
             font-size: 11px;
         }
     }
+
     .logo {
         margin-top: 80px;
 
     }
+
     .modules-main {
+
         td {
             padding-right: auto;
             padding-top: auto;
@@ -210,6 +298,7 @@
             }
         }
     }
+
     .first-td {
         width: 5in;
         min-width: 5in;
@@ -218,7 +307,11 @@
         h4, p, ul {
             width: 5in;
         }
-        p, ul{
+
+        h4 {
+            border: none;
+        }
+        p, ul {
             font-weight: normal;
             color: #5B5A5A;
         }
@@ -226,11 +319,14 @@
         ul {
             width: 5in;
             padding: 0;
+            margin-bottom: 0;
+
             li {
                 width: 5in;
             }
         }
     }
+
     .second-td {
         width: 1in;
         text-align: center;
@@ -239,6 +335,7 @@
             font-size: 12px;
         }
     }
+
     .third-td {
         width: 1in;
         text-align: center;
@@ -248,6 +345,7 @@
             font-size: 12px;
         }
     }
+
     h3 {
         border-top: 1px solid #D5E5A4;
         border-bottom: 1px solid #D5E5A4;
@@ -255,15 +353,18 @@
         padding-bottom: 10px;
         padding-left: 10px;
     }
+
     p {
         color: #5B5A5A;
     }
+
     h1 {
         text-align: left;
         font-size: 34px;
         font-weight: bold;
         margin-right: 260px;
     }
+
     h2 {
         text-align: left;
         font-size: 26px;
@@ -271,11 +372,9 @@
         margin-right: 200px;
         margin-top: 0;
     }
+
     ul {
         padding: 10px 0;
-    }
-    h1, h2, h3, h4, p {
-
     }
 }
 

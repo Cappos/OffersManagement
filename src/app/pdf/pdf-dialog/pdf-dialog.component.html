@@ -40,7 +40,6 @@
                 <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
                 <p>Dokumenttyp: Offerte</p>
                 <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
-                <p>Version: 1.0</p>
             </div>
             <div class="offer-info">
                 <h4>Verantwortliche Person:</h4>
@@ -52,9 +51,8 @@
             </div>
             <div class="offer-info">
                 <h4>Empfänger:</h4>
-                <p>orell füssli security printing ltd </p>
-                <p>{{offerData.client[0].name}}</p>
-                <p>Tel. {{offerData.client[0].phone}}</p>
+                <p>{{offerData.client[0].companyName}}</p>
+                <p>Tel. {{offerData.client[0].contactPhone}}</p>
                 <p>Mob. {{offerData.client[0].mobile}}</p>
                 <p>{{offerData.client[0].mail}}</p>
             </div>
@@ -68,7 +66,7 @@
         </div>
     </div>
 
-    <ng-container *ngFor="let group of offerGroups; let i = index" ngSwitch="{{group.type}}">
+    <ng-container *ngFor="let group of offerGroups; let last = last; let i = index" ngSwitch="{{group.type}}">
 
         <!-- PAGES -->
         <div *ngSwitchCase="'2'">
@@ -77,8 +75,8 @@
                     <img src="https://i.imgur.com/XAkhpSy.png" alt="line3">
                 </div>
                 <div class="content-wrapper">
-                    <h2>{{group.title}}</h2>
-                    <h4>{{group.subtitle}}</h4>
+                    <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
+                    <h4 class="no-borders" *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h4>
                     <div class="group-info">
                         <div [innerHTML]="group.bodytext"></div>
                         <!--<p>{{group.tstamp | date: 'dd.MM.y'}}</p>-->

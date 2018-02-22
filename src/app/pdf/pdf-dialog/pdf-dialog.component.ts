@@ -27,9 +27,9 @@ export class PdfDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.offerData);
         this.offerData = this.data.offer;
         this.offerGroups = this.data.groups;
+        console.log(this.offerData);
         this.loadingService.resolveAll('modulesLoader');
     }
 

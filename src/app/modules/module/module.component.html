@@ -30,7 +30,7 @@
                                    [readonly]="!editMode">
                         </mat-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
+                    <div style="margin-top:20px;" flex="20" layout-padding>
                         <mat-input-container>
                             <mat-select placeholder="Category" floatPlaceholder="auto" [(ngModel)]="selectedGroup"
                                         [(value)]="selectedGroup" name="categoryId" [disabled]="!editMode">
@@ -39,6 +39,9 @@
                                 </mat-option>
                             </mat-select>
                         </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="25" layout-padding layout-align="center start" layout="column">
+                        <mat-checkbox [ngModel]="item.signed" name="signed" [disabled]="!editMode">Signed</mat-checkbox>
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>

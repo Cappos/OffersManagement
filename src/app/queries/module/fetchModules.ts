@@ -13,6 +13,7 @@ export default gql`
             internalHours
             externalHours
             pricePerHour
+            signed
             categoryId {
                 _id
                 name

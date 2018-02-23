@@ -19,6 +19,7 @@ export default gql`
                 internalHours
                 externalHours
                 pricePerHour
+                signed
                 deleted
             }
         }

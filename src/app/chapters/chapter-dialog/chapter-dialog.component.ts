@@ -58,7 +58,7 @@ export class ChapterDialogComponent implements OnInit {
                 this.loadingService.resolveAll('modulesLoader');
             });
         }
-        else if(this.data.edit){
+        else if (this.data.edit) {
             this.id = this.data.groupUid;
             this.item = this.data.chapterNew;
             this.chaptersModules = this.item.modules;
@@ -73,12 +73,12 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     onSave(form: NgForm) {
-        this.savedChapterData =  form.value;
+        this.savedChapterData = form.value;
         this.savedChapterData.modules = this.chaptersModules;
         this.savedChapterData.subTotal = this.chapterPrice;
         this.savedChapterData._id = this.id;
         this.savedChapterData.type = 1;
-        if(this.item){
+        if (this.item) {
             this.savedChapterData.groupNew = this.item.groupNew
         }
         else {
@@ -137,7 +137,7 @@ export class ChapterDialogComponent implements OnInit {
                     modulePrices.push(this.chaptersModules[m].price);
                 }
 
-                if(modulePrices.length){
+                if (modulePrices.length) {
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
                 else {
@@ -179,10 +179,10 @@ export class ChapterDialogComponent implements OnInit {
     }
 
     addFromModuleList() {
-              let dialogRef = this.dialog.open(ModuleListDialogComponent);
+        let dialogRef = this.dialog.open(ModuleListDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
-            if(result){
-                for(let e in result) {
+            if (result) {
+                for (let e in result) {
                     // update modules list after adding new
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];

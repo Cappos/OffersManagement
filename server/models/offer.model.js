@@ -131,7 +131,8 @@ OfferSchema.statics.createOffer = function (args) {
                                         moduleNew: false,
                                         internalHours: GroupsNew[e].modules[m].internalHours,
                                         externalHours: GroupsNew[e].modules[m].externalHours,
-                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour
+                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour,
+                                        signed: GroupsNew[e].modules[m].signed
                                     });
                                     module.save();
                                     res.modules.push(module);
@@ -228,7 +229,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                         moduleNew: false,
                                         internalHours: GroupsNew[e].modules[m].internalHours,
                                         externalHours: GroupsNew[e].modules[m].externalHours,
-                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour
+                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour,
+                                        signed: GroupsNew[e].modules[m].signed
                                     });
                                     module.save();
                                     res.modules.push(module);
@@ -260,7 +262,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                         moduleNew: false,
                                         internalHours: GroupsNew[e].modules[m].internalHours,
                                         externalHours: GroupsNew[e].modules[m].externalHours,
-                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour
+                                        pricePerHour: GroupsNew[e].modules[m].pricePerHour,
+                                        signed: GroupsNew[e].modules[m].signed
                                     });
                                     module.save();
                                     res.modules.push(module);
@@ -278,7 +281,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                                 deleted: GroupsNew[e].modules[m].deleted,
                                                 internalHours: GroupsNew[e].modules[m].internalHours,
                                                 externalHours: GroupsNew[e].modules[m].externalHours,
-                                                pricePerHour: GroupsNew[e].modules[m].pricePerHour
+                                                pricePerHour: GroupsNew[e].modules[m].pricePerHour,
+                                                signed: GroupsNew[e].modules[m].signed
                                             }
                                         }, {new: true}).then((res) => res).catch(err => console.log(err));
                                 }

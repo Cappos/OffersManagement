@@ -170,7 +170,7 @@
                                         <mat-card-content>
                                             <form #group.uid="ngForm">
                                                 <div layout="row" layout-wrap>
-                                                    <div style="margin-top:20px;" flex="50" layout-padding>
+                                                    <div style="margin-top:20px;" flex="40" layout-padding>
                                                         <mat-input-container style="max-width: 800px; width: 100%;">
                                                             <input matInput placeholder="Name"
                                                                    [ngModel]="module.name"
@@ -189,6 +189,9 @@
                                                             <input matInput placeholder="Created date"
                                                                    [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                                                         </mat-input-container>
+                                                    </div>
+                                                    <div style="margin-top:20px;" flex="10" layout-padding layout-align="center start" layout="column">
+                                                        <mat-checkbox [ngModel]="module.signed" name="signed" disabled>Signed</mat-checkbox>
                                                     </div>
                                                     <div flex="5" layout="column" layout-align="center end">
                                                         <button mat-mini-fab color="primary"

@@ -51,7 +51,7 @@ export class NewModuleComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         const category = this.categories.find(category => category.value == value.categoryId);
-        const price =  +value.externalHours * +value.selectedPrice;
+        const price = +value.externalHours * +value.selectedPrice;
         this.totalPrice = price;
         const group = null;
 
@@ -66,7 +66,8 @@ export class NewModuleComponent implements OnInit {
                 defaultModule: true,
                 internalHours: +value.internalHours,
                 externalHours: +value.externalHours,
-                pricePerHour: +value.selectedPrice
+                pricePerHour: +value.selectedPrice,
+                signed: value.signed
             },
             refetchQueries: [{
                 query: getModulesData

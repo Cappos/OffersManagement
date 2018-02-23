@@ -6,6 +6,7 @@ const GroupSchema = new Schema({
         id: String,
         name: String,
         subTotal: Number,
+        total: Number,
         tstamp: {
             type: Date,
             default: Date.now
@@ -58,7 +59,8 @@ GroupSchema.statics.updateGroup = function (args) {
                 {
                     $set: {
                         name: args.name,
-                        subTotal: args.subTotal
+                        subTotal: args.subTotal,
+                        total: args.total
                     }
                 }, {new: true})
                 .then(chapter => {
@@ -109,7 +111,8 @@ GroupSchema.statics.updateGroup = function (args) {
             {
                 $set: {
                     name: args.name,
-                    subTotal: args.subTotal
+                    subTotal: args.subTotal,
+                    total: args.total
                 }
             }, {new: true})
     }

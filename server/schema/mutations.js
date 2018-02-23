@@ -208,6 +208,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 name: {type: GraphQLString},
                 subTotal: {type: GraphQLFloat},
+                total: {type: GraphQLFloat},
                 tstamp: {type: GraphQLString},
                 order: {type: GraphQLInt},
                 modulesNew: {type: GraphQLJSON},
@@ -223,6 +224,7 @@ const mutation = new GraphQLObjectType({
                 id: {type: new GraphQLNonNull(GraphQLID)},
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 subTotal: {type: GraphQLFloat},
+                total: {type: GraphQLFloat},
                 modulesNew: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {

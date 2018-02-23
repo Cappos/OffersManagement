@@ -11,6 +11,7 @@ const GroupType = new GraphQLObjectType({
       _id: {type: GraphQLID},
       name: {type: GraphQLString},
       subTotal: {type: GraphQLInt},
+      total: {type: GraphQLInt},
       tstamp: {type: GraphQLDate},
       modules: {
           type: new GraphQLList(ModuleType),

@@ -14,8 +14,8 @@ import {ChapterDialogComponent} from "../../chapters/chapter-dialog/chapter-dial
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {ChapterListDialogComponent} from "../../chapters/chapter-list-dialog/chapter-list-dialog.component";
 import {Apollo} from 'apollo-angular';
-import createOffer from '../../queries/createOffer';
-import getOffers from '../../queries/fetchOffers';
+import createOffer from '../../queries/offer/createOffer';
+import getOffers from '../../queries/offer/fetchOffers';
 import getSealersClients from '../../queries/getSealersClients';
 import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";

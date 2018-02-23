@@ -4,7 +4,7 @@ import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {slideInDownAnimation} from "../_animations/app.animations";
 import {Router} from "@angular/router";
 import {Apollo} from "apollo-angular";
-import getDashboardData from '../queries/fetchDashboard';
+import getDashboardData from '../queries/dashboard/fetchDashboard';
 
 @Component({
     selector: 'app-dashboard',

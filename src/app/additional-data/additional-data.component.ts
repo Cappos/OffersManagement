@@ -12,8 +12,8 @@ import {slideInDownAnimation} from '../_animations/app.animations';
 import {MediaBrowserComponent} from '../media-browser/media-browser.component';
 import {MatDialog} from '@angular/material';
 import {Apollo} from "apollo-angular";
-import getPages from '../queries/fetchPages';
-import removePage from '../queries/deletePage';
+import getPages from '../queries/page/fetchPages';
+import removePage from '../queries/page/deletePage';
 
 @Component({
     selector: 'app-additional-data',

@@ -3,10 +3,10 @@ import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from 'apollo-angular';
-import createModule from '../../queries/crateModule';
+import createModule from '../../queries/module/crateModule';
 import {Router} from "@angular/router";
 import getCategoriesPrices from '../../queries/getCategoriesPrices';
-import getModulesData from '../../queries/fetchModules';
+import getModulesData from '../../queries/module/fetchModules';
 
 @Component({
     selector: 'app-new-module',

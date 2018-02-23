@@ -5,10 +5,10 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from '@cova
 import {SharedService} from '../shared/shared.service';
 import {MatDialog} from '@angular/material';
 import {Apollo} from 'apollo-angular';
-import getUserData from '../queries/fetchUser';
-import addUser from '../queries/createUser';
-import removeUser from '../queries/deleteUser';
-import updateUser from '../queries/updateUser';
+import getUserData from '../queries/user/fetchUser';
+import addUser from '../queries/user/createUser';
+import removeUser from '../queries/user/deleteUser';
+import updateUser from '../queries/user/updateUser';
 import {NewUserComponent} from "./new-user/new-user.component";
 
 @Component({

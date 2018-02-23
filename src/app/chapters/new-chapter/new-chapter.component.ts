@@ -8,8 +8,8 @@ import {Group} from "../../offers/groups.model";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {Router} from "@angular/router";
 import {Apollo} from "apollo-angular";
-import fetchGroups from '../../queries/fetchGroups';
-import createGroup from '../../queries/createGroup';
+import fetchGroups from '../../queries/group/fetchGroups';
+import createGroup from '../../queries/group/createGroup';
 
 @Component({
     selector: 'app-new-chapter',

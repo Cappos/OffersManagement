@@ -9,8 +9,8 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 import {slideInDownAnimation} from "../../_animations/app.animations";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {Apollo} from "apollo-angular";
-import fetchGroup from '../../queries/fetchGroup';
-import updateGroup from '../../queries/updateGroup';
+import fetchGroup from '../../queries/group/fetchGroup';
+import updateGroup from '../../queries/group/updateGroup';
 import * as _ from "lodash";
 
 @Component({

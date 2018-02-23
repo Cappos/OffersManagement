@@ -11,8 +11,8 @@ import {Offer} from "./offers.model";
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
 import {Apollo} from "apollo-angular";
-import fetchOffer from '../queries/fetchOffers';
-import removeOffer from '../queries/deleteOffer';
+import fetchOffer from '../queries/offer/fetchOffers';
+import removeOffer from '../queries/offer/deleteOffer';
 
 @Component({
     selector: 'app-offers',

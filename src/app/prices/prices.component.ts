@@ -5,8 +5,8 @@ import {SharedService} from '../shared/shared.service';
 import {MatDialog} from '@angular/material';
 import {Apollo} from 'apollo-angular';
 import  {PriceAddEditDialogComponent} from './price-add-edit-dialog/price-add-edit-dialog.component';
-import getPricesData from '../queries/fetchPrices';
-import removePrice from '../queries/deletePrice';
+import getPricesData from '../queries/price/fetchPrices';
+import removePrice from '../queries/price/deletePrice';
 
 @Component({
     selector: 'app-prices',

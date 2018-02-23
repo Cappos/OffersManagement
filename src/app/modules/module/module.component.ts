@@ -6,9 +6,9 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from 'apollo-angular';
-import fetchModule from '../../queries/fetchModule';
-import updateModule from '../../queries/updateModule';
-import getModulesData from '../../queries/fetchModules';
+import fetchModule from '../../queries/module/fetchModule';
+import updateModule from '../../queries/module/updateModule';
+import getModulesData from '../../queries/module/fetchModules';
 
 
 @Component({

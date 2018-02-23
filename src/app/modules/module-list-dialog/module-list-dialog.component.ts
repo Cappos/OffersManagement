@@ -9,7 +9,7 @@ import {
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {SharedService} from "../../shared/shared.service";
 import {Apollo} from 'apollo-angular';
-import getModulesData from '../../queries/fetchModules';
+import getModulesData from '../../queries/module/fetchModules';
 import * as _ from "lodash";
 
 @Component({

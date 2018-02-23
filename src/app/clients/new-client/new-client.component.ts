@@ -3,8 +3,8 @@ import {NgForm} from "@angular/forms";
 import {SharedService} from "../../shared/shared.service";
 import {Router} from "@angular/router";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
-import createClient from "../../queries/createClient";
-import fetchClients from "../../queries/fetchClients";
+import createClient from "../../queries/client/createClient";
+import fetchClients from "../../queries/client/fetchClients";
 import {Apollo} from "apollo-angular";
 
 @Component({

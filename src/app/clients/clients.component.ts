@@ -9,8 +9,8 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
 import {Apollo} from "apollo-angular";
-import fatchClient from '../queries/fetchClients';
-import removeClient from '../queries/deleteClient';
+import fatchClient from '../queries/client/fetchClients';
+import removeClient from '../queries/client/deleteClient';
 
 
 @Component({

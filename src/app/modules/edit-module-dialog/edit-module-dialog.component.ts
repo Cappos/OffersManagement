@@ -5,7 +5,7 @@ import {NgForm} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
-import fetchModule from '../../queries/fetchModule';
+import fetchModule from '../../queries/module/fetchModule';
 import getCategoriesPrices from '../../queries/getCategoriesPrices';
 
 @Component({

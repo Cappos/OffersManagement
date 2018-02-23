@@ -2,7 +2,7 @@ import {Component, HostBinding, OnInit, ViewContainerRef} from '@angular/core';
 import {SharedService} from '../shared/shared.service';
 import 'rxjs';
 import 'rxjs/add/operator/take';
-import getModulesData from '../queries/fetchModules';
+import getModulesData from '../queries/module/fetchModules';
 
 import {
     IPageChangeEvent,
@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 import {Apollo} from 'apollo-angular';
 import {MatDialog} from "@angular/material";
 import {slideInDownAnimation} from "../_animations/app.animations";
-import removeModule from '../queries/deleteModule';
+import removeModule from '../queries/module/deleteModule';
 
 @Component({
     selector: 'app-modules',

@@ -6,10 +6,10 @@ import {SharedService} from '../shared/shared.service';
 import {NewSellerComponent} from './new-seller/new-seller.component';
 import {MatDialog} from '@angular/material';
 import {Apollo} from 'apollo-angular';
-import getSealerData from '../queries/fetchSealer';
-import addSealer from '../queries/createSealer';
-import removeSealer from '../queries/deleteSealer';
-import updateSealer from '../queries/editSealer';
+import getSealerData from '../queries/seller/fetchSealer';
+import addSealer from '../queries/seller/createSealer';
+import removeSealer from '../queries/seller/deleteSealer';
+import updateSealer from '../queries/seller/editSealer';
 
 
 @Component({

@@ -9,7 +9,7 @@ import {
 import {SharedService} from "../../shared/shared.service";
 import {DataService} from "../../shared/data.service";
 import {Apollo} from "apollo-angular";
-import getPages from "../../queries/fetchPages";
+import getPages from "../../queries/page/fetchPages";
 import * as _ from "lodash";
 
 @Component({

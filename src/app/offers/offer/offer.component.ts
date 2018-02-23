@@ -22,9 +22,9 @@ import {DataService} from "../../shared/data.service";
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
 import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/page-edit-dialog.component";
 import {Apollo} from 'apollo-angular';
-import getOffer from '../../queries/fetchOffer';
+import getOffer from '../../queries/offer/fetchOffer';
 import * as _ from "lodash";
-import updateOffer from "../../queries/updateOffer";
+import updateOffer from "../../queries/offer/updateOffer";
 import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
 
 @Component({

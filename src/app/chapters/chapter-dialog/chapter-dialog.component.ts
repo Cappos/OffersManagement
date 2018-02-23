@@ -7,7 +7,7 @@ import {EditModuleDialogComponent} from "../../modules/edit-module-dialog/edit-m
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {ModuleListDialogComponent} from "../../modules/module-list-dialog/module-list-dialog.component";
 import {Apollo} from "apollo-angular";
-import fetchGroup from "../../queries/fetchGroup";
+import fetchGroup from "../../queries/group/fetchGroup";
 
 @Component({
     selector: 'app-chapter-dialog',

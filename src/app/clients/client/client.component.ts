@@ -5,8 +5,8 @@ import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
-import fetchClient from '../../queries/fetchClient';
-import updateClient from '../../queries/updateClient';
+import fetchClient from '../../queries/client/fetchClient';
+import updateClient from '../../queries/client/updateClient';
 
 @Component({
     selector: 'app-client',

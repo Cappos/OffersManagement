@@ -4,10 +4,10 @@ import {NgForm} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
-import getPrice from '../../queries/fetchPrice';
-import getPricesData from '../../queries/fetchPrices';
-import addPrice from '../../queries/createPrice';
-import updatePrice from '../../queries/editPrice';
+import getPrice from '../../queries/price/fetchPrice';
+import getPricesData from '../../queries/price/fetchPrices';
+import addPrice from '../../queries/price/createPrice';
+import updatePrice from '../../queries/price/editPrice';
 
 @Component({
     selector: 'app-price-add-edit-dialog',

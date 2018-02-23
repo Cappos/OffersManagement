@@ -3,7 +3,7 @@ import {NgForm} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
-import getPage from '../../queries/fetchPage';
+import getPage from '../../queries/page/fetchPage';
 import * as _ from "lodash";
 
 @Component({

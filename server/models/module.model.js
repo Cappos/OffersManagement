@@ -45,6 +45,10 @@ const ModuleSchema = new Schema({
             type: Number,
             default: 0
         },
+        signed: {
+            type: Boolean,
+            default: false
+        },
         deleted: {
             type: Boolean,
             default: false

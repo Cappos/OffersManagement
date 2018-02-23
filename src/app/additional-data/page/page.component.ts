@@ -5,10 +5,10 @@ import {NgForm} from "@angular/forms";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
 import {Apollo} from "apollo-angular";
-import fetchPage from '../../queries/fetchPage';
-import getPagesData from '../../queries/fetchPages';
-import updatePage from '../../queries/updatePage';
-import  createPage from '../../queries/createPage';
+import fetchPage from '../../queries/page/fetchPage';
+import getPagesData from '../../queries/page/fetchPages';
+import updatePage from '../../queries/page/updatePage';
+import  createPage from '../../queries/page/createPage';
 import * as _ from "lodash";
 
 @Component({

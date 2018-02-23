@@ -11,8 +11,8 @@ import {
 import {Router} from "@angular/router";
 import {slideInDownAnimation} from "../_animations/app.animations";
 import {Apollo} from "apollo-angular";
-import fetchGroups from '../queries/fetchGroups';
-import removeGroup from '../queries/deleteGroup';
+import fetchGroups from '../queries/group/fetchGroups';
+import removeGroup from '../queries/group/deleteGroup';
 
 @Component({
     selector: 'app-chapters',

@@ -34,9 +34,14 @@
                     </div>
                     <div style="margin-top:20px;" flex="5" layout-padding>
                     </div>
-                    <div style="margin-top:20px;" flex="20" layout-padding>
+                    <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Price" [ngModel]="chapterPrice | number:'2.2-2'" name="subTotal" required readonly>
+                            <input matInput placeholder="Total price" [ngModel]="chapterPrice | number:'2.2-2'" name="subTotal" required readonly>
+                        </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="15" layout-padding>
+                        <mat-input-container>
+                            <input matInput placeholder="Signed price" [ngModel]="chapterSignedPrice | number:'2.2-2'" name="total" required readonly>
                         </mat-input-container>
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
@@ -44,7 +49,7 @@
                             <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
                         </mat-input-container>
                     </div>
-                    <div flex="15" layout-padding layout-align="center end" layout="column">
+                    <div flex="10" layout-padding layout-align="center end" layout="column">
                         <mat-checkbox [ngModel]="item.default" name="default" [disabled]="!editMode">Default chapter</mat-checkbox>
                     </div>
 
@@ -71,7 +76,7 @@
                                         </mat-input-container>
                                     </div>
                                     <div style="margin-top:20px;" flex="15" layout-padding layout-align="center start" layout="column">
-                                        <mat-checkbox [ngModel]="module.signed" name="signed" [disabled]="!editMode">Signed</mat-checkbox>
+                                        <mat-checkbox [ngModel]="module.signed" name="signed" disabled>Signed</mat-checkbox>
                                     </div>
                                     <div flex="5" layout="column" layout-align="center end">
                                         <button mat-mini-fab color="primary"

@@ -32,6 +32,7 @@ export class ChapterComponent implements OnInit {
     chaptersModules = [];
     editModuleGroup: number;
     chapterPrice: number;
+    chapterSignedPrice: number;
     modulesNew = [];
     modulesUpdate = [];
     modules: any[] = [];
@@ -65,6 +66,7 @@ export class ChapterComponent implements OnInit {
                         this.chaptersModules = this.item.modules;
                     }
                     this.chapterPrice = this.item.subTotal;
+                    this.chapterSignedPrice = this.item.total;
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -74,8 +76,14 @@ export class ChapterComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         let subTotal = null;
+        let total = null;
+
         if (value.subTotal) {
             subTotal = value.subTotal.replace(',', '');
+        }
+
+        if (value.total) {
+            total = value.total.replace(',', '');
         }
 
         if (!this.modulesUpdate.length && !this.modulesNew.length) {
@@ -87,6 +95,7 @@ export class ChapterComponent implements OnInit {
                     id: this.id,
                     name: value.name,
                     subTotal: subTotal,
+                    total: total,
                     modules: modules
                 },
                 refetchQueries: [{
@@ -116,6 +125,7 @@ export class ChapterComponent implements OnInit {
                     id: this.id,
                     name: value.name,
                     subTotal: subTotal,
+                    total: total,
                     modulesNew: modules
                 },
                 refetchQueries: [{
@@ -181,16 +191,24 @@ export class ChapterComponent implements OnInit {
                 let module = this.chaptersModules.filter(module => module.name === result.name)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 this.chaptersModules[moduleIndex] = result;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -224,19 +242,29 @@ export class ChapterComponent implements OnInit {
                 }
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
                 if (modulePrices.length) {
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
                 else {
                     sum = 0;
+                    signedSum = 0;
                 }
+
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -260,7 +288,9 @@ export class ChapterComponent implements OnInit {
                 }
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 // update modules lis after adding module
                 this.chaptersModules.push(result);
@@ -268,9 +298,15 @@ export class ChapterComponent implements OnInit {
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -290,15 +326,23 @@ export class ChapterComponent implements OnInit {
                     this.chaptersModules.push(result[e]);
 
                     let modulePrices: any[] = [];
+                    let signedModulePrices: any[] = [];
                     let sum: number = 0;
+                    let signedSum: number = 0;
 
                     // update chapter price
                     for (let m in this.chaptersModules) {
                         modulePrices.push(this.chaptersModules[m].price);
+
+                        if(this.chaptersModules[m].signed){
+                            signedModulePrices.push(this.chaptersModules[m].price);
+                        }
                     }
 
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
                     this.chapterPrice = sum;
+                    this.chapterSignedPrice = signedSum;
                 }
                 this.sharedService.sneckBarNotifications('Modules added!!!');
             }

@@ -5,8 +5,14 @@ const async = require('async');
 const GroupSchema = new Schema({
         id: String,
         name: String,
-        subTotal: Number,
-        total: Number,
+        subTotal: {
+            type: Number,
+            default: 0
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
         tstamp: {
             type: Date,
             default: Date.now

@@ -23,10 +23,15 @@
                 </div>
                 <div style="margin-top:20px;" flex="10" layout-padding>
                 </div>
-                <div style="margin-top:20px;" flex="25" layout-padding>
+                <div style="margin-top:20px;" flex="15" layout-padding>
                     <mat-input-container>
                         <input matInput placeholder="Price" [ngModel]="chapterPrice | number: '2.2-2'" name="subTotal"
                                required readonly>
+                    </mat-input-container>
+                </div>
+                <div style="margin-top:20px;" flex="15" layout-padding>
+                    <mat-input-container>
+                        <input matInput placeholder="Signed price" [ngModel]="chapterSignedPrice | number:'2.2-2'" name="total" required readonly>
                     </mat-input-container>
                 </div>
                 <div style="margin-top:20px;" flex="25" layout-padding>

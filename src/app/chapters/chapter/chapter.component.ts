@@ -206,7 +206,9 @@ export class ChapterComponent implements OnInit {
                     }
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
                 this.chapterSignedPrice = signedSum;
             }
@@ -256,7 +258,9 @@ export class ChapterComponent implements OnInit {
                 }
                 if (modulePrices.length) {
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(signedModulePrices.length > 0){
+                        signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
                 }
                 else {
                     sum = 0;
@@ -304,7 +308,9 @@ export class ChapterComponent implements OnInit {
                     }
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
                 this.chapterSignedPrice = signedSum;
             }
@@ -340,7 +346,9 @@ export class ChapterComponent implements OnInit {
                     }
 
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
-                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(signedModulePrices.length > 0){
+                        signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
                     this.chapterPrice = sum;
                     this.chapterSignedPrice = signedSum;
                 }

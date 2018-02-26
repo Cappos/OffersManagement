@@ -25,6 +25,7 @@ export class NewChapterComponent implements OnInit {
     @Output() editMode = true;
     chaptersModules = [];
     chapterPrice: number = 0;
+    chapterSignedPrice: number = 0;
     modulesNew = [];
     modulesUpdate = [];
     modules: any[] = [];
@@ -47,9 +48,14 @@ export class NewChapterComponent implements OnInit {
     onSave(form: NgForm) {
         const value = form.value;
         let subTotal = null;
+        let total = null;
 
         if (value.subTotal) {
             subTotal = value.subTotal.replace(',', '');
+        }
+
+        if (value.total) {
+            total = value.total.replace(',', '');
         }
 
         if (!this.chaptersModules.length) {
@@ -59,6 +65,7 @@ export class NewChapterComponent implements OnInit {
                 variables: {
                     name: value.name,
                     subTotal: subTotal,
+                    total: total,
                     modules: []
                 },
                 refetchQueries: [{
@@ -77,6 +84,7 @@ export class NewChapterComponent implements OnInit {
                 variables: {
                     name: value.name,
                     subTotal: subTotal,
+                    total: total,
                     modulesNew: this.chaptersModules
                 },
                 refetchQueries: [{
@@ -115,14 +123,25 @@ export class NewChapterComponent implements OnInit {
                 }
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
+
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -144,20 +163,31 @@ export class NewChapterComponent implements OnInit {
                 this.chaptersModules.splice(moduleIndex, 1);
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
                 if (modulePrices.length) {
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(signedModulePrices.length > 0){
+                        signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
                 }
                 else {
                     sum = 0;
+                    signedSum = 0;
                 }
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -177,14 +207,25 @@ export class NewChapterComponent implements OnInit {
                 }
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
+
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -198,15 +239,25 @@ export class NewChapterComponent implements OnInit {
                     // update modules list after adding new
                     this.chaptersModules.push(result[e]);
                     let modulePrices: any[] = [];
+                    let signedModulePrices: any[] = [];
                     let sum: number = 0;
+                    let signedSum: number = 0;
 
                     // update chapter price
                     for (let m in this.chaptersModules) {
                         modulePrices.push(this.chaptersModules[m].price);
+
+                        if(this.chaptersModules[m].signed){
+                            signedModulePrices.push(this.chaptersModules[m].price);
+                        }
                     }
 
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(signedModulePrices.length > 0){
+                        signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
                     this.chapterPrice = sum;
+                    this.chapterSignedPrice = signedSum;
                 }
                 this.sharedService.sneckBarNotifications('Modules added!!!');
             }

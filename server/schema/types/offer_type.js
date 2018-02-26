@@ -20,6 +20,7 @@ const OfferType = new GraphQLObjectType({
           offerTitle: { type: GraphQLString },
           bodytext: { type: GraphQLString },
           totalPrice: { type: GraphQLInt },
+          signedPrice: { type: GraphQLInt },
           tstamp: { type: GraphQLDate },
           expDate: { type: GraphQLDate },
           signed: {type: GraphQLBoolean},

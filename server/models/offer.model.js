@@ -7,6 +7,7 @@ const OfferSchema = new Schema({
         offerTitle: String,
         bodytext: String,
         totalPrice: Number,
+        signedPrice: Number,
         tstamp: {
             type: Date,
             default: Date.now
@@ -116,6 +117,7 @@ OfferSchema.statics.createOffer = function (args) {
                         let group = new Group({
                             name: GroupsNew[e].name,
                             subTotal: GroupsNew[e].subTotal,
+                            total: GroupsNew[e].total,
                             order: GroupsNew[e].order
                         });
                         group.save().then((res) => {
@@ -185,6 +187,7 @@ OfferSchema.statics.updateOffer = function (args) {
                 offerNumber: args.offerNumber,
                 offerTitle: args.offerTitle,
                 totalPrice: args.totalPrice,
+                signedPrice: args.signedPrice,
                 bodytext: args.bodytext,
                 client: args.client,
                 sealer: args.sealer,
@@ -214,6 +217,7 @@ OfferSchema.statics.updateOffer = function (args) {
                         let group = new Group({
                             name: GroupsNew[e].name,
                             subTotal: GroupsNew[e].subTotal,
+                            total: GroupsNew[e].total,
                             order: GroupsNew[e].order
                         });
                         group.save().then((res) => {
@@ -246,6 +250,7 @@ OfferSchema.statics.updateOffer = function (args) {
                                 $set: {
                                     name: GroupsNew[e].name,
                                     subTotal: GroupsNew[e].subTotal,
+                                    total: GroupsNew[e].total,
                                     order: GroupsNew[e].order,
                                     deleted: GroupsNew[e].deleted
                                 }

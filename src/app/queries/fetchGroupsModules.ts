@@ -6,6 +6,7 @@ export default gql`
             _id
             name
             subTotal
+            total
             tstamp
             modules {
                 _id
@@ -15,6 +16,7 @@ export default gql`
                 tstamp
                 cruserId
                 moduleNew
+                signed
                 internalHours
                 externalHours
                 pricePerHour

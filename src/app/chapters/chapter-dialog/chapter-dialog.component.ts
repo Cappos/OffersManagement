@@ -22,6 +22,7 @@ export class ChapterDialogComponent implements OnInit {
     @Output() editMode = false;
     editModuleGroup: number;
     chapterPrice: number = 0;
+    chapterSignedPrice: number;
     savedChapterData;
     itemSaved = false;
     chaptersModules = [];
@@ -63,6 +64,7 @@ export class ChapterDialogComponent implements OnInit {
             this.item = this.data.chapterNew;
             this.chaptersModules = this.item.modules;
             this.chapterPrice = this.item.subTotal;
+            this.chapterSignedPrice = this.item.signedPrice;
             this.loadingService.resolveAll('modulesLoader');
         }
         else {
@@ -76,6 +78,7 @@ export class ChapterDialogComponent implements OnInit {
         this.savedChapterData = form.value;
         this.savedChapterData.modules = this.chaptersModules;
         this.savedChapterData.subTotal = this.chapterPrice;
+        this.savedChapterData.total = this.chapterSignedPrice;
         this.savedChapterData._id = this.id;
         this.savedChapterData.type = 1;
         if (this.item) {
@@ -102,16 +105,26 @@ export class ChapterDialogComponent implements OnInit {
                 let module = this.chaptersModules.filter(module => module._id === moduleUid)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 this.chaptersModules[moduleIndex] = result;
 
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
 
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -131,10 +144,16 @@ export class ChapterDialogComponent implements OnInit {
                 this.chaptersModules.splice(moduleIndex, 1);
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
 
                 if (modulePrices.length) {
@@ -144,7 +163,16 @@ export class ChapterDialogComponent implements OnInit {
                     sum = 0;
                 }
 
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
+                else {
+                    signedSum = 0;
+                }
+
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
+
             }
         });
     }
@@ -164,16 +192,26 @@ export class ChapterDialogComponent implements OnInit {
                 }
 
                 let modulePrices: any[] = [];
+                let signedModulePrices: any[] = [];
                 let sum: number = 0;
+                let signedSum: number = 0;
 
                 console.log(this.chaptersModules);
 
                 // update chapter price
                 for (let m in this.chaptersModules) {
                     modulePrices.push(this.chaptersModules[m].price);
+
+                    if(this.chaptersModules[m].signed){
+                        signedModulePrices.push(this.chaptersModules[m].price);
+                    }
                 }
                 sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                if(signedModulePrices.length > 0){
+                    signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                }
                 this.chapterPrice = sum;
+                this.chapterSignedPrice = signedSum;
             }
         });
     }
@@ -185,16 +223,27 @@ export class ChapterDialogComponent implements OnInit {
                 for (let e in result) {
                     // update modules list after adding new
                     this.chaptersModules.push(result[e]);
+
                     let modulePrices: any[] = [];
+                    let signedModulePrices: any[] = [];
                     let sum: number = 0;
+                    let signedSum: number = 0;
 
                     // update chapter price
                     for (let m in this.chaptersModules) {
                         modulePrices.push(this.chaptersModules[m].price);
+
+                        if(this.chaptersModules[m].signed){
+                            signedModulePrices.push(this.chaptersModules[m].price);
+                        }
                     }
 
                     sum = modulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    if(signedModulePrices.length > 0){
+                        signedSum = signedModulePrices.reduce((a, b) => parseInt(a) + parseInt(b));
+                    }
                     this.chapterPrice = sum;
+                    this.chapterSignedPrice = signedSum;
                 }
             }
         });

@@ -7,7 +7,10 @@ const OfferSchema = new Schema({
         offerTitle: String,
         bodytext: String,
         totalPrice: Number,
-        signedPrice: Number,
+        signedPrice: {
+            type: Number,
+            default: 0
+        },
         tstamp: {
             type: Date,
             default: Date.now

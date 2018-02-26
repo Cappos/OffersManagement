@@ -34,6 +34,7 @@ export default gql`
                 _id
                 name
                 subTotal
+                total
                 tstamp
                 type
                 order

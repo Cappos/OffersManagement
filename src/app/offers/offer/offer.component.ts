@@ -406,7 +406,6 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
                 // Data update
                 let offerData = this.offersUpdate.filter(offerData => offerData._id === groupUid)[0];
                 let offerIndex = this.offersUpdate.indexOf(offerData);
@@ -487,7 +486,6 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
                 // update chapters after adding new
                 let orderNo = this.offersModules.length + 1;
                 result.order = orderNo;
@@ -585,11 +583,11 @@ export class OfferComponent implements OnInit, OnDestroy {
                     for (let g in this.offersModules) {
                         if (this.offersModules[g].subTotal) {
                             modulesPrices.push(this.offersModules[g].subTotal);
-
-                            if (this.offersModules[g].total) {
-                                signedModulesPrices.push(this.offersModules[g].total);
-                            }
                         }
+                        if (this.offersModules[g].total) {
+                            signedModulesPrices.push(this.offersModules[g].total);
+                        }
+
                         for (let m in this.offersModules[g].modules) {
                             // Update offers hours
                             modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
@@ -640,6 +638,8 @@ export class OfferComponent implements OnInit, OnDestroy {
                 let modulesPrices: any[] = [];
                 let signedModulesPrices: any[] = [];
                 let signedSum: number = 0;
+                let modulesInternalHours: any[] = [];
+                let modulesExternalHours: any[] = [];
 
                 for (let g in this.offersModules) {
                     if (this.offersModules[g].subTotal) {
@@ -649,6 +649,12 @@ export class OfferComponent implements OnInit, OnDestroy {
                     if (this.offersModules[g].total) {
                         signedModulesPrices.push(this.offersModules[g].total);
                     }
+
+                    for (let m in this.offersModules[g].modules) {
+                        // Update offers hours
+                        modulesInternalHours.push(this.offersModules[g].modules[m].internalHours);
+                        modulesExternalHours.push(this.offersModules[g].modules[m].externalHours);
+                    }
                 }
 
                 if (signedModulesPrices.length > 0) {
@@ -657,6 +663,8 @@ export class OfferComponent implements OnInit, OnDestroy {
 
                 this.totalPrice = modulesPrices.reduce((a, b) => parseInt(a) + parseInt(b));
                 this.signedPrice = signedSum;
+                this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
+                this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
             }
             this.editMode = true;
         });

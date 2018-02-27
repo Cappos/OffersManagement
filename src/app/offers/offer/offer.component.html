@@ -180,15 +180,18 @@
                                                         layout-align="center start" [attr.id]="group._id"
                                                         [attr.index]="i">
                                         <mat-expansion-panel-header layout="row">
-                                            <mat-panel-title flex="80">
+                                            <mat-panel-title flex="70">
                                                  <span layout="column" flex="5" layout-align="center start">
                                                     <mat-icon class="grey">storage</mat-icon>
                                                 </span>
                                                 <h4 layout="column" flex="95" layout-align="center start">
                                                     {{group.name}}</h4>
                                             </mat-panel-title>
-                                            <mat-panel-description flex="20">
+                                            <mat-panel-description flex="15">
                                                 <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                            </mat-panel-description>
+                                            <mat-panel-description flex="15">
+                                                <span>Signed price: &nbsp;<b>{{group.total | number:'2.2-2'}}</b></span>
                                             </mat-panel-description>
                                             <mat-icon>arrow_drop_down</mat-icon>
                                         </mat-expansion-panel-header>

@@ -340,12 +340,25 @@
                     </div>
                     <!-- PAGES AND CHAPTERS END -->
 
+                    <!-- COMMENTS START -->
+                    <div flex="100" layout-padding>
+                        <mat-divider></mat-divider>
+                        <h3 style="margin-bottom: 0;">Remarks</h3>
+                    </div>
+                    <div style="margin:20px 0;" flex="100" layout-padding>
+                        <ng-template [ngIf]="rteData">
+                            <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
+                                             (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+                        </ng-template>
+                    </div>
+                    <!-- COMMENTS END -->
+
                     <!-- FILES START -->
                     <div flex="100" layout-padding>
                         <mat-divider></mat-divider>
                         <h3 style="margin-bottom: 0;">Related files</h3>
                     </div>
-                    <div style="margin-top:20px;" flex="100" layout-padding>
+                    <div style="margin:20px 0;" flex="100" layout-padding>
                         <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
                                         (select)="selectEvent($event)"
                                         (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled">
@@ -366,10 +379,13 @@
                             </mat-list-item>
                         </mat-list>
                     </div>
+                    <!-- FILES END -->
+
+
+
                 </div>
             </form>
         </mat-card-content>
     </mat-card>
-    <!--<app-pdf #pdfTemplate [offerData]="item" [offerGroups]="offersModules"></app-pdf>-->
 </ng-template>
 

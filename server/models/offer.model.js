@@ -45,7 +45,10 @@ const OfferSchema = new Schema({
             type: Number,
             default: 0
         },
-        comments: String,
+        comments: {
+            type: String,
+            default: "<ul><li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li><li>Konditionen einmalige Kosten: 50% f&auml;llig nach Abschluss des Vertrags; Restbetrag f&auml;llig 12 Wochen nach Projektstart (Kickoff Meeting).</li><li>Die Nutzungsrechte sind f&uuml;r den Gebrauch der Webl&ouml;sung abgegolten.</li><li>Diese Offerte beh&auml;lt ihre G&uuml;ltigkeit bis zum 31. Juli 2017.</li><li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form sp&auml;testens eine Woche vor der Content-Eingabe geliefert.</li><li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachtr&auml;gliches Hinzuf&uuml;gen oder &Auml;ndern des Inhaltes wird nach Aufwand verrechnet.</li><li>Erst mit der vollst&auml;ndigen Bezahlung des vertraglich festgesetzten Preises wird das Nutzungsrecht erworben.</li></ul>"
+        },
         deleted: {
             type: Boolean,
             default: false

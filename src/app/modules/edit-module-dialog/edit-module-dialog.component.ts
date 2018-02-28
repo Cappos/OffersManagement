@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SharedService} from "../../shared/shared.service";
-import {NgForm} from "@angular/forms";
+import {SharedService} from '../../shared/shared.service';
+import {NgForm} from '@angular/forms';
 
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
-import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
-import {Apollo} from "apollo-angular";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from '@covalent/core';
+import {Apollo} from 'apollo-angular';
 import fetchModule from '../../queries/module/fetchModule';
 import getCategoriesPrices from '../../queries/getCategoriesPrices';
 
@@ -144,7 +144,7 @@ export class EditModuleDialogComponent implements OnInit {
         this.savedModuleData.pricePerHour = +value.selectedPrice;
         // Set category if is selected
         if (category) {
-            this.savedModuleData.categoryId = [category]
+            this.savedModuleData.categoryId = [category];
         }
         this.itemSaved = true;
     }

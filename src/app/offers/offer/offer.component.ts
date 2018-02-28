@@ -61,6 +61,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     offerNumber;
     internalHours;
     externalHours;
+    rteData = ' ';
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService) {
 
@@ -100,6 +101,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.externalHours = this.item.externalHours;
                     this.clients = data.clients; // Set client data
                     this.files = this.item.files; // Set uploaded files
+                    this.rteData = this.item.comments;
 
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
@@ -186,7 +188,8 @@ export class OfferComponent implements OnInit, OnDestroy {
                 oldClient: this.oldClient,
                 oldSeller: this.oldSeller,
                 internalHours: value.internalHours,
-                externalHours: value.externalHours
+                externalHours: value.externalHours,
+                comments: this.rteData
             },
             refetchQueries: [{
                 query: getOffer,
@@ -1002,15 +1005,16 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     onPrint(offer, offersGroups) {
-        console.log('print');
-        // this.pdf.downloadPDF();
-
         let dialogRef = this.dialog.open(PdfDialogComponent, {
             data: {
                 offer: offer,
                 groups: offersGroups
             }
         });
+    }
+
+    keyupHandler(ev) {
+        this.rteData = ev;
     }
 
     ngOnDestroy() {

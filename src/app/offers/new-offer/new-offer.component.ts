@@ -841,6 +841,13 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         this._lightbox.open([album], 0);
     }
 
+    onDeleteFile(fileName: string) {
+        let file = this.files.filter(file => file.filename === fileName)[0];
+        let fileIndex = this.files.indexOf(file);
+        
+        this.files[fileIndex].deleted = true;
+    }
+
 
     ngOnDestroy() {
         console.log('destroy');

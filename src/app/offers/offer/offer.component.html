@@ -78,31 +78,35 @@
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Internal hours" [ngModel]="internalHours" name="internalHours" readonly>
+                            <input matInput placeholder="Internal hours" [ngModel]="internalHours" name="internalHours"
+                                   readonly>
                         </mat-input-container>
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Extrnal hours" [ngModel]="externalHours" name="externalHours" readonly>
+                            <input matInput placeholder="Extrnal hours" [ngModel]="externalHours" name="externalHours"
+                                   readonly>
                         </mat-input-container>
                     </div>
 
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-form-field>
-                            <input matInput [matDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate" name="tstamp" required [readonly]="!editMode">
-                            <mat-datepicker-toggle matSuffix  [for]="pickerNew" [disabled]="!editMode"></mat-datepicker-toggle>
+                            <input matInput [matDatepicker]="pickerNew" placeholder="Created date" [(ngModel)]="newDate"
+                                   name="tstamp" required [readonly]="!editMode">
+                            <mat-datepicker-toggle matSuffix [for]="pickerNew"
+                                                   [disabled]="!editMode"></mat-datepicker-toggle>
                             <mat-datepicker #pickerNew></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker" placeholder="Expire date" [(ngModel)]="expDate" name="expDate" required [readonly]="!editMode">
-                            <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="!editMode"></mat-datepicker-toggle>
+                            <input matInput [matDatepicker]="picker" placeholder="Expire date" [(ngModel)]="expDate"
+                                   name="expDate" required [readonly]="!editMode">
+                            <mat-datepicker-toggle matSuffix [for]="picker"
+                                                   [disabled]="!editMode"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
-
-
 
 
                     <!-- PAGES AND CHAPTERS START -->
@@ -119,8 +123,8 @@
                                 <!-- PAGES -->
                                 <div *ngSwitchCase="'2'" layout="row" class="page">
                                     <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
-                                                        layout-align="center start" [attr.id]="group._id"
-                                                        [attr.index]="i">
+                                                         layout-align="center start" [attr.id]="group._id"
+                                                         [attr.index]="i">
                                         <mat-expansion-panel-header layout="row">
                                             <mat-panel-title flex="100">
                                                 <span layout="column" flex="5" layout-align="center start">
@@ -137,13 +141,15 @@
                                                     <div layout="row" layout-wrap>
                                                         <div style="margin-top:20px;" flex="100" layout-padding>
                                                             <mat-input-container style="width: 100%;">
-                                                                <input matInput placeholder="Title" [ngModel]="group.title"
+                                                                <input matInput placeholder="Title"
+                                                                       [ngModel]="group.title"
                                                                        name="group.title" readonly>
                                                             </mat-input-container>
                                                         </div>
                                                         <div style="margin-top:20px;" flex="100" layout-padding>
                                                             <mat-input-container style="width: 100%;">
-                                                                <input matInput placeholder="Subtitle" [ngModel]="group.subtitle"
+                                                                <input matInput placeholder="Subtitle"
+                                                                       [ngModel]="group.subtitle"
                                                                        name="group.subtitle" readonly>
                                                             </mat-input-container>
                                                         </div>
@@ -168,7 +174,8 @@
                                                     color="warn">delete</mat-icon></a>
                                        </span>
                                             <ng-template [ngIf]="editMode">
-                                                <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                                <span layout-margin><mat-icon
+                                                        class="handle">drag_handler</mat-icon></span>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -177,8 +184,8 @@
                                 <!-- CHAPTERS -->
                                 <div *ngSwitchCase="'1'" layout="row">
                                     <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
-                                                        layout-align="center start" [attr.id]="group._id"
-                                                        [attr.index]="i">
+                                                         layout-align="center start" [attr.id]="group._id"
+                                                         [attr.index]="i">
                                         <mat-expansion-panel-header layout="row">
                                             <mat-panel-title flex="60">
                                                  <span layout="column" flex="5" layout-align="center start">
@@ -194,7 +201,10 @@
                                                 <span>Signed price: &nbsp;<b>{{group.total | number:'2.2-2'}}</b></span>
                                             </mat-panel-description>
                                             <mat-panel-description flex="10">
-                                                <mat-checkbox [ngModel]="group.summary" name="summary" [disabled]="!editMode" (change)="toggleSummary($event, group._id)">Summary</mat-checkbox>
+                                                <mat-checkbox [ngModel]="group.summary" name="summary"
+                                                              [disabled]="!editMode"
+                                                              (change)="toggleSummary($event, group._id)">Summary
+                                                </mat-checkbox>
                                             </mat-panel-description>
                                             <mat-icon>arrow_drop_down</mat-icon>
                                         </mat-expansion-panel-header>
@@ -222,11 +232,15 @@
                                                         <div flex="20" layout-padding style="margin-top:20px;">
                                                             <mat-input-container>
                                                                 <input matInput placeholder="Created date"
-                                                                       [ngModel]="module.tstamp | date: 'dd.MM.y'" name="tstamp" readonly>
+                                                                       [ngModel]="module.tstamp | date: 'dd.MM.y'"
+                                                                       name="tstamp" readonly>
                                                             </mat-input-container>
                                                         </div>
-                                                        <div style="margin-top:20px;" flex="10" layout-padding layout-align="center start" layout="column">
-                                                            <mat-checkbox [ngModel]="module.signed" name="signed" disabled>Signed</mat-checkbox>
+                                                        <div style="margin-top:20px;" flex="10" layout-padding
+                                                             layout-align="center start" layout="column">
+                                                            <mat-checkbox [ngModel]="module.signed" name="signed"
+                                                                          disabled>Signed
+                                                            </mat-checkbox>
                                                         </div>
 
                                                         <div flex="5" layout="column" layout-align="center end">
@@ -250,19 +264,22 @@
                                                         </div>
                                                         <div flex="20" layout-padding>
                                                             <mat-input-container>
-                                                                <input matInput placeholder="Internal hours" [ngModel]="module.internalHours"
+                                                                <input matInput placeholder="Internal hours"
+                                                                       [ngModel]="module.internalHours"
                                                                        name="internalHours" readonly>
                                                             </mat-input-container>
                                                         </div>
                                                         <div flex="20" layout-padding>
                                                             <mat-input-container>
-                                                                <input matInput placeholder="External hours" [ngModel]="module.externalHours"
+                                                                <input matInput placeholder="External hours"
+                                                                       [ngModel]="module.externalHours"
                                                                        name="externalHours" readonly>
                                                             </mat-input-container>
                                                         </div>
                                                         <div flex="20" layout-padding>
                                                             <mat-input-container>
-                                                                <input matInput placeholder="Price per hour" [ngModel]="module.pricePerHour"
+                                                                <input matInput placeholder="Price per hour"
+                                                                       [ngModel]="module.pricePerHour"
                                                                        name="pricePerHour" readonly>
                                                             </mat-input-container>
                                                         </div>
@@ -280,7 +297,8 @@
                                             </mat-card-content>
                                         </mat-card>
                                         <div flex="25" layout-padding style="margin:20px 0;">
-                                            <button mat-raised-button color="primary" [matMenuTriggerFor]="moduleMenu">Add
+                                            <button mat-raised-button color="primary" [matMenuTriggerFor]="moduleMenu">
+                                                Add
                                                 module
                                             </button>
                                             <mat-menu #moduleMenu="matMenu">
@@ -306,7 +324,8 @@
                                                     color="warn">delete</mat-icon></a>
                                        </span>
                                             <ng-template [ngIf]="editMode">
-                                                <span layout-margin><mat-icon class="handle">drag_handler</mat-icon></span>
+                                                <span layout-margin><mat-icon
+                                                        class="handle">drag_handler</mat-icon></span>
                                             </ng-template>
 
                                         </div>
@@ -375,22 +394,33 @@
                     </div>
                     <div flex="100" layout-padding>
                         <mat-list>
-                            <mat-list-item *ngFor="let file of files;">
-                                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                                <h4 mat-line>
-                                    <a href="{{file.path}}" target="_blank" style="cursor: pointer" *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
+                            <div *ngFor="let file of files;">
+                                <mat-list-item *ngIf="!file.deleted">
 
-                                    <ng-template #other_content>
-                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
-                                    </ng-template>
+                                        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                        <h4 mat-line>
+                                            <a href="{{file.path}}" target="_blank" style="cursor: pointer"
+                                               *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
+                                            <button inlist mat-icon-button *ngIf="file.mimetype == 'application/pdf'"
+                                                    (click)="onDeleteFile(file.filename)">
+                                                <mat-icon color="warn">close</mat-icon>
+                                            </button>
 
-                                </h4>
-                                <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
-                            </mat-list-item>
+                                            <ng-template #other_content>
+                                                <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                                <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                                    <mat-icon color="warn">close</mat-icon>
+                                                </button>
+                                            </ng-template>
+
+                                        </h4>
+                                        <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                                </mat-list-item>
+                            </div>
                         </mat-list>
                     </div>
                     <!-- FILES END -->
-
 
 
                 </div>

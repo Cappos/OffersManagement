@@ -349,17 +349,30 @@
                 </div>
                 <div flex="100" layout-padding>
                     <mat-list>
-                        <mat-list-item *ngFor="let file of files">
-                            <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                            <h4 mat-line>
-                                <a href="{{file.path}}" target="_blank" style="cursor: pointer" *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
+                        <div *ngFor="let file of files;">
+                            <mat-list-item *ngIf="!file.deleted">
 
-                                <ng-template #other_content>
-                                    <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
-                                </ng-template>
-                            </h4>
-                            <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
-                        </mat-list-item>
+                                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                <h4 mat-line>
+                                    <a href="{{file.path}}" target="_blank" style="cursor: pointer"
+                                       *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
+                                    <button inlist mat-icon-button *ngIf="file.mimetype == 'application/pdf'"
+                                            (click)="onDeleteFile(file.filename)">
+                                        <mat-icon color="warn">close</mat-icon>
+                                    </button>
+
+                                    <ng-template #other_content>
+                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                        <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                            <mat-icon color="warn">close</mat-icon>
+                                        </button>
+                                    </ng-template>
+
+                                </h4>
+                                <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                            </mat-list-item>
+                        </div>
                     </mat-list>
                 </div>
             </div>

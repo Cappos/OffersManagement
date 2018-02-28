@@ -1,13 +1,13 @@
 <div layout="row" layout-wrap>
 
-    <div flex="90" layout="column" layout-align="center start"><strong>Offer:</strong> {{[offerData.offerNumber]}}</div>
+    <div flex="90" layout="column" layout-align="center start"></div>
     <div flex="5" layout="column" layout-align="center end">
         <button mat-mini-fab (click)="downloadPDF()" color="primary">
             <mat-icon>print</mat-icon>
         </button>
     </div>
     <div flex="5" layout="column" layout-align="center center">
-        <button mat-mini-fab  color="accent" mat-dialog-close>
+        <button mat-mini-fab color="accent" mat-dialog-close>
             <mat-icon>close</mat-icon>
         </button>
     </div>
@@ -123,55 +123,60 @@
                         <!--<p>{{module.categoryId[0].name}}</p>-->
                         <!--<p>{{module.tstamp | date: 'dd.MM.y'}}</p>-->
                     </div>
-                    <table class="total-table">
-                        <tbody>
-                        <tr class="total">
-                            <th>
-                                <h4>Total</h4>
-                            </th>
-                            <th>
-                                <p>{{group.subTotal}}</p>
-                            </th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="bemerkungen">
-                        <h4>Bemerkungen</h4>
-                        <ul>
-                            <li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li>
-                            <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag fällig
-                                12 Wochen nach Projektstart (Kickoff Meeting).
-                            </li>
-                            <li>Die Nutzungsrechte sind für den Gebrauch der Weblösung abgegolten.</li>
-                            <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}
-                            </li>
-                            <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens eine
-                                Woche vor der Content-Eingabe geliefert.
-                            </li>
-                            <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder
-                                Ändern des Inhaltes wird nach Aufwand verrechnet.
-                            </li>
-                            <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das
-                                Nutzungsrecht erworben.
-                            </li>
-                        </ul>
-                        <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie sie
-                            komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH,
-                            Binzmühlestrasse 97, 8050 Zürich.</p>
-                    </div>
-                    <table class="manager-table">
-                        <tbody>
-                        <tr class="manager">
-                            <th>
-                                <h4>{{offerData.sealer[0].name}}</h4>
-                            </th>
-                            <th>
-                                <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
-                            </th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                    <ng-template *ngIf="group.summary">
+                        <table class="total-table">
+                            <tbody>
+                            <tr class="total">
+                                <th>
+                                    <h4>Total</h4>
+                                </th>
+                                <th>
+                                    <p>{{group.subTotal}}</p>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="bemerkungen">
+                            <h4>Bemerkungen</h4>
+                            <ul>
+                                <li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li>
+                                <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag
+                                    fällig
+                                    12 Wochen nach Projektstart (Kickoff Meeting).
+                                </li>
+                                <li>Die Nutzungsrechte sind für den Gebrauch der Weblösung abgegolten.</li>
+                                <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}
+                                </li>
+                                <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens
+                                    eine
+                                    Woche vor der Content-Eingabe geliefert.
+                                </li>
+                                <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder
+                                    Ändern des Inhaltes wird nach Aufwand verrechnet.
+                                </li>
+                                <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das
+                                    Nutzungsrecht erworben.
+                                </li>
+                            </ul>
+                            <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie
+                                sie
+                                komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH,
+                                Binzmühlestrasse 97, 8050 Zürich.</p>
+                        </div>
+                        <table class="manager-table">
+                            <tbody>
+                            <tr class="manager">
+                                <th>
+                                    <h4>{{offerData.sealer[0].name}}</h4>
+                                </th>
+                                <th>
+                                    <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                    </ng-template>
                 </div>
             </div>
         </div>

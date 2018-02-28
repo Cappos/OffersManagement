@@ -9,7 +9,7 @@ import getDashboardData from '../queries/dashboard/fetchDashboard';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css'],
+    styleUrls: ['./dashboard.component.scss'],
     animations: [slideInDownAnimation]
 })
 export class DashboardComponent implements OnInit {

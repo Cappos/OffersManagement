@@ -21,6 +21,7 @@ import {PageEditDialogComponent} from "../../additional-data/page-edit-dialog/pa
 import {PageListDialogComponent} from "../../additional-data/page-list-dialog/page-list-dialog.component";
 import {TdFileService, IUploadOptions} from '@covalent/core';
 import {DragulaService} from "ng2-dragula";
+import {Lightbox, LightboxConfig} from "angular2-lightbox";
 
 @Component({
     selector: 'app-new-offer',
@@ -58,7 +59,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     rteData = "<h4>Bemerkungen</h4><ul><li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li><li>Konditionen einmalige Kosten: 50% f&auml;llig nach Abschluss des Vertrags; Restbetrag f&auml;llig 12 Wochen nach Projektstart (Kickoff Meeting).</li><li>Die Nutzungsrechte sind f&uuml;r den Gebrauch der Webl&ouml;sung abgegolten.</li><li>Diese Offerte beh&auml;lt ihre G&uuml;ltigkeit bis zum 31. Juli 2017.</li><li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form sp&auml;testens eine Woche vor der Content-Eingabe geliefert.</li><li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachtr&auml;gliches Hinzuf&uuml;gen oder &Auml;ndern des Inhaltes wird nach Aufwand verrechnet.</li><li>Erst mit der vollst&auml;ndigen Bezahlung des vertraglich festgesetzten Preises wird das Nutzungsrecht erworben.</li></ul>";
 
 
-    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService, private dateAdapter: DateAdapter<Date>, private dragulaService: DragulaService) {
+    constructor(private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo, private fileUploadService: TdFileService, private dateAdapter: DateAdapter<Date>, private dragulaService: DragulaService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -829,6 +830,17 @@ export class NewOfferComponent implements OnInit, OnDestroy {
             chapter.summary = false;
         }
     }
+
+    lightbox(filePath, fileName) {
+        this._lighboxConfig.centerVertically = true;
+        const album = {
+            src: filePath,
+            caption: fileName,
+            thumb: ''
+        };
+        this._lightbox.open([album], 0);
+    }
+
 
     ngOnDestroy() {
         console.log('destroy');

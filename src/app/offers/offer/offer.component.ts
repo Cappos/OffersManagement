@@ -26,6 +26,7 @@ import getOffer from '../../queries/offer/fetchOffer';
 import * as _ from "lodash";
 import updateOffer from "../../queries/offer/updateOffer";
 import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
+import {Lightbox, LightboxConfig} from "angular2-lightbox";
 
 @Component({
     selector: 'app-offer',
@@ -63,7 +64,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     externalHours;
     rteData = ' ';
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -1026,6 +1027,16 @@ export class OfferComponent implements OnInit, OnDestroy {
         else {
             chapter.summary = false;
         }
+    }
+
+    lightbox(filePath, fileName) {
+        this._lighboxConfig.centerVertically = true;
+        const album = {
+            src: filePath,
+            caption: fileName,
+            thumb: ''
+        };
+        this._lightbox.open([album], 0);
     }
 
     ngOnDestroy() {

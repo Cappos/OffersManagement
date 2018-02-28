@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const schema = require('./server/schema/schema');
-
+const multer = require('multer');
 const userRoutes = require('./server/routes/user');
 
 const app = express();
@@ -27,12 +27,12 @@ mongoose.connection
 
 mongoose.set('debug', false);
 // Handling file upload
-const conn = mongoose.connection;
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
-Grid.mongo = mongoose.mongo;
-const gfs = Grid(conn.db);
+// const conn = mongoose.connection;
+
+// const GridFsStorage = require('multer-gridfs-storage');
+// const Grid = require('gridfs-stream');
+// Grid.mongo = mongoose.mongo;
+// const gfs = Grid(conn.db);
 
 
 app.use(bodyParser.json());

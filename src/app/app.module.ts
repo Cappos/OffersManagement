@@ -69,6 +69,8 @@ import { NewUserComponent } from './users/new-user/new-user.component';
 import {AuthService} from "./auth/auth.service";
 import {AuthGuard} from "./auth/auth-guard.service";
 import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
+import { NotFoundComponent } from './error-handling/not-found/not-found.component';
+import {LightboxModule} from "angular2-lightbox";
 
 
 @NgModule({
@@ -105,7 +107,8 @@ import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
         LoginComponent,
         UsersComponent,
         NewUserComponent,
-        PdfDialogComponent
+        PdfDialogComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -118,6 +121,7 @@ import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
         HttpClientModule,
         DragulaModule,
         NgPipesModule,
+        LightboxModule,
         /** Material Modules */
         MatButtonModule,
         MatCheckboxModule,

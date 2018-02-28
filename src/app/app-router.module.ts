@@ -21,6 +21,7 @@ import {PricesComponent} from "./prices/prices.component";
 import {UsersComponent} from "./users/users.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {AuthGuard} from "./auth/auth-guard.service";
+import {NotFoundComponent} from "./error-handling/not-found/not-found.component";
 
 const appRoutes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -49,7 +50,9 @@ const appRoutes: Routes = [
     {path: 'pdf', component: PdfComponent, canActivate: [AuthGuard]},
     {path: 'prices', component: PricesComponent, canActivate: [AuthGuard]},
     {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
-    {path: 'login', component: LoginComponent}
+    {path: 'login', component: LoginComponent},
+    {path: '404', component: NotFoundComponent},
+    {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

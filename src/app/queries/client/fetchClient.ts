@@ -16,6 +16,8 @@ export default gql`
             offers {
                 _id
                 offerNumber
+                offerTitle
+                tstamp
             }
         }
     }

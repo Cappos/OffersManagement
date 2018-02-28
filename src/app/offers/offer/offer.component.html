@@ -347,7 +347,7 @@
                     </div>
                     <div style="margin:20px 0;" flex="100" layout-padding>
                         <ng-template [ngIf]="rteData">
-                            <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"
+                            <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
                                              (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
                         </ng-template>
                     </div>

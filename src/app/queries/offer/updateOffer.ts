@@ -39,7 +39,7 @@ export default gql`
             oldSeller: $oldSeller,
             internalHours: $internalHours,
             externalHours: $externalHours
-            comment: $comments){
+            comments: $comments){
             _id,
             offerTitle
         }

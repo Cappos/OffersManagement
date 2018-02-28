@@ -213,6 +213,7 @@ const mutation = new GraphQLObjectType({
                 order: {type: GraphQLInt},
                 modulesNew: {type: GraphQLJSON},
                 groupNew: {type: GraphQLBoolean},
+                summary: {type: GraphQLBoolean},
             },
             resolve(parentValue, args) {
                 return Group.createGroup(args);
@@ -225,7 +226,8 @@ const mutation = new GraphQLObjectType({
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 subTotal: {type: GraphQLFloat},
                 total: {type: GraphQLFloat},
-                modulesNew: {type: GraphQLJSON}
+                modulesNew: {type: GraphQLJSON},
+                summary: {type: GraphQLBoolean},
             },
             resolve(parentValue, args) {
                 return Group.updateGroup(args);

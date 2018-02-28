@@ -39,6 +39,7 @@ export default gql`
                 tstamp
                 type
                 order
+                summary
                 modules {
                     _id
                     name

@@ -125,7 +125,8 @@ OfferSchema.statics.createOffer = function (args) {
                             name: GroupsNew[e].name,
                             subTotal: GroupsNew[e].subTotal,
                             total: GroupsNew[e].total,
-                            order: GroupsNew[e].order
+                            order: GroupsNew[e].order,
+                            summary: GroupsNew[e].summary
                         });
                         group.save().then((res) => {
                             for (let m in GroupsNew[e].modules) {
@@ -226,7 +227,8 @@ OfferSchema.statics.updateOffer = function (args) {
                             name: GroupsNew[e].name,
                             subTotal: GroupsNew[e].subTotal,
                             total: GroupsNew[e].total,
-                            order: GroupsNew[e].order
+                            order: GroupsNew[e].order,
+                            summary: GroupsNew[e].summary
                         });
                         group.save().then((res) => {
                             for (let m in GroupsNew[e].modules) {
@@ -260,7 +262,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                     subTotal: GroupsNew[e].subTotal,
                                     total: GroupsNew[e].total,
                                     order: GroupsNew[e].order,
-                                    deleted: GroupsNew[e].deleted
+                                    deleted: GroupsNew[e].deleted,
+                                    summary: GroupsNew[e].summary
                                 }
                             }, {new: true}).then((res) => {
                             for (let m in GroupsNew[e].modules) {

@@ -34,6 +34,10 @@ const GroupSchema = new Schema({
             type: Boolean,
             default: false
         },
+        summary: {
+            type: Boolean,
+            default: false
+        },
         deleted: {
             type: Boolean,
             default: false
@@ -66,7 +70,8 @@ GroupSchema.statics.updateGroup = function (args) {
                     $set: {
                         name: args.name,
                         subTotal: args.subTotal,
-                        total: args.total
+                        total: args.total,
+                        summary: args.summary
                     }
                 }, {new: true})
                 .then(chapter => {

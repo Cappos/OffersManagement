@@ -23,6 +23,7 @@ const GroupType = new GraphQLObjectType({
       order: {type: GraphQLInt},
       groupNew: {type: GraphQLBoolean},
       defaultGroup: {type: GraphQLBoolean},
+      summary: {type: GraphQLBoolean},
       deleted: {type: GraphQLBoolean}
   })
 });

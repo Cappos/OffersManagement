@@ -1017,6 +1017,17 @@ export class OfferComponent implements OnInit, OnDestroy {
         this.rteData = ev;
     }
 
+    toggleSummary(event, id) {
+        let chapter = this.offersUpdate.find(chapter => chapter._id == id);
+
+        if (event.checked) {
+            chapter.summary = true;
+        }
+        else {
+            chapter.summary = false;
+        }
+    }
+
     ngOnDestroy() {
         this.dragulaService.destroy(this.dragContainer);
         this.dropSubscription.unsubscribe();

@@ -19,7 +19,8 @@ export default gql`
     $oldClient: ID,
     $oldSeller: ID,
     $internalHours: Float,
-    $externalHours: Float) {
+    $externalHours: Float,
+    $comments: String) {
         editOffer(
             id: $id,
             offerTitle: $offerTitle,
@@ -37,7 +38,8 @@ export default gql`
             oldClient: $oldClient,
             oldSeller: $oldSeller,
             internalHours: $internalHours,
-            externalHours: $externalHours){
+            externalHours: $externalHours
+            comment: $comments){
             _id,
             offerTitle
         }

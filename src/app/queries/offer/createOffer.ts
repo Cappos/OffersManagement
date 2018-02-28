@@ -14,7 +14,8 @@ export default gql`
     $files: JSON,
     $seller: ID,
     $internalHours: Float,
-    $externalHours: Float) {
+    $externalHours: Float,
+    $comments: String,) {
         addOffer(
             offerTitle: $offerTitle,
             offerNumber: $offerNumber,
@@ -27,7 +28,8 @@ export default gql`
             files: $files,
             sealer: $seller,
             internalHours: $internalHours,
-            externalHours: $externalHours){
+            externalHours: $externalHours,
+            comments: $comments){
             _id,
             offerTitle
         }

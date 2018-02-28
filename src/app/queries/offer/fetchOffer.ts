@@ -15,6 +15,7 @@ export default gql`
             signed
             internalHours
             externalHours
+            comments
             sealer {
                 _id
                 name

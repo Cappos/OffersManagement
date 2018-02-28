@@ -45,6 +45,7 @@ const OfferSchema = new Schema({
             type: Number,
             default: 0
         },
+        comments: String,
         deleted: {
             type: Boolean,
             default: false
@@ -199,6 +200,7 @@ OfferSchema.statics.updateOffer = function (args) {
                 signed: args.signed,
                 internalHours: args.internalHours,
                 externalHours: args.externalHours,
+                comments: args.comments,
                 files: args.files
             }
         }, {new: true}).then(offer => {

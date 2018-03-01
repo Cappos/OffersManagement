@@ -149,6 +149,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                             });
                         });
                     });
+                    console.log(this.offersModules);
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -739,6 +740,12 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                     this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
+                else {
+                    this.totalPrice = 0;
+                    this.signedPrice = 0;
+                    this.internalHours = 0;
+                    this.externalHours = 0;
+                }
             }
             this.editMode = true;
         });
@@ -1019,6 +1026,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     toggleSummary(event, id) {
+        console.log('in summary');
         let chapter = this.offersUpdate.find(chapter => chapter._id == id);
 
         if (event.checked) {

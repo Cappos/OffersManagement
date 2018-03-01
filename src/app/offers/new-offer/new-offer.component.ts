@@ -602,6 +602,12 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                     this.internalHours = modulesInternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                     this.externalHours = modulesExternalHours.reduce((a, b) => parseInt(a) + parseInt(b));
                 }
+                else {
+                    this.totalPrice = 0;
+                    this.signedPrice = 0;
+                    this.internalHours = 0;
+                    this.externalHours = 0;
+                }
             }
         });
     }

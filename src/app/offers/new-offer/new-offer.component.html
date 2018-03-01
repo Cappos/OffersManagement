@@ -171,7 +171,7 @@
                                             <span>Signed price: &nbsp;<b>{{group.total | number:'2.2-2'}}</b></span>
                                         </mat-panel-description>
                                         <mat-panel-description flex="10">
-                                            <mat-checkbox [ngModel]="group.summary" name="summary" [disabled]="!editMode" (change)="toggleSummary($event, group._id)">Summary</mat-checkbox>
+                                            <mat-checkbox [ngModel]="group.summary" name="summary{{i}}" [disabled]="!editMode" (change)="toggleSummary($event, group._id)">Summary</mat-checkbox>
                                         </mat-panel-description>
                                         <mat-icon>arrow_drop_down</mat-icon>
                                     </mat-expansion-panel-header>

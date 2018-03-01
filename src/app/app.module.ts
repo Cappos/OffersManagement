@@ -71,6 +71,7 @@ import {AuthGuard} from "./auth/auth-guard.service";
 import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
 import { NotFoundComponent } from './error-handling/not-found/not-found.component';
 import {LightboxModule} from "angular2-lightbox";
+import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
 
 
 @NgModule({
@@ -108,7 +109,8 @@ import {LightboxModule} from "angular2-lightbox";
         UsersComponent,
         NewUserComponent,
         PdfDialogComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        RteDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -172,7 +174,7 @@ import {LightboxModule} from "angular2-lightbox";
         HttpLinkModule
     ],
     providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

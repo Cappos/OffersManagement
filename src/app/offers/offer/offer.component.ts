@@ -27,6 +27,7 @@ import * as _ from "lodash";
 import updateOffer from "../../queries/offer/updateOffer";
 import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
 import {Lightbox, LightboxConfig} from "angular2-lightbox";
+import {RteDialogComponent} from "../../rte/rte-dialog/rte-dialog.component";
 
 @Component({
     selector: 'app-offer',
@@ -973,6 +974,23 @@ export class OfferComponent implements OnInit, OnDestroy {
                 this.editMode = true;
             }
         });
+    }
+
+
+    onRemarksEdit(remarks: string) {
+
+        let dialogRef = this.dialog.open(RteDialogComponent, {
+            data: {
+                rteData: remarks
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.rteData = result;
+                this.editMode = true;
+            }
+        });
+
     }
 
     selectEvent(files: FileList | File): void {

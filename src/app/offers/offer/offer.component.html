@@ -367,11 +367,26 @@
                         <mat-divider></mat-divider>
                         <h3 style="margin-bottom: 0;">Remarks</h3>
                     </div>
-                    <div style="margin:20px 0;" flex="100" layout-padding>
-                        <ng-template [ngIf]="rteData">
-                            <app-tiny-editor [elementId]="'rte-comments'" [editMode]="editMode" [rteData]="rteData"
-                                             (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
-                        </ng-template>
+                    <div style="margin-top:20px;" flex="100" layout="row" layout-wrap>
+                        <div flex="90">
+                            <mat-card>
+                                <mat-card-content>
+                                    <div flex="100" layout-padding>
+                                        <div [innerHTML]="rteData"></div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div flex="10" layout-align="start center" layout="column">
+                            <div layout="row">
+                                 <span layout-margin>
+                                     <a (click)="onRemarksEdit(rteData)" style="cursor:pointer;">
+                                         <mat-icon color="accent">mode_edit</mat-icon>
+                                     </a>
+                                 </span>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- COMMENTS END -->
 

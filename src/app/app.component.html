@@ -1,13 +1,20 @@
 <td-layout>
     <ng-template [ngIf]="authService.isAuthenticated()">
-    <td-layout-nav-list svgIcon="assets:teradata" color="accent" opened="true" mode="side" sidenavWidth="350px">
+    <td-layout-nav-list svgIcon="assets:logo" color="accent" [opened]="menuOpen" mode="side" sidenavWidth="250px">
 
-        <div td-sidenav-toolbar-content layout="row" layout-align="start center">
-            <span>Offers Management App</span>
+        <div td-sidenav-toolbar-content layout="row" layout-align="center">
+            <img src="../assets/images/offer_app_logo.svg">
+        </div>
+        <div td-toolbar-content layout="row" layout-align="start" flex="5">
+            <button mat-icon-button (click)="toggleMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
         </div>
         <div td-toolbar-content layout="row" layout-align="start center" flex>
             <span>{{[pageTitle]}}</span>
         </div>
+
+
         <mat-nav-list td-sidenav-content>
             <mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><mat-icon matListIcon>dashboard</mat-icon><a matLine [routerLink]="'/'">Dashboard</a></mat-list-item>
             <mat-divider mat-inset></mat-divider>

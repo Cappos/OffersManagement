@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
     localStorageMaxTime: any = 2;
     date: any = new Date().getTime();
     setupTime: any = localStorage.getItem('created');
+    menuOpen = true;
 
     constructor(private sharedService: SharedService, public authService: AuthService, private router: Router) {
         //Check user login
@@ -28,10 +29,14 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        console.log(this.menuOpen);
     }
 
     onLogout() {
         this.authService.logout();
+    }
+
+    toggleMenu(){
+        this.menuOpen = !this.menuOpen;
     }
 }

@@ -1,6 +1,11 @@
 <div layout="row" layout-wrap>
 
-    <div flex="90" layout="column" layout-align="center start"></div>
+    <div flex="85" layout="column" layout-align="center start"></div>
+    <div flex="5" layout="column" layout-align="center end">
+        <button mat-mini-fab (click)="generatePDF()" color="accent">
+            <mat-icon>print</mat-icon>
+        </button>
+    </div>
     <div flex="5" layout="column" layout-align="center end">
         <button mat-mini-fab (click)="downloadPDF()" color="primary">
             <mat-icon>print</mat-icon>
@@ -12,7 +17,7 @@
         </button>
     </div>
 </div>
-<section id="content" class="pdf-container">
+<section id="content" class="pdf-container" #pdfContainer>
     <footer >
         <table width="100%">
         <tbody><tr>

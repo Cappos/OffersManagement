@@ -5,10 +5,9 @@ const path = require('path');
 const fs = require('fs');
 const createHTML = require('create-html');
 const pdf = require('html-pdf');
-const html = fs.readFileSync('./uploads/test/pdf.html', 'utf8');
-
 const bodyParser = require('body-parser').json();
 const decode = require('unescape');
+const html = fs.readFileSync('./uploads/test/pdf.html', 'utf8');
 
 const options = {
     format: 'A4',
@@ -17,24 +16,21 @@ const options = {
 
 
 router.post('/', bodyParser, function (req, res, next) {
+    console.log(req.body);
     // const html = createHTML({
     //     title: 'PDF',
-    //     css: 'example.css',
     //     body: decode(req.body.x),
     // });
     //
-    // setTimeout(function () {
-    //     fs.writeFile('./uploads/test/pdf.html', html, function (err) {
-    //         if (err) console.log(err);
+    // fs.writeFile('./uploads/test/pdf.html', html, function (err, res) {
+    //     if (err) console.log(err);
     //
+    // });
     //
-    //     });
-    // }, 2000);
-
-    pdf.create(html, options).toFile('./uploads/test/test9.pdf', function (err, res) {
-        if (err) return console.log(err);
-        console.log(res); // { filename: '/app/test.pdf' }
-    });
+    // pdf.create(html, options).toFile('./uploads/test/test9.pdf', function (err, res) {
+    //     if (err) return console.log(err);
+    //     console.log(res); // { filename: '/app/test.pdf' }
+    // });
 
     res.status(200).json({
         message: 'Successfully get filest'

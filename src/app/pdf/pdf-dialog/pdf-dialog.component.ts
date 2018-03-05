@@ -2,6 +2,8 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-pdf-dialog',
@@ -14,7 +16,7 @@ export class PdfDialogComponent implements OnInit {
     offerGroups: any;
     @ViewChild('pdfContainer') pdfContent;
 
-    constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService,) {
+    constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -47,7 +49,9 @@ export class PdfDialogComponent implements OnInit {
     }
 
     public generatePDF(){
-
+        this.http.post('/pdf', this.pdfContent).subscribe(data => {
+            console.log(data);
+        });
     }
 
 }

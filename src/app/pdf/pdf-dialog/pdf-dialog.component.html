@@ -95,7 +95,8 @@
                     <div class="modules" *ngFor="let module of group.modules">
                         <table style="border-collapse: collapse; width: 100%;" border="0">
                             <tbody>
-                            <tr class="modules-header">
+
+                            <tr class="modules-header" *ngIf="module.name">
                                 <th class="first-td">
                                     <h4>{{module.name}}</h4>
                                 </th>
@@ -115,7 +116,8 @@
                                     <p class="module-price">{{module.price | number:'2.2-2'}}</p>
                                 </td>
                                 <td class="img-shape third-td">
-                                    <img src="https://i.imgur.com/BCFrz7n.png" alt="x">
+                                    <img src="https://i.imgur.com/BCFrz7n1.png" *ngIf="!module.signed">
+                                    <img src="https://i.imgur.com/BCFrz7n.png" *ngIf="module.signed">
                                 </td>
                             </tr>
                             </tbody>
@@ -123,7 +125,7 @@
                         <!--<p>{{module.categoryId[0].name}}</p>-->
                         <!--<p>{{module.tstamp | date: 'dd.MM.y'}}</p>-->
                     </div>
-                    <ng-template *ngIf="group.summary">
+                    <ng-template [ngIf]="group.summary">
                         <table class="total-table">
                             <tbody>
                             <tr class="total">

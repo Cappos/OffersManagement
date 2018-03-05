@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const schema = require('./server/schema/schema');
 const multer = require('multer');
 const userRoutes = require('./server/routes/user');
+const fileRoutes = require('./server/routes/file');
 
 const app = express();
 
@@ -89,6 +90,7 @@ app.post('/upload', function(req, res) {
 });
 
 app.use('/user', userRoutes);
+app.use('/file', fileRoutes);
 
 //Set Port
 const port = process.env.PORT || '3000';

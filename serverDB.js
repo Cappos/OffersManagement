@@ -10,6 +10,7 @@ const schema = require('./server/schema/schema');
 const multer = require('multer');
 const userRoutes = require('./server/routes/user');
 const fileRoutes = require('./server/routes/file');
+const pdfRoutes = require('./server/routes/pdf');
 
 const app = express();
 
@@ -91,6 +92,7 @@ app.post('/upload', function(req, res) {
 
 app.use('/user', userRoutes);
 app.use('/file', fileRoutes);
+app.use('/pdf', pdfRoutes);
 
 //Set Port
 const port = process.env.PORT || '3000';

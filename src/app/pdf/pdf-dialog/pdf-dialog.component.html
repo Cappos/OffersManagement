@@ -138,46 +138,24 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="bemerkungen">
-                            <h4>Bemerkungen</h4>
-                            <ul>
-                                <li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li>
-                                <li>Konditionen einmalige Kosten: 50% fällig nach Abschluss des Vertrags; Restbetrag
-                                    fällig
-                                    12 Wochen nach Projektstart (Kickoff Meeting).
-                                </li>
-                                <li>Die Nutzungsrechte sind für den Gebrauch der Weblösung abgegolten.</li>
-                                <li>Diese Offerte behält ihre Gültigkeit bis zum {{offerData.expDate | date: 'dd.MM.y'}}
-                                </li>
-                                <li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form spätestens
-                                    eine
-                                    Woche vor der Content-Eingabe geliefert.
-                                </li>
-                                <li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachträgliches Hinzufügen oder
-                                    Ändern des Inhaltes wird nach Aufwand verrechnet.
-                                </li>
-                                <li>Erst mit der vollständigen Bezahlung des vertraglich festgesetzten Preises wird das
-                                    Nutzungsrecht erworben.
-                                </li>
-                            </ul>
-                            <p>Sind Sie mit unserem Angebot einverstanden, unterschreiben Sie die Offerte und faxen Sie
-                                sie
-                                komplett an folgende Nummer: +41 43 255 65 94 oder senden Sie sie an: deepscreen GmbH,
-                                Binzmühlestrasse 97, 8050 Zürich.</p>
+                        <div class="remarks">
+                            <div class="bemerkungen">
+                                <div [innerHTML]="offerData.comments"></div>
+                            </div>
+                            <table class="manager-table">
+                                <tbody>
+                                <tr class="manager">
+                                    <th>
+                                        <h4>{{offerData.sealer[0].name}}</h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
                         </div>
-                        <table class="manager-table">
-                            <tbody>
-                            <tr class="manager">
-                                <th>
-                                    <h4>{{offerData.sealer[0].name}}</h4>
-                                </th>
-                                <th>
-                                    <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
-                                </th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
                     </ng-template>
                 </div>
             </div>

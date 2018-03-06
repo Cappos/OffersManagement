@@ -2,8 +2,9 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import * as FileSaver from 'file-saver';
+
 
 @Component({
     selector: 'app-pdf-dialog',
@@ -33,7 +34,7 @@ export class PdfDialogComponent implements OnInit {
         this.offerData = this.data.offer;
         this.offerGroups = this.data.groups;
         console.log(this.offerData);
-        console.log(this.pdfContent.nativeElement);
+        console.log(this.pdfContent);
         this.loadingService.resolveAll('modulesLoader');
     }
 
@@ -48,9 +49,31 @@ export class PdfDialogComponent implements OnInit {
         });
     }
 
-    public generatePDF(){
-        this.http.post('/pdf', this.pdfContent).subscribe(data => {
-            console.log(data);
+    public generatePDF() {
+        this.loadingService.register('modulesLoader');
+
+
+        const data = this.pdfContent.nativeElement.innerHTML; // get pdf content
+
+        // Replace all blank spaces
+        const stripData = data
+            .replace(/(_ngcontent-\w+-\w+="(.|\n)*?"|_ngcontent-\w+="(.|\n)*?"|_ngcontent-(\w+-\w+)|ng-(\w+))/g, '')
+            .replace(/\n/g, "")
+            .replace(/[\t ]+\</g, "<")
+            .replace(/\>[\t ]+\</g, "><")
+            .replace(/\>[\t ]+$/g, ">");
+
+        // Send data to server for pdf generation
+        const headers = new HttpHeaders({'Content-Type': 'application/json'});
+        this.http.post('/pdf', {data: stripData}, {headers: headers, responseType: 'blob'}).subscribe(data => {
+
+            // download pdf file from server
+            let blob = new Blob([data], {
+                type: 'application/pdf' // must match the Accept type
+            });
+            let filename = 'offer.pdf'; // set download file name
+            FileSaver.saveAs(blob, filename);
+            this.loadingService.resolveAll('modulesLoader');
         });
     }
 

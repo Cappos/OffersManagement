@@ -28,14 +28,6 @@ mongoose.connection
 
 
 mongoose.set('debug', false);
-// Handling file upload
-// const conn = mongoose.connection;
-
-// const GridFsStorage = require('multer-gridfs-storage');
-// const Grid = require('gridfs-stream');
-// Grid.mongo = mongoose.mongo;
-// const gfs = Grid(conn.db);
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -93,6 +85,7 @@ app.post('/upload', function(req, res) {
 app.use('/user', userRoutes);
 app.use('/file', fileRoutes);
 app.use('/pdf', pdfRoutes);
+
 
 //Set Port
 const port = process.env.PORT || '3000';

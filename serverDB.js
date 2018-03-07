@@ -59,14 +59,12 @@ app.get('*', (req, res) => {
 // Create dir if not exist
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, '0777', true);
-
-    if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, '0777', true);
-    }
-    // copy pdf css file
-    fs.createReadStream('./scr/assets/css/pdf.css', 'utf8').pipe(fs.createWriteStream('./uploads/temp/pdf.css', 'utf8'));
 }
-
+if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, '0777', true);
+    // copy pdf css file
+    // fs.createReadStream('./scr/assets/css/pdf.css', 'utf8').pipe(fs.createWriteStream('./uploads/temp/pdf.css', 'utf8'));
+}
 
 // File upload
 const storage = multer.diskStorage({ //multers disk storage settings

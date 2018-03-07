@@ -18,20 +18,6 @@
     </div>
 </div>
 <section id="content" class="pdf-container" #pdfContainer>
-    <footer >
-        <table width="100%">
-        <tbody><tr>
-            <td>
-                <p><a href="http://www.cloudformatter.com/CSS2Pdf.CustomTipsTricks.HeaderFooter.aspx">View Page on WebSite</a></p>
-            </td>
-            <td style="text-align:center;">
-                <p>3/5/2018 2:18 PM, 1,791,408</p>
-            </td>
-            <td style="text-align:right">
-                <p>Page 10</p>
-            </td>
-        </tr>
-        </tbody></table></footer>
     <div class="section-top">
         <div class="logo">
             <img src="https://www.deep-screen.ch/assets/logo.png" alt="logo">
@@ -161,7 +147,7 @@
                             <div class="bemerkungen">
                                 <div [innerHTML]="offerData.comments"></div>
                             </div>
-                            <table class="manager-table">
+                            <table id="pageFooter-{{i}}" class="manager-table">
                                 <tbody>
                                 <tr class="manager">
                                     <th>
@@ -176,9 +162,6 @@
                             <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
                         </div>
                     </ng-template>
-                    <footer >
-                        <p>Page 10</p>
-                    </footer>
                 </div>
             </div>
         </div>

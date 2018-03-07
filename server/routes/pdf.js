@@ -12,10 +12,10 @@ const dir = './uploads/temp';
 const options = {
     format: 'A4'
 };
-const style = fs.readFileSync('./uploads/temp/pdf.css', 'utf8'); // get css for pdf html template
-
 
 router.post('/', bodyParser, function (req, res, next) {
+
+    const style = fs.readFileSync('./uploads/temp/pdf.css', 'utf8'); // get css for pdf html template
 
     // Create dir if not exist
     if (!fs.existsSync(dir)) {

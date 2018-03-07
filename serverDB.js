@@ -11,6 +11,8 @@ const multer = require('multer');
 const userRoutes = require('./server/routes/user');
 const fileRoutes = require('./server/routes/file');
 const pdfRoutes = require('./server/routes/pdf');
+const uploadsDir = './uploads';
+const tempDir = './uploads/temp';
 
 const app = express();
 
@@ -30,7 +32,7 @@ mongoose.connection
 mongoose.set('debug', false);
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/graphql', expressGraphQL({
     schema,
@@ -54,6 +56,17 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+// Create dir if not exist
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, '0777', true);
+
+    if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, '0777', true);
+    }
+    // copy pdf css file
+    fs.createReadStream('./scr/assets/css/pdf.css', 'utf8').pipe(fs.createWriteStream('./uploads/temp/pdf.css', 'utf8'));
+}
+
 
 // File upload
 const storage = multer.diskStorage({ //multers disk storage settings
@@ -62,7 +75,7 @@ const storage = multer.diskStorage({ //multers disk storage settings
     },
     filename: function (req, file, cb) {
         let datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
     },
 });
 
@@ -71,10 +84,10 @@ const upload = multer({ //multer settings for single upload
 }).single('file');
 
 /** API path that will upload the files */
-app.post('/upload', function(req, res) {
-    upload(req,res,function(err){
-        if(err){
-            res.json({error_code:1,err_desc:err});
+app.post('/upload', function (req, res) {
+    upload(req, res, function (err) {
+        if (err) {
+            res.json({error_code: 1, err_desc: err});
             return;
         }
 

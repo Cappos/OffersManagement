@@ -148,19 +148,21 @@
                             <div class="bemerkungen">
                                 <div [innerHTML]="offerData.comments"></div>
                             </div>
-                            <table id="pageFooter-{{i}}" class="manager-table">
-                                <tbody>
-                                <tr class="manager">
-                                    <th>
-                                        <h4>{{offerData.sealer[0].name}}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                            <div id="pageFooter-{{i}}">
+                                <table  class="manager-table">
+                                    <tbody>
+                                    <tr class="manager">
+                                        <th>
+                                            <h4>{{offerData.sealer[0].name}}</h4>
+                                        </th>
+                                        <th>
+                                            <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                            </div>
                         </div>
                     </ng-template>
                 </div>

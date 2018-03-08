@@ -62,12 +62,11 @@ if (!fs.existsSync(uploadsDir)) {
 }
 if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, '0777', true);
-
     // copy pdf css file
     setTimeout(function () {
         fs.createReadStream('./scr/assets/css/pdf.css', 'utf8').pipe(fs.createWriteStream('./uploads/temp/pdf.css', 'utf8'));
     }, 500);
- }
+}
 
 // File upload
 const storage = multer.diskStorage({ //multers disk storage settings

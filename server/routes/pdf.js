@@ -12,10 +12,11 @@ const dir = './uploads/temp';
 const options = {
     format: 'A4'
 };
+const style = fs.readFileSync('./uploads/temp/pdf.css', 'utf8'); // get css for pdf html template
 
 router.post('/', bodyParser, function (req, res, next) {
 
-    const style = fs.readFileSync('./uploads/temp/pdf.css', 'utf8'); // get css for pdf html template
+
 
     // Create dir if not exist
     if (!fs.existsSync(dir)) {
@@ -26,7 +27,8 @@ router.post('/', bodyParser, function (req, res, next) {
     const html = createHTML({
         title: 'PDF',
         body: decode(req.body.data), // append html from request
-        head: '<style>' + style + '</style>' // add css to html
+        head: '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,900" rel="stylesheet">' +
+        '<style>' + style + '</style>' // add css to html
     });
 
     fs.writeFile('./uploads/temp/pdf.html', html, function (err, file) {
@@ -60,8 +62,8 @@ router.post('/', bodyParser, function (req, res, next) {
                 }
 
                 // Delete files if download success
-                fs.unlinkSync('./uploads/temp/pdf.html');
-                fs.unlinkSync('./uploads/temp/test.pdf');
+                // fs.unlinkSync('./uploads/temp/pdf.html');
+                // fs.unlinkSync('./uploads/temp/test.pdf');
 
             });
         });

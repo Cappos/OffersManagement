@@ -9,14 +9,17 @@ const bodyParser = require('body-parser').json();
 const decode = require('unescape');
 const dir = './uploads/temp';
 
+// set PDF options
 const options = {
-    format: 'A4'
+    format: 'A4',
+    border: {
+        top: "1.5cm",
+        quality: "100"
+    },
 };
-const style = fs.readFileSync('./uploads/temp/pdf.css', 'utf8'); // get css for pdf html template
+const style = fs.readFileSync('./src/pdf.css', 'utf8'); // get css for pdf html template
 
 router.post('/', bodyParser, function (req, res, next) {
-
-
 
     // Create dir if not exist
     if (!fs.existsSync(dir)) {
@@ -62,9 +65,8 @@ router.post('/', bodyParser, function (req, res, next) {
                 }
 
                 // Delete files if download success
-                // fs.unlinkSync('./uploads/temp/pdf.html');
-                // fs.unlinkSync('./uploads/temp/test.pdf');
-
+                fs.unlinkSync('./uploads/temp/pdf.html');
+                fs.unlinkSync('./uploads/temp/test.pdf');
             });
         });
     });

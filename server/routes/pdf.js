@@ -69,7 +69,7 @@ router.post('/', bodyParser, function (req, res, next) {
                 }
 
                 // Delete files if download success
-                // fs.unlinkSync('./uploads/temp/pdf.html');
+                fs.unlinkSync('./uploads/temp/pdf.html');
                 fs.unlinkSync('./uploads/temp/test.pdf');
             });
         });

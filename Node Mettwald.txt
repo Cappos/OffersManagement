@@ -1,0 +1,4 @@
+User name : vr10418
+password: adagareJ_201
+
+Poretanje mongoDB: /etc/mongodb/bin/mongod --dbpath /etc/mongodb/data/db&

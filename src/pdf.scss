@@ -12,6 +12,7 @@ img {
 .pdf-container {
     padding-bottom: 50px;
     padding-top: 50px;
+    zoom: 0.68;
 }
 
 .logo {
@@ -214,9 +215,8 @@ li {
 .manager {
     border-top: 1px solid #D5E5A4;
     border-bottom: 1px solid #D5E5A4;
-    padding-top: 10px;
-    padding-bottom: 10px;
     text-align: left;
+    font-family: sans-serif;
 }
 
 .modules-header {

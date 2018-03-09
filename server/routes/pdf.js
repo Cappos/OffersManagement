@@ -11,12 +11,13 @@ const dir = './uploads/temp';
 
 // set PDF options
 const options = {
-    // format: 'A4',
-    width: '280mm',
-    height: '396mm',
-    border: {
-        quality: "100"
-    }
+    format: 'A4',
+    // width: '280mm',
+    // height: '396mm',
+    quality: "100"
+    // border: {
+    //
+    // }
 };
 
 const style = fs.readFileSync('./src/pdf.css', 'utf8'); // get css for pdf html template

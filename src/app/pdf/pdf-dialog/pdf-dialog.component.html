@@ -35,13 +35,14 @@
             </div>
             <div class="offer-info-container">
                 <div class="offer-info">
+                    <h4>Offerte:</h4>
                     <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
-                    <p>Dokumenttyp: Offerte</p>
+                    <p>Dokumenttype: Offerte</p>
                     <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
                 </div>
                 <div class="offer-info">
                     <h4>Verantwortliche Person:</h4>
-                    <p>deepscreen GmbH</p>
+                    <p>Deepscreen GmbH</p>
                     <p>{{offerData.sealer[0].name}}</p>
                     <p>Tel. {{offerData.sealer[0].phone}}</p>
                     <p>Mob. {{offerData.sealer[0].mobile}}</p>
@@ -59,8 +60,7 @@
                 <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein
                     Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu
                     irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und
-                    darf
-                    nicht an unautorisierte Dritte weitergegeben werden.
+                    darf nicht an unautorisierte Dritte weitergegeben werden.
                 </p>
             </div>
         </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="content-wrapper">
                         <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
-                        <h4 class="no-borders" *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h4>
+                        <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
                         <div class="group-info">
                             <div [innerHTML]="group.bodytext"></div>
                         </div>
@@ -88,7 +88,7 @@
                 <div class="page-wrapper">
                     <div class="content-wrapper">
                         <h2>{{group.name}}</h2>
-                        <div class="modules" *ngFor="let module of group.modules">
+                        <div class="modules" [class.hasHeader]="module.name" *ngFor="let module of group.modules; let first = first">
                             <table style="border-collapse: collapse; width: 100%;" border="0">
                                 <tbody>
 
@@ -97,16 +97,16 @@
                                         <h4>{{module.name}}</h4>
                                     </th>
                                     <th class="second-td">
-                                        <h4>Betrag</h4>
+                                        <h4 *ngIf="first">Betrag</h4>
                                     </th>
                                     <th class="third-td">
-                                        <h4>Enthalten</h4>
+                                        <h4 *ngIf="first">Enthalten</h4>
                                     </th>
 
                                 </tr>
                                 <tr class="modules-main">
                                     <td class="first-td">
-                                        <p [innerHTML]="module.bodytext"></p>
+                                        <div [innerHTML]="module.bodytext"></div>
                                     </td>
                                     <td class="second-td">
                                         <p class="module-price">{{module.price | number:'2.2-2'}}</p>
@@ -127,7 +127,7 @@
                                         <h4>Total</h4>
                                     </th>
                                     <th>
-                                        <p>{{group.subTotal}}</p>
+                                        <h4 class="right">{{group.subTotal}}</h4>
                                     </th>
                                 </tr>
                                 </tbody>
@@ -136,7 +136,7 @@
                                 <div class="bemerkungen">
                                     <div [innerHTML]="offerData.comments"></div>
                                 </div>
-                                <div id="pageFooter-{{i}}">
+                                <div id="pageFooter-{{i + 2 }}" class="footer">
                                     <table class="manager-table">
                                         <tbody>
                                         <tr class="manager">
@@ -147,9 +147,13 @@
                                                 <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
                                             </th>
                                         </tr>
+                                        <tr>
+                                            <td colspan="2" class="auftrag">
+                                                <p>Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
-                                    <p class="auftrag">Auftrag erteilt, Datum, Stempel, Unterschrift</p>
                                 </div>
                             </div>
                         </ng-template>

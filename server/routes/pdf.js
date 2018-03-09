@@ -14,10 +14,11 @@ const options = {
     format: 'A4',
     // width: '280mm',
     // height: '396mm',
-    quality: "100"
-    // border: {
-    //
-    // }
+    quality: "100",
+    border: {
+        top: "1cm",
+        bottom: "0"
+    }
 };
 
 const style = fs.readFileSync('./src/pdf.css', 'utf8'); // get css for pdf html template
@@ -68,7 +69,7 @@ router.post('/', bodyParser, function (req, res, next) {
                 }
 
                 // Delete files if download success
-                fs.unlinkSync('./uploads/temp/pdf.html');
+                // fs.unlinkSync('./uploads/temp/pdf.html');
                 fs.unlinkSync('./uploads/temp/test.pdf');
             });
         });

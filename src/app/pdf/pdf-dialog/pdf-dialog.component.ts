@@ -5,7 +5,6 @@ import {SharedService} from "../../shared/shared.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import * as FileSaver from 'file-saver';
 
-
 @Component({
     selector: 'app-pdf-dialog',
     templateUrl: './pdf-dialog.component.html',
@@ -26,8 +25,6 @@ export class PdfDialogComponent implements OnInit {
             color: 'accent',
         });
         this.loadingService.register('modulesLoader');
-
-        this.sharedService.changeTitle(this.pageTitle);
     }
 
     ngOnInit() {
@@ -51,7 +48,6 @@ export class PdfDialogComponent implements OnInit {
 
     public generatePDF() {
         this.loadingService.register('modulesLoader');
-
 
         const data = this.pdfContent.nativeElement.innerHTML; // get pdf content
 

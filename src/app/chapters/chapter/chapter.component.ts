@@ -165,7 +165,7 @@ export class ChapterComponent implements OnInit {
 
                 if (result.moduleNew) {
                     console.log(result);
-                    let module = this.modulesNew.filter(module => module.id === result.id)[0];
+                    let module = this.modulesNew.filter(module => module._id === result._id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
                     if (moduleIndex >= 0) {
                         this.modulesNew[moduleIndex] = result;
@@ -176,7 +176,7 @@ export class ChapterComponent implements OnInit {
                 }
                 else {
                     console.log(result);
-                    let module = this.modulesUpdate.filter(module => module.id === result.id)[0];
+                    let module = this.modulesUpdate.filter(module => module._id === result._id)[0];
                     let moduleIndex = this.modulesUpdate.indexOf(module);
 
                     if (moduleIndex >= 0) {
@@ -188,7 +188,7 @@ export class ChapterComponent implements OnInit {
                     }
                 }
 
-                let module = this.chaptersModules.filter(module => module.name === result.name)[0];
+                let module = this.chaptersModules.filter(module => module._id === result._id)[0];
                 let moduleIndex = this.chaptersModules.indexOf(module);
                 let modulePrices: any[] = [];
                 let signedModulePrices: any[] = [];
@@ -227,7 +227,7 @@ export class ChapterComponent implements OnInit {
                 this.editMode = true;
 
                 if (!moduleUid) {
-                    let module = this.modulesNew.filter(module => module._id === moduleData.id)[0];
+                    let module = this.modulesNew.filter(module => module._id === moduleData._id)[0];
                     let moduleIndex = this.modulesNew.indexOf(module);
                     this.modulesNew.splice(moduleIndex, 1);
                 }

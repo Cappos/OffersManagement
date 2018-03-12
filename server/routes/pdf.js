@@ -9,6 +9,12 @@ const bodyParser = require('body-parser').json();
 const decode = require('unescape');
 const dir = './uploads/temp';
 
+
+// Set image path for pdf
+let assetsPath = path.join(__dirname + '/../../src/');
+assetsPath = assetsPath.replace(new RegExp(/\\/g), '/');
+
+
 // set PDF options
 const options = {
     format: 'A4',
@@ -18,13 +24,13 @@ const options = {
     border: {
         top: "1cm",
         bottom: "0"
-    }
+    },
+    base: "file:///" + assetsPath
 };
 
 const style = fs.readFileSync('./src/pdf.css', 'utf8'); // get css for pdf html template
 
 router.post('/', bodyParser, function (req, res, next) {
-
     // Create dir if not exist
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
@@ -41,7 +47,7 @@ router.post('/', bodyParser, function (req, res, next) {
     fs.writeFile('./uploads/temp/pdf.html', html, function (err, file) {
         if (err) {
             return file.status(500).json({
-                title: 'An error occurred on file create',
+                title: 'An error occurred on HTML file create',
                 error: err
             });
         }
@@ -49,7 +55,7 @@ router.post('/', bodyParser, function (req, res, next) {
         const html = fs.readFileSync('./uploads/temp/pdf.html', 'utf8'); // get html file content
 
         // Create PDF from HTML file
-        pdf.create(html, options).toFile('./uploads/temp/test.pdf', function (err, pdf) {
+        pdf.create(html, options).toFile('./uploads/temp/offer.pdf', function (err, pdf) {
             if (err) {
                 return file.status(500).json({
                     title: 'An error occurred on pdf create',
@@ -57,7 +63,7 @@ router.post('/', bodyParser, function (req, res, next) {
                 });
             }
 
-            let file = './uploads/temp/test.pdf'; // Set download PDF location
+            let file = './uploads/temp/offer.pdf'; // Set download PDF location
 
             // Download file
             res.download(file, 'test.pdf', function (err) {
@@ -70,7 +76,7 @@ router.post('/', bodyParser, function (req, res, next) {
 
                 // Delete files if download success
                 fs.unlinkSync('./uploads/temp/pdf.html');
-                fs.unlinkSync('./uploads/temp/test.pdf');
+                fs.unlinkSync('./uploads/temp/offer.pdf');
             });
         });
     });

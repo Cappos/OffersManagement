@@ -97,7 +97,7 @@
 
                             <!-- PAGES -->
                             <div *ngSwitchCase="'2'" layout="row" class="page">
-                                <mat-expansion-panel #accordionModule hideToggle="true" flex="90" layout="column"
+                                <mat-expansion-panel #accordionModule hideToggle="true" flex="85" layout="column"
                                                      layout-align="center start" [attr.id]="group._id"
                                                      [attr.index]="i">
                                     <mat-expansion-panel-header layout="row">
@@ -136,7 +136,7 @@
                                     </mat-card>
 
                                 </mat-expansion-panel>
-                                <div flex="10" layout-align="start end" layout="column">
+                                <div flex="15" layout-align="start end" layout="column">
                                     <div layout="row">
                                         <span layout-margin>
                                             <a (click)="onPageEdit(group._id, group)"><mat-icon

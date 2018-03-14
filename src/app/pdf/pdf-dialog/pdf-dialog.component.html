@@ -46,9 +46,9 @@
                 <div class="offer-info">
                     <h4>Empfänger:</h4>
                     <p>{{offerData.client[0].companyName}}</p>
-                    <p>Tel. {{offerData.client[0].contactPhone}}</p>
-                    <p>Mob. {{offerData.client[0].mobile}}</p>
-                    <p>{{offerData.client[0].mail}}</p>
+                    <p *ngIf="offerData.client[0].contactPhone">Tel. {{offerData.client[0].contactPhone}}</p>
+                    <p *ngIf="offerData.client[0].mobile">Mob. {{offerData.client[0].mobile}}</p>
+                    <p *ngIf="offerData.client[0].mail">{{offerData.client[0].mail}}</p>
                 </div>
             </div>
             <div class="section-top-bottom">
@@ -139,12 +139,12 @@
                                                 <h4>{{offerData.sealer[0].name}}</h4>
                                             </th>
                                             <th>
-                                                <h4 class="manager-date">Zürich,{{group.tstamp | date: 'dd.MM.y'}}</h4>
+                                                <h4 class="manager-date">Unterschrift Kunde</h4>
                                             </th>
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="auftrag">
-                                                <p>Auftrag erteilt, Datum, Stempel, Unterschrift</p>
+                                                <p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>
                                             </td>
                                         </tr>
                                         </tbody>

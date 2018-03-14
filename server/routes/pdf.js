@@ -66,7 +66,7 @@ router.post('/', bodyParser, function (req, res, next) {
             let file = './uploads/temp/offer.pdf'; // Set download PDF location
 
             // Download file
-            res.download(file, 'test.pdf', function (err) {
+            res.download(file, 'offer.pdf', function (err) {
                 if (err) {
                     return file.status(500).json({
                         title: 'An error occurred on file download',

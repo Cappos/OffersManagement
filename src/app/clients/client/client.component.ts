@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
@@ -7,6 +7,8 @@ import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
 import fetchClient from '../../queries/client/fetchClient';
 import updateClient from '../../queries/client/updateClient';
+import copyOffer from '../../queries/client/offerCopy';
+import {MatMenuTrigger} from "@angular/material";
 
 @Component({
     selector: 'app-client',
@@ -19,6 +21,7 @@ export class ClientComponent implements OnInit {
     item;
     offers: any[] =[];
     @Output() editMode = false;
+    @ViewChild(MatMenuTrigger) contextMenu: MatMenuTrigger;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
         this.loadingService.create({
@@ -88,6 +91,24 @@ export class ClientComponent implements OnInit {
     addOffer(clientId: number) {
         console.log(clientId);
         this.router.navigate(['/newOffer/' + clientId]);
+    }
+
+    offerCopy(id: string){
+        this.apollo.mutate({
+            mutation: copyOffer,
+            variables: {
+                id: id,
+                client: this.id
+            },
+            refetchQueries: [{
+                query: fetchClient,
+                variables: {
+                    id: this.id
+                }
+            }]
+        }).subscribe(() => {
+            this.sharedService.sneckBarNotifications(`offer copied.`);
+        });
     }
 
     goBack(){

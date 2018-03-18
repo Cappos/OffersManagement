@@ -349,6 +349,16 @@ const mutation = new GraphQLObjectType({
                 }, {new: true});
             }
         },
+        copyOffer: {
+            type: OfferType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                client: {type: new GraphQLNonNull(GraphQLID)}
+            },
+            resolve(parentValue, args) {
+                return Offer.copyOffer(args);
+            }
+        },
         addPrice: {
             type: PriceType,
             args: {

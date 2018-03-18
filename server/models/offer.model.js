@@ -49,6 +49,10 @@ const OfferSchema = new Schema({
             type: String,
             default: "<h4>Bemerkungen</h4><ul><li>Alle Preise sind in Schweizer Franken exkl. Mehrwertsteuer angegeben.</li><li>Konditionen einmalige Kosten: 50% f&auml;llig nach Abschluss des Vertrags; Restbetrag f&auml;llig 12 Wochen nach Projektstart (Kickoff Meeting).</li><li>Die Nutzungsrechte sind f&uuml;r den Gebrauch der Webl&ouml;sung abgegolten.</li><li>Diese Offerte beh&auml;lt ihre G&uuml;ltigkeit bis zum 31. Juli 2017.</li><li>Alle Inhalte (Texte, Bilder, Logos) werden vom Kunden in digitaler Form sp&auml;testens eine Woche vor der Content-Eingabe geliefert.</li><li>Einmalige Content-Eingabe ist im Preis inbegriffen. Nachtr&auml;gliches Hinzuf&uuml;gen oder &Auml;ndern des Inhaltes wird nach Aufwand verrechnet.</li><li>Erst mit der vollst&auml;ndigen Bezahlung des vertraglich festgesetzten Preises wird das Nutzungsrecht erworben.</li></ul>"
         },
+        version: {
+            type: Number,
+            default: 1.0
+        },
         deleted: {
             type: Boolean,
             default: false
@@ -97,7 +101,6 @@ OfferSchema.statics.findSealer = function (id) {
         .then(offer => offer.sealer);
 };
 
-
 OfferSchema.statics.createOffer = function (args) {
     const Offer = mongoose.model('offer');
     const Group = mongoose.model('group');
@@ -107,7 +110,7 @@ OfferSchema.statics.createOffer = function (args) {
     const GroupsNew = args.groupsNew;
 
     return this.count().then((count) => {
-        args.offerNumber = '00' + count + 1 + '/' + new Date().getFullYear();
+        args.offerNumber = '00' + (parseInt(count) + 1) + '/' + new Date().getFullYear();
 
         return (new Offer(args)).save().then(offer => {
             Client.findOneAndUpdate({_id: args.client},
@@ -172,7 +175,6 @@ OfferSchema.statics.createOffer = function (args) {
         });
     });
 };
-
 
 OfferSchema.statics.updateOffer = function (args) {
     const Group = mongoose.model('group');
@@ -345,5 +347,163 @@ OfferSchema.statics.updateOffer = function (args) {
     });
 };
 
+OfferSchema.statics.copyOffer = function (args) {
+    const Offer = mongoose.model('offer');
+    const Group = mongoose.model('group');
+    const Client = mongoose.model('client');
+    const Module = mongoose.model('module');
+    const Page = mongoose.model('page');
+
+    return this.count().then((count) => {
+        return this.findById(args.id).then(doc => {
+            let version = doc.version + 1;
+            let offerTitle = doc.offerTitle + ' (Copy ' + version + ')';
+            let groups = doc.groups;
+            let pages = doc.pages;
+
+            return (new Offer(args)).save().then(offer => {
+                Client.findOneAndUpdate({_id: args.client},
+                            {
+                                $push: {
+                                    offers: offer._id,
+                                }
+                            }, {new: true}).then((res) => res);
+
+                for (let g in groups){
+                    Group.findById(groups[g]).then(data => {
+                        let group = new Group({
+                            name: groups[g].name,
+                            subTotal: groups[g].subTotal,
+                            total: groups[g].total,
+                            order: groups[g].order,
+                            summary: groups[g].summary
+                        });
+                        group.save().then((res) => {
+                            for (let m in groups[g].modules) {
+                                Module.findById(groups[g].modules[m]).then(item => {
+                                    let module = new Module({
+                                        name: groups[g].modules[m].name,
+                                        bodytext: groups[g].modules[m].bodytext,
+                                        price: groups[g].modules[m].price,
+                                        groupId: group._id,
+                                        categoryId: groups[g].modules[m].categoryId,
+                                        moduleNew: false,
+                                        internalHours: groups[g].modules[m].internalHours,
+                                        externalHours: groups[g].modules[m].externalHours,
+                                        pricePerHour: groups[g].modules[m].pricePerHour,
+                                        signed: groups[g].modules[m].signed
+                                    });
+                                    module.save();
+                                    res.modules.push(module);
+                                });
+                            }
+                            res.save()
+                        });
+                        offer.groups.push(group);
+
+                    })
+                }
+
+            });
+
+
+
+            // doc.version = version;
+            // doc.offerTitle = offerTitle;
+            // doc.client = args.client;
+            // doc.isNew = true;
+
+
+            // return this.count().then((count) => {
+            //     args.offerNumber = '00' + (parseInt(count) + 1) + '/' + new Date().getFullYear();
+            //
+            //     return (new Offer(args)).save().then(offer => {
+            //         Client.findOneAndUpdate({_id: args.client},
+            //             {
+            //                 $push: {
+            //                     offers: offer._id,
+            //                 }
+            //             }, {new: true}).then((res) => res);
+            //
+            //         for (let e in GroupsNew) {
+            //             if (GroupsNew.length > 0) {
+            //                 // create new group
+            //                 if (GroupsNew[e].type === 1) {
+            //                     let group = new Group({
+            //                         name: GroupsNew[e].name,
+            //                         subTotal: GroupsNew[e].subTotal,
+            //                         total: GroupsNew[e].total,
+            //                         order: GroupsNew[e].order,
+            //                         summary: GroupsNew[e].summary
+            //                     });
+            //                     group.save().then((res) => {
+            //                         for (let m in GroupsNew[e].modules) {
+            //                             if (GroupsNew[e].modules[m].moduleNew) {
+            //                                 // create new modules form modules array
+            //                                 let module = new Module({
+            //                                     name: GroupsNew[e].modules[m].name,
+            //                                     bodytext: GroupsNew[e].modules[m].bodytext,
+            //                                     price: GroupsNew[e].modules[m].price,
+            //                                     groupId: group._id,
+            //                                     categoryId: GroupsNew[e].modules[m].categoryId,
+            //                                     moduleNew: false,
+            //                                     internalHours: GroupsNew[e].modules[m].internalHours,
+            //                                     externalHours: GroupsNew[e].modules[m].externalHours,
+            //                                     pricePerHour: GroupsNew[e].modules[m].pricePerHour,
+            //                                     signed: GroupsNew[e].modules[m].signed
+            //                                 });
+            //                                 module.save();
+            //                                 res.modules.push(module);
+            //                             }
+            //                         }
+            //                         res.save()
+            //                     });
+            //                     offer.groups.push(group);
+            //                 }
+            //                 // create new page from pages array
+            //                 else if (GroupsNew[e].type === 2) {
+            //                     let page = new Page({
+            //                         type: GroupsNew[e].type,
+            //                         title: GroupsNew[e].title,
+            //                         subtitle: GroupsNew[e].subtitle,
+            //                         bodytext: GroupsNew[e].bodytext,
+            //                         defaultPage: false,
+            //                         order: GroupsNew[e].order
+            //                     });
+            //                     page.save().then((res) => res);
+            //                     offer.pages.push(page);
+            //                 }
+            //             }
+            //         }
+            //         return Promise.all([offer.save()])
+            //             .then(([offer]) => offer);
+            //     });
+            // });
+
+
+
+
+
+
+
+
+
+            // doc._id = mongoose.Types.ObjectId();
+            // doc.offerNumber = '00' + (parseInt(count) + 1) + '/' + new Date().getFullYear();
+            // doc.offerTitle = offerTitle;
+            // doc.version = version;
+            // doc.isNew = true; //<--------------------IMPORTANT
+            // doc.save().then(offer => {
+            //     Client.findOneAndUpdate({_id: args.client},
+            //         {
+            //             $push: {
+            //                 offers: offer._id,
+            //             }
+            //         }, {new: true}).then((res) => res);
+            // });
+
+        });
+    });
+};
 
 mongoose.model('offer', OfferSchema);

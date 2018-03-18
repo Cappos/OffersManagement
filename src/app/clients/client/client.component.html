@@ -5,7 +5,7 @@
             <div layout="row" layout-wrap>
                 <div flex="5">
                     <button mat-icon-button (click)="goBack()" color="accent">
-                        <mat-icon >keyboard_backspace</mat-icon>
+                        <mat-icon>keyboard_backspace</mat-icon>
                     </button>
                 </div>
                 <div flex="85" layout="column" layout-align="center start">{{[item.companyName]}}</div>
@@ -50,14 +50,16 @@
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Contact phone" [ngModel]="item.contactPhone" name="contactPhone"
+                            <input matInput placeholder="Contact phone" [ngModel]="item.contactPhone"
+                                   name="contactPhone"
                                    required
                                    [readonly]="!editMode">
                         </mat-input-container>
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Mobile phone" [ngModel]="item.mobile" name="mobile" [readonly]="!editMode">
+                            <input matInput placeholder="Mobile phone" [ngModel]="item.mobile" name="mobile"
+                                   [readonly]="!editMode">
                         </mat-input-container>
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
@@ -82,7 +84,8 @@
 
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'" name="tstamp" required
+                            <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'"
+                                   name="tstamp" required
                                    [readonly]="!editMode">
                         </mat-input-container>
                     </div>
@@ -93,12 +96,21 @@
                     </div>
                     <div flex="100" layout-padding class="clients-offers">
                         <mat-list>
-                            <mat-list-item *ngFor="let offer of offers">
+                            <ng-container *ngFor="let offer of offers">
+                                <mat-list-item>
                                     <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                                    <h3 mat-line><a (click)="selectOffer(offer._id)" style="cursor: pointer">{{offer.offerTitle}}</a></h3>
+                                    <h3 mat-line><a (click)="selectOffer(offer._id)" style="cursor: pointer">{{offer.offerTitle}}</a>
+                                    </h3>
                                     <!--<h4 mat-line>{{offer.offerNumber}}</h4>-->
                                     <p mat-line>{{offer.tstamp | date: 'dd.MM.y'}}</p>
-                            </mat-list-item>
+                                    <button mat-icon-button [matMenuTriggerFor]="contextMenu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #contextMenu="matMenu" mat-position-mode="target-right bottom">
+                                        <button mat-menu-item (click)="offerCopy(offer._id)"><mat-icon>content_copy</mat-icon> Copy</button>
+                                    </mat-menu>
+                                </mat-list-item>
+                            </ng-container>
                         </mat-list>
                     </div>
                     <div flex="25" layout-padding>

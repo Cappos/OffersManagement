@@ -184,6 +184,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 bodytext: value.bodytext,
                 client: client._id,
                 seller: seller._id,
+                signed: value.signed,
                 groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
                 files: this.files,
                 tstamp: value.tstamp,
@@ -1006,7 +1007,7 @@ export class OfferComponent implements OnInit, OnDestroy {
             console.log(files);
         } else {
             let options: IUploadOptions = {
-                url: 'http://localhost:3000/upload',
+                url: '/upload',
                 method: 'post',
                 file: files
             };

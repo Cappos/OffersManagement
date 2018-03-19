@@ -50,6 +50,11 @@
                                 </div>
                                 <div style="margin-top:20px;" flex="25" layout-padding>
                                     <mat-input-container>
+                                        <input matInput placeholder="Position" [ngModel]="item.position" name="position"  [readonly]="!editMode">
+                                    </mat-input-container>
+                                </div>
+                                <div style="margin-top:20px;" flex="25" layout-padding>
+                                    <mat-input-container>
                                         <input matInput placeholder="E-mail" [ngModel]="item.email" name="email" required
                                                [readonly]="!editMode">
                                     </mat-input-container>
@@ -65,7 +70,6 @@
                                 <div style="margin-top:20px;" flex="25" layout-padding>
                                     <mat-input-container>
                                         <input matInput placeholder="Mobile" [ngModel]="item.mobile" name="mobile"
-                                               required
                                                [readonly]="!editMode">
                                     </mat-input-container>
                                 </div>

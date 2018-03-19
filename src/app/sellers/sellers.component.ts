@@ -58,6 +58,7 @@ export class SellersComponent implements OnInit {
             mutation: updateSealer,
             variables: {
                 id: userId,
+                position: value.position,
                 name: userName,
                 email: value.email,
                 phone: value.phone,
@@ -80,6 +81,7 @@ export class SellersComponent implements OnInit {
                 this.apollo.mutate({
                     mutation: addSealer,
                     variables: {
+                        position: result.position,
                         name: result.name,
                         email: result.email,
                         phone: result.phone,

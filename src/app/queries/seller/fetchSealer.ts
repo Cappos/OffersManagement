@@ -4,6 +4,7 @@ export default gql`
     {
         sealers{
             _id
+            position
             name
             email
             phone

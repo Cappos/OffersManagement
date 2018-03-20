@@ -43,51 +43,27 @@
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Contact person" [ngModel]="item.contactPerson"
-                                   name="contactPerson" required
-                                   [readonly]="!editMode">
-                        </mat-input-container>
-                    </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <mat-input-container>
-                            <input matInput placeholder="Contact phone" [ngModel]="item.contactPhone"
-                                   name="contactPhone"
-                                   required
-                                   [readonly]="!editMode">
-                        </mat-input-container>
-                    </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <mat-input-container>
-                            <input matInput placeholder="Mobile phone" [ngModel]="item.mobile" name="mobile"
-                                   [readonly]="!editMode">
-                        </mat-input-container>
-                    </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <mat-input-container>
                             <input matInput placeholder="Web site" [ngModel]="item.webSite" name="webSite" required
                                    [readonly]="!editMode">
                         </mat-input-container>
                     </div>
-
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <mat-input-container>
-                            <input matInput placeholder="E-mail" [ngModel]="item.mail" name="mail" required
-                                   [readonly]="!editMode">
-                        </mat-input-container>
-                    </div>
-
-                    <div style="margin-top:20px;" flex="25" layout-padding>
-                        <mat-input-container>
-                            <input matInput placeholder="Pib" [ngModel]="item.pib" name="pib" [readonly]="!editMode">
-                        </mat-input-container>
-                    </div>
-
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
                             <input matInput placeholder="Created date" [ngModel]="item.tstamp | date: 'dd.MM.y'"
                                    name="tstamp" required
                                    [readonly]="!editMode">
                         </mat-input-container>
+                    </div>
+                    <div flex="100" layout-padding>
+                        <mat-divider></mat-divider>
+                        <h3 style="margin-bottom: 0;">Contact persons</h3>
+                    </div>
+                    <div flex="100" layout-padding class="clients-offers">
+
+
+                    </div>
+                    <div flex="25" layout-padding>
+                        <button mat-raised-button (click)="addContact()">Add person</button>
                     </div>
 
                     <div flex="100" layout-padding>

@@ -4,14 +4,9 @@ const Schema = mongoose.Schema;
 
 const ClientSchema = new Schema({
         id: String,
-        contactPerson: String,
         companyName: String,
         address: String,
-        contactPhone: String,
-        mobile: String,
-        mail: String,
         webSite: String,
-        pib: String,
         tstamp: {
             type: Date,
             default: Date.now
@@ -62,14 +57,9 @@ ClientSchema.statics.createClient = function (args) {
     let contactsArray = [];
 
     return (new Client({
-        contactPerson: args.contactPerson,
         companyName: args.companyName,
         address: args.address,
-        contactPhone: args.contactPhone,
-        mobile: args.mobile,
-        mail: args.mail,
         webSite: args.webSite,
-        pib: args.pib,
         contacts: [],
         offers: args.offers
     })).save().then(client => {
@@ -78,7 +68,6 @@ ClientSchema.statics.createClient = function (args) {
             if (contacts.length > 0) {
                 let contactPerson = new ContactPerson({
                     contactPerson: contacts[c].contactPerson,
-                    address: contacts[c].address,
                     contactPhone: contacts[c].contactPhone,
                     mobile: contacts[c].mobile,
                     mail: contacts[c].mail,
@@ -114,14 +103,9 @@ ClientSchema.statics.updateClient = function (args) {
 
     return Client.findOneAndUpdate({_id: args.id}, {
         $set: {
-            contactPerson: args.contactPerson,
             companyName: args.companyName,
             address: args.address,
-            contactPhone: args.contactPhone,
-            mobile: args.mobile,
-            mail: args.mail,
             webSite: args.webSite,
-            pib: args.pib
         }
     }, {new: true}).then(client => {
 
@@ -131,7 +115,6 @@ ClientSchema.statics.updateClient = function (args) {
                     if (!contacts[c]._id) {
                         let contactPerson = new ContactPerson({
                             contactPerson: contacts[c].contactPerson,
-                            address: contacts[c].address,
                             contactPhone: contacts[c].contactPhone,
                             mobile: contacts[c].mobile,
                             mail: contacts[c].mail,
@@ -153,7 +136,6 @@ ClientSchema.statics.updateClient = function (args) {
                             {
                                 $set: {
                                     contactPerson: contacts[c].contactPerson,
-                                    address: contacts[c].address,
                                     contactPhone: contacts[c].contactPhone,
                                     mobile: contacts[c].mobile,
                                     mail: contacts[c].mail,

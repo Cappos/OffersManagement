@@ -4,14 +4,9 @@ export default gql`
     {
         clients{
             _id
-            contactPerson,
             companyName ,
             address,
-            contactPhone,
-            mobile,
-            mail,
-            webSite
-            pib,
+            webSite 
             tstamp
             offers {
                 _id

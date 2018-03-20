@@ -72,6 +72,7 @@ import { PdfDialogComponent } from './pdf/pdf-dialog/pdf-dialog.component';
 import { NotFoundComponent } from './error-handling/not-found/not-found.component';
 import {LightboxModule} from "angular2-lightbox";
 import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
+import { ContactPersonDialogComponent } from './clients/contact-person-dialog/contact-person-dialog.component';
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
         NewUserComponent,
         PdfDialogComponent,
         NotFoundComponent,
-        RteDialogComponent
+        RteDialogComponent,
+        ContactPersonDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -174,7 +176,7 @@ import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
         HttpLinkModule
     ],
     providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

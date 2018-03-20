@@ -29,9 +29,6 @@ export class ClientsComponent implements OnInit {
         {name: 'id', label: 'No.', tooltip: 'No.'},
         {name: 'companyName', label: 'Name', tooltip: 'Name'},
         {name: 'address', label: 'Address', tooltip: 'Address'},
-        {name: 'contactPerson', label: 'Contact person', tooltip: 'Contact person'},
-        {name: 'contactPhone', label: 'Phone', tooltip: 'Phone'},
-        {name: 'mail', label: 'Mail', tooltip: 'Mail'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date'},
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
     ];

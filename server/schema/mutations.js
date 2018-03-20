@@ -152,14 +152,9 @@ const mutation = new GraphQLObjectType({
         addClient: {
             type: ClientType,
             args: {
-                contactPerson: {type: GraphQLString},
                 companyName: {type: GraphQLString},
                 address: {type: GraphQLString},
-                contactPhone: {type: GraphQLString},
-                mobile: {type: GraphQLString},
-                mail: {type: GraphQLString},
                 webSite: {type: GraphQLString},
-                pib: {type: GraphQLString},
                 tstmp: {type: GraphQLString},
                 contacts: {type: GraphQLJSON},
                 offers: {type: GraphQLID}
@@ -172,14 +167,9 @@ const mutation = new GraphQLObjectType({
             type: ClientType,
             args: {
                 id: {type: new GraphQLNonNull(GraphQLID)},
-                contactPerson: {type: GraphQLString},
                 companyName: {type: new GraphQLNonNull(GraphQLString)},
                 address: {type: GraphQLString},
-                contactPhone: {type: GraphQLString},
-                mobile: {type: GraphQLString},
-                mail: {type: GraphQLString},
                 webSite: {type: GraphQLString},
-                pib: {type: GraphQLString},
                 tstmp: {type: GraphQLString},
                 contacts: {type: GraphQLJSON},
                 offers: {type: GraphQLJSON}

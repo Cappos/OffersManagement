@@ -12,14 +12,9 @@ const ClientType = new GraphQLObjectType({
       const Offer = require('./offer_type');
       return {
           _id: {type: GraphQLID},
-          contactPerson:  { type: GraphQLString },
           companyName:  { type: GraphQLString },
           address:  { type: GraphQLString },
-          contactPhone:  { type: GraphQLString },
-          mobile:  { type: GraphQLString },
-          mail:  { type: GraphQLString },
           webSite:  { type: GraphQLString },
-          pib:  { type: GraphQLString },
           tstamp: {type: GraphQLDate},
           contacts:  {
               type: new GraphQLList(ContactPersonType),

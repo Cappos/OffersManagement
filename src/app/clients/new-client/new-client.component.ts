@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {SharedService} from "../../shared/shared.service";
 import {Router} from "@angular/router";
-import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdLoadingService, TdDialogService} from "@covalent/core";
+import {MatDialog} from '@angular/material';
 import createClient from "../../queries/client/createClient";
 import fetchClients from "../../queries/client/fetchClients";
 import {Apollo} from "apollo-angular";
+import {ContactPersonDialogComponent} from '../contact-person-dialog/contact-person-dialog.component';
 
 @Component({
     selector: 'app-new-client',
@@ -16,8 +18,9 @@ export class NewClientComponent implements OnInit {
 
     pageTitle = 'Create new client';
     offers: any[] = [];
+    persons: any[]=[];
 
-    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private apollo: Apollo) {
+    constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private apollo: Apollo, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -58,6 +61,16 @@ export class NewClientComponent implements OnInit {
         }).subscribe(() => {
             this.sharedService.sneckBarNotifications(`client created.`);
             this.router.navigate(['/clients']);
+        });
+    }
+
+    addContact() {
+        const dialogRef = this.dialog.open(ContactPersonDialogComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(result);
+            }
         });
     }
 }

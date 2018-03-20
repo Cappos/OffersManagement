@@ -1,8 +1,9 @@
 import gql from 'graphql-tag';
+import 'graphql-type-json';
 
 export default gql`
-    mutation UpdateClient($id: ID!, $contactPerson: String, $companyName: String!, $address: String, $contactPhone: String, $mobile: String, $mail: String, $webSite: String, $pib: String) {
-        editClient(id: $id, contactPerson: $contactPerson, companyName: $companyName, address: $address, contactPhone: $contactPhone, mobile: $mobile, mail: $mail, webSite: $webSite, pib: $pib){
+    mutation UpdateClient($id: ID!, $companyName: String!, $address: String, $contacts: JSON, $webSite: String) {
+        editClient(id: $id, companyName: $companyName, cotacts: $contacts, address: $address, webSite: $webSite){
             companyName
         }
     }

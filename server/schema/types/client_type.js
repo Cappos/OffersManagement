@@ -4,6 +4,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLBoolean, GraphQLList
 const GraphQLDate = require('graphql-date');
 
 const Client = mongoose.model('client');
+const ContactPersonType = require('./contactPerson_type');
 
 const ClientType = new GraphQLObjectType({
   name:  'ClientType',
@@ -20,6 +21,12 @@ const ClientType = new GraphQLObjectType({
           webSite:  { type: GraphQLString },
           pib:  { type: GraphQLString },
           tstamp: {type: GraphQLDate},
+          contacts:  {
+              type: new GraphQLList(ContactPersonType),
+              resolve(parentValue) {
+                  return Client.findContactPerson(parentValue._id);
+              }
+          },
           offers:  {
               type: new GraphQLList(Offer),
               resolve(parentValue) {

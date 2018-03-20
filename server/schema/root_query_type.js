@@ -19,6 +19,8 @@ const PriceType = require('./types/price_type');
 const Price = mongoose.model('price');
 const UserType = require('./types/user_type');
 const User = mongoose.model('user');
+const ContactPersonType = require('./types/contactPerson_type');
+const ContactPerson = mongoose.model('contactPerson');
 
 
 const RootQuery = new GraphQLObjectType({
@@ -93,6 +95,19 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Client.findById({_id: id});
+            }
+        },
+        contactPersons: {
+            type: new GraphQLList(ContactPersonType),
+            resolve(parentValue) {
+                return ContactPerson.find({deleted: false});
+            }
+        },
+        contactPerson: {
+            type: ContactPersonType,
+            args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+            resolve(parentValue, {id}) {
+                return ContactPerson.findById({_id: id});
             }
         },
         pages: {

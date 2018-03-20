@@ -21,6 +21,8 @@ const PriceType = require('./types/price_type');
 const Price = mongoose.model('price');
 const UserType = require('./types/user_type');
 const User = mongoose.model('user');
+const ContactPersonType = require('./types/contactPerson_type');
+const ContactPerson = mongoose.model('contactPerson');
 
 
 const mutation = new GraphQLObjectType({
@@ -159,10 +161,11 @@ const mutation = new GraphQLObjectType({
                 webSite: {type: GraphQLString},
                 pib: {type: GraphQLString},
                 tstmp: {type: GraphQLString},
+                contacts: {type: GraphQLJSON},
                 offers: {type: GraphQLID}
             },
             resolve(parentValue, args) {
-                return (new Client(args)).save()
+                return Client.createClient(args);
             }
         },
         editClient: {
@@ -178,21 +181,11 @@ const mutation = new GraphQLObjectType({
                 webSite: {type: GraphQLString},
                 pib: {type: GraphQLString},
                 tstmp: {type: GraphQLString},
+                contacts: {type: GraphQLJSON},
                 offers: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
-                return Client.findOneAndUpdate({_id: args.id}, {
-                    $set: {
-                        contactPerson: args.contactPerson,
-                        companyName: args.companyName,
-                        address: args.address,
-                        contactPhone: args.contactPhone,
-                        mobile: args.mobile,
-                        mail: args.mail,
-                        webSite: args.webSite,
-                        pib: args.pib
-                    }
-                }, {new: true});
+                return Client.updateClient(args);
             }
         },
         deleteClient: {

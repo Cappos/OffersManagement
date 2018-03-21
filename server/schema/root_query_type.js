@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull} = graphql;
+const GraphQLJSON = require('graphql-type-json');
 const OfferType = require('./types/offer_type');
 const SealerType = require('./types/sealer_type');
 const Offer = mongoose.model('offer');
@@ -95,6 +96,13 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: new GraphQLNonNull(GraphQLID)}},
             resolve(parentValue, {id}) {
                 return Client.findById({_id: id});
+            }
+        },
+        contacts: {
+            type:  new GraphQLList(ContactPersonType),
+            args: {id: {type: GraphQLJSON}},
+            resolve(parentValue, {id}) {
+                return ContactPerson.find({_id: { $in: id} });
             }
         },
         contactPersons: {

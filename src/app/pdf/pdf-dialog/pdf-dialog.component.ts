@@ -4,6 +4,8 @@ import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@cova
 import {SharedService} from "../../shared/shared.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import * as FileSaver from 'file-saver';
+import {Apollo} from "apollo-angular";
+import fetchContact from "../../queries/contacts/fetchContactById";
 
 @Component({
     selector: 'app-pdf-dialog',
@@ -14,9 +16,10 @@ export class PdfDialogComponent implements OnInit {
     pageTitle = 'PDF view';
     offerData: any;
     offerGroups: any;
+    contactPersons: any;
     @ViewChild('pdfContainer') pdfContent;
 
-    constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient) {
+    constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient, private apollo: Apollo) {
 
         this.loadingService.create({
             name: 'modulesLoader',
@@ -30,8 +33,19 @@ export class PdfDialogComponent implements OnInit {
     ngOnInit() {
         this.offerData = this.data.offer;
         this.offerGroups = this.data.groups;
-        console.log(this.offerData);
-        console.log(this.pdfContent);
+        this.apollo.watchQuery<any>({
+            query: fetchContact,
+            variables: {
+                id: this.offerData.contacts
+            },
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.contactPersons = data.contacts;
+            console.log(this.offerData);
+            console.log(this.pdfContent);
+            console.log(this.contactPersons);
+        });
+
         this.loadingService.resolveAll('modulesLoader');
     }
 

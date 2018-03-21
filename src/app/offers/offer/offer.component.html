@@ -32,7 +32,7 @@
                     <div flex="100" layout-padding>
                         <h3 style="margin: 0;">Info data</h3>
                     </div>
-                    <div style="margin-top:20px;" flex="60" layout-padding>
+                    <div style="margin-top:20px;" flex="45" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
                             <input matInput placeholder="Title" [ngModel]="item.offerTitle"
                                    name="offerTitle" required
@@ -44,13 +44,22 @@
                         <mat-input-container>
                             <mat-select placeholder="Client" floatPlaceholder="auto" [(ngModel)]="selectedClient"
                                         name="client" [disabled]="!editMode">
-                                <mat-option *ngFor="let client of clients" [value]="client._id">
+                                <mat-option *ngFor="let client of clients" [value]="client._id" (click)="onSelectChange(client._id)">
                                     {{client.companyName}}
                                 </mat-option>
                             </mat-select>
                         </mat-input-container>
                     </div>
-
+                    <div style="margin-top:20px;" flex="15" layout-padding>
+                        <mat-input-container>
+                            <mat-select placeholder="Contact person" floatPlaceholder="auto" [(ngModel)]="selectedContactPersons"
+                                        name="person" [disabled]="!editMode" multiple >
+                                <mat-option *ngFor="let contact of selectedClientContacts" [value]="contact._id">
+                                    {{contact.contactPerson}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-input-container>
+                    </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
                             <mat-select placeholder="Seller" floatPlaceholder="auto" [(ngModel)]="selectedSeller"

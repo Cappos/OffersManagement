@@ -30,6 +30,7 @@ const OfferType = new GraphQLObjectType({
                   return Offer.findClient(parentValue._id);
               }
           },
+          contacts: {type: GraphQLJSON},
           groups: {
               type: new GraphQLList(GroupType),
               resolve(parentValue) {

@@ -22,6 +22,8 @@ import {PageListDialogComponent} from "../../additional-data/page-list-dialog/pa
 import {TdFileService, IUploadOptions} from '@covalent/core';
 import {DragulaService} from "ng2-dragula";
 import {Lightbox, LightboxConfig} from "angular2-lightbox";
+import fetchClientContact from "../../queries/offer/fetchClientContacts";
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-new-offer',
@@ -40,6 +42,8 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     @Output() editMode = true;
     selectedSeller;
     selectedClient;
+    selectedClientContacts = [];
+    selectedContactPersons =[];
     sellers;
     clients;
     offersModules = [];
@@ -137,6 +141,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                 signedPrice: signedPrice,
                 bodytext: value.bodytext,
                 client: client._id,
+                contacts: this.selectedContactPersons,
                 seller: seller._id,
                 groupsNew: !this.offersModules.length ? [] : this.offersModules,
                 files: this.files,
@@ -852,6 +857,18 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         let fileIndex = this.files.indexOf(file);
         
         this.files[fileIndex].deleted = true;
+    }
+
+    onSelectChange(id) {
+        this.apollo.watchQuery<any>({
+            query: fetchClientContact,
+            variables: {
+                id: id
+            },
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.selectedClientContacts = _.cloneDeep(data.client.contacts);
+        });
     }
 
 

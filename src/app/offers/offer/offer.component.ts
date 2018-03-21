@@ -28,6 +28,7 @@ import updateOffer from "../../queries/offer/updateOffer";
 import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
 import {Lightbox, LightboxConfig} from "angular2-lightbox";
 import {RteDialogComponent} from "../../rte/rte-dialog/rte-dialog.component";
+import fetchClientContact from "../../queries/offer/fetchClientContacts";
 
 @Component({
     selector: 'app-offer',
@@ -41,6 +42,8 @@ export class OfferComponent implements OnInit, OnDestroy {
     @Output() editMode = false;
     selectedSeller;
     selectedClient;
+    selectedClientContacts;
+    selectedContactPersons;
     offersModules = [];
     offersUpdate = [];
     files: any[] = [];
@@ -57,6 +60,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     newDate;
     expDate;
     clients;
+    persons;
     sellers;
     oldClient;
     oldSeller;
@@ -96,6 +100,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.sellers = data.sealers; // Set seller data
                     this.selectedSeller = this.item.sealer[0].value;
                     this.selectedClient = this.item.client[0]._id;
+                    this.selectedContactPersons = this.item.contacts;
                     this.oldClient = data.offer.client[0]._id;
                     this.oldSeller = data.offer.sealer[0]._id;
                     this.offerNumber = data.offer.offerNumber;
@@ -104,6 +109,10 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.clients = data.clients; // Set client data
                     this.files = this.item.files; // Set uploaded files
                     this.rteData = this.item.comments;
+
+                    this.selectedClientContacts = this.clients.filter(client => client._id === this.selectedClient)[0].contacts;
+
+                    console.log('kotakti', this.selectedClientContacts)
 
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
@@ -173,6 +182,7 @@ export class OfferComponent implements OnInit, OnDestroy {
             signedPrice = value.signedPrice.replace(',', '');
         }
 
+        console.log(this.selectedContactPersons);
         this.apollo.mutate({
             mutation: updateOffer,
             variables: {
@@ -183,6 +193,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 signedPrice: signedPrice,
                 bodytext: value.bodytext,
                 client: client._id,
+                contacts: this.selectedContactPersons,
                 seller: seller._id,
                 signed: value.signed,
                 groupsNew: !this.offersUpdate.length ? [] : this.offersUpdate,
@@ -1073,6 +1084,18 @@ export class OfferComponent implements OnInit, OnDestroy {
         this.files[fileIndex].deleted = true;
         this.editMode = true;
         console.log(this.files);
+    }
+
+    onSelectChange(id) {
+        this.apollo.watchQuery<any>({
+            query: fetchClientContact,
+            variables: {
+                id: id
+            },
+            fetchPolicy: 'network-only'
+        }).valueChanges.subscribe(({data}) => {
+            this.selectedClientContacts = _.cloneDeep(data.client.contacts);
+        });
     }
 
     ngOnDestroy() {

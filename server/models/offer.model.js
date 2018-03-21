@@ -24,6 +24,7 @@ const OfferSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'client'
         }],
+        contacts: Array,
         groups: [{
             type: Schema.Types.ObjectId,
             ref: 'group'
@@ -203,6 +204,7 @@ OfferSchema.statics.updateOffer = function (args) {
                 signedPrice: args.signedPrice,
                 bodytext: args.bodytext,
                 client: args.client,
+                contacts: args.contacts,
                 sealer: args.sealer,
                 tstamp: args.tstamp,
                 expDate: args.expDate,
@@ -387,6 +389,7 @@ OfferSchema.statics.copyOffer = function (args) {
                 expDate: doc.expDate,
                 bodytext: doc.bodytext,
                 client: args.client,
+                contacts: doc.contacts,
                 sealer: doc.sealer,
                 signed: doc.signed,
                 internalHours: doc.internalHours,

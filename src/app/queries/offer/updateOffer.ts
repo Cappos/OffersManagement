@@ -12,6 +12,7 @@ export default gql`
     $tstamp: String,
     $expDate: String,
     $client: ID,
+    $contacts: JSON,
     $groupsNew: JSON,
     $files: JSON,
     $signed: Boolean,
@@ -31,6 +32,7 @@ export default gql`
             tstamp:$tstamp,
             expDate: $expDate,
             client: $client,
+            contacts: $contacts,
             groupsNew: $groupsNew,
             files: $files,
             signed: $signed

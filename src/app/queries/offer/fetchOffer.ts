@@ -27,10 +27,8 @@ export default gql`
             client {
                 _id
                 companyName
-                contactPhone
-                mobile
-                mail
             }
+            contacts
             groups {
                 _id
                 name
@@ -66,11 +64,15 @@ export default gql`
                 tstamp
                 order
             }
-            
+
         }
         clients {
             _id
             companyName
+            contacts {
+                _id
+                contactPerson
+            }
         }
         sealers {
             _id

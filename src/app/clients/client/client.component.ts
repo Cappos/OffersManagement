@@ -1,14 +1,17 @@
-import {Component, OnInit, Output, ViewChild} from '@angular/core';
-import { Location } from '@angular/common';
+import {Component, OnInit, Output, ViewChild, ViewContainerRef} from '@angular/core';
+import {Location} from '@angular/common';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {NgForm} from "@angular/forms";
-import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdLoadingService, TdDialogService} from "@covalent/core";
 import {Apollo} from "apollo-angular";
 import fetchClient from '../../queries/client/fetchClient';
 import updateClient from '../../queries/client/updateClient';
 import copyOffer from '../../queries/client/offerCopy';
 import {MatMenuTrigger} from "@angular/material";
+import * as _ from "lodash";
+import {MatDialog} from '@angular/material';
+import {ContactPersonDialogComponent} from '../contact-person-dialog/contact-person-dialog.component';
 
 @Component({
     selector: 'app-client',
@@ -19,11 +22,13 @@ export class ClientComponent implements OnInit {
     pageTitle = 'Clients';
     id: number;
     item;
-    offers: any[] =[];
+    offers: any[] = [];
     @Output() editMode = false;
     @ViewChild(MatMenuTrigger) contextMenu: MatMenuTrigger;
+    persons: any[] = [];
+    editModeClient = false;
 
-    constructor(private route: ActivatedRoute, private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private location: Location, private apollo: Apollo) {
+    constructor(private route: ActivatedRoute, private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private location: Location, private dialog: MatDialog, private apollo: Apollo, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -49,6 +54,7 @@ export class ClientComponent implements OnInit {
                 }).valueChanges.subscribe(({data}) => {
                     this.item = data.client;
                     this.offers = this.item.offers;
+                    this.persons = _.cloneDeep(data.client.contacts);
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -62,15 +68,10 @@ export class ClientComponent implements OnInit {
             mutation: updateClient,
             variables: {
                 id: this.id,
-                clientName: value.clientName,
-                contactPerson: value.contactPerson,
                 companyName: value.companyName,
                 address: value.address,
-                contactPhone: value.contactPhone,
-                mobile: value.mobile,
-                mail: value.mail,
                 webSite: value.webSite,
-                pib: value.pib
+                contacts: this.persons
             }
         }).subscribe(() => {
             this.editMode = false;
@@ -93,7 +94,7 @@ export class ClientComponent implements OnInit {
         this.router.navigate(['/newOffer/' + clientId]);
     }
 
-    offerCopy(id: string){
+    offerCopy(id: string) {
         this.apollo.mutate({
             mutation: copyOffer,
             variables: {
@@ -111,9 +112,41 @@ export class ClientComponent implements OnInit {
         });
     }
 
-    goBack(){
-        this.location.back();
+    addContact() {
+        const dialogRef = this.dialog.open(ContactPersonDialogComponent);
+        const count = Math.random();
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                result._id = count;
+                result.newPerosn = true;
+                this.persons.push(result);
+                this.editMode = true;
+            }
+        });
     }
 
+    onPersonEdit() {
+        this.editModeClient = true;
+    }
 
+    onPersonSave(person, id) {
+        let contactPerson = this.persons.filter(contact => contact._id == id)[0];
+        let contactIndex = this.persons.indexOf(contactPerson);
+        this.persons[contactIndex] = person.value;
+        this.editModeClient = false;
+        this.editMode = true;
+    }
+
+    onPersonDelete(id) {
+        let contactPerson = this.persons.filter(contact => contact._id == id)[0];
+        let contactIndex = this.persons.indexOf(contactPerson);
+
+        contactPerson.deleted = true;
+        this.editMode = true;
+    }
+
+    goBack() {
+        this.location.back();
+    }
 }

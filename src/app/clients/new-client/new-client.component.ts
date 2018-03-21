@@ -18,7 +18,8 @@ export class NewClientComponent implements OnInit {
 
     pageTitle = 'Create new client';
     offers: any[] = [];
-    persons: any[]=[];
+    persons: any[] = [];
+    editMode;
 
     constructor(private sharedService: SharedService, private router: Router, private loadingService: TdLoadingService, private apollo: Apollo, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,) {
         this.loadingService.create({
@@ -43,15 +44,10 @@ export class NewClientComponent implements OnInit {
         this.apollo.mutate({
             mutation: createClient,
             variables: {
-                clientName: value.clientName,
-                contactPerson: value.contactPerson,
                 companyName: value.companyName,
                 address: value.address,
-                contactPhone: value.contactPhone,
-                mobile: value.mobile,
-                mail: value.mail,
                 webSite: value.webSite,
-                pib: value.pib,
+                contacts: this.persons,
                 offers: offers
             },
 
@@ -66,11 +62,32 @@ export class NewClientComponent implements OnInit {
 
     addContact() {
         const dialogRef = this.dialog.open(ContactPersonDialogComponent);
+        const count = Math.random();
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
+                result._id = count;
+                result.newPerosn = true;
+                this.persons.push(result);
             }
         });
+    }
+
+    onPersonEdit(){
+        this.editMode = true;
+    }
+
+    onPersonSave(person, id) {
+        let contactPerson = this.persons.filter(contact => contact._id == id)[0];
+        let contactIndex = this.persons.indexOf(contactPerson);
+        this.persons[contactIndex] = person.value;
+        this.editMode = false;
+    }
+
+    onPersonDelete(id) {
+        let contactPerson = this.persons.filter(contact => contact._id == id)[0];
+        let contactIndex = this.persons.indexOf(contactPerson);
+        this.persons.splice(contactIndex, 1);
+        this.editMode = true;
     }
 }

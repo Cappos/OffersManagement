@@ -48,7 +48,7 @@
                                             <h3 mat-line> {{item.contactPerson}} </h3>
                                         </mat-list-item>
                                     </mat-expansion-panel-header>
-                                    <form #f="ngForm">
+                                    <form #fc="ngForm">
                                         <div layout="row" layout-wrap>
                                             <div flex="100" layout-padding>
                                                 <div layout="row">
@@ -56,36 +56,37 @@
                                                         <h3 style="margin: 0;">Info data</h3>
                                                     </div>
                                                     <div flex="10" layout="row" layout-align="end center">
-                                                        <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">
+                                                        <button mat-mini-fab (click)="onPersonEdit()" *ngIf="!editMode">
                                                             <mat-icon>mode_edit</mat-icon>
                                                         </button>
-                                                        <button mat-mini-fab (click)="onSave(f, item.name, item._id)" *ngIf="editMode" color="primary">
+                                                        <button mat-mini-fab (click)="onPersonSave(fc, item._id)" *ngIf="editMode" color="primary">
                                                             <mat-icon>done</mat-icon>
                                                         </button>
                                                     </div>
                                                     <div flex="5" layout="row" layout-align="center center">
                                                         <button mat-mini-fab color="warn"
-                                                                (click)="onDelete(item._id)">
+                                                                (click)="onPersonDelete(item._id)">
                                                             <mat-icon>delete</mat-icon>
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div style="margin-top:20px;" flex="25" layout-padding>
+                                                <input type="hidden" [ngModel]="item._id" name="_id" readonly>
                                                 <mat-input-container>
                                                     <input matInput placeholder="Position" [ngModel]="item.contactPerson" name="contactPerson"  [readonly]="!editMode">
                                                 </mat-input-container>
                                             </div>
                                             <div style="margin-top:20px;" flex="25" layout-padding>
                                                 <mat-input-container>
-                                                    <input matInput placeholder="E-mail" [ngModel]="item.email" name="email" required
+                                                    <input matInput placeholder="E-mail" [ngModel]="item.mail" name="mail" required
                                                            [readonly]="!editMode">
                                                 </mat-input-container>
                                             </div>
 
                                             <div style="margin-top:20px;" flex="25" layout-padding>
                                                 <mat-input-container>
-                                                    <input matInput placeholder="Phone" [ngModel]="item.phone" name="phone" required
+                                                    <input matInput placeholder="Phone" [ngModel]="item.contactPhone" name="contactPhone" required
                                                            [readonly]="!editMode">
                                                 </mat-input-container>
                                             </div>

@@ -8,6 +8,7 @@ export default gql`
             address,
             webSite
             contacts {
+                _id
                 contactPerson
                 contactPhone
                 mobile

@@ -112,7 +112,7 @@ ClientSchema.statics.updateClient = function (args) {
             for (let c in contacts) {
                 if (contacts.length > 0) {
 
-                    if (!contacts[c]._id) {
+                    if ( contacts[c].newPerosn || !contacts[c]._id) {
                         let contactPerson = new ContactPerson({
                             contactPerson: contacts[c].contactPerson,
                             contactPhone: contacts[c].contactPhone,

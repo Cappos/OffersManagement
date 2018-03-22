@@ -21,6 +21,7 @@ const options = {
     // width: '280mm',
     // height: '396mm',
     quality: "100",
+    dpi: 150,
     border: {
         top: "1cm",
         bottom: "0"

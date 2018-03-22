@@ -12,49 +12,51 @@
     </div>
 </div>
 <div #pdfContainer>
-    <section id="content" class="pdf-container template-two">
-        <div class="intro-page">
-            <div class="circles">
-                <img src="assets/images/circles.png">
-            </div>
-        </div>
+    <section id="content" class="pdf-container template-one">
         <div class="section-top">
+            <div class="logo">
+                <img src="assets/images/deepscreen_logo.png">
+            </div>
+            <div class="line1">
+                <img src="assets/images/lines_one.png">
+            </div>
             <div class="section-title">
                 <h1 class="main-title">{{offerData.offerTitle}}</h1>
                 <br/>
                 <h2>Wir lösen Ihre Business Challenges.</h2>
             </div>
-            <div class="offer-data">
-                <h4>Offerte:</h4>
-                <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
-                <p>Dokumenttype: Offerte</p>
-                <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
+            <div class="line2">
+                <img src="assets/images/lines_two.jpg">
             </div>
-
-            <div class="section-top-bottom">
-                <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein
-                    Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu
-                    irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und
-                    darf nicht an unautorisierte Dritte weitergegeben werden.
-                </p>
-            </div>
-
             <div class="offer-info-container">
                 <div class="offer-info">
-                    <h4 class="blueText">Verantwortliche Person:</h4>
+                    <h4>Offerte:</h4>
+                    <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
+                    <p>Dokumenttype: Offerte</p>
+                    <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
+                </div>
+                <div class="offer-info">
+                    <h4>Verantwortliche Person:</h4>
                     <p>Deepscreen GmbH</p>
                     <p>{{offerData.sealer[0].name}}</p>
                     <p>Tel. {{offerData.sealer[0].phone}}</p>
                     <p>Mob. {{offerData.sealer[0].mobile}}</p>
                     <p>{{offerData.sealer[0].mail}}</p>
                 </div>
-                <div class="offer-info" *ngFor="let person of contactPersons">
+                <div class="offer-info">
                     <h4>Empfänger:</h4>
                     <p>{{offerData.client[0].companyName}}</p>
-                    <p *ngIf="person.contactPhone">Tel. {{person.contactPhone}}</p>
-                    <p *ngIf="person.mobile">Mob. {{person.mobile}}</p>
-                    <p *ngIf="person.mail">{{person.mail}}</p>
+                    <p *ngIf="offerData.client[0].contactPhone">Tel. {{offerData.client[0].contactPhone}}</p>
+                    <p *ngIf="offerData.client[0].mobile">Mob. {{offerData.client[0].mobile}}</p>
+                    <p *ngIf="offerData.client[0].mail">{{offerData.client[0].mail}}</p>
                 </div>
+            </div>
+            <div class="section-top-bottom">
+                <p>Dieses Dokument ist vertraulich und ausschliesslich für den unten angegebenen Empfänger bestimmt.Kein
+                    Bestandteil dieser Dokumentation darf in irgendeiner Form, weder elektronisch noch mechanisch, zu
+                    irgendwelchen Zwecken vervielfältigt werden. Diese Dokumentation ist urheberrechtlich geschützt und
+                    darf nicht an unautorisierte Dritte weitergegeben werden.
+                </p>
             </div>
         </div>
 
@@ -76,11 +78,6 @@
                 </div>
             </div>
 
-            <div class="remarks" *ngIf="last">
-                <div class="bemerkungen" >
-                    <div [innerHTML]="offerData.comments"></div>
-                </div>
-            </div>
             <!-- CHAPTERS -->
             <div *ngSwitchCase="'1'">
                 <div class="page-wrapper">
@@ -131,7 +128,7 @@
                                 </tbody>
                             </table>
                             <div class="remarks">
-                                <div class="bemerkungen" *ngIf="last">
+                                <div class="bemerkungen">
                                     <div [innerHTML]="offerData.comments"></div>
                                 </div>
                                 <div id="pageFooter-{{i + 2 }}" class="footer">

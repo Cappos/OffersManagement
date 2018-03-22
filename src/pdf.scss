@@ -69,42 +69,91 @@ ul {
     margin-top: 30px;
     margin-left: 60px;
 }
+.template-one {
+    .section-top {
+        page-break-after: always;
 
-.section-top {
-    page-break-after: always;
+        .section-title {
+            margin-top: 70px;
+            margin-bottom: 50px;
+            min-height: 150px;
 
-    .section-title {
-        margin-top: 70px;
-        margin-bottom: 50px;
-        min-height: 150px;
+            h1 {
+                padding: 0 60px;
+                margin: 0;
+                max-width: 80%;
+                line-height: 1.4;
+            }
+            h2 {
+                font-size: 26px;
+                padding: 0 60px;
+                margin: 0;
+            }
 
-        h1 {
-            padding: 0 60px;
-            margin: 0;
-            max-width: 80%;
-            line-height: 1.4;
         }
-        h2 {
-            font-size: 26px;
+        .line2 {
+            margin-bottom: 70px;
+        }
+
+        .offer-info-container {
             padding: 0 60px;
-            margin: 0;
+            margin-bottom: 40px;
+
+            .offer-info {
+                display: inline-block;
+                vertical-align: top;
+                width: 33%;
+                padding-left: 30px;
+                font-size: 14px;
+
+                h4 {
+                    margin: 0;
+                    font-size: 14px;
+                }
+                p {
+                    font-size: 13px;
+                }
+            }
+        }
+        .section-top-bottom {
+            font-size: 10px;
+            padding: 0 60px;
         }
 
     }
-    .line2 {
-        margin-bottom: 70px;
+}
+
+.template-two {
+
+    .intro-page {
+        page-break-after: always;
     }
+    .section-top {
+        page-break-after: always;
 
-    .offer-info-container {
-        padding: 0 60px;
-        margin-bottom: 40px;
+        .section-title {
+            margin-top: 200px;
+            margin-bottom: 150px;
+            min-height: 200px;
 
-        .offer-info {
-            display: inline-block;
-            vertical-align: top;
-            width: 33%;
-            padding-left: 30px;
+            h1 {
+                padding: 0 60px;
+                margin: 0;
+                max-width: 80%;
+                line-height: 1.4;
+            }
+            h2 {
+                font-size: 26px;
+                padding: 0 60px;
+                margin: 0;
+            }
+
+        }
+
+        .offer-data {
+            padding-left: 60px;
             font-size: 14px;
+            margin-bottom: 40px;
 
             h4 {
                 margin: 0;
@@ -114,13 +163,35 @@ ul {
                 font-size: 13px;
             }
         }
-    }
-    .section-top-bottom {
-        font-size: 10px;
-        padding: 0 60px;
-    }
 
+        .offer-info-container {
+            padding: 0 60px;
+
+            .offer-info {
+                display: inline-block;
+                vertical-align: top;
+                width: 33%;
+                font-size: 14px;
+                margin-bottom: 40px;
+
+                h4 {
+                    margin: 0;
+                    font-size: 14px;
+                }
+                p {
+                    font-size: 13px;
+                }
+            }
+        }
+        .section-top-bottom {
+            font-size: 14px;
+            padding: 0 60px;
+            margin-bottom: 40px;
+        }
+
+    }
 }
+
 
 .page-wrapper {
     page-break-after: always;

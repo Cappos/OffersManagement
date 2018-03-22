@@ -131,6 +131,10 @@ ul {
 
     .intro-page {
         page-break-after: always;
+
+       img {
+           display: inline-block;
+       }
     }
 
     .section-top {

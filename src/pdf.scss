@@ -62,6 +62,10 @@ ul {
 .pdf-container {
     font-family: 'Roboto', sans-serif;
     max-width: 980px;
+
+}
+
+.scale-wrapper {
     zoom: 0.68;
 }
 
@@ -127,11 +131,8 @@ ul {
 
     .intro-page {
         page-break-after: always;
-
-        img  {
-            zoom: 1.32;
-        }
     }
+
     .section-top {
         page-break-after: always;
 

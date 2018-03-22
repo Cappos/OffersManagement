@@ -74,13 +74,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="remarks" *ngIf="last">
-                <div class="bemerkungen" >
-                    <div [innerHTML]="offerData.comments"></div>
+                <div class="remarks" *ngIf="last">
+                    <div class="bemerkungen" >
+                        <div [innerHTML]="offerData.comments"></div>
+                    </div>
                 </div>
             </div>
+
             <!-- CHAPTERS -->
             <div *ngSwitchCase="'1'">
                 <div class="page-wrapper">
@@ -134,7 +134,7 @@
                                 <div class="bemerkungen" *ngIf="last">
                                     <div [innerHTML]="offerData.comments"></div>
                                 </div>
-                                <div id="pageFooter-{{i + 2 }}" class="footer">
+                                <div id="pageFooter-{{i + 3 }}" class="footer">
                                     <table class="manager-table">
                                         <tbody>
                                         <tr class="manager">

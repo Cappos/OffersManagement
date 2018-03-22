@@ -158,6 +158,8 @@ ul {
             h4 {
                 margin: 0;
                 font-size: 14px;
+
+
             }
             p {
                 font-size: 13px;
@@ -177,6 +179,10 @@ ul {
                 h4 {
                     margin: 0;
                     font-size: 14px;
+
+                    &.blueText {
+                        color: #1e69b3;
+                    }
                 }
                 p {
                     font-size: 13px;

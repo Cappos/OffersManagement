@@ -10,9 +10,19 @@
                 </div>
                 <div flex="85" layout="column" layout-align="center start">{{[item.offerNumber]}}</div>
                 <div flex="5" layout="column" layout-align="center end">
-                    <button mat-mini-fab (click)="onPrint(item, offersModules)" color="primary" [disabled]="!f.valid">
+                    <button mat-mini-fab color="primary" [matMenuTriggerFor]="pdfMenu" [disabled]="!f.valid">
                         <mat-icon>print</mat-icon>
                     </button>
+                    <mat-menu #pdfMenu="matMenu">
+                        <button mat-menu-item (click)="onPrint(item, offersModules,  1)">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                            <span>Template one</span>
+                        </button>
+                        <button mat-menu-item (click)="onPrint(item, offersModules,  2)">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                            <span>Template two</span>
+                        </button>
+                    </mat-menu>
                 </div>
                 <div flex="5" layout="column" layout-align="center center">
                     <button mat-mini-fab (click)="onEdit()" *ngIf="!editMode">

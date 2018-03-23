@@ -17,7 +17,10 @@ export class PdfDialogComponent implements OnInit {
     offerData: any;
     offerGroups: any;
     contactPersons: any;
-    @ViewChild('pdfContainer') pdfContent;
+    @ViewChild('pdfContainerOne') pdfContentOne;
+    @ViewChild('pdfContainerTwo') pdfContentTwo;
+    pdfContent;
+    pdfType;
 
     constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient, private apollo: Apollo) {
 
@@ -33,6 +36,7 @@ export class PdfDialogComponent implements OnInit {
     ngOnInit() {
         this.offerData = this.data.offer;
         this.offerGroups = this.data.groups;
+        this.pdfType = this.data.type;
         this.apollo.watchQuery<any>({
             query: fetchContact,
             variables: {
@@ -42,26 +46,34 @@ export class PdfDialogComponent implements OnInit {
         }).valueChanges.subscribe(({data}) => {
             this.contactPersons = data.contacts;
             console.log(this.offerData);
-            console.log(this.pdfContent);
+            console.log(this.pdfContentTwo);
             console.log(this.contactPersons);
         });
 
         this.loadingService.resolveAll('modulesLoader');
     }
 
-    public downloadPDF() {
-        return xepOnline.Formatter.Format('content', {
-            pageMarginLeft: '0',
-            pageMarginRight: '0',
-            pageWidth: '210mm',
-            pageHeight: '297mm',
-            render: 'download',
-            filename: this.offerData.offerNumber
-        });
-    }
+    // public downloadPDF() {
+    //     return xepOnline.Formatter.Format('content', {
+    //         pageMarginLeft: '0',
+    //         pageMarginRight: '0',
+    //         pageWidth: '210mm',
+    //         pageHeight: '297mm',
+    //         render: 'download',
+    //         filename: this.offerData.offerNumber
+    //     });
+    // }
 
     public generatePDF() {
         this.loadingService.register('modulesLoader');
+
+        if(this.pdfType === 1){
+            this.pdfContent = this.pdfContentOne;
+        }
+
+        if(this.pdfType === 2) {
+            this.pdfContent = this.pdfContentTwo;
+        }
 
         const data = this.pdfContent.nativeElement.innerHTML; // get pdf content
 

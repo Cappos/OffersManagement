@@ -1042,11 +1042,12 @@ export class OfferComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    onPrint(offer, offersGroups) {
+    onPrint(offer, offersGroups, type) {
         let dialogRef = this.dialog.open(PdfDialogComponent, {
             data: {
                 offer: offer,
-                groups: offersGroups
+                groups: offersGroups,
+                type: type
             }
         });
     }

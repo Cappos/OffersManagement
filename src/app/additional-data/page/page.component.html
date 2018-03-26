@@ -3,7 +3,7 @@
         <div layout="row" layout-wrap>
             <div flex="5">
                 <button mat-icon-button (click)="goBack()" color="accent">
-                    <mat-icon >keyboard_backspace</mat-icon>
+                    <mat-icon>keyboard_backspace</mat-icon>
                 </button>
             </div>
             <div flex="85" layout="column" layout-align="center start">{{title}}</div>
@@ -40,6 +40,42 @@
                                          (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
                     </ng-template>
                 </div>
+                <!-- FILES START -->
+                <div flex="100" layout-padding>
+                    <mat-divider></mat-divider>
+                    <h3 style="margin-bottom: 0;">Related files</h3>
+                </div>
+                <div style="margin:20px 0;" flex="100" layout-padding>
+                    <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
+                                    (select)="selectEvent($event)" accept=".jpg, .jpeg, .png"
+                                    (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled">
+                        <mat-icon>file_upload</mat-icon>
+                        <span>{{ fileUpload.files?.name }}</span>
+                        <ng-template td-file-input-label>
+                            <mat-icon>attach_file</mat-icon>
+                            <span>Choose a file...</span>
+                        </ng-template>
+                    </td-file-upload>
+                </div>
+                <div flex="100" layout-padding>
+                    <mat-list>
+                        <div *ngFor="let file of files;">
+                            <mat-list-item *ngIf="!file.deleted">
+
+                                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                <h4 mat-line>
+                                    <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                    <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                        <mat-icon color="warn">close</mat-icon>
+                                    </button>
+                                </h4>
+                                <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                            </mat-list-item>
+                        </div>
+                    </mat-list>
+                </div>
+                <!-- FILES END -->
             </div>
         </form>
     </mat-card-content>

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLBoolean} = graphql;
 const GraphQLDate = require('graphql-date');
+const GraphQLJSON = require('graphql-type-json');
 
 const PageType = new GraphQLObjectType({
     name: 'PageType',
@@ -15,6 +16,7 @@ const PageType = new GraphQLObjectType({
         defaultPage: {type: GraphQLBoolean},
         order: {type: GraphQLInt},
         pageNew: {type: GraphQLBoolean},
+        files: {type: GraphQLJSON},
         deleted: {type: GraphQLBoolean}
     })
 });

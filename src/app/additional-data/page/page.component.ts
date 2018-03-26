@@ -1,8 +1,8 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output, ElementRef, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
-import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {LoadingMode, LoadingType, TdLoadingService, TdFileService, IUploadOptions} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
 import {Apollo} from "apollo-angular";
 import fetchPage from '../../queries/page/fetchPage';
@@ -10,6 +10,7 @@ import getPagesData from '../../queries/page/fetchPages';
 import updatePage from '../../queries/page/updatePage';
 import  createPage from '../../queries/page/createPage';
 import * as _ from "lodash";
+import {Lightbox, LightboxConfig} from "angular2-lightbox";
 
 @Component({
     selector: 'app-page',
@@ -22,8 +23,12 @@ export class PageComponent implements OnInit {
     item;
     @Output() editMode = false;
     rteData = '';
+    files: any[] = [];
+    file: File;
+    @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
 
-    constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private apollo: Apollo, private sharedService: SharedService, private location: Location, private router: Router) {
+    constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private apollo: Apollo, private sharedService: SharedService, private location: Location, private router: Router,
+                private fileUploadService: TdFileService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
         this.loadingService.create({
             name: 'modulesLoader',
             type: LoadingType.Circular,
@@ -50,6 +55,7 @@ export class PageComponent implements OnInit {
                         this.item = _.cloneDeep(data.page);
                         this.title = this.item.title;
                         this.rteData = this.item.bodytext;
+                        this.files = this.item.files; // Set uploaded files
                         this.loadingService.resolveAll('modulesLoader');
                     });
 
@@ -77,7 +83,8 @@ export class PageComponent implements OnInit {
                     id: this.id,
                     title: value.title,
                     subtitle: value.subtitle,
-                    bodytext: this.rteData
+                    bodytext: this.rteData,
+                    files: this.files
                 },
                 refetchQueries: [{
                     query: getPagesData
@@ -93,7 +100,8 @@ export class PageComponent implements OnInit {
                 variables: {
                     title: value.title,
                     subtitle: value.subtitle,
-                    bodytext: this.rteData
+                    bodytext: this.rteData,
+                    files: this.files
                 },
                 refetchQueries: [{
                     query: getPagesData
@@ -111,6 +119,59 @@ export class PageComponent implements OnInit {
     keyupHandler(ev) {
         this.rteData = ev;
     }
+
+    lightbox(filePath, fileName) {
+        this._lighboxConfig.centerVertically = true;
+        const album = {
+            src: filePath,
+            caption: fileName,
+            thumb: ''
+        };
+        this._lightbox.open([album], 0);
+    }
+
+    selectEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            console.log('else');
+        }
+    }
+
+    uploadEvent(files: FileList | File): void {
+        if (files instanceof FileList) {
+            console.log(files);
+        } else {
+            let options: IUploadOptions = {
+                url: '/upload',
+                method: 'post',
+                file: files
+            };
+            this.fileUploadService.upload(options).subscribe((data) => {
+                let file = JSON.parse(data);
+                file.tstamp = new Date();
+                this.files.push(file);
+                console.log(this.files);
+                let event = new MouseEvent('click', {bubbles: true});
+                this.fileUpload.nativeElement.children[0].children[1].dispatchEvent(event);
+            });
+            this.editMode = true;
+        }
+    }
+
+    cancelEvent(): void {
+        console.log('cancel');
+    }
+
+    onDeleteFile(fileName: string) {
+        let file = this.files.filter(file => file.filename === fileName)[0];
+        let fileIndex = this.files.indexOf(file);
+
+        this.files[fileIndex].deleted = true;
+        this.editMode = true;
+        console.log(this.files);
+    }
+
 
     goBack(){
         this.location.back();

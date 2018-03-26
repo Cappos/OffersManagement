@@ -8,6 +8,7 @@ export default gql`
             title
             subtitle
             bodytext
+            files
             tstamp
         }
     }

@@ -23,6 +23,7 @@ const PageSchema = new Schema({
             type: Boolean,
             default: false
         },
+        files: Array,
         deleted: {
             type: Boolean,
             default: false

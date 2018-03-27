@@ -75,6 +75,10 @@
                             <img src="assets/images/lines_three.png">
                         </div>
                         <div class="content-wrapper">
+
+                            <div class="img-wrapper" *ngFor="let file of group.files">
+                                <img src="{{file.path | stringReplace}}">
+                            </div>
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
                             <div class="group-info">

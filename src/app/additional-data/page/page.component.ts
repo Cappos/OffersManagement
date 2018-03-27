@@ -143,7 +143,7 @@ export class PageComponent implements OnInit {
             console.log(files);
         } else {
             let options: IUploadOptions = {
-                url: '/upload',
+                url: '/upload/graph',
                 method: 'post',
                 file: files
             };
@@ -167,7 +167,8 @@ export class PageComponent implements OnInit {
         let file = this.files.filter(file => file.filename === fileName)[0];
         let fileIndex = this.files.indexOf(file);
 
-        this.files[fileIndex].deleted = true;
+        // this.files[fileIndex].deleted = true;
+        this.files.splice(fileIndex, 1);
         this.editMode = true;
         console.log(this.files);
     }

@@ -164,7 +164,8 @@ OfferSchema.statics.createOffer = function (args) {
                             subtitle: GroupsNew[e].subtitle,
                             bodytext: GroupsNew[e].bodytext,
                             defaultPage: false,
-                            order: GroupsNew[e].order
+                            order: GroupsNew[e].order,
+                            files: GroupsNew[e].files
                         });
                         page.save().then((res) => res);
                         offer.pages.push(page);
@@ -325,7 +326,8 @@ OfferSchema.statics.updateOffer = function (args) {
                             subtitle: GroupsNew[e].subtitle,
                             bodytext: GroupsNew[e].bodytext,
                             defaultPage: false,
-                            order: GroupsNew[e].order
+                            order: GroupsNew[e].order,
+                            files: GroupsNew[e].files
                         });
                         page.save().then((res) => res);
                         offer.pages.push(page);
@@ -340,7 +342,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                     bodytext: GroupsNew[e].bodytext,
                                     defaultPage: false,
                                     order: GroupsNew[e].order,
-                                    deleted: GroupsNew[e].deleted
+                                    deleted: GroupsNew[e].deleted,
+                                    files: GroupsNew[e].files
                                 }
                             }, {new: true}).then((res) => res);
                     }
@@ -457,7 +460,8 @@ OfferSchema.statics.copyOffer = function (args) {
                                 subtitle: pageData[0].subtitle,
                                 bodytext: pageData[0].bodytext,
                                 defaultPage: false,
-                                order: pageData[0].order
+                                order: pageData[0].order,
+                                files: pageData[0].files
                             });
 
                             page.save();

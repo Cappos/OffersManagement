@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const schema = require('./server/schema/schema');
 const multer = require('multer');
 const userRoutes = require('./server/routes/user');
+const uploadRoutes = require('./server/routes/upload');
 const fileRoutes = require('./server/routes/file');
 const pdfRoutes = require('./server/routes/pdf');
 const uploadsDir = './uploads';
@@ -68,34 +69,10 @@ if (!fs.existsSync(tempDir)) {
     }, 500);
 }
 
-// File upload
-const storage = multer.diskStorage({ //multers disk storage settings
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        let datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
-    },
-});
 
-const upload = multer({ //multer settings for single upload
-    storage: storage
-}).single('file');
-
-/** API path that will upload the files */
-app.post('/upload', function (req, res) {
-    upload(req, res, function (err) {
-        if (err) {
-            res.json({error_code: 1, err_desc: err});
-            return;
-        }
-
-        res.send(req.file);
-    });
-});
 
 app.use('/user', userRoutes);
+app.use('/upload', uploadRoutes);
 app.use('/file', fileRoutes);
 app.use('/pdf', pdfRoutes);
 

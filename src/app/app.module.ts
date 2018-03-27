@@ -73,6 +73,7 @@ import { NotFoundComponent } from './error-handling/not-found/not-found.componen
 import {LightboxModule} from "angular2-lightbox";
 import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
 import { ContactPersonDialogComponent } from './clients/contact-person-dialog/contact-person-dialog.component';
+import {StringReplace} from './shared/stringReplace.pipe';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import { ContactPersonDialogComponent } from './clients/contact-person-dialog/co
         PdfDialogComponent,
         NotFoundComponent,
         RteDialogComponent,
-        ContactPersonDialogComponent
+        ContactPersonDialogComponent,
+        StringReplace
     ],
     imports: [
         BrowserAnimationsModule,
@@ -175,7 +177,7 @@ import { ContactPersonDialogComponent } from './clients/contact-person-dialog/co
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent],
     bootstrap: [AppComponent]
 })

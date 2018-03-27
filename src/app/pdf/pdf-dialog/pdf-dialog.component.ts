@@ -46,6 +46,7 @@ export class PdfDialogComponent implements OnInit {
         }).valueChanges.subscribe(({data}) => {
             this.contactPersons = data.contacts;
             console.log(this.offerData);
+            console.log(this.offerGroups);
             console.log(this.pdfContentTwo);
             console.log(this.contactPersons);
         });

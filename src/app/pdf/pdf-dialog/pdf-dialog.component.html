@@ -76,14 +76,27 @@
                         </div>
                         <div class="content-wrapper">
 
-                            <div class="img-wrapper" *ngFor="let file of group.files">
-                                <img src="{{file.path | stringReplace}}">
-                            </div>
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
-                            <div class="group-info">
-                                <div [innerHTML]="group.bodytext"></div>
-                            </div>
+
+                            <ng-template [ngIf]="group.pageType == 2">
+                                <div class="img-wrapper" *ngFor="let file of group.files">
+                                    <img src="{{file.path | stringReplace}}">
+                                </div>
+                            </ng-template>
+
+                            <ng-template [ngIf]="group.pageType != 3">
+                                <div class="group-info">
+                                    <div [innerHTML]="group.bodytext"></div>
+                                </div>
+                            </ng-template>
+
+                            <ng-template [ngIf]="group.pageType != 2">
+                                <div class="img-wrapper" *ngFor="let file of group.files">
+                                    <img src="{{file.path | stringReplace}}">
+                                </div>
+                            </ng-template>
+
                             <div class="remarks" *ngIf="last">
                                 <div class="bemerkungen">
                                     <div [innerHTML]="offerData.comments"></div>

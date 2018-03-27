@@ -58,6 +58,7 @@ export default gql`
             pages {
                 _id
                 type
+                pageType
                 title
                 subtitle
                 bodytext

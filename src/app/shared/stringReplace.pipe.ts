@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StringReplace implements PipeTransform {
     transform(value: string): string {
 
-        let newValue = value.replace(/^.{4}/g, '');
+        let newValue = value.replace(/^.{4}/g, '').replace(/\\/g,"/");
         return `${newValue}`;
     }
 }

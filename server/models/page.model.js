@@ -7,6 +7,10 @@ const PageSchema = new Schema({
             type: Number,
             default: 2
         },
+        pageType: {
+            type: Number,
+            default: 1
+        },
         title: String,
         subtitle: String,
         bodytext: String,

@@ -21,62 +21,195 @@
     <mat-divider></mat-divider>
     <mat-card-content>
         <form #f="ngForm">
-            <div layout="row" layout-wrap>
-                <div style="margin-top:20px;" flex="100" layout-padding>
-                    <mat-input-container style="max-width: 800px; width: 100%;">
-                        <input matInput placeholder="Title" [ngModel]="item?.title"
-                               name="title" [readonly]="!editMode">
-                    </mat-input-container>
-                </div>
-                <div style="margin-top:20px;" flex="100" layout-padding>
-                    <mat-input-container style="max-width: 800px; width: 100%;">
-                        <input matInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle"
-                               [readonly]="!editMode">
-                    </mat-input-container>
-                </div>
-                <div style="margin-top:20px;" flex="100" layout-padding>
-                    <ng-template [ngIf]="rteData">
-                        <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
-                                         (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
-                    </ng-template>
-                </div>
-                <!-- FILES START -->
-                <div flex="100" layout-padding>
-                    <mat-divider></mat-divider>
-                    <h3 style="margin-bottom: 0;">Related files</h3>
-                </div>
-                <div style="margin:20px 0;" flex="100" layout-padding>
-                    <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
-                                    (select)="selectEvent($event)" accept=".jpg, .jpeg, .png"
-                                    (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="disabled">
-                        <mat-icon>file_upload</mat-icon>
-                        <span>{{ fileUpload.files?.name }}</span>
-                        <ng-template td-file-input-label>
-                            <mat-icon>attach_file</mat-icon>
-                            <span>Choose a file...</span>
+        <!-- PAGE TYPE 1 -->
+        <ng-template [ngIf]="pageType == 1">
+
+                <div layout="row" layout-wrap>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Title" [ngModel]="item?.title"
+                                   name="title" [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle"
+                                   [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" layout-padding >
+                        <ng-template [ngIf]="rteData">
+                            <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
+                                             (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
                         </ng-template>
-                    </td-file-upload>
+                    </div>
+                    <!-- FILES START -->
+                    <div flex="100" layout-padding>
+                        <h3 style="margin-bottom: 0;">Image</h3>
+                    </div>
+                    <div style="margin:20px 0;" flex="100" layout-padding>
+                        <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
+                                        (select)="selectEvent($event)" accept=".jpg, .jpeg, .png"
+                                        (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="files.length == 1">
+                            <mat-icon>file_upload</mat-icon>
+                            <span>{{ fileUpload.files?.name }}</span>
+                            <ng-template td-file-input-label>
+                                <mat-icon>attach_file</mat-icon>
+                                <span>Choose a file...</span>
+                            </ng-template>
+                        </td-file-upload>
+                    </div>
+                    <div flex="100" layout-padding>
+                        <mat-list>
+                            <div *ngFor="let file of files;">
+                                <mat-list-item *ngIf="!file.deleted">
+
+                                    <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                    <h4 mat-line>
+                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                        <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                            <mat-icon color="warn">close</mat-icon>
+                                        </button>
+                                    </h4>
+                                    <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                                </mat-list-item>
+                            </div>
+                        </mat-list>
+                    </div>
+                    <!-- FILES END -->
                 </div>
-                <div flex="100" layout-padding>
-                    <mat-list>
-                        <div *ngFor="let file of files;">
-                            <mat-list-item *ngIf="!file.deleted">
 
-                                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                                <h4 mat-line>
-                                    <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+        </ng-template>
+        <!-- PAGE TYPE 1 END -->
 
-                                    <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
-                                        <mat-icon color="warn">close</mat-icon>
-                                    </button>
-                                </h4>
-                                <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
-                            </mat-list-item>
+
+        <!-- PAGE TYPE 2 -->
+        <ng-template [ngIf]="pageType == 2">
+
+                <div layout="row" layout-wrap>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Title" [ngModel]="item?.title"
+                                   name="title" [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle"
+                                   [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+
+                    <!-- FILES START -->
+                    <div flex="100" layout-padding>
+
+                        <h3 style="margin-bottom: 0;">Image</h3>
+                    </div>
+                    <div style="margin:20px 0;" flex="100" layout-padding>
+                        <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
+                                        (select)="selectEvent($event)" accept=".jpg, .jpeg, .png"
+                                        (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="files.length == 1">
+                            <mat-icon>file_upload</mat-icon>
+                            <span>{{ fileUpload.files?.name }}</span>
+                            <ng-template td-file-input-label>
+                                <mat-icon>attach_file</mat-icon>
+                                <span>Choose a file...</span>
+                            </ng-template>
+                        </td-file-upload>
+                    </div>
+                    <div flex="100" layout-padding>
+                        <mat-list>
+                            <div *ngFor="let file of files;">
+                                <mat-list-item *ngIf="!file.deleted">
+
+                                    <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                    <h4 mat-line>
+                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                        <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                            <mat-icon color="warn">close</mat-icon>
+                                        </button>
+                                    </h4>
+                                    <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                                </mat-list-item>
+                            </div>
+                        </mat-list>
+                    </div>
+                    <!-- FILES END -->
+
+                    <div style="margin-top:20px;" flex="100" layout-padding >
+                        <div flex="100" layout-padding>
+                            <h3 style="margin-bottom: 0;">Text</h3>
                         </div>
-                    </mat-list>
+                        <ng-template [ngIf]="rteData">
+                            <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
+                                             (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>
+                        </ng-template>
+                    </div>
                 </div>
-                <!-- FILES END -->
-            </div>
+
+        </ng-template>
+        <!-- PAGE TYPE 2 END -->
+
+
+        <!-- PAGE TYPE 3 -->
+        <ng-template [ngIf]="pageType == 3">
+
+                <div layout="row" layout-wrap>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Title" [ngModel]="item?.title"
+                                   name="title" [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="100" layout-padding>
+                        <mat-input-container style="max-width: 800px; width: 100%;">
+                            <input matInput placeholder="Subtitle" [ngModel]="item?.subtitle" name="subtitle"
+                                   [readonly]="!editMode">
+                        </mat-input-container>
+                    </div>
+
+                    <!-- FILES START -->
+                    <div flex="100" layout-padding>
+
+                        <h3 style="margin-bottom: 0;">Images (max. 2)</h3>
+                    </div>
+                    <div style="margin:20px 0;" flex="100" layout-padding>
+                        <td-file-upload #fileUpload defaultColor="accent" activeColor="warn" cancelColor="primary"
+                                        (select)="selectEvent($event)" accept=".jpg, .jpeg, .png"
+                                        (upload)="uploadEvent($event)" (cancel)="cancelEvent()" [disabled]="files.length == 2">
+                            <mat-icon>file_upload</mat-icon>
+                            <span>{{ fileUpload.files?.name }}</span>
+                            <ng-template td-file-input-label>
+                                <mat-icon>attach_file</mat-icon>
+                                <span>Choose a file...</span>
+                            </ng-template>
+                        </td-file-upload>
+                    </div>
+                    <div flex="100" layout-padding>
+                        <mat-list>
+                            <div *ngFor="let file of files;">
+                                <mat-list-item *ngIf="!file.deleted">
+
+                                    <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                    <h4 mat-line>
+                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                        <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                            <mat-icon color="warn">close</mat-icon>
+                                        </button>
+                                    </h4>
+                                    <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                                </mat-list-item>
+                            </div>
+                        </mat-list>
+                    </div>
+                    <!-- FILES END -->
+
+                </div>
+        </ng-template>
+        <!-- PAGE TYPE 3 END -->
         </form>
     </mat-card-content>
 </mat-card>

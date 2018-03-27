@@ -26,6 +26,7 @@ export class PageComponent implements OnInit {
     files: any[] = [];
     file: File;
     @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
+    pageType;
 
     constructor(private route: ActivatedRoute, private loadingService: TdLoadingService, private apollo: Apollo, private sharedService: SharedService, private location: Location, private router: Router,
                 private fileUploadService: TdFileService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
@@ -53,6 +54,7 @@ export class PageComponent implements OnInit {
                         fetchPolicy: 'network-only'
                     }).valueChanges.subscribe(({data}) => {
                         this.item = _.cloneDeep(data.page);
+                        this.pageType = this.item.pageType;
                         this.title = this.item.title;
                         this.rteData = this.item.bodytext;
                         this.files = this.item.files; // Set uploaded files
@@ -63,10 +65,13 @@ export class PageComponent implements OnInit {
                     this.title = 'New page';
                     this.rteData = ' ';
                     this.editMode = true;
+                    this.pageType = params['type'];
                     this.loadingService.resolveAll('modulesLoader');
                 }
-
+                console.log(this.pageType)
             }
+
+
         );
     }
 
@@ -82,6 +87,7 @@ export class PageComponent implements OnInit {
                 variables: {
                     id: this.id,
                     title: value.title,
+                    pageType: this.pageType,
                     subtitle: value.subtitle,
                     bodytext: this.rteData,
                     files: this.files
@@ -99,6 +105,7 @@ export class PageComponent implements OnInit {
                 mutation: createPage,
                 variables: {
                     title: value.title,
+                    pageType: this.pageType,
                     subtitle: value.subtitle,
                     bodytext: this.rteData,
                     files: this.files

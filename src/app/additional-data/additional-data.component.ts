@@ -74,7 +74,8 @@ export class AdditionalDataComponent implements OnInit {
 
     onEdit(row) {
         let id = row['_id'];
-        this.router.navigate(['/additionalData/page/' + id + '/edit']);
+        let type = row['pageType'];
+        this.router.navigate(['/additionalData/page/' + id + '/edit/' + type]);
     }
 
     onDelete(row) {
@@ -104,7 +105,9 @@ export class AdditionalDataComponent implements OnInit {
 
     onSelect(row) {
         let id = row['_id'];
-        this.router.navigate(['/additionalData/page/' + id]);
+        let type = row['pageType'];
+        console.log(type);
+        this.router.navigate(['/additionalData/page/' + id + '/' + type]);
     }
 
     addGraph() {

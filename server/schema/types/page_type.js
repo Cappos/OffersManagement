@@ -9,6 +9,7 @@ const PageType = new GraphQLObjectType({
     fields: () => ({
         _id: {type: GraphQLID},
         type: {type: GraphQLInt},
+        pageType: {type: GraphQLInt},
         title: {type: GraphQLString},
         subtitle: {type: GraphQLString},
         bodytext: {type: GraphQLString},

@@ -234,6 +234,7 @@ const mutation = new GraphQLObjectType({
             type: PageType,
             args: {
                 type: {type: GraphQLInt},
+                pageType: {type: GraphQLInt},
                 title: {type: GraphQLString},
                 subtitle: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
@@ -262,6 +263,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 id: {type: new GraphQLNonNull(GraphQLID)},
                 title: {type: new GraphQLNonNull(GraphQLString)},
+                pageType: {type: GraphQLInt},
                 subtitle: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
                 files: {type: GraphQLJSON}

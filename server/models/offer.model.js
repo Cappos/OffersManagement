@@ -160,6 +160,7 @@ OfferSchema.statics.createOffer = function (args) {
                     else if (GroupsNew[e].type === 2) {
                         let page = new Page({
                             type: GroupsNew[e].type,
+                            pageType: GroupsNew[e].pageType,
                             title: GroupsNew[e].title,
                             subtitle: GroupsNew[e].subtitle,
                             bodytext: GroupsNew[e].bodytext,
@@ -322,6 +323,7 @@ OfferSchema.statics.updateOffer = function (args) {
                     if (GroupsNew[e].pageNew) {
                         let page = new Page({
                             type: GroupsNew[e].type,
+                            pageType: GroupsNew[e].pageType,
                             title: GroupsNew[e].title,
                             subtitle: GroupsNew[e].subtitle,
                             bodytext: GroupsNew[e].bodytext,
@@ -456,6 +458,7 @@ OfferSchema.statics.copyOffer = function (args) {
                         if (pageData) {
                             let page = new Page({
                                 type: pageData[0].type,
+                                pageType: pageData[0].pageType,
                                 title: pageData[0].title,
                                 subtitle: pageData[0].subtitle,
                                 bodytext: pageData[0].bodytext,

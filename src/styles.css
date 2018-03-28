@@ -58,3 +58,22 @@ a {
     color: #999;
 }
 
+.img-placeholder {
+    margin-bottom: 25px;
+}
+
+.img-placeholder .img-wrapper {
+    display: inline-block;
+    vertical-align: top;
+
+}
+.img-placeholder .description {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 14px;
+}
+
+.img-placeholder h4 {
+    margin: 0;
+}
+

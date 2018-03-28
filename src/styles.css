@@ -65,6 +65,7 @@ a {
 .img-placeholder .img-wrapper {
     display: inline-block;
     vertical-align: top;
+    max-width: 150px;
 
 }
 .img-placeholder .description {

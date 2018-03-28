@@ -710,8 +710,12 @@ export class NewOfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    addPage() {
-        let dialogRef = this.dialog.open(PageEditDialogComponent);
+    addPage(pageType) {
+        let dialogRef = this.dialog.open(PageEditDialogComponent,{
+            data: {
+                pageType: pageType
+            }
+        });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 // update chapters after adding new

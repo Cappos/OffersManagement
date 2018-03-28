@@ -36,7 +36,7 @@ const GroupSchema = new Schema({
         },
         summary: {
             type: Boolean,
-            default: false
+            default: true
         },
         deleted: {
             type: Boolean,

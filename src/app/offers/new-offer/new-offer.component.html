@@ -140,6 +140,25 @@
                                                         <h3 style="margin-top: 0;">Content</h3>
                                                         <div [innerHTML]="group.bodytext"></div>
                                                     </div>
+                                                    <div flex="100" layout-padding>
+                                                        <div class="img-placeholder" *ngFor="let file of group.files;">
+                                                            <div class="img-wrapper">
+                                                                <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">
+                                                                    <img src="{{file.path}}">
+                                                                </a>
+                                                            </div>
+                                                            <div class="description">
+                                                                <h4>
+                                                                    <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                                                    <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                                                        <mat-icon color="warn">close</mat-icon>
+                                                                    </button>
+                                                                </h4>
+                                                                <p>{{file.tstamp | date: 'dd.MM.y'}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </form>
                                         </mat-card-content>
@@ -313,10 +332,21 @@
                                 <mat-icon>playlist_add</mat-icon>
                                 <span>Select page from list</span>
                             </button>
-                            <button mat-menu-item (click)="addPage()">
+                            <button mat-menu-item [matMenuTriggerFor]="pageMenu">
                                 <mat-icon>add</mat-icon>
                                 <span>Create new page</span>
                             </button>
+                            <mat-menu #pageMenu="matMenu">
+                                <button mat-menu-item (click)="addPage(1)">
+                                    <span>New text image</span>
+                                </button>
+                                <button mat-menu-item (click)="addPage(2)">
+                                    <span>New image text</span>
+                                </button>
+                                <button mat-menu-item (click)="addPage(3)">
+                                    <span>New image image</span>
+                                </button>
+                            </mat-menu>
                             <button mat-menu-item (click)="addFromChapterList()">
                                 <mat-icon>playlist_add</mat-icon>
                                 <span>Select chapter from list</span>

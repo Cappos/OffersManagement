@@ -66,6 +66,7 @@ export class PageEditDialogComponent implements OnInit {
         else {
             this.id = Math.random();
             this.rteData = ' ';
+            this.pageType = this.data.pageType;
             this.loadingService.resolveAll('modulesLoader');
         }
 

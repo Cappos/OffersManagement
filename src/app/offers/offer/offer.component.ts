@@ -875,11 +875,12 @@ export class OfferComponent implements OnInit, OnDestroy {
         });
     }
 
-    addPage(offerUid) {
+    addPage(offerUid, pageType) {
         console.log('addPage');
         let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
-                offerUid: offerUid
+                offerUid: offerUid,
+                pageType: pageType
             }
         });
         dialogRef.afterClosed().subscribe(result => {

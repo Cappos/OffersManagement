@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
@@ -19,6 +19,7 @@ export class PdfDialogComponent implements OnInit {
     contactPersons: any;
     @ViewChild('pdfContainerOne') pdfContentOne;
     @ViewChild('pdfContainerTwo') pdfContentTwo;
+    @ViewChildren('pageHeight') pageHeight;
     pdfContent;
     pdfType;
 
@@ -49,21 +50,23 @@ export class PdfDialogComponent implements OnInit {
             console.log(this.offerGroups);
             console.log(this.pdfContentTwo);
             console.log(this.contactPersons);
+            console.log(this.pageHeight._results);
+            this.getPageHight(this.pageHeight._results)
         });
 
         this.loadingService.resolveAll('modulesLoader');
     }
 
-    // public downloadPDF() {
-    //     return xepOnline.Formatter.Format('content', {
-    //         pageMarginLeft: '0',
-    //         pageMarginRight: '0',
-    //         pageWidth: '210mm',
-    //         pageHeight: '297mm',
-    //         render: 'download',
-    //         filename: this.offerData.offerNumber
-    //     });
-    // }
+
+    getPageHight(el){
+
+        el.forEach(function (e) {
+            if(e.nativeElement.offsetHeight > 1200){
+                e.nativeElement.classList.add('test');
+                console.log('vece');
+            }
+        });
+    }
 
     public generatePDF() {
         this.loadingService.register('modulesLoader');

@@ -265,6 +265,9 @@ ul {
 
 .content-wrapper {
     padding: 0 60px;
+    position: relative;
+    background: yellow;
+    min-height: 900px;
 
     h2 {
         margin-top: 20px;
@@ -449,6 +452,51 @@ ul {
     }
 }
 
+.test {
+    height: 2400px;
+    background: green;
+}
+.footer1 {
+    padding: 0 20px;
+    position: absolute;
+    background: red;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+
+    .manager-table {
+
+        .manager {
+            border-top: 1px solid #D5E5A4;
+            border-bottom: 1px solid #D5E5A4;
+            text-align: left;
+            font-family: sans-serif;
+        }
+
+        h4 {
+            border: none;
+            margin: 0 0 15px;
+            font-size: 10px;
+            padding: 0 10px;
+        }
+
+        .manager-date {
+            text-align: right;
+        }
+
+        .auftrag {
+            border-bottom: 1px solid #D5E5A4;
+            padding: 0 10px 0;
+            margin-bottom: 10px;
+
+            p {
+                font-size: 9px;
+                font-family: sans-serif;
+            }
+        }
+
+    }
+}
 
 
 

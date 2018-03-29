@@ -128,7 +128,7 @@
                 <!-- CHAPTERS -->
                 <div *ngSwitchCase="'1'">
                     <div class="page-wrapper">
-                        <div class="content-wrapper">
+                        <div #pageHeight class="content-wrapper">
                             <h2>{{group.name}}</h2>
                             <div class="modules" [class.hasHeader]="module.name"
                                  *ngFor="let module of group.modules; let first = first">
@@ -179,7 +179,27 @@
                                     <div class="bemerkungen">
                                         <div [innerHTML]="offerData.comments"></div>
                                     </div>
-                                    <div id="pageFooter-{{i + 2 }}" class="footer">
+                                    <!--<div id="pageFooter-{{i + 2 }}" class="footer">-->
+                                        <!--<table class="manager-table">-->
+                                            <!--<tbody>-->
+                                            <!--<tr class="manager">-->
+                                                <!--<th>-->
+                                                    <!--<h4>{{offerData.sealer[0].name}}</h4>-->
+                                                <!--</th>-->
+                                                <!--<th>-->
+                                                    <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
+                                                <!--</th>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td colspan="2" class="auftrag">-->
+                                                    <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--</tbody>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+
+                                    <div class="footer1">
                                         <table class="manager-table">
                                             <tbody>
                                             <tr class="manager">
@@ -306,7 +326,7 @@
                 <!-- CHAPTERS -->
                 <div *ngSwitchCase="'1'">
                     <div class="page-wrapper">
-                        <div class="content-wrapper">
+                        <div #pageHeight class="content-wrapper">
                             <h2>{{group.name}}</h2>
                             <div class="modules" [class.hasHeader]="module.name"
                                  *ngFor="let module of group.modules; let first = first">
@@ -357,7 +377,26 @@
                                     <div class="bemerkungen" *ngIf="last">
                                         <div [innerHTML]="offerData.comments"></div>
                                     </div>
-                                    <div id="pageFooter-{{i + 3 }}" class="footer">
+                                    <!--<div id="pageFooter-{{i + 3 }}" class="footer">-->
+                                        <!--<table class="manager-table">-->
+                                            <!--<tbody>-->
+                                            <!--<tr class="manager">-->
+                                                <!--<th>-->
+                                                    <!--<h4>{{offerData.sealer[0].name}}</h4>-->
+                                                <!--</th>-->
+                                                <!--<th>-->
+                                                    <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
+                                                <!--</th>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td colspan="2" class="auftrag">-->
+                                                    <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--</tbody>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+                                    <div class="footer1">
                                         <table class="manager-table">
                                             <tbody>
                                             <tr class="manager">

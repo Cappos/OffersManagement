@@ -24,7 +24,7 @@ const options = {
     dpi: 96,
     border: {
         top: "1cm",
-        bottom: "0"
+        bottom: "1cm"
     },
     base: "file:///" + assetsPath
 };

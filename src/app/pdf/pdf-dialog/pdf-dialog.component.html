@@ -307,8 +307,9 @@
                                 <div class="bemerkungen">
                                     <div [innerHTML]="offerData.comments"></div>
                                 </div>
+
                             </div>
-                            <div class="footer chapters">
+                            <div class="footer chapters" *ngIf="last">
                                 <table class="manager-table">
                                     <tbody>
                                     <tr class="manager">

@@ -180,23 +180,23 @@
                                         <div [innerHTML]="offerData.comments"></div>
                                     </div>
                                     <!--<div id="pageFooter-{{i + 2 }}" class="footer">-->
-                                        <!--<table class="manager-table">-->
-                                            <!--<tbody>-->
-                                            <!--<tr class="manager">-->
-                                                <!--<th>-->
-                                                    <!--<h4>{{offerData.sealer[0].name}}</h4>-->
-                                                <!--</th>-->
-                                                <!--<th>-->
-                                                    <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
-                                                <!--</th>-->
-                                            <!--</tr>-->
-                                            <!--<tr>-->
-                                                <!--<td colspan="2" class="auftrag">-->
-                                                    <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
-                                                <!--</td>-->
-                                            <!--</tr>-->
-                                            <!--</tbody>-->
-                                        <!--</table>-->
+                                    <!--<table class="manager-table">-->
+                                    <!--<tbody>-->
+                                    <!--<tr class="manager">-->
+                                    <!--<th>-->
+                                    <!--<h4>{{offerData.sealer[0].name}}</h4>-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                    <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
+                                    <!--</th>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                    <!--<td colspan="2" class="auftrag">-->
+                                    <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
+                                    <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                    <!--</table>-->
                                     <!--</div>-->
 
                                     <div class="footer1">
@@ -232,10 +232,13 @@
 
 <div #pdfContainerTwo [class.hidden]="pdfType !=2">
     <section id="contentTwo" class="pdf-container template-two">
-        <div class="intro-page">
-            <div class="circles">
-                <img src="assets/images/circles.svg">
-            </div>
+        <!--<div class="intro-page">-->
+            <!--<div class="circles">-->
+                <!--<img src="assets/images/circles.svg">-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="pdf-logo">
+            <img src="assets/images/pdf_logo.svg" >
         </div>
         <div class="scale-wrapper">
             <div class="section-top">
@@ -286,10 +289,15 @@
                 <!-- PAGES -->
                 <div *ngSwitchCase="'2'">
                     <div class="page-wrapper">
-                        <div class="line3">
+                        <div class="line3" *ngIf="i == 0">
                             <img src="assets/images/lines_three.png">
                         </div>
-                        <div class="content-wrapper" [class.chapters]="last">
+
+                        <div class="line3" *ngIf="i == 1">
+                            <img src="assets/images/lines_three.png">
+                        </div>
+
+                        <div class="content-wrapper" [class.chapters]="last" [class.bg-image]="i <= 1">
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
                             <div class="group-info">
@@ -299,25 +307,25 @@
                                 <div class="bemerkungen">
                                     <div [innerHTML]="offerData.comments"></div>
                                 </div>
-                                <!--<div id="pageFooter-{{offerGroups.length + 2 }}" class="footer">-->
-                                    <!--<table class="manager-table">-->
-                                        <!--<tbody>-->
-                                        <!--<tr class="manager">-->
-                                            <!--<th>-->
-                                                <!--<h4>{{offerData.sealer[0].name}}</h4>-->
-                                            <!--</th>-->
-                                            <!--<th>-->
-                                                <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
-                                            <!--</th>-->
-                                        <!--</tr>-->
-                                        <!--<tr>-->
-                                            <!--<td colspan="2" class="auftrag">-->
-                                                <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
-                                            <!--</td>-->
-                                        <!--</tr>-->
-                                        <!--</tbody>-->
-                                    <!--</table>-->
-                                <!--</div>-->
+                                <div class="footer chapters">
+                                    <table class="manager-table">
+                                        <tbody>
+                                        <tr class="manager">
+                                            <th>
+                                                <h4>{{offerData.sealer[0].name}}</h4>
+                                            </th>
+                                            <th>
+                                                <h4 class="manager-date">Unterschrift Kunde</h4>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="auftrag">
+                                                <p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -377,25 +385,6 @@
                                     <div class="bemerkungen" *ngIf="last">
                                         <div [innerHTML]="offerData.comments"></div>
                                     </div>
-                                    <!--<div id="pageFooter-{{i + 3 }}" class="footer">-->
-                                        <!--<table class="manager-table">-->
-                                            <!--<tbody>-->
-                                            <!--<tr class="manager">-->
-                                                <!--<th>-->
-                                                    <!--<h4>{{offerData.sealer[0].name}}</h4>-->
-                                                <!--</th>-->
-                                                <!--<th>-->
-                                                    <!--<h4 class="manager-date">Unterschrift Kunde</h4>-->
-                                                <!--</th>-->
-                                            <!--</tr>-->
-                                            <!--<tr>-->
-                                                <!--<td colspan="2" class="auftrag">-->
-                                                    <!--<p>Zürich,{{group.tstamp | date: 'dd.MM.y'}}</p>-->
-                                                <!--</td>-->
-                                            <!--</tr>-->
-                                            <!--</tbody>-->
-                                        <!--</table>-->
-                                    <!--</div>-->
                                     <div class="footer">
                                         <table class="manager-table">
                                             <tbody>
@@ -423,6 +412,5 @@
                 <!-- PAGES CHAPTERS END -->
             </ng-container>
         </div>
-
     </section>
 </div>

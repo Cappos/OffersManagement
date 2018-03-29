@@ -266,8 +266,7 @@ ul {
 .content-wrapper {
     padding: 0 60px;
     position: relative;
-    background: yellow;
-    min-height: 1135px;
+
 
     h2 {
         margin-top: 20px;
@@ -452,9 +451,14 @@ ul {
 //    }
 //}
 
+.chapters {
+    min-height: 1135px;
+}
+
 .pageHeight {
     height: 2290px;
 }
+
 .footer {
     padding: 0 20px;
     position: absolute;

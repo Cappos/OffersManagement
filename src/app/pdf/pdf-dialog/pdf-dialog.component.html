@@ -289,7 +289,7 @@
                         <div class="line3">
                             <img src="assets/images/lines_three.png">
                         </div>
-                        <div class="content-wrapper">
+                        <div class="content-wrapper" [class.chapters]="last">
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
                             <div class="group-info">
@@ -326,7 +326,7 @@
                 <!-- CHAPTERS -->
                 <div *ngSwitchCase="'1'">
                     <div class="page-wrapper">
-                        <div #pageHeight class="content-wrapper">
+                        <div #pageHeight class="content-wrapper chapters">
                             <h2>{{group.name}}</h2>
                             <div class="modules" [class.hasHeader]="module.name"
                                  *ngFor="let module of group.modules; let first = first">
@@ -396,7 +396,7 @@
                                             <!--</tbody>-->
                                         <!--</table>-->
                                     <!--</div>-->
-                                    <div class="footer1">
+                                    <div class="footer">
                                         <table class="manager-table">
                                             <tbody>
                                             <tr class="manager">

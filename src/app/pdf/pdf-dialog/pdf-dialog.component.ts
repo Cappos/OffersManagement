@@ -62,7 +62,7 @@ export class PdfDialogComponent implements OnInit {
 
         el.forEach(function (e) {
             if(e.nativeElement.offsetHeight > 1200){
-                e.nativeElement.classList.add('test');
+                e.nativeElement.classList.add('pageHeight');
                 console.log('vece');
             }
         });

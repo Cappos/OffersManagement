@@ -74,10 +74,9 @@ ul {
     margin-left: 60px;
 }
 
-//.pdf-logo {
-//    max-width: 80%;
-//    margin: 0 auto;
-//}
+.pdf-logo {
+    margin-top: 100px;
+}
 .template-one {
     .section-top {
         page-break-after: always;
@@ -134,20 +133,20 @@ ul {
 
 .template-two {
 
-    .intro-page {
-        page-break-after: always;
-
-       img {
-           display: inline-block;
-       }
-    }
+    //.intro-page {
+    //    page-break-after: always;
+    //
+    //   img {
+    //       display: inline-block;
+    //   }
+    //}
 
     .section-top {
         page-break-after: always;
 
         .section-title {
-            margin-top: 200px;
-            margin-bottom: 150px;
+            margin-top: 100px;
+            margin-bottom: 50px;
             min-height: 200px;
 
             h1 {

@@ -217,7 +217,7 @@ ul {
 
 
     &.line-one {
-        background: url("assets/images/svg_lines_one.svg") no-repeat top right -50px;
+        background: url("assets/images/svg_lines_one.svg") no-repeat top right;
         background-size: 85%;
 
         .content-wrapper {
@@ -227,7 +227,7 @@ ul {
 
     &.line-two {
         background: url("assets/images/svg_lines_two.svg") no-repeat top center;
-        background-size: 80%;
+        background-size: 78%;
 
         .content-wrapper {
             padding-top: 320px;

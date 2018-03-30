@@ -217,11 +217,11 @@ ul {
 
 
     &.line-one {
-        background: url("assets/images/svg_lines_one.svg") no-repeat top right;
+        background: url("assets/images/svg_lines_one.svg") no-repeat top right -50px;
         background-size: 85%;
 
         .content-wrapper {
-            padding-top: 320px;
+            padding-top: 350px;
         }
     }
 
@@ -230,7 +230,7 @@ ul {
         background-size: 80%;
 
         .content-wrapper {
-            padding-top: 300px;
+            padding-top: 320px;
         }
     }
 

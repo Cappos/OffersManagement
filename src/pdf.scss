@@ -217,18 +217,20 @@ ul {
 
 
     &.line-one {
-        background: url("assets/images/svg_lines_one.svg") no-repeat top 50px right 50px;
+        background: url("assets/images/svg_lines_one.svg") no-repeat top  right;
+        background-size: 70%;
 
         .content-wrapper {
-            padding-top: 200px;
+            padding-top: 300px;
         }
-    }
+
 
     &.line-two {
-        background: url("assets/images/svg_lines_two.svg") no-repeat top 50px right 50px;
+        background: url("assets/images/svg_lines_two.svg") no-repeat top right;
+        background-size: 70%;
 
         .content-wrapper {
-            padding-top: 200px;
+            padding-top: 300px;
         }
     }
 

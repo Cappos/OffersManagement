@@ -289,14 +289,6 @@
                 <!-- PAGES -->
                 <div *ngSwitchCase="'2'">
                     <div class="page-wrapper" [class.line-one]="i == 0" [class.line-two]="i == 1">
-                        <!--<div class="line-one" *ngIf="i == 0">-->
-                            <!--<img src="assets/images/svg_lines_one.svg">-->
-                        <!--</div>-->
-
-                        <!--<div class="line-two" *ngIf="i == 1">-->
-                            <!--<img src="assets/images/svg_lines_two.svg">-->
-                        <!--</div>-->
-
                         <div class="content-wrapper" [class.chapters]="last" [class.bg-image]="i <= 1">
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
@@ -337,8 +329,7 @@
                     <div class="page-wrapper">
                         <div #pageHeight class="content-wrapper chapters">
                             <h2>{{group.name}}</h2>
-                            <div class="modules" [class.hasHeader]="module.name"
-                                 *ngFor="let module of group.modules; let first = first">
+                            <div class="modules" [class.hasHeader]="module.name" *ngFor="let module of group.modules; let first = first">
                                 <table style="border-collapse: collapse; width: 100%;" border="0">
                                     <tbody>
 

@@ -315,12 +315,16 @@ ul {
         padding: 0 10px;
     }
 
+    .modules {
+        page-break-inside: avoid;
+    }
+
     .modules-header {
         border-top: 1px solid #D5E5A4;
         border-bottom: 1px solid #D5E5A4;
         padding: 0;
         page-break-before: auto;
-        page-break-inside: avoid;
+
 
         h4 {
             margin: 8px 0;

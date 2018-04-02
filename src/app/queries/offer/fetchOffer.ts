@@ -16,6 +16,7 @@ export default gql`
             internalHours
             externalHours
             comments
+            version
             sealer {
                 _id
                 name

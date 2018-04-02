@@ -249,9 +249,10 @@
                 </div>
                 <div class="offer-data">
                     <h4>Offerte:</h4>
-                    <p>Referenz-Nr.:{{offerData.offerNumber}}</p>
+                    <p>Referenz-Nr.: {{offerData.offerNumber}}</p>
                     <p>Dokumenttype: Offerte</p>
                     <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
+                    <p *ngIf="offerData.version">Version: <span>{{offerData.version | number:'1.1-1'}}</span></p>
                 </div>
 
                 <div class="section-top-bottom">
@@ -294,7 +295,7 @@
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
 
                             <ng-template [ngIf]="group.pageType == 2">
-                                <div class="img-wrapper" *ngFor="let file of group.files">
+                                <div class="img-wrapper before-text" *ngFor="let file of group.files">
                                     <img src="{{file.path | stringReplace}}">
                                 </div>
                             </ng-template>
@@ -306,7 +307,7 @@
                             </ng-template>
 
                             <ng-template [ngIf]="group.pageType != 2">
-                                <div class="img-wrapper" *ngFor="let file of group.files">
+                                <div class="img-wrapper after-text" *ngFor="let file of group.files">
                                     <img src="{{file.path | stringReplace}}">
                                 </div>
                             </ng-template>

@@ -16,7 +16,8 @@ export default gql`
     $seller: ID,
     $internalHours: Float,
     $externalHours: Float,
-    $comments: String,) {
+    $comments: String,
+    $timeline: JSON) {
         addOffer(
             offerTitle: $offerTitle,
             offerNumber: $offerNumber,
@@ -31,7 +32,8 @@ export default gql`
             sealer: $seller,
             internalHours: $internalHours,
             externalHours: $externalHours,
-            comments: $comments){
+            comments: $comments,
+            timeline: $timeline){
             _id,
             offerTitle
         }

@@ -68,6 +68,8 @@ export class OfferComponent implements OnInit, OnDestroy {
     internalHours;
     externalHours;
     rteData = ' ';
+    timeline;
+    week;
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
 
@@ -109,10 +111,11 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.clients = data.clients; // Set client data
                     this.files = this.item.files; // Set uploaded files
                     this.rteData = this.item.comments;
+                    this.timeline = this.item.timeline;
 
                     this.selectedClientContacts = this.clients.filter(client => client._id === this.selectedClient)[0].contacts;
 
-                    console.log('kotakti', this.selectedClientContacts)
+                    console.log('kotakti', this.selectedClientContacts);
 
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
@@ -204,7 +207,8 @@ export class OfferComponent implements OnInit, OnDestroy {
                 oldSeller: this.oldSeller,
                 internalHours: value.internalHours,
                 externalHours: value.externalHours,
-                comments: this.rteData
+                comments: this.rteData,
+                timeline: this.timeline
             },
             refetchQueries: [{
                 query: getOffer,
@@ -1098,6 +1102,25 @@ export class OfferComponent implements OnInit, OnDestroy {
         }).valueChanges.subscribe(({data}) => {
             this.selectedClientContacts = _.cloneDeep(data.client.contacts);
         });
+    }
+
+    addWeek(week) {
+        this.timeline.week = week;
+    }
+
+    addSprint(sprint) {
+        !this.timeline.sprints ? this.timeline.sprints = [] : this.timeline.sprints;
+
+
+        this.timeline.sprints.push(sprint);
+    }
+
+    removeSprint(sprint) {
+        let sprintData = this.timeline.sprints.filter(sprintData => sprintData.id === sprint)[0];
+        let sprintIndex = this.timeline.sprints.indexOf(sprintData);
+
+        this.timeline.sprints.splice(sprintIndex, 1);
+
     }
 
     ngOnDestroy() {

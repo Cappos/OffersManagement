@@ -17,6 +17,7 @@ export default gql`
             externalHours
             comments
             version
+            timeline
             sealer {
                 _id
                 name

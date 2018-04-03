@@ -54,6 +54,10 @@ const OfferSchema = new Schema({
             type: Number,
             default: 1.0
         },
+        timeline: {
+            type: Array,
+            default: []
+        },
         deleted: {
             type: Boolean,
             default: false
@@ -215,6 +219,7 @@ OfferSchema.statics.updateOffer = function (args) {
                 externalHours: args.externalHours,
                 comments: args.comments,
                 files: args.files,
+                timeline: args.timeline
             }
         }, {new: true}).then(offer => {
 
@@ -401,6 +406,7 @@ OfferSchema.statics.copyOffer = function (args) {
                 externalHours: doc.externalHours,
                 comments: doc.comments,
                 version: version,
+                timeline: doc.timeline,
                 groups: []
             };
 

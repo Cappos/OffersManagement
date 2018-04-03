@@ -297,7 +297,8 @@ const mutation = new GraphQLObjectType({
                 files: {type: GraphQLJSON},
                 internalHours: {type: GraphQLFloat},
                 externalHours: {type: GraphQLFloat},
-                comments: { type: GraphQLString }
+                comments: { type: GraphQLString },
+                timeline: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Offer.createOffer(args);
@@ -325,7 +326,8 @@ const mutation = new GraphQLObjectType({
                 oldSeller: {type: GraphQLID},
                 internalHours: {type: GraphQLFloat},
                 externalHours: {type: GraphQLFloat},
-                comments: { type: GraphQLString }
+                comments: { type: GraphQLString },
+                timeline: {type: GraphQLJSON}
             },
             resolve(parentValue, args) {
                 return Offer.updateOffer(args);

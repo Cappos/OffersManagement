@@ -54,6 +54,7 @@ const OfferType = new GraphQLObjectType({
           externalHours: {type: GraphQLFloat},
           comments: { type: GraphQLString },
           version: {type: GraphQLFloat},
+          timeline: {type: GraphQLJSON},
           deleted: {type: GraphQLBoolean}
       }
   }

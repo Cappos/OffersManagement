@@ -54,7 +54,8 @@
                         <mat-input-container>
                             <mat-select placeholder="Client" floatPlaceholder="auto" [(ngModel)]="selectedClient"
                                         name="client" [disabled]="!editMode">
-                                <mat-option *ngFor="let client of clients" [value]="client._id" (click)="onSelectChange(client._id)">
+                                <mat-option *ngFor="let client of clients" [value]="client._id"
+                                            (click)="onSelectChange(client._id)">
                                     {{client.companyName}}
                                 </mat-option>
                             </mat-select>
@@ -62,8 +63,9 @@
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <mat-select placeholder="Contact person" floatPlaceholder="auto" [(ngModel)]="selectedContactPersons"
-                                        name="person" [disabled]="!editMode" multiple >
+                            <mat-select placeholder="Contact person" floatPlaceholder="auto"
+                                        [(ngModel)]="selectedContactPersons"
+                                        name="person" [disabled]="!editMode" multiple>
                                 <mat-option *ngFor="let contact of selectedClientContacts" [value]="contact._id">
                                     {{contact.contactPerson}}
                                 </mat-option>
@@ -177,17 +179,21 @@
                                                             <div [innerHTML]="group.bodytext"></div>
                                                         </div>
                                                         <div flex="100" layout-padding>
-                                                            <div class="img-placeholder" *ngFor="let file of group.files;">
+                                                            <div class="img-placeholder"
+                                                                 *ngFor="let file of group.files;">
                                                                 <div class="img-wrapper">
-                                                                    <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">
+                                                                    <a style="cursor: pointer"
+                                                                       (click)="lightbox(file.path, file.originalname)">
                                                                         <img src="{{file.path}}">
                                                                     </a>
                                                                 </div>
                                                                 <div class="description">
                                                                     <h4>
-                                                                        <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+                                                                        <a style="cursor: pointer"
+                                                                           (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
 
-                                                                        <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
+                                                                        <button inlist mat-icon-button
+                                                                                (click)="onDeleteFile(file.filename)">
                                                                             <mat-icon color="warn">close</mat-icon>
                                                                         </button>
                                                                     </h4>
@@ -353,7 +359,7 @@
                                                           (change)="toggleSummary($event, group._id)">
                                                 </mat-checkbox>
                                         </span>
-                                        <span layout-margin>
+                                            <span layout-margin>
                                             <a (click)="onChapterEdit(group._id, group)"><mat-icon
                                                     color="accent">mode_edit</mat-icon></a>
                                         </span>
@@ -439,6 +445,74 @@
                     </div>
                     <!-- COMMENTS END -->
 
+
+                    <!-- TIMELINE START -->
+                    <div flex="100" layout-padding>
+                        <mat-divider></mat-divider>
+                        <h3 style="margin-bottom: 0;">Timeline</h3>
+                    </div>
+                    <div style="margin-top:20px;" flex="15" layout-padding layout-align="center start">
+                        <mat-input-container>
+                            <input matInput placeholder="Number of weeks" [ngModel]="timeline.week" name="week"
+                                   (change)="addWeek($event)">
+                        </mat-input-container>
+                    </div>
+
+                    <div flex="10" layout="column" layout-align="center start">
+                        <button mat-raised-button (click)="addTask()" [disabled]="!timeline.week">
+                            <mat-icon>add</mat-icon>
+                            Add task
+                        </button>
+                    </div>
+
+                    <div flex="90" layout="column">
+                        <div class="timeline-table" *ngIf="timeline.week">
+                            <div class="headers-wrapper">
+                                <div class="headers">
+                                    <div class="spacer">
+                                        Tasks list
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div #weekWidth class="weeks"  [style.width.%]="90 / week.length" *ngFor="let item of week; let i = index">
+                                        {{i + 1}}
+                                    </div>
+                                    <div class="weeks"></div>
+                                </div>
+                            </div>
+
+                            <div class="dataRow" *ngFor="let task of timeline.tasks; let i = index">
+                                <div class="headers" >
+                                    <div #tasks class="tasks">
+                                        {{task.title}}
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div #weekWidth class="weeks"  [style.width.%]="90 / week.length" *ngFor="let item of week; let i = index">
+                                        <div class="timeline" *ngIf="i + 1 >= task.start && i + 1 <= task.end"></div>
+                                    </div>
+                                    <div class="weeks">
+                                        <div layout="row" layout-align="center">
+                                            <span>
+                                            <a (click)="editTask(task)">
+                                                <mat-icon color="accent">mode_edit</mat-icon>
+                                            </a>
+                                            </span>
+                                            <span>
+                                                <a (click)="removeTask(task.id)">
+                                                    <mat-icon color="warn">delete</mat-icon>
+                                                </a>
+                                           </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIMELINE END -->
+
+
                     <!-- FILES START -->
                     <div flex="100" layout-padding>
                         <mat-divider></mat-divider>
@@ -461,31 +535,30 @@
                             <div *ngFor="let file of files;">
                                 <mat-list-item *ngIf="!file.deleted">
 
-                                        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                                        <h4 mat-line>
-                                            <a href="{{file.path}}" target="_blank" style="cursor: pointer"
-                                               *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
-                                            <button inlist mat-icon-button *ngIf="file.mimetype == 'application/pdf'"
-                                                    (click)="onDeleteFile(file.filename)">
+                                    <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                                    <h4 mat-line>
+                                        <a href="{{file.path}}" target="_blank" style="cursor: pointer"
+                                           *ngIf="file.mimetype == 'application/pdf'; else other_content">{{file.originalname}}</a>
+                                        <button inlist mat-icon-button *ngIf="file.mimetype == 'application/pdf'"
+                                                (click)="onDeleteFile(file.filename)">
+                                            <mat-icon color="warn">close</mat-icon>
+                                        </button>
+
+                                        <ng-template #other_content>
+                                            <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
+
+                                            <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
                                                 <mat-icon color="warn">close</mat-icon>
                                             </button>
+                                        </ng-template>
 
-                                            <ng-template #other_content>
-                                                <a style="cursor: pointer" (click)="lightbox(file.path, file.originalname)">{{file.originalname}}</a>
-
-                                                <button inlist mat-icon-button (click)="onDeleteFile(file.filename)">
-                                                    <mat-icon color="warn">close</mat-icon>
-                                                </button>
-                                            </ng-template>
-
-                                        </h4>
-                                        <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
+                                    </h4>
+                                    <p mat-line> {{file.tstamp | date: 'dd.MM.y'}} </p>
                                 </mat-list-item>
                             </div>
                         </mat-list>
                     </div>
                     <!-- FILES END -->
-
 
                 </div>
             </form>

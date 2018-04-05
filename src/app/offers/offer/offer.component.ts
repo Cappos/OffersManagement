@@ -29,6 +29,7 @@ import {PdfDialogComponent} from "../../pdf/pdf-dialog/pdf-dialog.component";
 import {Lightbox, LightboxConfig} from "angular2-lightbox";
 import {RteDialogComponent} from "../../rte/rte-dialog/rte-dialog.component";
 import fetchClientContact from "../../queries/offer/fetchClientContacts";
+import {TaskDialogComponent} from "../task-dialog/task-dialog.component";
 
 @Component({
     selector: 'app-offer',
@@ -55,6 +56,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     @ViewChildren('accordionModule', {read: ElementRef}) accordionModule: QueryList<ElementRef>;
     @ViewChild("fileUpload", {read: ElementRef}) fileUpload: ElementRef;
     @ViewChild('pdfTemplate') pdf;
+    @ViewChildren("weekWidth") weekWidth;
     chaptersOrder: any[] = [];
     dropSubscription;
     newDate;
@@ -69,7 +71,7 @@ export class OfferComponent implements OnInit, OnDestroy {
     externalHours;
     rteData = ' ';
     timeline;
-    week;
+    week = [];
 
     constructor(private route: ActivatedRoute, private sharedService: SharedService, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private location: Location, private dragulaService: DragulaService, private dataService: DataService, private dateAdapter: DateAdapter<Date>, private apollo: Apollo, private fileUploadService: TdFileService, private _lightbox: Lightbox, private _lighboxConfig: LightboxConfig) {
 
@@ -163,6 +165,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                         });
                     });
                     console.log(this.offersModules);
+
                     this.loadingService.resolveAll('modulesLoader');
                 });
             }
@@ -185,7 +188,6 @@ export class OfferComponent implements OnInit, OnDestroy {
             signedPrice = value.signedPrice.replace(',', '');
         }
 
-        console.log(this.selectedContactPersons);
         this.apollo.mutate({
             mutation: updateOffer,
             variables: {
@@ -1105,22 +1107,37 @@ export class OfferComponent implements OnInit, OnDestroy {
     }
 
     addWeek(week) {
-        this.timeline.week = week;
+        this.timeline.week = week.target.value;
+        this.week = [];
+
+        for (let i = 1; i <= week.target.value ; i++) {
+            this.week.push(i)
+        }
     }
 
-    addSprint(sprint) {
-        !this.timeline.sprints ? this.timeline.sprints = [] : this.timeline.sprints;
+    addTask() {
+        let dialogRef = this.dialog.open(TaskDialogComponent);
+        let count = Date.now();
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                !this.timeline.tasks ? this.timeline.tasks = [] : this.timeline.tasks;
+                result.id = count;
+
+                this.timeline.tasks.push(result);
+                console.log(this.timeline);
+            }
+        });
 
 
-        this.timeline.sprints.push(sprint);
     }
 
-    removeSprint(sprint) {
-        let sprintData = this.timeline.sprints.filter(sprintData => sprintData.id === sprint)[0];
-        let sprintIndex = this.timeline.sprints.indexOf(sprintData);
+    removeTask(task) {
+        let taskData = this.timeline.tasks.filter(taskData => taskData.id === task)[0];
+        let taskIndex = this.timeline.tasks.indexOf(taskData);
 
-        this.timeline.sprints.splice(sprintIndex, 1);
-
+        this.timeline.tasks.splice(taskIndex, 1);
+        console.log(this.timeline);
     }
 
     ngOnDestroy() {

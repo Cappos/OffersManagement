@@ -14,6 +14,7 @@ export class ContactPersonDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+
     }
 
     onSave(form: NgForm) {

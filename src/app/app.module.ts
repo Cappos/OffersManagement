@@ -74,6 +74,7 @@ import {LightboxModule} from "angular2-lightbox";
 import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
 import { ContactPersonDialogComponent } from './clients/contact-person-dialog/contact-person-dialog.component';
 import {StringReplace} from './shared/stringReplace.pipe';
+import { TaskDialogComponent } from './offers/task-dialog/task-dialog.component';
 
 
 @NgModule({
@@ -114,7 +115,8 @@ import {StringReplace} from './shared/stringReplace.pipe';
         NotFoundComponent,
         RteDialogComponent,
         ContactPersonDialogComponent,
-        StringReplace
+        StringReplace,
+        TaskDialogComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -178,7 +180,7 @@ import {StringReplace} from './shared/stringReplace.pipe';
         HttpLinkModule
     ],
     providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
-    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent],
+    entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent, TaskDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

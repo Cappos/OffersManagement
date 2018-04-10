@@ -55,8 +55,8 @@ const OfferSchema = new Schema({
             default: 1.0
         },
         timeline: {
-            type: Array,
-            default: []
+            type: Object,
+            default: {}
         },
         deleted: {
             type: Boolean,

@@ -115,9 +115,17 @@ export class OfferComponent implements OnInit, OnDestroy {
                     this.rteData = this.item.comments;
                     this.timeline = this.item.timeline;
 
-                    this.selectedClientContacts = this.clients.filter(client => client._id === this.selectedClient)[0].contacts;
+                    if(!_.isEmpty(this.timeline)){
+                        this.week = [];
 
-                    console.log('kotakti', this.selectedClientContacts);
+                        for (let i = 1; i <= this.timeline.week ; i++) {
+                            this.week.push(i)
+                        }
+
+                        console.log('week', this.week );
+                    }
+
+                    this.selectedClientContacts = this.clients.filter(client => client._id === this.selectedClient)[0].contacts;
 
                     // Set offer chapters and pages
                     for (let g of this.item.groups) {
@@ -179,6 +187,7 @@ export class OfferComponent implements OnInit, OnDestroy {
         const seller = this.sellers.find(seller => seller.value == value.seller);
         let totalPrice = null;
         let signedPrice = null;
+
 
         if (value.totalPrice) {
             totalPrice = value.totalPrice.replace(',', '');
@@ -1113,6 +1122,8 @@ export class OfferComponent implements OnInit, OnDestroy {
         for (let i = 1; i <= week.target.value ; i++) {
             this.week.push(i)
         }
+
+        this.editMode = true;
     }
 
     addTask() {
@@ -1125,11 +1136,30 @@ export class OfferComponent implements OnInit, OnDestroy {
                 result.id = count;
 
                 this.timeline.tasks.push(result);
-                console.log(this.timeline);
+                this.editMode = true;
+
             }
         });
 
 
+    }
+    editTask(task){
+        let dialogRef = this.dialog.open(TaskDialogComponent, {
+            data: {
+                task: task,
+                edit: true
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                let taskData = this.timeline.tasks.filter(taskData => taskData.id === task.id)[0];
+                let taskIndex = this.timeline.tasks.indexOf(taskData);
+
+                this.timeline.tasks[taskIndex] = result;
+
+            }
+        });
     }
 
     removeTask(task) {

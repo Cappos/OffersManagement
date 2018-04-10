@@ -6,7 +6,8 @@
         <div class="button-row" style="display: flex; align-items: flex-end; justify-content: flex-end; width: 230px;">
             <button mat-raised-button (click)="onSave(f)" [disabled]="!f.valid">
                 <mat-icon mat-list-icon>done</mat-icon>
-                <span> Add</span>
+                <span *ngIf="!edit"> Add</span>
+                <span *ngIf="edit"> Save</span>
             </button>
         </div>
     </div>
@@ -16,17 +17,17 @@
         <div layout="row" layout-wrap>
             <div style="margin-top:20px;" flex="33" layout-padding>
                 <mat-input-container>
-                    <input matInput placeholder="Title" ngModel name="title" required>
+                    <input matInput placeholder="Title" [ngModel]="timelineItem.title" name="title" required>
                 </mat-input-container>
             </div>
             <div style="margin-top:20px;" flex="33" layout-padding>
                 <mat-input-container>
-                    <input matInput placeholder="Start" ngModel name="start" required>
+                    <input matInput placeholder="Start" [ngModel]="timelineItem.start" name="start" required>
                 </mat-input-container>
             </div>
             <div style="margin-top:20px;" flex="33" layout-padding>
                 <mat-input-container>
-                    <input matInput placeholder="End" ngModel name="end" required>
+                    <input matInput placeholder="End" [ngModel]="timelineItem.end" name="end" required>
                 </mat-input-container>
             </div>
         </div>

@@ -28,6 +28,10 @@ const PageSchema = new Schema({
             default: false
         },
         files: Array,
+        legal: {
+            type: Boolean,
+            default: false
+        },
         deleted: {
             type: Boolean,
             default: false

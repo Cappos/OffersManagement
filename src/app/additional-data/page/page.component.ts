@@ -90,7 +90,8 @@ export class PageComponent implements OnInit {
                     pageType: this.pageType,
                     subtitle: value.subtitle,
                     bodytext: this.rteData,
-                    files: this.files
+                    files: this.files,
+                    legal: value.legal
                 },
                 refetchQueries: [{
                     query: getPagesData
@@ -108,7 +109,8 @@ export class PageComponent implements OnInit {
                     pageType: this.pageType,
                     subtitle: value.subtitle,
                     bodytext: this.rteData,
-                    files: this.files
+                    files: this.files,
+                    legal: value.legal
                 },
                 refetchQueries: [{
                     query: getPagesData

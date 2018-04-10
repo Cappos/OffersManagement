@@ -10,6 +10,7 @@ export default gql`
             subtitle
             bodytext
             files
+            legal
             tstamp
         }
     }

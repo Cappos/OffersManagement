@@ -170,7 +170,8 @@ OfferSchema.statics.createOffer = function (args) {
                             bodytext: GroupsNew[e].bodytext,
                             defaultPage: false,
                             order: GroupsNew[e].order,
-                            files: GroupsNew[e].files
+                            files: GroupsNew[e].files,
+                            legal: GroupsNew[e].legal
                         });
                         page.save().then((res) => res);
                         offer.pages.push(page);
@@ -334,7 +335,8 @@ OfferSchema.statics.updateOffer = function (args) {
                             bodytext: GroupsNew[e].bodytext,
                             defaultPage: false,
                             order: GroupsNew[e].order,
-                            files: GroupsNew[e].files
+                            files: GroupsNew[e].files,
+                            legal: GroupsNew[e].legal
                         });
                         page.save().then((res) => res);
                         offer.pages.push(page);
@@ -350,7 +352,8 @@ OfferSchema.statics.updateOffer = function (args) {
                                     defaultPage: false,
                                     order: GroupsNew[e].order,
                                     deleted: GroupsNew[e].deleted,
-                                    files: GroupsNew[e].files
+                                    files: GroupsNew[e].files,
+                                    legal: GroupsNew[e].legal
                                 }
                             }, {new: true}).then((res) => res);
                     }
@@ -470,7 +473,8 @@ OfferSchema.statics.copyOffer = function (args) {
                                 bodytext: pageData[0].bodytext,
                                 defaultPage: false,
                                 order: pageData[0].order,
-                                files: pageData[0].files
+                                files: pageData[0].files,
+                                legal: pageData[0].legal
                             });
 
                             page.save();

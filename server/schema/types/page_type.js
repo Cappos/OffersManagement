@@ -18,6 +18,7 @@ const PageType = new GraphQLObjectType({
         order: {type: GraphQLInt},
         pageNew: {type: GraphQLBoolean},
         files: {type: GraphQLJSON},
+        legal: {type: GraphQLBoolean},
         deleted: {type: GraphQLBoolean}
     })
 });

@@ -241,7 +241,8 @@ const mutation = new GraphQLObjectType({
                 tstamp: {type: GraphQLString},
                 order: {type: GraphQLInt},
                 pageNew: {type: GraphQLBoolean},
-                files: {type: GraphQLJSON}
+                files: {type: GraphQLJSON},
+                legal: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
                 return (new Page(args)).save()
@@ -266,7 +267,8 @@ const mutation = new GraphQLObjectType({
                 pageType: {type: GraphQLInt},
                 subtitle: {type: GraphQLString},
                 bodytext: {type: GraphQLString},
-                files: {type: GraphQLJSON}
+                files: {type: GraphQLJSON},
+                legal: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
                 return Page.findOneAndUpdate({_id: args.id}, {
@@ -274,7 +276,8 @@ const mutation = new GraphQLObjectType({
                         title: args.title,
                         subtitle: args.subtitle,
                         bodytext: args.bodytext,
-                        files: args.files
+                        files: args.files,
+                        legal: args.legal
                     }
                 }, {new: true});
             }

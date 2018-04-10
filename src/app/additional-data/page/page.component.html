@@ -25,11 +25,14 @@
             <ng-template [ngIf]="pageType == 1">
 
                 <div layout="row" layout-wrap>
-                    <div style="margin-top:20px;" flex="100" layout-padding>
+                    <div style="margin-top:20px;" flex="90" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
                             <input matInput placeholder="Title" [ngModel]="item?.title"
                                    name="title" [readonly]="!editMode">
                         </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="10" layout-padding>
+                        <mat-checkbox [ngModel]="item?.legal" name="legal" [disabled]="!editMode">Legal</mat-checkbox>
                     </div>
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
@@ -89,11 +92,14 @@
             <ng-template [ngIf]="pageType == 2">
 
                 <div layout="row" layout-wrap>
-                    <div style="margin-top:20px;" flex="100" layout-padding>
+                    <div style="margin-top:20px;" flex="90" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
                             <input matInput placeholder="Title" [ngModel]="item?.title"
                                    name="title" [readonly]="!editMode">
                         </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="10" layout-padding>
+                        <mat-checkbox [ngModel]="item?.legal" name="legal" [disabled]="!editMode">Legal</mat-checkbox>
                     </div>
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
@@ -159,11 +165,14 @@
             <ng-template [ngIf]="pageType == 3">
 
                 <div layout="row" layout-wrap>
-                    <div style="margin-top:20px;" flex="100" layout-padding>
+                    <div style="margin-top:20px;" flex="90" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">
                             <input matInput placeholder="Title" [ngModel]="item?.title"
                                    name="title" [readonly]="!editMode">
                         </mat-input-container>
+                    </div>
+                    <div style="margin-top:20px;" flex="10" layout-padding>
+                        <mat-checkbox [ngModel]="item?.legal" name="legal" [disabled]="!editMode">Legal</mat-checkbox>
                     </div>
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <mat-input-container style="max-width: 800px; width: 100%;">

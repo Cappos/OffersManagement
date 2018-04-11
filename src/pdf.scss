@@ -542,6 +542,78 @@ ul {
 }
 
 
+// TIMELINE TABLE
+
+.timeline-table {
+    display: table;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+    width: 100%;
+}
+.headers {
+    display: table-cell;
+    vertical-align: top;
+    width: 28%;
+    border: 1px solid #f3f3f3;
+    line-height: 30px;
+    padding-left: 15px;
+}
+
+.columns {
+    display: table;
+    vertical-align: top;
+    width:100%;
+    border: 1px solid #f3f3f3;
+    border-left: none;
+
+}
+.weeks {
+    display: table-cell;
+    vertical-align: top;
+    height: 30px;
+    border-right: 1px solid #f3f3f3;
+}
+
+.weeks a {
+    display: inline-block;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.dataRow, .headers-wrapper {
+    display: table-row;
+}
+
+.headers-wrapper .weeks {
+    min-height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+.headers-wrapper {
+    border-top: 1px solid #f3f3f3;
+}
+.headers-wrapper .headers {
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.headers-wrapper .weeks:nth-child(odd) {
+    background: #f3f3f3;
+}
+
+.tasks {
+    font-size: 14px;
+}
+
+.timeline {
+    height: 3px;
+    background: #039be5;
+    margin-top: 15px;
+}
+
+
 
 
 

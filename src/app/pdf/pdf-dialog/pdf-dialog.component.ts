@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import * as FileSaver from 'file-saver';
 import {Apollo} from "apollo-angular";
 import fetchContact from "../../queries/contacts/fetchContactById";
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-pdf-dialog',
@@ -22,6 +23,8 @@ export class PdfDialogComponent implements OnInit {
     @ViewChildren('pageHeight') pageHeight;
     pdfContent;
     pdfType;
+    week = [];
+    timeline;
 
     constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient, private apollo: Apollo) {
 
@@ -46,6 +49,16 @@ export class PdfDialogComponent implements OnInit {
             fetchPolicy: 'network-only'
         }).valueChanges.subscribe(({data}) => {
             this.contactPersons = data.contacts;
+            this.timeline = this.offerData.timeline;
+            if(!_.isEmpty(this.timeline)){
+                this.week = [];
+
+                for (let i = 1; i <= this.timeline.week ; i++) {
+                    this.week.push(i)
+                }
+
+                console.log('week', this.week );
+            }
             console.log(this.offerData);
             console.log(this.offerGroups);
             console.log(this.pdfContentTwo);

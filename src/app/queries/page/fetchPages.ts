@@ -11,6 +11,7 @@ export default gql`
             bodytext
             tstamp
             files
+            legal
         }
     }
 

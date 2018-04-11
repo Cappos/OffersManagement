@@ -294,6 +294,38 @@
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
 
+                            <ng-template [ngIf]="group.legal">
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-table" *ngIf="timeline?.week">
+                                        <div class="headers-wrapper">
+                                            <div class="headers">
+                                                <div class="spacer">
+                                                    Tasks list
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div #weekWidth class="weeks"  [style.width.%]="100 / week.length" *ngFor="let item of week; let i = index">
+                                                    {{i + 1}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="dataRow" *ngFor="let task of timeline.tasks; let i = index">
+                                            <div class="headers" >
+                                                <div #tasks class="tasks">
+                                                    {{task.title}}
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div #weekWidth class="weeks"  [style.width.%]="100 / week.length" *ngFor="let item of week; let i = index">
+                                                    <div class="timeline" *ngIf="i + 1 >= task.start && i + 1 <= task.end"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+
                             <ng-template [ngIf]="group.pageType == 2">
                                 <div class="img-wrapper before-text" *ngFor="let file of group.files">
                                     <img src="{{file.path | stringReplace}}">

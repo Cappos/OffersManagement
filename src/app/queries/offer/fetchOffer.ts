@@ -67,6 +67,7 @@ export default gql`
                 tstamp
                 order
                 files
+                legal
             }
 
         }

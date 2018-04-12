@@ -585,12 +585,14 @@ ul {
     text-align: center;
     font-weight: bold;
     font-size: 12px;
+    border-top: none;
+    border-bottom: none;
 }
 .headers-wrapper {
     border-top: 1px solid #f3f3f3;
 }
 .headers-wrapper .headers {
-    line-height: 40px;
+    line-height: 30px;
     font-size: 12px;
     font-weight: bold;
 }

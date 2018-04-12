@@ -554,8 +554,8 @@ ul {
     display: table-cell;
     vertical-align: top;
     width: 28%;
-    border: 1px solid #f3f3f3;
-    line-height: 29px;
+    //border: 1px solid #f3f3f3;
+    line-height: 30px;
     padding-left: 15px;
 }
 
@@ -563,46 +563,36 @@ ul {
     display: table;
     vertical-align: top;
     width:100%;
-    border: 1px solid #f3f3f3;
-    border-left: none;
-    border-bottom: none;
-
 }
 .weeks {
     display: table-cell;
     vertical-align: top;
-    height: 29px;
+    height: 30px;
     border-right: 1px solid #f3f3f3;
-}
 
-.weeks a {
-    display: inline-block;
-    margin-top: 2px;
-    margin-right: 5px;
+    &:last-child {
+        border-right: none;
+    }
 }
 
 .dataRow, .headers-wrapper {
     display: table-row;
 }
 
-.dataRow:last-child .columns {
+.dataRow {
     border-bottom: 1px solid #f3f3f3;
 }
 
 .headers-wrapper .weeks {
-    min-height: 29px;
-    line-height: 29px;
+    min-height: 30px;
+    line-height: 30px;
     text-align: center;
     font-weight: bold;
     font-size: 12px;
 }
-/*.headers-wrapper {*/
-/*border: 1px solid #f3f3f3;*/
-/*border-right: none;*/
-/*}*/
 
 .headers-wrapper .headers .spacer {
-    line-height: 29px;
+    line-height: 30px;
     font-size: 12px;
     font-weight: bold;
 }
@@ -611,8 +601,9 @@ ul {
 }
 
 .tasks {
-    line-height: 29px;
+    line-height: 30px;
     font-size: 12px;
+    border-right: 1px solid #f3f3f3;
 }
 
 .timeline {

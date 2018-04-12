@@ -454,6 +454,42 @@ ul {
         font-size: 10px;
     }
 }
+//.footer {
+//    padding: 0 20px;
+//
+//    .manager-table {
+//
+//        .manager {
+//            border-top: 1px solid #D5E5A4;
+//            border-bottom: 1px solid #D5E5A4;
+//            text-align: left;
+//            font-family: sans-serif;
+//        }
+//
+//        h4 {
+//            border: none;
+//            margin: 0 0 15px;
+//            font-size: 10px;
+//            padding: 0 10px;
+//        }
+//
+//        .manager-date {
+//            text-align: right;
+//        }
+//
+//        .auftrag {
+//            border-bottom: 1px solid #D5E5A4;
+//            padding: 0 10px 0;
+//            margin-bottom: 10px;
+//
+//            p {
+//                font-size: 9px;
+//                font-family: sans-serif;
+//            }
+//        }
+//
+//    }
+//}
 
 .chapters {
     min-height: 1135px;
@@ -520,9 +556,8 @@ ul {
     vertical-align: top;
     width: 28%;
     border: 1px solid #f3f3f3;
-    line-height: 20px;
+    line-height: 30px;
     padding-left: 15px;
-    font-size: 12px;
 }
 
 .columns {
@@ -531,13 +566,12 @@ ul {
     width:100%;
     border: 1px solid #f3f3f3;
     border-left: none;
-    font-size: 12px;
 
 }
 .weeks {
     display: table-cell;
     vertical-align: top;
-    height: 20px;
+    height: 30px;
     border-right: 1px solid #f3f3f3;
 }
 
@@ -552,26 +586,26 @@ ul {
 }
 
 .headers-wrapper .weeks {
-    min-height: 20px;
-    line-height: 20px;
+    min-height: 40px;
+    line-height: 40px;
     text-align: center;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
 }
 .headers-wrapper {
     border-top: 1px solid #f3f3f3;
 }
 .headers-wrapper .headers {
-    line-height: 20px;
-    font-size: 12px;
+    line-height: 40px;
+    font-size: 14px;
     font-weight: bold;
 }
 .headers-wrapper .weeks:nth-child(odd) {
     background: #f3f3f3;
 }
 
-.headers-wrapper .headers .tasks {
-    font-size: 12px;
+.tasks {
+    font-size: 14px;
 }
 
 .timeline {

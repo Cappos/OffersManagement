@@ -547,8 +547,7 @@ ul {
 .timeline-table {
     display: table;
     border-collapse: collapse;
-    margin-top: 80px;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
     width: 100%;
 }
 .headers {
@@ -576,6 +575,12 @@ ul {
     border-right: 1px solid #f3f3f3;
 }
 
+.weeks a {
+    display: inline-block;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
 .dataRow, .headers-wrapper {
     display: table-row;
 }
@@ -584,20 +589,17 @@ ul {
     border-bottom: 1px solid #f3f3f3;
 }
 
-
 .headers-wrapper .weeks {
     min-height: 30px;
     line-height: 30px;
     text-align: center;
     font-weight: bold;
     font-size: 12px;
-    border-top: none;
-    border-bottom: none;
 }
-//.headers-wrapper {
-//    border: 1px solid #f3f3f3;
-//    border-right: none;
-//}
+/*.headers-wrapper {*/
+/*border: 1px solid #f3f3f3;*/
+/*border-right: none;*/
+/*}*/
 
 .headers-wrapper .headers {
     line-height: 30px;
@@ -617,6 +619,7 @@ ul {
     background: #039be5;
     margin-top: 15px;
 }
+
 
 
 

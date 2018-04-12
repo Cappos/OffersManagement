@@ -566,6 +566,7 @@ ul {
     width:100%;
     border: 1px solid #f3f3f3;
     border-left: none;
+    border-bottom: none;
 
 }
 .weeks {
@@ -579,6 +580,11 @@ ul {
     display: table-row;
 }
 
+.dataRow:last-child .columns {
+    border-bottom: 1px solid #f3f3f3;
+}
+
+
 .headers-wrapper .weeks {
     min-height: 30px;
     line-height: 30px;
@@ -588,9 +594,11 @@ ul {
     border-top: none;
     border-bottom: none;
 }
-.headers-wrapper {
-    border-top: 1px solid #f3f3f3;
-}
+//.headers-wrapper {
+//    border: 1px solid #f3f3f3;
+//    border-right: none;
+//}
+
 .headers-wrapper .headers {
     line-height: 30px;
     font-size: 12px;

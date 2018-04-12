@@ -100,6 +100,7 @@ a {
     width:100%;
     border: 1px solid #f3f3f3;
     border-left: none;
+    border-bottom: none;
 
 }
 .weeks {
@@ -118,6 +119,9 @@ a {
 .dataRow, .headers-wrapper {
     display: table-row;
 }
+.dataRow:last-child .columns {
+    border-bottom: 1px solid #f3f3f3;
+}
 
 .headers-wrapper .weeks {
     min-height: 40px;
@@ -126,9 +130,10 @@ a {
     font-weight: bold;
     font-size: 14px;
 }
-.headers-wrapper {
-    border-top: 1px solid #f3f3f3;
-}
+/*.headers-wrapper {*/
+    /*border: 1px solid #f3f3f3;*/
+    /*border-right: none;*/
+/*}*/
 .headers-wrapper .headers {
     line-height: 40px;
     font-size: 14px;

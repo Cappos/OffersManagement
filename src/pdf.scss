@@ -577,11 +577,12 @@ ul {
 
 .dataRow, .headers-wrapper {
     display: table-row;
-}
-
-.dataRow {
     border: 1px solid #f3f3f3;
 }
+
+//.dataRow {
+//    border: 1px solid #f3f3f3;
+//}
 
 .headers-wrapper .weeks {
     min-height: 30px;

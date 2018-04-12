@@ -601,7 +601,7 @@ ul {
 /*border-right: none;*/
 /*}*/
 
-.headers-wrapper .headers {
+.headers-wrapper .headers .spacer {
     line-height: 30px;
     font-size: 12px;
     font-weight: bold;
@@ -611,11 +611,12 @@ ul {
 }
 
 .tasks {
+    line-height: 30px;
     font-size: 12px;
 }
 
 .timeline {
-    height: 3px;
+    height: 2px;
     background: #039be5;
     margin-top: 15px;
 }

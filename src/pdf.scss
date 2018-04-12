@@ -548,13 +548,13 @@ ul {
     display: table;
     border-collapse: collapse;
     margin-bottom: 40px;
+    margin-top: 40px;
     width: 100%;
 }
 .headers {
     display: table-cell;
     vertical-align: top;
     width: 28%;
-    //border: 1px solid #f3f3f3;
     line-height: 30px;
     padding-left: 15px;
 }
@@ -580,10 +580,6 @@ ul {
     border: 1px solid #f3f3f3;
 }
 
-//.dataRow {
-//    border: 1px solid #f3f3f3;
-//}
-
 .headers-wrapper .weeks {
     min-height: 30px;
     line-height: 30px;
@@ -596,6 +592,7 @@ ul {
     line-height: 30px;
     font-size: 12px;
     font-weight: bold;
+    border-right: 1px solid #f3f3f3;
 }
 .headers-wrapper .weeks:nth-child(odd) {
     background: #f3f3f3;
@@ -610,7 +607,7 @@ ul {
 .timeline {
     height: 2px;
     background: #039be5;
-    margin-top: 15px;
+    margin-top: 13px;
 }
 
 

@@ -556,7 +556,7 @@ ul {
     vertical-align: top;
     width: 28%;
     border: 1px solid #f3f3f3;
-    line-height: 30px;
+    line-height: 20px;
     padding-left: 15px;
 }
 
@@ -571,7 +571,7 @@ ul {
 .weeks {
     display: table-cell;
     vertical-align: top;
-    height: 30px;
+    height: 20px;
     border-right: 1px solid #f3f3f3;
 }
 
@@ -586,18 +586,18 @@ ul {
 }
 
 .headers-wrapper .weeks {
-    min-height: 40px;
-    line-height: 40px;
+    min-height: 20px;
+    line-height: 20px;
     text-align: center;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
 }
 .headers-wrapper {
     border-top: 1px solid #f3f3f3;
 }
 .headers-wrapper .headers {
-    line-height: 40px;
-    font-size: 14px;
+    line-height: 20px;
+    font-size: 12px;
     font-weight: bold;
 }
 .headers-wrapper .weeks:nth-child(odd) {
@@ -605,7 +605,7 @@ ul {
 }
 
 .tasks {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .timeline {

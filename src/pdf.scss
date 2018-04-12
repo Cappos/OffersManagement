@@ -507,8 +507,13 @@ ul {
     .signature {
         margin: 10px 0;
         height: 1px;
-        width: 250px;
-        background: #000000;
+        width: 200px;
+        background: #666666;
+
+        &.align-right {
+            margin-right: 0;
+            margin-left: auto;
+        }
     }
 }
 

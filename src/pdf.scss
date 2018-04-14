@@ -544,7 +544,7 @@ ul {
     display: table-cell;
     vertical-align: top;
     height: 30px;
-    border-right: 1px solid #f3f3f3;
+    border-right: 1px solid #dbdbdb;
 
     &:last-child {
         border-right: none;
@@ -553,7 +553,7 @@ ul {
 
 .dataRow, .headers-wrapper {
     display: table-row;
-    border: 1px solid #f3f3f3;
+    border: 1px solid #DBDBDB;
 }
 
 .headers-wrapper .weeks {
@@ -568,7 +568,7 @@ ul {
     line-height: 30px;
     font-size: 12px;
     font-weight: bold;
-    border-right: 1px solid #f3f3f3;
+    border-right: 1px solid #DBDBDB;
 }
 .headers-wrapper .weeks:nth-child(odd) {
     background: #f3f3f3;
@@ -577,7 +577,7 @@ ul {
 .tasks {
     line-height: 30px;
     font-size: 12px;
-    border-right: 1px solid #f3f3f3;
+    border-right: 1px solid #DBDBDB;
     color: #5B5A5A;
 }
 

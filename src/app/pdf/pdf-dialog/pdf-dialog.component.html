@@ -294,7 +294,7 @@
                             <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
                             <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
 
-                            <ng-template [ngIf]="group.legal">
+                            <ng-template [ngIf]="group.legal && timeline?.week">
                                 <div class="timeline-wrapper">
                                     <div class="timeline-table" *ngIf="timeline?.week">
                                         <div class="headers-wrapper">

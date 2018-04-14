@@ -22,8 +22,8 @@ export class UsersComponent implements OnInit {
     @HostBinding('@routeAnimation') routeAnimation = true;
     @HostBinding('class.td-route-animation') classAnimation = true;
 
-    pageTitle = 'Sellers';
-    title = 'List of sellers';
+    pageTitle = 'Users';
+    title = 'List of users';
     editMode = false;
     data: any;
 

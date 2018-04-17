@@ -516,6 +516,7 @@ ul {
     width: 100%;
     min-height: 1135px;
     position: relative;
+    page-break-inside: avoid;
 
     .line-footer {
         margin-top: 150px;

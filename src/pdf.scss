@@ -517,16 +517,14 @@ ul {
     min-height: 1135px;
     position: relative;
 
+    .line-footer {
+        margin-top: 150px;
+    }
 
 
     .footer {
         text-align: center;
         width: 100%;
-
-        .line-footer {
-            margin-bottom: 150px;
-        }
-
         p {
             zoom: 0.68;
         }

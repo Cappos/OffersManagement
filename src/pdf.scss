@@ -514,9 +514,11 @@ ul {
 
 .info-page {
     width: 100%;
+    min-height: 1135px;
     position: relative;
 
     .line-footer {
+        margin-top: 500px;
         margin-bottom: 150px;
     }
 

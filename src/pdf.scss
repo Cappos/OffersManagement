@@ -514,28 +514,19 @@ ul {
 
 .info-page {
     width: 100%;
-    page-break-before: avoid;
+    position: relative;
 
-    .page-wrapper {
-        padding: 0;
-
-        .content-wrapper {
-            padding: 0;
-        }
-
-        .line-footer {
-            margin-bottom: 150px;
-        }
-
-        .footer {
-            text-align: center;
-
-            p {
-                font-size: 12px;
-            }
-        }
+    .line-footer {
+        margin-bottom: 150px;
     }
 
+    .footer {
+        text-align: center;
+
+        p {
+            zoom: 0.68;
+        }
+    }
 }
 
 // TIMELINE TABLE

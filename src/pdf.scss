@@ -513,7 +513,9 @@ ul {
 }
 
 .info-page {
-
+    width: 100%;
+    page-break-before: avoid;
+    
     .page-wrapper {
         padding: 0;
 

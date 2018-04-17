@@ -515,11 +515,11 @@ ul {
 .info-page {
     width: 100%;
     min-height: 500px;
+    padding-top: 150px;
     position: relative;
-    page-break-inside: avoid;
 
     .line-footer {
-        margin-top: 400px;
+        //margin-top: 500px;
     }
 
 

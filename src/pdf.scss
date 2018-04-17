@@ -517,9 +517,18 @@ ul {
     }
 }
 
+.info-page {
+    padding: 0;
+    .line1 {
+        margin-top: 500px;
+    }
+    .footer {
+        text-align: center;
+    }
+}
+
 
 // TIMELINE TABLE
-
 .timeline-table {
     display: table;
     border-collapse: collapse;

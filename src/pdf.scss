@@ -519,6 +519,11 @@ ul {
 
 .info-page {
     padding: 0;
+
+    .content-wrapper {
+        padding: 0;
+    }
+
     .line1 {
         margin-top: 500px;
     }

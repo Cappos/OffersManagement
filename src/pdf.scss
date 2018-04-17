@@ -514,14 +514,9 @@ ul {
 
 .info-page {
     width: 100%;
-    min-height: 750px;
+    min-height: 770px;
     padding-top: 500px;
     position: relative;
-
-    .line-footer {
-        //margin-top: 500px;
-    }
-
 
     .custom-footer {
         text-align: center;
@@ -531,7 +526,7 @@ ul {
         bottom: 0;
 
         p {
-            zoom: 0.68;
+            font-size: 12px;
         }
     }
 }

@@ -87,13 +87,13 @@
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Included price" [ngModel]="signedPrice | number:'2.2-2'"
+                            <input matInput placeholder="Included price" [ngModel]="signedPrice | number:'2.2-2':'en-US'"
                                    name="signedPrice" readonly>
                         </mat-input-container>
                     </div>
                     <div style="margin-top:20px;" flex="15" layout-padding>
                         <mat-input-container>
-                            <input matInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2'"
+                            <input matInput placeholder="Total price" [ngModel]="totalPrice | number:'2.2-2':'en-US'"
                                    name="totalPrice" readonly>
                         </mat-input-container>
                     </div>
@@ -239,10 +239,10 @@
                                                     {{group.name}}</h4>
                                             </mat-panel-title>
                                             <mat-panel-description flex="15">
-                                                <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2'}}</b></span>
+                                                <span>Chapter price: &nbsp;<b>{{group.subTotal | number:'2.2-2':'en-US'}}</b></span>
                                             </mat-panel-description>
                                             <mat-panel-description flex="15">
-                                                <span>Included price: &nbsp;<b>{{group.total | number:'2.2-2'}}</b></span>
+                                                <span>Included price: &nbsp;<b>{{group.total | number:'2.2-2':'en-US'}}</b></span>
                                             </mat-panel-description>
                                             <mat-icon>arrow_drop_down</mat-icon>
                                         </mat-expansion-panel-header>
@@ -296,7 +296,7 @@
                                                         <div flex="20" layout-padding>
                                                             <mat-input-container>
                                                                 <input matInput placeholder="Price"
-                                                                       [ngModel]="module.price | number:'2.2-2'"
+                                                                       [ngModel]="module.price | number:'2.2-2':'en-US'"
                                                                        name="price" readonly>
                                                             </mat-input-container>
                                                         </div>

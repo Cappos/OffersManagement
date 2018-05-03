@@ -402,7 +402,7 @@
                                             <div [innerHTML]="module.bodytext"></div>
                                         </td>
                                         <td class="second-td">
-                                            <p class="module-price">{{module.price | number:'2.2-2'}}</p>
+                                            <p class="module-price">{{module.price | number:'2.0'}}.-</p>
                                         </td>
                                         <td class="img-shape third-td">
                                             <img src="assets/images/box.png" *ngIf="!module.signed">
@@ -420,7 +420,7 @@
                                             <h4>Total</h4>
                                         </th>
                                         <th>
-                                            <h4 class="right">{{group.subTotal | number:'2.2-2'}}</h4>
+                                            <h4 class="right">{{group.subTotal | number:'2.0'}}.-</h4>
                                         </th>
                                     </tr>
                                     </tbody>

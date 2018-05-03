@@ -67,6 +67,12 @@ app-pdf {
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
+    border: none;
+}
+
+:host ::ng-deep .page table td {
+    border: none;
+    padding: 0 10px;
 }
 
 

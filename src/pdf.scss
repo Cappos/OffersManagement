@@ -166,10 +166,12 @@ ul {
 
         .label {
             min-width: 100px;
+            display: inline-block;
+            vertical-align: top;
         }
 
         .offer-data {
-            padding-left: 100px;
+            padding-left: 70px;
             font-size: 14px;
             margin-bottom: 40px;
 

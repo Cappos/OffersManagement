@@ -25,6 +25,7 @@ export class SellersComponent implements OnInit {
 
     pageTitle = 'Sellers';
     title = 'List of sellers';
+    titles = ["Herr", "Frau"];
     editMode = false;
     data: any;
 
@@ -59,6 +60,7 @@ export class SellersComponent implements OnInit {
             variables: {
                 id: userId,
                 position: value.position,
+                title: value.title,
                 name: userName,
                 email: value.email,
                 phone: value.phone,
@@ -82,6 +84,7 @@ export class SellersComponent implements OnInit {
                     mutation: addSealer,
                     variables: {
                         position: result.position,
+                        title: result.title,
                         name: result.name,
                         email: result.email,
                         phone: result.phone,

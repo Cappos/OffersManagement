@@ -8,6 +8,7 @@ const SealerType = new GraphQLObjectType({
     fields: () => ({
         _id: {type: GraphQLID},
         position: {type: GraphQLString},
+        title: {type: GraphQLString},
         name: {type: GraphQLString},
         email: {type: GraphQLString},
         phone: {type: GraphQLString},

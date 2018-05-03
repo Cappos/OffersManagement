@@ -33,6 +33,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 position: {type: GraphQLString},
+                title: {type: GraphQLString},
                 email: {type: new GraphQLNonNull(GraphQLString)},
                 phone: {type: GraphQLString},
                 mobile: {type: GraphQLString},
@@ -58,6 +59,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 id: {type: new GraphQLNonNull(GraphQLID)},
                 position: {type: GraphQLString},
+                title: {type: GraphQLString},
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 email: {type: new GraphQLNonNull(GraphQLString)},
                 phone: {type: GraphQLString},
@@ -67,6 +69,7 @@ const mutation = new GraphQLObjectType({
                 return Sealer.findOneAndUpdate({_id: args.id}, {
                     $set: {
                         position: args.position,
+                        title: args.title,
                         name: args.name,
                         email: args.email,
                         phone: args.phone,

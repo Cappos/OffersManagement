@@ -9,6 +9,7 @@ import {MatDialog, MatDialogRef} from "@angular/material";
 })
 export class NewSellerComponent implements OnInit {
     savedSellerData;
+    titles = ["Herr", "Frau"];
 
     constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<NewSellerComponent>) {
     }

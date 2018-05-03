@@ -473,6 +473,14 @@ ul {
             border-bottom: 1px solid #D5E5A4;
             text-align: left;
             font-family: sans-serif;
+
+            h4 {
+                margin-bottom: 0;
+            }
+
+            p {
+                margin-bottom: 10px;
+            }
         }
 
         h4 {
@@ -504,6 +512,8 @@ ul {
         height: 1px;
         width: 200px;
         background: #7d7d7d;
+
+
 
         &.align-right {
             margin-right: 0;

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
@@ -24,7 +24,7 @@ import {
 } from '@angular/material';
 import {MatFormFieldModule} from '@angular/material';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {CommonModule, registerLocaleData} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ModulesComponent } from './modules/modules.component';
 import { OffersComponent } from './offers/offers.component';
@@ -75,9 +75,6 @@ import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
 import { ContactPersonDialogComponent } from './clients/contact-person-dialog/contact-person-dialog.component';
 import {StringReplace} from './shared/stringReplace.pipe';
 import { TaskDialogComponent } from './offers/task-dialog/task-dialog.component';
-import localeDECH from '@angular/common/locales/de-CH';
-
-registerLocaleData(localeDECH);
 
 
 @NgModule({
@@ -182,7 +179,7 @@ registerLocaleData(localeDECH);
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace, {provide: LOCALE_ID, useValue: 'de-ch' }],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent, TaskDialogComponent],
     bootstrap: [AppComponent]
 })

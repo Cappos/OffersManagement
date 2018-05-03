@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 import {LoadingMode, LoadingType, TdDialogService, TdLoadingService} from "@covalent/core";
 import {SharedService} from "../../shared/shared.service";
@@ -7,11 +7,18 @@ import * as FileSaver from 'file-saver';
 import {Apollo} from "apollo-angular";
 import fetchContact from "../../queries/contacts/fetchContactById";
 import * as _ from "lodash";
+import localeDECH from '@angular/common/locales/de-CH';
+import {registerLocaleData} from "@angular/common";
+
+registerLocaleData(localeDECH);
+
+
 
 @Component({
     selector: 'app-pdf-dialog',
     templateUrl: './pdf-dialog.component.html',
-    styleUrls: ['./pdf-dialog.component.scss']
+    styleUrls: ['./pdf-dialog.component.scss'],
+    providers: [{provide: LOCALE_ID, useValue: 'de-ch' }]
 })
 export class PdfDialogComponent implements OnInit {
     pageTitle = 'PDF view';

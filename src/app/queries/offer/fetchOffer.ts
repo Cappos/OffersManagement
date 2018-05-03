@@ -21,6 +21,7 @@ export default gql`
             sealer {
                 _id
                 name
+                position
                 phone
                 mobile
                 email

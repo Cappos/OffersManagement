@@ -402,7 +402,8 @@
                                             <div [innerHTML]="module.bodytext"></div>
                                         </td>
                                         <td class="second-td">
-                                            <p class="module-price">{{module.price | number:'2.0'}}.-</p>
+                                            <p class="module-price" *ngIf="module.price != 0">{{module.price | number:'2.0'}}.-</p>
+                                            <p class="module-price" *ngIf="module.price === 0">Enthalten</p>
                                         </td>
                                         <td class="img-shape third-td">
                                             <img src="assets/images/box.png" *ngIf="!module.signed">

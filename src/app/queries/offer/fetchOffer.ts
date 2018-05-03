@@ -22,6 +22,7 @@ export default gql`
                 _id
                 name
                 position
+                title
                 phone
                 mobile
                 email

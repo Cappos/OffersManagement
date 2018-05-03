@@ -81,7 +81,7 @@ export class PdfDialogComponent implements OnInit {
     getPageHight(el){
 
         el.forEach(function (e) {
-            if(e.nativeElement.offsetHeight > 1200){
+            if(e.nativeElement.offsetHeight > 1100){
                 e.nativeElement.classList.add('pageHeight');
                 console.log('vece');
             }

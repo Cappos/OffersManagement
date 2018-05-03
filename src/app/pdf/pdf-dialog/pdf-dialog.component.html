@@ -244,10 +244,10 @@
                 </div>
                 <div class="offer-data">
                     <h4>Offerte:</h4>
-                    <p>Referenz-Nr.: {{offerData.offerNumber}}</p>
-                    <p>Dokumenttyp: Offerte</p>
-                    <p>Datum: {{offerData.tstamp | date: 'dd.MM.y'}}</p>
-                    <p *ngIf="offerData.version">Version: <span>{{offerData.version | number:'1.1-1'}}</span></p>
+                    <p><span class="label">Referenz-Nr.:</span>{{offerData.offerNumber}}</p>
+                    <p><span class="label">Dokumenttyp:</span>Offerte</p>
+                    <p><span class="label">Datum:</span>{{offerData.tstamp | date: 'dd.MM.y'}}</p>
+                    <p *ngIf="offerData.version"><span class="label">Version:</span><span>{{offerData.version | number:'1.1-1'}}</span></p>
                 </div>
 
                 <div class="section-top-bottom">

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-router.module';
 
 import {AppComponent} from './app.component';
@@ -179,7 +179,7 @@ import { TaskDialogComponent } from './offers/task-dialog/task-dialog.component'
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace, {provide: LOCALE_ID, useValue: 'ch-CH' }],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent, TaskDialogComponent],
     bootstrap: [AppComponent]
 })

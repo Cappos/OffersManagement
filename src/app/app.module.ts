@@ -117,7 +117,8 @@ import {SafeHtml} from "./pipes/safeHtml.pipe";
         RteDialogComponent,
         ContactPersonDialogComponent,
         StringReplace,
-        TaskDialogComponent
+        TaskDialogComponent,
+        SafeHtml
     ],
     imports: [
         BrowserAnimationsModule,
@@ -180,7 +181,7 @@ import {SafeHtml} from "./pipes/safeHtml.pipe";
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace, SafeHtml],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent, TaskDialogComponent],
     bootstrap: [AppComponent]
 })

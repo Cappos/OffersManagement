@@ -333,7 +333,7 @@
 
                             <ng-template [ngIf]="group.pageType != 3">
                                 <div class="group-info">
-                                    <div [innerHTML]="group.bodytext"></div>
+                                    <div [innerHTML]="group.bodytext | safeHtml"></div>
                                 </div>
                             </ng-template>
 
@@ -345,7 +345,7 @@
 
                             <div class="remarks" *ngIf="last">
                                 <div class="bemerkungen">
-                                    <div [innerHTML]="offerData.comments"></div>
+                                    <div [innerHTML]="offerData.comments | safeHtml"></div>
                                 </div>
 
                             </div>
@@ -399,7 +399,7 @@
                                     </tr>
                                     <tr class="modules-main">
                                         <td class="first-td">
-                                            <div [innerHTML]="module.bodytext"></div>
+                                            <div [innerHTML]="module.bodytext | safeHtml"></div>
                                         </td>
                                         <td class="second-td">
                                             <p class="module-price" *ngIf="module.price != 0">{{module.price | number:'2.0'}}.-</p>
@@ -428,7 +428,7 @@
                                 </table>
                                 <div class="remarks">
                                     <div class="bemerkungen" *ngIf="last">
-                                        <div [innerHTML]="offerData.comments"></div>
+                                        <div [innerHTML]="offerData.comments | safeHtml"></div>
                                     </div>
                                     <div class="footer">
                                         <table class="manager-table">

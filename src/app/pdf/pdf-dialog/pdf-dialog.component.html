@@ -273,7 +273,7 @@
                     <div class="offer-info" *ngFor="let person of contactPersons">
                         <h4>Empfänger:</h4>
                         <p>{{offerData.client[0].companyName}}</p>
-                        <p *ngIf="person.contactPerson">Tel. {{person.contactPerson}}</p>
+                        <p *ngIf="person.contactPerson">{{person.contactPerson}}</p>
                         <p *ngIf="person.contactPhone">Tel. {{person.contactPhone}}</p>
                         <p *ngIf="person.mobile">Mob. {{person.mobile}}</p>
                         <p *ngIf="person.mail">{{person.mail}}</p>
@@ -402,7 +402,7 @@
                                             <div [innerHTML]="module.bodytext"></div>
                                         </td>
                                         <td class="second-td">
-                                            <p class="module-price">{{module.price | number:'2.2-2':'ch-CH'}}</p>
+                                            <p class="module-price">{{module.price | number:'2.2-2'}}</p>
                                         </td>
                                         <td class="img-shape third-td">
                                             <img src="assets/images/box.png" *ngIf="!module.signed">

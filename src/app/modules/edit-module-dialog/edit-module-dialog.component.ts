@@ -138,6 +138,7 @@ export class EditModuleDialogComponent implements OnInit {
             this.savedModuleData.moduleNew = true;
         }
 
+        console.log(this.rteData);
         this.savedModuleData.bodytext = this.rteData;
         this.savedModuleData.groupUid = this.data.groupUid;
         this.savedModuleData.price = price;

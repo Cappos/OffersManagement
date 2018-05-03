@@ -176,7 +176,7 @@
                                                         </div>
                                                         <div flex="100" layout-padding>
                                                             <h3 style="margin-top: 0;">Content</h3>
-                                                            <div [innerHTML]="group.bodytext"></div>
+                                                            <div [innerHTML]="group.bodytext | safeHtml"></div>
                                                         </div>
                                                         <div flex="100" layout-padding>
                                                             <div class="img-placeholder"

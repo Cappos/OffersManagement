@@ -75,6 +75,7 @@ import { RteDialogComponent } from './rte/rte-dialog/rte-dialog.component';
 import { ContactPersonDialogComponent } from './clients/contact-person-dialog/contact-person-dialog.component';
 import {StringReplace} from './shared/stringReplace.pipe';
 import { TaskDialogComponent } from './offers/task-dialog/task-dialog.component';
+import {SafeHtml} from "./pipes/safeHtml.pipe";
 
 
 @NgModule({
@@ -179,7 +180,7 @@ import { TaskDialogComponent } from './offers/task-dialog/task-dialog.component'
         ApolloModule,
         HttpLinkModule
     ],
-    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace],
+    providers: [SharedService, TdLoadingService, DataService, DataNodeService, NgPipesModule, AuthService, AuthGuard, StringReplace, SafeHtml],
     entryComponents: [EditModuleDialogComponent, ChapterDialogComponent, NewSellerComponent, ModuleListDialogComponent, ChapterListDialogComponent, MediaBrowserComponent, PageListDialogComponent, PageEditDialogComponent, PriceAddEditDialogComponent, NewUserComponent, PdfDialogComponent, RteDialogComponent, ContactPersonDialogComponent, TaskDialogComponent],
     bootstrap: [AppComponent]
 })

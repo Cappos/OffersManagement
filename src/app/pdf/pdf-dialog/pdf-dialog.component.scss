@@ -367,6 +367,8 @@
 
                 .img-shape {
                     margin-left: 40px;
+                    width: 14px;
+                    height: 14px;
                 }
 
                 ul {
@@ -376,11 +378,11 @@
             }
 
             .first-td {
-                width: 5in;
-                min-width: 5in;
+                width: 12cm;
+                min-width: 12cm;
                 text-align: left;
 
-                h4, p, ul {
+                h4, p{
                     width: 5in;
                 }
 
@@ -393,18 +395,27 @@
             }
 
             .second-td {
-                width: 1in;
+                width: 2cm;
+                min-width: 2cm;
                 text-align: center;
+                padding-left: 0;
+                padding-right: 0;
+
                 p {
                     margin: 0;
+                    width: 2cm;
                 }
             }
 
             .third-td {
-                width: 1in;
+                width: 2cm;
+                min-width: 2cm;
                 text-align: center;
+                padding-left: 0;
+                padding-right: 0;
                 p {
                     margin: 0;
+                    width: 2cm;
                 }
             }
         }

@@ -289,6 +289,10 @@ ul {
             vertical-align: top;
             line-height: 1.4;
 
+            &:first-child {
+                min-width: 200px;
+            }
+
             h4 {
                 border-top: 1px solid #D5E5A4;
                 border-bottom: 1px solid #D5E5A4;

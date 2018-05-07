@@ -405,25 +405,27 @@ ul {
         }
 
         .second-td {
-            width: 1.5cm;
+            width: 2cm;
+            min-width: 2cm;
             text-align: center;
             padding-left: 0;
             padding-right: 0;
 
             p {
                 margin: 0;
-                width: 0.7in;
+                width: 2cm;
             }
         }
 
         .third-td {
-            width: 1.5cm;
+            width: 2cm;
+            min-width: 2cm;
             text-align: center;
             padding-left: 0;
             padding-right: 0;
             p {
                 margin: 0;
-                width: 0.7in;
+                width: 2cm;
             }
         }
     }

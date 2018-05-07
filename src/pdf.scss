@@ -400,8 +400,11 @@ ul {
         }
 
         .second-td {
-            width: 1in;
+            width: 0.6in;
             text-align: center;
+            padding-left: 0;
+            padding-right: 0;
+
             p {
                 margin: 0;
             }
@@ -410,6 +413,8 @@ ul {
         .third-td {
             width: 0.3in;
             text-align: center;
+            padding-left: 0;
+            padding-right: 0;
             p {
                 margin: 0;
             }

@@ -383,12 +383,12 @@ ul {
         }
 
         .first-td {
-            width: 5.5in;
-            min-width: 5.5in;
+            width: 5in;
+            min-width: 5in;
             text-align: left;
 
-            h4, p {
-                width: 5.5in;
+            h4, p, ul {
+                width: 5in;
             }
 
             ul {
@@ -400,18 +400,16 @@ ul {
         }
 
         .second-td {
-            width: 0.5in;
+            width: 1in;
             text-align: center;
-            padding-right: 0;
             p {
                 margin: 0;
             }
         }
 
         .third-td {
-            width: 0.5in;
+            width: 1in;
             text-align: center;
-            padding-right: 0;
             p {
                 margin: 0;
             }

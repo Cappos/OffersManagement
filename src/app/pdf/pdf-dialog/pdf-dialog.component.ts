@@ -32,6 +32,7 @@ export class PdfDialogComponent implements OnInit {
     pdfType;
     week = [];
     timeline;
+    signDate = Date.now();
 
     constructor(private sharedService: SharedService, public dialog: MatDialog, private _dialogService: TdDialogService, public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any, private loadingService: TdLoadingService, private http: HttpClient, private apollo: Apollo) {
 

@@ -269,7 +269,7 @@
                         <p>{{offerData.sealer[0].email}}</p>
                     </div>
                     <div class="offer-info" *ngFor="let person of contactPersons">
-                        <h4>Empfänger:</h4>
+                        <h4 class="blueText">Empfänger:</h4>
                         <p>{{offerData.client[0].companyName}}</p>
                         <p *ngIf="person.contactPerson">{{person.contactPerson}}</p>
                         <p *ngIf="person.contactPhone">Tel. {{person.contactPhone}}</p>

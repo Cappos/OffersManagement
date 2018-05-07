@@ -383,24 +383,24 @@ ul {
         }
 
         .first-td {
-            width: 4in;
-            min-width: 4in;
+            width: 6in;
+            min-width: 6in;
             text-align: left;
 
             h4, p, ul {
-                width: 4in;
+                width: 6in;
             }
 
             ul {
-                width: 4in;
+                width: 6in;
                 li {
-                    width: 4in;
+                    width: 6in;
                 }
             }
         }
 
         .second-td {
-            width: 1in;
+            //width: 1in;
             text-align: center;
             p {
                 margin: 0;
@@ -408,7 +408,7 @@ ul {
         }
 
         .third-td {
-            width: 1in;
+            //width: 1in;
             text-align: center;
             p {
                 margin: 0;

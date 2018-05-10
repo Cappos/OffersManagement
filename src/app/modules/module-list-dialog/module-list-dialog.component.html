@@ -29,6 +29,9 @@
             <div [innerHTML]="row.bodytext | shorten: 40: '...'"></div>
         </td>
         <td td-data-table-cell>
+            {{row.categoryId[0].name}}
+        </td>
+        <td td-data-table-cell>
             {{row.price | number:'3.2'}}
         </td>
         <td td-data-table-cell>

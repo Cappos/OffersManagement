@@ -31,9 +31,10 @@ export class ModulesComponent implements OnInit {
     color = 'grey';
     disabled = false;
     columns: ITdDataTableColumn[] = [
-        {name: 'uid', label: 'No.', tooltip: 'No.'},
+        {name: '_id', label: 'No.', tooltip: 'No.'},
         {name: 'name', label: 'Name', tooltip: 'Name'},
         {name: 'bodytext', label: 'Description', tooltip: 'Description'},
+        {name: 'category', label: 'Category', tooltip: 'Category'},
         {name: 'price', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date'},
         {name: 'action', label: 'Actions', tooltip: 'Actions'},
@@ -46,7 +47,7 @@ export class ModulesComponent implements OnInit {
     fromRow = 1;
     currentPage = 1;
     pageSize = 15;
-    sortBy = 'id';
+    sortBy = '_id';
     sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
     constructor(private sharedService: SharedService, private _dataTableService: TdDataTableService, private router: Router, private dialog: MatDialog, private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef, private loadingService: TdLoadingService, private apollo: Apollo) {
@@ -68,7 +69,7 @@ export class ModulesComponent implements OnInit {
             this.data = data.modules;
             this.filteredData = this.data;
             this.filteredTotal = this.data.length;
-            this.filter();
+            // this.filter();
             this.loadingService.resolveAll('modulesLoader');
         });
     }

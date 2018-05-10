@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt, GraphQLBoolean, GraphQLFloat } = graphql;
 const GraphQLDate = require('graphql-date');
 const ModuleType = require('./module_type');
 const Group = mongoose.model('group');
@@ -10,8 +10,8 @@ const GroupType = new GraphQLObjectType({
   fields: () => ({
       _id: {type: GraphQLID},
       name: {type: GraphQLString},
-      subTotal: {type: GraphQLInt},
-      total: {type: GraphQLInt},
+      subTotal: {type: GraphQLFloat},
+      total: {type: GraphQLFloat},
       tstamp: {type: GraphQLDate},
       modules: {
           type: new GraphQLList(ModuleType),

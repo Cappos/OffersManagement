@@ -106,9 +106,9 @@ export class PdfDialogComponent implements OnInit {
         const stripData = data
             .replace(/(_ngcontent-\w+-\w+="(.|\n)*?"|_ngcontent-\w+="(.|\n)*?"|_ngcontent-(\w+-\w+)|ng-(\w+))/g, '')
             .replace(/\n/g, "")
-            .replace(/[\t ]+\</g, "<")
-            .replace(/\>[\t ]+\</g, "><")
-            .replace(/\>[\t ]+$/g, ">");
+            .replace(/[\t ]+\</g, " <")
+            .replace(/\>[\t ]+\</g, "> <")
+            .replace(/\>[\t ]+$/g, "> ");
 
         // Send data to server for pdf generation
         const headers = new HttpHeaders({'Content-Type': 'application/json'});

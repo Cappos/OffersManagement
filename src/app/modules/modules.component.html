@@ -20,6 +20,7 @@
             </td-search-box>
         </div>
         <mat-divider></mat-divider>
+        <!-- TODO Promenit covalent tabelu na material tabelu -->
         <table td-data-table #dataTable>
 
             <th td-data-table-column [sortable]="true" [sortOrder]="sortOrder" *ngFor="let column of columns"
@@ -27,7 +28,8 @@
                 {{column.label}}
             </th>
             <tbody>
-            <tr td-data-table-row *ngFor="let row of filteredData; let i = index">
+
+            <tr td-data-table-row *ngFor="let row of filteredData | orderBy: '-tstamp'; let i = index">
                 <td td-data-table-cell>
                     {{i +1}}
                 </td>
@@ -36,6 +38,9 @@
                 </td>
                 <td td-data-table-cell>
                     <div [innerHTML]="row.bodytext | shorten: 60: '...'"></div>
+                </td>
+                <td td-data-table-cell>
+                    {{row.categoryId[0].name}}
                 </td>
                 <td td-data-table-cell>
                     {{row.price | number:'3.2'}}

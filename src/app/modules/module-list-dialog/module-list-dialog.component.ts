@@ -27,6 +27,7 @@ export class ModuleListDialogComponent implements OnInit {
         {name: 'uid', label: 'No.', tooltip: 'No.', width: 70},
         {name: 'name', label: 'Name', tooltip: 'Name'},
         {name: 'bodytext', label: 'Description', tooltip: 'Description', width: 400},
+        {name: 'category', label: 'Category', tooltip: 'Category', width: 150},
         {name: 'price', label: 'Price', tooltip: 'Price'},
         {name: 'tstamp', label: 'Date', tooltip: 'Date', width: 150}
     ];

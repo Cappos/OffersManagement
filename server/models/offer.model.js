@@ -195,12 +195,11 @@ OfferSchema.statics.updateOffer = function (args) {
         // Unset offer client
         Client.findOneAndUpdate({_id: args.oldClient},
             {
-                $unset: {
-                    offers: args._id,
+                $pull: {
+                    offers: args.id,
                 }
             }, {new: true}).then((res) => res);
     }
-
 
     return this.findOneAndUpdate({_id: args.id},
         {

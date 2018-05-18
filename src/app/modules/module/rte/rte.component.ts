@@ -13,6 +13,7 @@ import 'tinymce/plugins/help';
 import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/textcolor';
 
 declare const tinymce: any;
 
@@ -35,9 +36,23 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             selector: '#' + this.elementId,
             theme: 'modern',
             plugins: [
-                'advlist lists link anchor table paste code help contextmenu'
+                'advlist lists link anchor table paste code help contextmenu textcolor'
             ],
             toolbar: ['formatselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | contextmenu'],
+            textcolor_map: [
+                "000000", "Black",
+                "993300", "Burnt orange",
+                "333333", "Very dark gray",
+                "FF6600", "Orange",
+                "008000", "Green",
+                "1e69b3", "Blue",
+                "5B5A5A", "Gray",
+                "FF0000", "Red",
+                "FF9900", "Amber",
+                "800080", "Purple",
+                "FFFF00", "Yellow",
+                "FFFFFF", "White"
+            ],
             skin_url: '/assets/skins/lightgray',
             height: 300,
             branding: false,

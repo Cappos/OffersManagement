@@ -76,7 +76,7 @@
                         <mat-input-container>
                             <mat-select placeholder="Seller" floatPlaceholder="auto" [(ngModel)]="selectedSeller"
                                         name="seller" [disabled]="!editMode">
-                                <mat-option *ngFor="let seller of sellers" [value]="seller.value">
+                                <mat-option *ngFor="let seller of sellers" [value]="seller._id">
                                     {{seller.name}}
                                 </mat-option>
                             </mat-select>

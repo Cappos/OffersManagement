@@ -102,7 +102,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                 }).valueChanges.take(1).subscribe(({data}) => {
                     this.item = _.cloneDeep(data.offer);
                     this.sellers = data.sealers; // Set seller data
-                    this.selectedSeller = this.item.sealer[0].value;
+                    this.selectedSeller = this.item.sealer[0]._id;
                     this.selectedClient = this.item.client[0]._id;
                     this.selectedContactPersons = this.item.contacts;
                     this.oldClient = data.offer.client[0]._id;
@@ -173,6 +173,7 @@ export class OfferComponent implements OnInit, OnDestroy {
                         });
                     });
                     console.log(this.offersModules);
+                    console.log(this.sellers);
 
                     this.loadingService.resolveAll('modulesLoader');
                 });
@@ -182,9 +183,10 @@ export class OfferComponent implements OnInit, OnDestroy {
 
     onSave(form: NgForm) {
         const value = form.value;
+        console.log(value);
         this.editMode = false;
         const client = this.clients.find(client => client._id == value.client);
-        const seller = this.sellers.find(seller => seller.value == value.seller);
+        const seller = this.sellers.find(seller => seller._id == value.seller);
         let totalPrice = null;
         let signedPrice = null;
 

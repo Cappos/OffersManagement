@@ -45,12 +45,18 @@ table {
 
 table, td {
     border: none;
+
 }
 
 td {
     padding-right: 20px;
     padding-top: 0;
     vertical-align: top;
+    height: auto !important;
+}
+
+tr {
+    height: auto !important;
 }
 
 ul {

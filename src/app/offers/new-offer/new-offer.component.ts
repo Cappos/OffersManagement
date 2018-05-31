@@ -43,7 +43,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     selectedSeller;
     selectedClient;
     selectedClientContacts = [];
-    selectedContactPersons =[];
+    selectedContactPersons = [];
     sellers;
     clients;
     offersModules = [];
@@ -142,7 +142,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
                 bodytext: value.bodytext,
                 client: client._id,
                 contacts: this.selectedContactPersons,
-                seller: seller._id,
+                seller: seller ? seller._id : null,
                 groupsNew: !this.offersModules.length ? [] : this.offersModules,
                 files: this.files,
                 expDate: value.expDate,
@@ -711,7 +711,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     }
 
     addPage(pageType) {
-        let dialogRef = this.dialog.open(PageEditDialogComponent,{
+        let dialogRef = this.dialog.open(PageEditDialogComponent, {
             data: {
                 pageType: pageType
             }
@@ -859,7 +859,7 @@ export class NewOfferComponent implements OnInit, OnDestroy {
     onDeleteFile(fileName: string) {
         let file = this.files.filter(file => file.filename === fileName)[0];
         let fileIndex = this.files.indexOf(file);
-        
+
         this.files[fileIndex].deleted = true;
     }
 

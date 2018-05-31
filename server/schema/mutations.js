@@ -333,7 +333,8 @@ const mutation = new GraphQLObjectType({
                 internalHours: {type: GraphQLFloat},
                 externalHours: {type: GraphQLFloat},
                 comments: { type: GraphQLString },
-                timeline: {type: GraphQLJSON}
+                timeline: {type: GraphQLJSON},
+                version: {type: GraphQLInt}
             },
             resolve(parentValue, args) {
                 return Offer.updateOffer(args);

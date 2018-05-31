@@ -40,8 +40,11 @@
                             </mat-select>
                         </mat-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding layout-align="center start" layout="column">
+                    <div style="margin-top:20px;" flex="15" layout-padding layout-align="center start" layout="column">
                         <mat-checkbox [ngModel]="item.signed" name="signed" [disabled]="!editMode">Included</mat-checkbox>
+                    </div>
+                    <div style="margin-top:20px;" flex="10" layout-padding layout-align="center start" layout="column">
+                        <mat-checkbox [ngModel]="item.priceTag" name="priceTag" [disabled]="!editMode">Show price</mat-checkbox>
                     </div>
                     <div style="margin-top:20px;" flex="25" layout-padding>
                         <mat-input-container>
@@ -82,9 +85,7 @@
                             </mat-select>
                         </mat-input-container>
                     </div>
-                    <div style="margin-top:20px;" flex="25" layout-padding layout-align="center start" layout="column">
-                        <mat-checkbox [ngModel]="item.priceTag" name="priceTag" [disabled]="!editMode">Show price</mat-checkbox>
-                    </div>
+
                     <div style="margin-top:20px;" flex="100" layout-padding>
                         <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="item.bodytext"
                                          (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>

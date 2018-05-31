@@ -14,6 +14,7 @@ export default gql`
             externalHours
             pricePerHour
             signed
+            priceTag
             categoryId {
                 _id
                 name

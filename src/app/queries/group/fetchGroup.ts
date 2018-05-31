@@ -21,6 +21,7 @@ export default gql`
                 externalHours
                 pricePerHour
                 signed
+                priceTag
                 deleted
             }
         }

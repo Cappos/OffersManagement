@@ -67,7 +67,8 @@ export class NewModuleComponent implements OnInit {
                 internalHours: +value.internalHours,
                 externalHours: +value.externalHours,
                 pricePerHour: +value.selectedPrice,
-                signed: value.signed
+                signed: value.signed,
+                priceTag: value.priceTag
             },
             refetchQueries: [{
                 query: getModulesData

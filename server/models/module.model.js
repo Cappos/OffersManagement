@@ -49,6 +49,10 @@ const ModuleSchema = new Schema({
             type: Boolean,
             default: false
         },
+        priceTag: {
+            type: Boolean,
+            default: true
+        },
         deleted: {
             type: Boolean,
             default: false

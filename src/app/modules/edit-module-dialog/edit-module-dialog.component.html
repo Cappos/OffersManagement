@@ -35,10 +35,13 @@
                 </mat-select>
             </mat-input-container>
         </div>
-        <div style="margin-top:20px;" flex="25" layout-padding layout-align="center start" layout="column">
+        <div style="margin-top:20px;" flex="10" layout-padding layout-align="center start" layout="column">
             <mat-checkbox [ngModel]="item?.signed" name="signed">Included</mat-checkbox>
         </div>
-        <div style="margin-top:20px;" flex="25" layout-padding>
+        <div style="margin-top:20px;" flex="10" layout-padding layout-align="center start" layout="column">
+            <mat-checkbox [ngModel]="item?.priceTag" name="priceTag">Show price</mat-checkbox>
+        </div>
+        <div style="margin-top:20px;" flex="15" layout-padding>
             <mat-input-container>
                 <input matInput placeholder="Created date" [ngModel]="item?.tstamp | date: 'dd.MM.y'" name="tstamp" readonley>
             </mat-input-container>
@@ -73,6 +76,7 @@
                 </mat-select>
             </mat-input-container>
         </div>
+
         <div style="margin-top:20px;" flex="100" layout-padding>
             <ng-template [ngIf]="rteData">
                 <app-tiny-editor [elementId]="'rte'" [editMode]="true" [rteData]="rteData"

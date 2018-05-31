@@ -58,7 +58,9 @@
                         </mat-select>
                     </mat-input-container>
                 </div>
-
+                <div style="margin-top:20px;" flex="25" layout-padding layout-align="center start" layout="column">
+                    <mat-checkbox ngModel name="priceTag">Show price</mat-checkbox>
+                </div>
                 <div style="margin-top:20px;" flex="100" layout-padding>
                     <app-tiny-editor [elementId]="'rte'" [editMode]="editMode" [rteData]="rteData"
                                      (onEditorContentChange)="keyupHandler($event)"></app-tiny-editor>

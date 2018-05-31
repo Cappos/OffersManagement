@@ -7,7 +7,8 @@ export default gql`
             name
             bodytext
             price
-            tstamp
+            tstamp,
+            priceTag
             groupId {
                 _id
                 name

@@ -92,7 +92,8 @@ const mutation = new GraphQLObjectType({
                 externalHours: {type: GraphQLFloat},
                 pricePerHour: {type: GraphQLInt},
                 defaultModule: {type: GraphQLBoolean},
-                signed: {type: GraphQLBoolean}
+                signed: {type: GraphQLBoolean},
+                priceTag: {type: GraphQLBoolean}
             },
             resolve(parentValue, args) {
                 return (new Module(args)).save()
@@ -111,7 +112,8 @@ const mutation = new GraphQLObjectType({
                 externalHours: {type: GraphQLFloat},
                 pricePerHour: {type: GraphQLInt},
                 categoryId: {type: GraphQLID},
-                signed: {type: GraphQLBoolean}
+                signed: {type: GraphQLBoolean},
+                priceTag: {type: GraphQLBoolean}
 
             },
             resolve(parentValue, args) {
@@ -125,7 +127,8 @@ const mutation = new GraphQLObjectType({
                         internalHours: args.internalHours,
                         externalHours: args.externalHours,
                         pricePerHour: args.pricePerHour,
-                        signed: args.signed
+                        signed: args.signed,
+                        priceTag: args.priceTag
                     }
                 }, {new: true});
             }

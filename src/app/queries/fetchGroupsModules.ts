@@ -17,6 +17,7 @@ export default gql`
                 cruserId
                 moduleNew
                 signed
+                priceTag
                 internalHours
                 externalHours
                 pricePerHour

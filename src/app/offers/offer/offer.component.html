@@ -14,13 +14,13 @@
                         <mat-icon>print</mat-icon>
                     </button>
                     <mat-menu #pdfMenu="matMenu">
-                        <!--<button mat-menu-item (click)="onPrint(item, offersModules,  1)">-->
-                            <!--<mat-icon>picture_as_pdf</mat-icon>-->
-                            <!--<span>Template one</span>-->
-                        <!--</button>-->
+                        <button mat-menu-item (click)="onPrint(item, offersModules,  1)">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                            <span>Box Solution</span>
+                        </button>
                         <button mat-menu-item (click)="onPrint(item, offersModules,  2)">
                             <mat-icon>picture_as_pdf</mat-icon>
-                            <span>Generate PDF</span>
+                            <span>Standard PDF</span>
                         </button>
                     </mat-menu>
                 </div>
@@ -323,9 +323,7 @@
                                                         </div>
                                                         <div flex="10" layout-padding
                                                              layout-align="center start" layout="column">
-                                                            <mat-checkbox ngModel="module.priceTag" name="priceTag"
-                                                                          disabled>Show price
-                                                            </mat-checkbox>
+                                                            <mat-checkbox [ngModel]="module.priceTag" name="priceTag" disabled>Show price</mat-checkbox>
                                                         </div>
 
                                                         <div style="margin-top:20px;" flex="100" layout-padding>

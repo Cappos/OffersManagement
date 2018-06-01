@@ -87,7 +87,8 @@ GroupSchema.statics.updateGroup = function (args) {
                             internalHours: ModulesNew[e].internalHours,
                             externalHours: ModulesNew[e].externalHours,
                             pricePerHour: ModulesNew[e].pricePerHour,
-                            signed: ModulesNew[e].signed
+                            signed: ModulesNew[e].signed,
+                            priceTag: ModulesNew[e].priceTag
                         });
                         chapter.modules.push(module);
                         return Promise.all([module.save(), chapter.save()])
@@ -106,7 +107,8 @@ GroupSchema.statics.updateGroup = function (args) {
                                     internalHours: ModulesNew[e].internalHours,
                                     externalHours: ModulesNew[e].externalHours,
                                     pricePerHour: ModulesNew[e].pricePerHour,
-                                    signed: ModulesNew[e].signed
+                                    signed: ModulesNew[e].signed,
+                                    priceTag: ModulesNew[e].priceTag
                                 }
                             }, {new: true});
                         }
@@ -148,7 +150,8 @@ GroupSchema.statics.createGroup = function (args) {
                     internalHours: ModulesNew[e].internalHours,
                     externalHours: ModulesNew[e].externalHours,
                     pricePerHour: ModulesNew[e].pricePerHour,
-                    signed: ModulesNew[e].signed
+                    signed: ModulesNew[e].signed,
+                    priceTag: ModulesNew[e].priceTag
                 });
                 chapter.modules.push(module);
                 module.save()

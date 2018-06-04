@@ -726,13 +726,8 @@
                 <div class="section-title">
                     <h1 class="main-title">{{offerData.offerTitle}}</h1>
                 </div>
-                <div class="offer-data">
-                    <h4>Offerte:</h4>
-                    <p><span class="label">Referenz-Nr.:</span>{{offerData.offerNumber}}</p>
-                    <p><span class="label">Dokumenttyp:</span>Offerte</p>
-                    <p><span class="label">Datum:</span>{{signDate | date: 'dd.MM.y'}}</p>
-                    <p *ngIf="offerData.version"><span class="label">Version:</span><span>{{offerData.version | number:'1.1-1'}}</span>
-                    </p>
+                <div class="offer-data min-height">
+
                 </div>
 
                 <div class="section-top-bottom">

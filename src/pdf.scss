@@ -177,6 +177,10 @@ ul {
             font-size: 13px;
             margin-bottom: 40px;
 
+            &.min-height {
+                min-height: 90px;
+            }
+
             h4 {
                 margin: 0 0 5px;
                 font-size: 14px;

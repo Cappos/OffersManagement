@@ -27,6 +27,7 @@ export class PdfDialogComponent implements OnInit {
     contactPersons: any;
     @ViewChild('pdfContainerOne') pdfContentOne;
     @ViewChild('pdfContainerTwo') pdfContentTwo;
+    @ViewChild('pdfContainerThree') pdfContentThree;
     @ViewChildren('pageHeight') pageHeight;
     pdfContent;
     pdfType;
@@ -98,6 +99,10 @@ export class PdfDialogComponent implements OnInit {
 
         if(this.pdfType === 2) {
             this.pdfContent = this.pdfContentTwo;
+        }
+
+        if(this.pdfType === 3) {
+            this.pdfContent = this.pdfContentThree;
         }
 
         const data = this.pdfContent.nativeElement.innerHTML; // get pdf content

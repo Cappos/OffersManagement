@@ -32,8 +32,9 @@ mongoose.connection
 
 mongoose.set('debug', false);
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: 1024102420, extended: true}));
 app.use(bodyParser.urlencoded({extended: false}));
+
 
 app.use('/graphql', expressGraphQL({
     schema,

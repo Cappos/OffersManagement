@@ -525,14 +525,13 @@ ul {
                 vertical-align: middle;
 
                 &:nth-child(1) {
-                    width: 10%;
+                    width: 50px;
                 }
                 &:nth-child(2) {
-                    width: 90%;
                 }
 
                 img {
-                    width: 50%;
+                    //width: 50%;
                 }
             }
         }

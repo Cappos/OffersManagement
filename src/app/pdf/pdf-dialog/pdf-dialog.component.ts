@@ -106,6 +106,10 @@ export class PdfDialogComponent implements OnInit {
             this.pdfContent = this.pdfContentThree;
         }
 
+        if(this.pdfType === 3) {
+            this.pdfContent = this.pdfContentFour;
+        }
+
         const data = this.pdfContent.nativeElement.innerHTML; // get pdf content
 
         // Replace all blank spaces

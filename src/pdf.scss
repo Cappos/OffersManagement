@@ -506,10 +506,10 @@ ul {
         tr {
             td {
                 &:nth-child(1) {
-                    background: red;
+
                 }
                 &:nth-child(2) {
-                    background: blue;
+                    
                 }
 
             }
@@ -518,16 +518,15 @@ ul {
 
     .image-content-table {
         table-layout: fixed;
+
         tr {
             td {
-                vertical-align: middle;
+                vertical-align: middle !important;
 
                 &:nth-child(1) {
-                    background: red;
                     width: 100px !important;
                 }
                 &:nth-child(2) {
-                    background: blue;
                 }
 
                 img {

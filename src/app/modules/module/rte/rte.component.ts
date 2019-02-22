@@ -54,7 +54,8 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
                 "FFFFFF", "White"
             ],
             style_formats: [
-                { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+                { title: 'Story table', selector: 'table', classes: 'story-table' },
+                { title: 'Image content table', selector: 'table', classes: 'image-content-table' }
             ],
             skin_url: '/assets/skins/lightgray',
             height: 300,

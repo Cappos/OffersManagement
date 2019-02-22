@@ -38,7 +38,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             plugins: [
                 'advlist lists link anchor table paste code help contextmenu textcolor'
             ],
-            toolbar: ['formatselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | contextmenu'],
+            toolbar: ['formatselect | styleselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | contextmenu'],
             textcolor_map: [
                 "000000", "Black",
                 "993300", "Burnt orange",
@@ -54,32 +54,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
                 "FFFFFF", "White"
             ],
             style_formats: [
-                { title: 'Headers', items: [
-                        { title: 'h1', block: 'h1' },
-                        { title: 'h2', block: 'h2' },
-                        { title: 'h3', block: 'h3' },
-                        { title: 'h4', block: 'h4' },
-                        { title: 'h5', block: 'h5' },
-                        { title: 'h6', block: 'h6' }
-                    ] },
-
-                { title: 'Blocks', items: [
-                        { title: 'p', block: 'p' },
-                        { title: 'div', block: 'div' },
-                        { title: 'pre', block: 'pre' }
-                    ] },
-
-                { title: 'Containers', items: [
-                        { title: 'section', block: 'section', wrapper: true, merge_siblings: false },
-                        { title: 'article', block: 'article', wrapper: true, merge_siblings: false },
-                        { title: 'blockquote', block: 'blockquote', wrapper: true },
-                        { title: 'hgroup', block: 'hgroup', wrapper: true },
-                        { title: 'aside', block: 'aside', wrapper: true },
-                        { title: 'figure', block: 'figure', wrapper: true }
-                    ] },
-                { title: 'Table', items: [
-                        { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
-                    ] }
+                { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
             ],
             skin_url: '/assets/skins/lightgray',
             height: 300,

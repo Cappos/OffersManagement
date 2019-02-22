@@ -106,7 +106,7 @@ export class PdfDialogComponent implements OnInit {
             this.pdfContent = this.pdfContentThree;
         }
 
-        if(this.pdfType === 3) {
+        if(this.pdfType === 4) {
             this.pdfContent = this.pdfContentFour;
         }
 

@@ -518,15 +518,17 @@ ul {
             }
         }
     }
- 
+
     .image-content-table {
         tr {
             td {
+                vertical-align: middle;
+
                 &:nth-child(1) {
-                    width: 15%;
+                    width: 10%;
                 }
                 &:nth-child(2) {
-                    width: 85%;
+                    width: 90%;
                 }
 
                 img {

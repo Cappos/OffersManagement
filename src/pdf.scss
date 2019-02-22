@@ -522,15 +522,16 @@ ul {
         tr {
             td {
                 vertical-align: middle !important;
+                padding: 15px 0;
 
                 &:nth-child(1) {
-                    width: 100px !important;
+                    width: 110px !important;
                 }
                 &:nth-child(2) {
                 }
 
                 img {
-                    width: 70px;
+                    width: 80px;
                 }
             }
         }

@@ -504,6 +504,19 @@ ul {
         }
     }
 
+    .story-table {
+        tr {
+            td {
+                &:nth-child(1) {
+                    background: red;
+                }
+                &:nth-child(2) {
+                    background: blue;
+                }
+            }
+        }
+    }
+
     .remarks {
 
         .bemerkungen {

@@ -14,6 +14,7 @@ import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/textcolor';
+import 'tinymce/plugins/imagetools';
 
 declare const tinymce: any;
 
@@ -36,9 +37,9 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             selector: '#' + this.elementId,
             theme: 'modern',
             plugins: [
-                'advlist lists link anchor table paste code help contextmenu textcolor'
+                'advlist lists link anchor table paste code help contextmenu textcolor imagetools'
             ],
-            toolbar: ['formatselect | styleselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | contextmenu'],
+            toolbar: ['formatselect | styleselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | image | contextmenu'],
             textcolor_map: [
                 "000000", "Black",
                 "993300", "Burnt orange",

@@ -30,6 +30,7 @@
         "../node_modules/tinymce/plugins/link/plugin.js",
         "../node_modules/tinymce/plugins/paste/plugin.js",
         "../node_modules/tinymce/plugins/table/plugin.js",
+        "../node_modules/tinymce/plugins/imagetools/plugin.js",
         "assets/js/jquery.min.js",
         "assets/js/xepOnline.jqPlugin.js"
       ],

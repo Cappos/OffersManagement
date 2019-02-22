@@ -513,7 +513,22 @@ ul {
                 &:nth-child(2) {
                     background: blue;
                 }
+
+
             }
+        }
+    }
+
+    .image-content-table {
+        &:nth-child(1) {
+            width: 20%;
+        }
+        &:nth-child(2) {
+            width: 80%;
+        }
+
+        img {
+            //width: 50%;
         }
     }
 

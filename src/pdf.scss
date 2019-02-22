@@ -503,6 +503,31 @@ ul {
             }
         }
     }
+
+    .remarks {
+
+        .bemerkungen {
+            page-break-before: auto;
+        }
+
+        h4 {
+            border: none;
+            margin: 25px;
+        }
+        ul {
+            padding: 0 0 0 40px;
+            margin: 0 0 10px;
+
+            li {
+                font-size: 10px;
+            }
+        }
+
+        p {
+            font-size: 10px;
+        }
+    }
+
 }
 
 .page-wrapper {

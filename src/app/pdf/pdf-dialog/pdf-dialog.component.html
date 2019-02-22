@@ -1010,8 +1010,10 @@
                 <div *ngSwitchCase="'2'">
                     <div class="page-wrapper">
                         <div class="content-wrapper" [class.chapters]="last" [class.bg-image]="i <= 1">
-                            <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
-                            <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
+                            <div class="page-title-wrapper" *ngIf="group.title?.length || group.subtitle?.length">
+                                <h2 *ngIf="group.title?.length > 0">{{group.title}}</h2>
+                                <h3 *ngIf="group.subtitle?.length > 0">{{group.subtitle}}</h3>
+                            </div>
 
                             <ng-template [ngIf]="group.legal && timeline?.week">
                                 <div class="timeline-wrapper">

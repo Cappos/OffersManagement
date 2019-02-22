@@ -14,6 +14,7 @@ import 'tinymce/plugins/contextmenu';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/textcolor';
+import 'tinymce/plugins/image';
 import 'tinymce/plugins/imagetools';
 
 declare const tinymce: any;

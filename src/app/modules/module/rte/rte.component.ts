@@ -37,7 +37,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
             selector: '#' + this.elementId,
             theme: 'modern',
             plugins: [
-                'advlist lists link anchor table paste code help contextmenu textcolor imagetools'
+                'advlist lists link anchor table paste code help contextmenu textcolor image imagetools'
             ],
             toolbar: ['formatselect | styleselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | table | code | image | contextmenu'],
             textcolor_map: [

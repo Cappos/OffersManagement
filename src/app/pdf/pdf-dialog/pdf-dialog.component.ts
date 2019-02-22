@@ -28,6 +28,7 @@ export class PdfDialogComponent implements OnInit {
     @ViewChild('pdfContainerOne') pdfContentOne;
     @ViewChild('pdfContainerTwo') pdfContentTwo;
     @ViewChild('pdfContainerThree') pdfContentThree;
+    @ViewChild('pdfContainerFour') pdfContentFour;
     @ViewChildren('pageHeight') pageHeight;
     pdfContent;
     pdfType;

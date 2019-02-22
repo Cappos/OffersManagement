@@ -229,6 +229,282 @@ ul {
     }
 }
 
+.template-industry {
+
+    .section-top {
+        page-break-after: always;
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            min-height: 200px;
+
+            h1 {
+                padding: 0 100px;
+                margin: 0;
+                max-width: 80%;
+                line-height: 1.4;
+            }
+            h2 {
+                font-size: 26px;
+                padding: 0 100px;
+                margin: 0;
+            }
+
+        }
+
+        .offer-data {
+            padding-left: 100px;
+            font-size: 13px;
+            margin-bottom: 40px;
+
+            &.min-height {
+                min-height: 90px;
+            }
+
+            h4 {
+                margin: 0 0 5px;
+                font-size: 14px;
+
+            }
+            p {
+                font-size: 13px;
+            }
+
+            .label {
+                min-width: 100px;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+
+        .offer-info-container {
+            padding: 0 100px;
+
+            .offer-info {
+                display: inline-block;
+                vertical-align: top;
+                width: 33%;
+                font-size: 12px;
+                margin-bottom: 30px;
+
+                h4 {
+                    margin: 0 0 5px;
+                    font-size: 14px;
+
+                    &.blueText {
+                        color: #1e69b3;
+                    }
+                }
+                p {
+                    font-size: 12px;
+                }
+            }
+        }
+        .section-top-bottom {
+            font-size: 13px;
+            padding: 0 100px;
+            margin-bottom: 40px;
+        }
+
+    }
+
+    .page-wrapper {
+        page-break-after: always;
+
+        .before-text {
+            margin-bottom: 40px;
+        }
+
+        .after-text {
+            margin-top: 40px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            page-break-after: auto;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 16px;
+            page-break-before: auto;
+        }
+
+        ul {
+            padding-left: 40px;
+            margin-top: 0;
+
+            li {
+                margin: 0;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+        }
+
+        .group-info {
+
+            h4 {
+                padding: 8px 10px;
+
+            }
+
+            th {
+                width: 50%;
+                text-align: left;
+            }
+            td {
+                font-size: 12px;
+                vertical-align: top;
+                line-height: 1.4;
+                color: #5B5A5A;
+
+                &:first-child {
+                    min-width: 200px;
+                }
+
+                h4 {
+                    border-top: 1px solid #D5E5A4;
+                    border-bottom: 1px solid #D5E5A4;
+                    padding: 8px 10px;
+                    font-size: 14px;
+                    color: #000000;
+                }
+            }
+
+        }
+    }
+
+    .content-wrapper {
+        padding: 0 100px 0;
+        position: relative;
+
+        &.bg-image {
+            padding-top: 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        ul {
+            padding-left: 40px;
+            margin-top: 0;
+
+            li {
+                margin: 0;
+                line-height: 1.4;
+            }
+        }
+
+        h4 {
+            border-top: 1px solid #D5E5A4;
+            border-bottom: 1px solid #D5E5A4;
+            padding: 0 10px;
+        }
+
+        .modules {
+            page-break-inside: avoid;
+        }
+
+        .modules-header {
+            border-top: 1px solid #D5E5A4;
+            border-bottom: 1px solid #D5E5A4;
+            padding: 0;
+            page-break-before: auto;
+
+            h4 {
+                margin: 8px 0;
+                border: none;
+                font-size: 14px;
+            }
+
+            .first-td {
+                text-align: left;
+            }
+
+            .second-td, .third-td {
+                padding-top: 0;
+
+                h4 {
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+            }
+        }
+
+        .hasHeader {
+            margin-top: 15px;
+        }
+
+        .modules-main {
+            td {
+                padding-right: auto;
+                padding-top: auto;
+                vertical-align: middle;
+
+                .img-shape {
+                    margin-left: 40px;
+                    width: 14px;
+                    height: 14px;
+                }
+
+                ul {
+                    padding-left: 40px;
+                    margin: 10px 0 0;
+                }
+            }
+
+            .first-td {
+                width: 12cm;
+                min-width: 12cm;
+                text-align: left;
+
+                h4, p{
+                    width: 12cm;
+                }
+
+                ul {
+                    width: 12cm;
+                    li {
+                        width: 12cm;
+                    }
+                }
+            }
+
+            .second-td {
+                width: 2cm;
+                min-width: 2cm;
+                text-align: center;
+                padding-left: 0;
+                padding-right: 0;
+
+                p {
+                    margin: 0 auto;
+                    width: 2cm;
+                }
+            }
+
+            .third-td {
+                width: 2cm;
+                min-width: 2cm;
+                text-align: center;
+                padding-left: 0;
+                padding-right: 0;
+                p {
+                    margin: 0 auto;
+                    width: 2cm;
+                }
+            }
+        }
+    }
+}
+
 .page-wrapper {
     page-break-after: always;
 

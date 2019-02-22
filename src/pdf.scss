@@ -520,14 +520,18 @@ ul {
     }
 
     .image-content-table {
+        table-layout: fixed;
+
         tr {
             td {
                 vertical-align: middle;
 
                 &:nth-child(1) {
+                    background: red;
                     width: 80px;
                 }
                 &:nth-child(2) {
+                    background: blue;
                 }
 
                 img {

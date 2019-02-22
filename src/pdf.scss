@@ -518,18 +518,23 @@ ul {
             }
         }
     }
-
+ 
     .image-content-table {
-        &:nth-child(1) {
-            width: 10%;
-        }
-        &:nth-child(2) {
-            width: 90%;
+        tr {
+            td {
+                &:nth-child(1) {
+                    width: 15%;
+                }
+                &:nth-child(2) {
+                    width: 85%;
+                }
+
+                img {
+                    width: 50%;
+                }
+            }
         }
 
-        img {
-            //width: 50%;
-        }
     }
 
     .remarks {

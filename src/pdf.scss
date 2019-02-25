@@ -585,6 +585,43 @@ ul {
 
     }
 
+    .blue-content-table {
+        table-layout: fixed;
+        margin: 25px 0;
+        background: #b6cfe7;
+
+        tr {
+            &:first-child {
+                td {
+                    padding-top: 30px;
+                }
+            }
+
+            &:last-child {
+                td {
+                    padding-bottom: 30px;
+                }
+            }
+
+            td {
+                vertical-align: top !important;
+                padding: 0 10px 10px;
+
+                &:nth-child(1) {
+                    width: 12% !important;
+                    text-align: right;
+                    font-size: 16px;
+                }
+
+                &:nth-child(2) {
+                    width: 88% !important;
+                    padding-right: 30px;
+                }
+            }
+        }
+
+    }
+
     .remarks {
 
         .bemerkungen {

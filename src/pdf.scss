@@ -503,13 +503,28 @@ ul {
     }
 
     .story-table {
+        table-layout: fixed;
         tr {
+
+            &:first-child {
+                td {
+                    border-top: 1px solid #D5E5A4;
+                    border-bottom: 1px solid #D5E5A4;
+                }
+            }
+
             td {
+                padding: 10px;
+
+                h4 {
+                    border: none;
+                }
+
                 &:nth-child(1) {
 
                 }
                 &:nth-child(2) {
-
+                    width: 100px !important;
                 }
 
             }

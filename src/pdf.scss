@@ -508,6 +508,7 @@ ul {
 
             &:first-child {
                 td {
+                    padding: 0 !important;
                     border-top: 1px solid #D5E5A4;
                     border-bottom: 1px solid #D5E5A4;
                 }
@@ -517,11 +518,11 @@ ul {
                 padding: 10px;
 
                 h4 {
-                    border: none;
+                    border: none !important;
                 }
 
                 &:nth-child(1) {
-
+                    width: auto !important;
                 }
                 &:nth-child(2) {
                     width: 100px !important;

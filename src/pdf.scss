@@ -624,12 +624,12 @@ ul {
 
     .icon-content-table {
         table-layout: fixed;
-        width: 80%;
+        //width: 80%;
         margin: 25px auto;
 
         tr {
             td {
-                vertical-align: middle !important;
+                vertical-align: top !important;
                 padding: 15px 0;
 
                 &:nth-child(odd) {
@@ -641,9 +641,9 @@ ul {
 
 
                 h4 {
-                    border: none;
-                    padding: 0;
-                    margin-top: 0;
+                    border: none !important;
+                    padding: 0 !important;
+                    margin-top: 0 !important;
                     margin-bottom: 14px;
                     font-weight: 300;
                     color: #3c3950;

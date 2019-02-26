@@ -622,6 +622,37 @@ ul {
 
     }
 
+    .icon-content-table {
+        table-layout: fixed;
+        margin: 25px 0;
+
+        tr {
+            td {
+                vertical-align: middle !important;
+                padding: 15px 0;
+
+                &:nth-child(odd) {
+                    width: 10% !important;
+                }
+                &:nth-child(even) {
+                    width: 23.33333%;
+                }
+
+
+                h4 {
+                    border: none;
+                    padding: 0;
+                    margin-top: 0;
+                    margin-bottom: 14px;
+                    font-weight: 300;
+                    color: #3c3950;
+                    font-size: 24px;
+                }
+            }
+        }
+
+    }
+
     .remarks {
 
         .bemerkungen {

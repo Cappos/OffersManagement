@@ -59,6 +59,7 @@ export class RteComponent implements OnDestroy, AfterViewInit, OnChanges {
                 { title: 'Story table', selector: 'table', classes: 'story-table' },
                 { title: 'Image content table', selector: 'table', classes: 'image-content-table' },
                 { title: 'Blue table', selector: 'table', classes: 'blue-content-table' },
+                { title: 'Icon table', selector: 'table', classes: 'icon-content-table' },
                 { title: 'Image wrapper', block: 'div', wrapper: true, merge_siblings: false, classes: 'img-wrapper' }
             ],
             skin_url: '/assets/skins/lightgray',

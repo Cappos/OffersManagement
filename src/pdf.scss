@@ -631,6 +631,7 @@ ul {
             td {
                 vertical-align: top !important;
                 padding: 15px 0;
+                font-size: 12px;
 
                 &:nth-child(odd) {
                     width: 10% !important;
@@ -647,7 +648,12 @@ ul {
                     margin-bottom: 14px;
                     font-weight: 300;
                     color: #3c3950;
-                    font-size: 24px;
+                    font-size: 20px;
+                }
+
+                img {
+                    width: 30px;
+                    height: auto;
                 }
             }
         }

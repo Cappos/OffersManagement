@@ -634,11 +634,12 @@ ul {
                 font-size: 12px;
 
                 &:nth-child(odd) {
-                    width: 10% !important;
+                    width: 5% !important;
                     text-align: right;
+                    padding-right: 15px !important;
                 }
                 &:nth-child(even) {
-                    width: 23.33333%;
+                    width: 28.33333%;
                 }
 
 
@@ -649,7 +650,7 @@ ul {
                     margin-bottom: 14px;
                     font-weight: 300;
                     color: #3c3950;
-                    font-size: 16px;
+                    font-size: 14px;
                 }
 
                 img {
@@ -658,7 +659,7 @@ ul {
                 }
 
                 p {
-                    font-size: 10px !important;
+                    font-size: 9px !important;
                 }
             }
         }

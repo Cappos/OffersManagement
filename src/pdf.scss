@@ -635,6 +635,7 @@ ul {
 
                 &:nth-child(odd) {
                     width: 10% !important;
+                    text-align: right;
                 }
                 &:nth-child(even) {
                     width: 23.33333%;
@@ -648,12 +649,16 @@ ul {
                     margin-bottom: 14px;
                     font-weight: 300;
                     color: #3c3950;
-                    font-size: 20px;
+                    font-size: 16px;
                 }
 
                 img {
                     width: 30px;
                     height: auto;
+                }
+
+                p {
+                    font-size: 10px !important;
                 }
             }
         }

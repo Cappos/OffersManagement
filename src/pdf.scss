@@ -325,7 +325,6 @@ ul {
             line-height: 1.4;
         }
 
-
         h2 {
             margin-bottom: 30px;
         }
@@ -534,14 +533,15 @@ ul {
             &:first-child {
                 td {
                     padding: 0 !important;
-                    border-top: 1px solid #D5E5A4;
-                    border-bottom: 1px solid #D5E5A4;
+                    border-top: 1px solid #D5E5A4 !important;
+                    border-bottom: 1px solid #D5E5A4 !important;
                 }
             }
 
             td {
                 padding: 5px 10px !important;
                 font-size: 11px !important;
+                border-bottom: 1px solid #eeeeee;
 
                 h4 {
                     border: none !important;
@@ -642,7 +642,6 @@ ul {
                 &:nth-child(even) {
                     width: 28.33333%;
                 }
-
 
                 h4 {
                     border: none !important;
